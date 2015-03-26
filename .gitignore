@@ -31,5 +31,5 @@
 
 # other ide and cruft ignores
 
-*.classpath
-*.project
+**/.classpath
+**/.project

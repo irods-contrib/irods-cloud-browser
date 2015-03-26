@@ -27,9 +27,11 @@
 /web-app/plugins
 
 # "temporary" build files
-/target
+**/target
+
 
 # other ide and cruft ignores
 
 **/.classpath
 **/.project
+**/.settings

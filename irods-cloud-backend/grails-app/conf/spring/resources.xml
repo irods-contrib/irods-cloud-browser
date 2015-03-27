@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans:beans xmlns="http://www.springframework.org/schema/security"
+	xmlns:beans="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+                        http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-3.0.xsd">
+
+	<beans:bean id="irodsConnectionManager"
+		class="org.irods.jargon.core.connection.IRODSSimpleProtocolManager"
+		factory-method="instance" init-method="initialize" destroy-method="destroy">
+	</beans:bean>
+
+	<beans:bean id="irodsSession"
+		class="org.irods.jargon.core.connection.IRODSSession" factory-method="instance">
+		<beans:constructor-arg
+			type="org.irods.jargon.core.connection.IRODSProtocolManager" ref="irodsConnectionManager" />
+	</beans:bean>
+
+	<beans:bean id="irodsAccessObjectFactory"
+		class="org.irods.jargon.core.pub.IRODSAccessObjectFactoryImpl">
+		<beans:constructor-arg ref="irodsSession"></beans:constructor-arg>
+	</beans:bean>
+	
+</beans:beans>

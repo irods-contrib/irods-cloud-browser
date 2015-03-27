@@ -3,8 +3,8 @@ grails.project.class.dir = "target/classes"
 grails.project.test.class.dir = "target/test-classes"
 grails.project.test.reports.dir = "target/test-reports"
 grails.project.work.dir = "target/work"
-grails.project.target.level = 1.6
-grails.project.source.level = 1.6
+grails.project.target.level = 1.7
+grails.project.source.level = 1.7
 //grails.project.war.file = "target/${appName}-${appVersion}.war"
 
 grails.project.fork = [
@@ -40,17 +40,36 @@ grails.project.dependency.resolution = {
 		mavenLocal()
 		grailsCentral()
 		mavenCentral()
+
 		// uncomment these (or add new ones) to enable remote dependency resolution from public Maven repositories
-		//mavenRepo "http://repository.codehaus.org"
-		//mavenRepo "http://download.java.net/maven/2/"
-		//mavenRepo "http://repository.jboss.com/maven2/"
+		mavenRepo "http://repository.codehaus.org"
+		mavenRepo "http://download.java.net/maven/2/"
+		mavenRepo "http://repository.jboss.com/maven2/"
+		mavenRepo "http://ci-dev.renci.org/nexus/content/repositories/public"
+		mavenRepo "https://raw.github.com/DICE-UNC/DICE-Maven/master/releases"
+		mavenRepo "https://raw.github.com/DICE-UNC/DICE-Maven/master/snapshots"
 	}
 
 	dependencies {
 		// specify dependencies here under either 'build', 'compile', 'runtime', 'test' or 'provided' scopes e.g.
 		// runtime 'mysql:mysql-connector-java:5.1.29'
 		// runtime 'org.postgresql:postgresql:9.3-1101-jdbc41'
-		test "org.grails:grails-datastore-test-support:1.0.2-grails-2.4"
+		//test "org.grails:grails-datastore-test-support:1.0.2-grails-2.4"
+		compile 'commons-io:commons-io:2.1'
+		provided 'junit:junit:4.8.1'
+		compile ('org.irods.jargon:jargon-core:4.0.3.1-SNAPSHOT') { excludes ([group:'org.jglobus'])}
+		compile ('org.irods.jargon:jargon-data-utils:4.0.3.1-SNAPSHOT')  { excludes ([group:'org.jglobus'])}
+		compile ('org.irods.jargon:jargon-ticket:4.0.3.1-SNAPSHOT')   { excludes ([group:'org.jglobus'])}
+		compile ('org.irods.jargon:jargon-user-profile:4.0.3.1-SNAPSHOT')  { excludes ([group:'org.jglobus'])}
+		compile ('org.irods.jargon:jargon-user-tagging:4.0.3.1-SNAPSHOT')  { excludes ([group:'org.jglobus'])}
+		compile ('org.irods.jargon:virtual-collections:4.0.3.1-SNAPSHOT')  { excludes ([group:'org.jglobus'])}
+		compile ('org.irods.jargon:dot-irods-utilities:4.0.3.1-SNAPSHOT')  { excludes ([group:'org.jglobus'])}
+		compile ('org.irods.jargon:data-profile:4.0.3.1-SNAPSHOT')  { excludes ([group:'org.jglobus'])}
+		//runtime 'org.springframework:spring-expression:4.0.5.RELEASE'
+		//runtime 'org.springframework:spring-aop:4.0.5.RELEASE'
+		//provided 'javax.servlet:servlet-api:2.5'
+
+		compile( group: 'log4j', name: 'log4j', version: '1.2.16', export: false )
 	}
 
 	plugins {

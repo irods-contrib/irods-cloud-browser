@@ -33,7 +33,7 @@
 irods-cloud-frontend/node_modules/
 
 # other ide and cruft ignores
-
+**/.DS_Store
 **/.classpath
 **/.project
 **/.settings

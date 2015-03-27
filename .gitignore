@@ -29,9 +29,12 @@
 # "temporary" build files
 **/target
 
+# node modules
+irods-cloud-frontend/node_modules/
 
 # other ide and cruft ignores
 
 **/.classpath
 **/.project
 **/.settings
+**/.idea

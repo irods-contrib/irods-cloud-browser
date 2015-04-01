@@ -4,7 +4,7 @@ import org.irods.jargon.core.connection.IRODSAccount
 import org.irods.jargon.core.pub.IRODSAccessObjectFactory
 import org.irods.jargon.usertagging.starring.IRODSStarringServiceImpl
 import org.irods.jargon.vircoll.impl.VirtualCollectionDiscoveryServiceImpl
-import org.irods.jargon.vircoll.impl.VirtualCollectionFactoryImpl
+import org.irods.jargon.vircoll.impl.VirtualCollectionExecutorFactoryImpl
 
 /**
  * This is a bit of slight-of-hand intended to make it easy to mock various services. 
@@ -21,8 +21,8 @@ class JargonServiceFactoryService {
 	 * @param irodsAccount
 	 * @return
 	 */
-	def instanceVirtualCollectionFactory(IRODSAccount irodsAccount) {
-		return new VirtualCollectionFactoryImpl(irodsAccessObjectFactory, irodsAccount)
+	def instanceVirtualCollectionExecutorFactory(IRODSAccount irodsAccount) {
+		return new VirtualCollectionExecutorFactoryImpl(irodsAccessObjectFactory, irodsAccount)
 	}
 
 	/**

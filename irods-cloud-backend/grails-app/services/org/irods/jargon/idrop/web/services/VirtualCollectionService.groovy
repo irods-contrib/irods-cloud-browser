@@ -6,8 +6,6 @@ import org.irods.jargon.core.connection.IRODSAccount
 import org.irods.jargon.core.exception.DataNotFoundException
 import org.irods.jargon.core.pub.IRODSAccessObjectFactory
 import org.irods.jargon.vircoll.PathHintable
-import org.irods.jargon.vircoll.VirtualCollectionDiscoveryService
-import org.irods.jargon.vircoll.VirtualCollectionFactory
 import org.irods.jargon.vircoll.impl.VirtualCollectionDiscoveryServiceImpl
 
 class VirtualCollectionService {
@@ -36,7 +34,7 @@ class VirtualCollectionService {
 
 		log.info("irodsAccount: ${irodsAccount}")
 
-		VirtualCollectionDiscoveryService virtualCollectionDiscoveryService = new VirtualCollectionDiscoveryServiceImpl(irodsAccessObjectFactory, irodsAccount)
+		def virtualCollectionDiscoveryService = new VirtualCollectionDiscoveryServiceImpl(irodsAccessObjectFactory, irodsAccount)
 		def colls = virtualCollectionDiscoveryService.listDefaultUserCollections()
 		session.virtualCollections = colls
 
@@ -138,7 +136,7 @@ class VirtualCollectionService {
 
 		log.info("vircoll is:${virColl}")
 
-		/*
+		/* 
 		 * If the given virtual collection is not collection based virtual collection, this method will return the contents based on that vc
 		 * <p/>
 		 * If this is a virtual collection, and no path is provided, it will return the contents based on that VC.  If a path is provided, it is checked to make sure it
@@ -148,7 +146,7 @@ class VirtualCollectionService {
 
 
 		log.info("not a collection based vc, so use an executor for the listing")
-		VirtualCollectionFactory executorFactory = jargonServiceFactoryService.instanceVirtualCollectionFactory(irodsAccount)
+		def executorFactory = jargonServiceFactoryService.instanceVirtualCollectionExecutorFactory(irodsAccount)
 		def executor = executorFactory.instanceExecutor(virColl)
 		if (listingType == ListingType.ALL) {
 

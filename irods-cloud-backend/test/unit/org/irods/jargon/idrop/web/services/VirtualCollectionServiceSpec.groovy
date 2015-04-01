@@ -7,9 +7,8 @@ import org.irods.jargon.core.connection.IRODSAccount
 import org.irods.jargon.core.pub.IRODSAccessObjectFactory
 import org.irods.jargon.core.query.PagingAwareCollectionListing
 import org.irods.jargon.idrop.web.services.VirtualCollectionService.ListingType
-import org.irods.jargon.vircoll.VirtualCollection
+import org.irods.jargon.vircoll.AbstractVirtualCollection
 import org.irods.jargon.vircoll.VirtualCollectionDiscoveryService
-import org.irods.jargon.vircoll.impl.VirtualCollectionFactoryImpl
 import org.irods.jargon.vircoll.types.CollectionBasedVirtualCollection
 import org.irods.jargon.vircoll.types.CollectionBasedVirtualCollectionExecutor
 
@@ -44,7 +43,7 @@ class VirtualCollectionServiceSpec  extends Specification  {
 		def virtualCollectionExecutorFactoryCreatorServiceMock = jargonServiceFactoryService.createMock()
 
 		def mockSession = new GrailsMockHttpSession()
-		List<VirtualCollection> virColls = new ArrayList<VirtualCollection>()
+		List<AbstractVirtualCollection> virColls = new ArrayList<AbstractVirtualCollection>()
 		CollectionBasedVirtualCollection collBasedVirColl = new CollectionBasedVirtualCollection(uniqueName,"/a/path")
 		virColls.add(collBasedVirColl)
 		mockSession.virtualCollections = virColls
@@ -84,7 +83,7 @@ class VirtualCollectionServiceSpec  extends Specification  {
 		jargonServiceFactoryService.demand.instanceVirtualCollectionFactory{irodsAcct -> return factMock}
 
 
-		List<VirtualCollection> virColls = new ArrayList<VirtualCollection>()
+		List<AbstractVirtualCollection> virColls = new ArrayList<AbstractVirtualCollection>()
 		CollectionBasedVirtualCollection collBasedVirColl = new CollectionBasedVirtualCollection(uniqueName,"/a/path")
 		virColls.add(collBasedVirColl)
 		def virtualCollectionDiscoveryService = mockFor(VirtualCollectionDiscoveryService)
@@ -121,7 +120,7 @@ class VirtualCollectionServiceSpec  extends Specification  {
 		def iafMock = irodsAccessObjectFactory.createMock()
 		PagingAwareCollectionListing listing = new PagingAwareCollectionListing()
 
-		List<VirtualCollection> virColls = new ArrayList<VirtualCollection>()
+		List<AbstractVirtualCollection> virColls = new ArrayList<AbstractVirtualCollection>()
 		CollectionBasedVirtualCollection collBasedVirColl = new CollectionBasedVirtualCollection(uniqueName,"/a/path")
 		virColls.add(collBasedVirColl)
 

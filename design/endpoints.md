@@ -6,7 +6,7 @@ Login/Logout
 
 ## Login user
 **URL** irods-cloud-backend/login<br>
-*Method* POST
+**Method** POST
 
 ### Parameters
 

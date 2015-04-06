@@ -5,7 +5,7 @@ assume web context = irods-cloud-backend, this can vary based on the war file yo
 Login/Logout
 
 ## Login user
-*URL* irods-cloud-backend/login<br>
+**URL** irods-cloud-backend/login<br>
 *Method* POST
 
 ### Parameters

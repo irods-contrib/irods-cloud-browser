@@ -9,6 +9,7 @@ import org.irods.jargon.core.query.PagingAwareCollectionListing
 import org.irods.jargon.idrop.web.services.VirtualCollectionService.ListingType
 import org.irods.jargon.vircoll.AbstractVirtualCollection
 import org.irods.jargon.vircoll.VirtualCollectionDiscoveryService
+import org.irods.jargon.vircoll.impl.VirtualCollectionExecutorFactoryImpl
 import org.irods.jargon.vircoll.types.CollectionBasedVirtualCollection
 import org.irods.jargon.vircoll.types.CollectionBasedVirtualCollectionExecutor
 
@@ -33,12 +34,12 @@ class VirtualCollectionServiceSpec  extends Specification  {
 		collectionBasedVirtualCollectionExecutor.demand.queryAll{return listing}
 		def execMock = collectionBasedVirtualCollectionExecutor.createMock()
 
-		def virtualCollectionFactory = mockFor(VirtualCollectionFactoryImpl)
-		virtualCollectionFactory.demand.instanceExecutorBased{vc -> return execMock}
+		def virtualCollectionFactory = mockFor(VirtualCollectionExecutorFactoryImpl)
+		virtualCollectionFactory.demand.instanceExecutorBasedOnVirtualCollection{vc -> return execMock}
 		def factMock = virtualCollectionFactory.createMock()
 
 		def jargonServiceFactoryService = mockFor(JargonServiceFactoryService)
-		jargonServiceFactoryService.demand.instanceVirtualCollectionFactory{irodsAcct -> return factMock}
+		jargonServiceFactoryService.demand.instanceVirtualCollectionExecutorFactory{irodsAcct -> return factMock}
 
 		def virtualCollectionExecutorFactoryCreatorServiceMock = jargonServiceFactoryService.createMock()
 
@@ -75,13 +76,12 @@ class VirtualCollectionServiceSpec  extends Specification  {
 		def execMock = collectionBasedVirtualCollectionExecutor.createMock()
 
 
-		def virtualCollectionFactory = mockFor(VirtualCollectionFactoryImpl)
+		def virtualCollectionFactory = mockFor(VirtualCollectionExecutorFactoryImpl)
 		virtualCollectionFactory.demand.instanceExecutorBasedOnVirtualCollection{vc -> return execMock}
 		def factMock = virtualCollectionFactory.createMock()
 
 		def jargonServiceFactoryService = mockFor(JargonServiceFactoryService)
-		jargonServiceFactoryService.demand.instanceVirtualCollectionFactory{irodsAcct -> return factMock}
-
+		jargonServiceFactoryService.demand.instanceVirtualCollectionExecutorFactory{irodsAcct -> return factMock}
 
 		List<AbstractVirtualCollection> virColls = new ArrayList<AbstractVirtualCollection>()
 		CollectionBasedVirtualCollection collBasedVirColl = new CollectionBasedVirtualCollection(uniqueName,"/a/path")
@@ -128,8 +128,8 @@ class VirtualCollectionServiceSpec  extends Specification  {
 		def collectionBasedVirtualCollectionExecutor = mockFor(CollectionBasedVirtualCollectionExecutor)
 		collectionBasedVirtualCollectionExecutor.demand.queryAll{return listing}
 		def execMock = collectionBasedVirtualCollectionExecutor.createMock()
-		def virtualCollectionFactory = mockFor(VirtualCollectionFactoryImpl)
-		virtualCollectionFactory.demand.instanceExecutor{vc -> return execMock}
+		def virtualCollectionFactory = mockFor(VirtualCollectionExecutorFactoryImpl)
+		virtualCollectionFactory.demand.instanceExecutorBasedOnVirtualCollection{vc -> return execMock}
 
 		def factMock = virtualCollectionFactory.createMock()
 

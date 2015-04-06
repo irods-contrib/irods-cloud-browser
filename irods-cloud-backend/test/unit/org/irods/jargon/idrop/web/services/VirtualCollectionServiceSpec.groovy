@@ -137,9 +137,8 @@ class VirtualCollectionServiceSpec  extends Specification  {
 		virtualCollectionDiscoveryService.demand.listDefaultUserCollections{return virColls}
 		def discoveryMock = virtualCollectionDiscoveryService.createMock()
 
-
 		//virtualCollectionFactoryCreatorService.demand.instanceVirtualCollectionDiscoveryService{irodsAcct -> return discoveryMock}
-		jargonServiceFactoryService.demand.instanceVirtualCollectionFactory{irodsAcct -> return factMock}
+		jargonServiceFactoryService.demand.instanceVirtualCollectionExecutorFactory{irodsAcct -> return factMock}
 
 		def mockSession = new GrailsMockHttpSession()
 

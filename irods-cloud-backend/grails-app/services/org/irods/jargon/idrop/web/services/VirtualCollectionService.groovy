@@ -147,7 +147,7 @@ class VirtualCollectionService {
 
 		log.info("not a collection based vc, so use an executor for the listing")
 		def executorFactory = jargonServiceFactoryService.instanceVirtualCollectionExecutorFactory(irodsAccount)
-		def executor = executorFactory.instanceExecutor(virColl)
+		def executor = executorFactory.instanceExecutorBasedOnVirtualCollection(virColl)
 		if (listingType == ListingType.ALL) {
 
 			if (executor instanceof PathHintable) {

@@ -26,7 +26,7 @@ assume web context = irods-cloud-backend, this can vary based on the war file yo
     "serverVersion" : "rods4.0.3"
   }
   
-  # Virtual Collections
+# Virtual Collections
   
   
 ## List default virtual collections for logged in user

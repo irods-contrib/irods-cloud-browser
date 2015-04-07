@@ -56,7 +56,7 @@ angular.module('httpInterceptorModule', []).factory('myHttpResponseInterceptor',
                     var len = rejection.data.errors.errors.length;
                     if (len > 0) {
                         for (var i = 0; i < len; i++) {
-                            messageCenterService.add('warning', rejection.data.errors.errors[i].message);
+                            MessageService.warn(rejection.data.errors.errors[i].message);
                         }
                     }
 
@@ -69,7 +69,7 @@ angular.module('httpInterceptorModule', []).factory('myHttpResponseInterceptor',
                         msg = "unknown exception occurred";  //FIXME: i18n
                     }
 
-                    messageCenterService.add('danger', msg.message);
+                    MessageService.error(msg.message);
                     return $q.reject(rejection);
                 }
                 // Return the promise rejection.

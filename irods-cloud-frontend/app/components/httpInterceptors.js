@@ -67,7 +67,7 @@ angular.module('httpInterceptorModule', []).factory('myHttpResponseInterceptor',
                         msg = "unknown exception occurred";  //FIXME: i18n
                     }
                     var msg = rejection.data.error;
-                    if (!msg) {
+                    if (!msg || msg == null) {
                         msg = "unknown exception occurred";  //FIXME: i18n
                     }
 

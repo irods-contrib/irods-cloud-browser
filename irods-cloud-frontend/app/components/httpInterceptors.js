@@ -6,7 +6,7 @@
  *
  */
 
-angular.module('httpInterceptorModule', []).factory('myHttpResponseInterceptor', ['$q', '$location', '$log', 'messageCenterService', 'globals', function ($q, $location, $log, messageCenterService, globals) {
+angular.module('httpInterceptorModule', []).factory('myHttpResponseInterceptor', ['$q', '$location', '$log', 'MessageService', 'globals', function ($q, $location, $log, MessageService, globals) {
         return {
             // On request success
             request: function (config) {

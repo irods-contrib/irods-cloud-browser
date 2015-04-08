@@ -11,7 +11,7 @@ angular.module('globalsModule', [])
         var f = {};
 
 
-        var HOST = "http://172.25.14.199/irods-cloud-backend";
+        var HOST = "http://localhost:8080/irods-cloud-backend";
 
         f.backendUrl = function(relativeUrl) {
             return HOST + "/" + relativeUrl;

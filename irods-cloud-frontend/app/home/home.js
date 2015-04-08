@@ -9,7 +9,7 @@ angular.module('myApp.home', ['ngRoute'])
   });
 }])
 
-    .controller('homeCtrl', ['$scope','$log', '$http', '$location', 'MessageService',function ($scope, $log, $http, $location, MessageService) {
+    .controller('homeCtrl', ['$scope','$log', '$http', '$location', 'MessageService','globals',function ($scope, $log, $http, $location, MessageService, $globals) {
 
         /**
          * List all virtual collections for the user
@@ -17,7 +17,7 @@ angular.module('myApp.home', ['ngRoute'])
         $scope.listVirtualCollections = function () {
 
             $log.info("getting virtual colls");
-            return $http({method: 'GET', url: 'http://172.25.14.199/irods-cloud-backend/virtualCollection'}).success(function (data) {
+            return $http({method: 'GET', url: $globals.backendUrl('virtualCollection')}).success(function (data) {
                 $scope.virtualCollections = data;
             }).error(function () {
                 $scope.virtualCollections = [];

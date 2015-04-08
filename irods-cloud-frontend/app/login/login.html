@@ -1,67 +1,20 @@
 <h1>THIS IS MY TEST BREH</h1>
-<form action="http://172.25.14.199/irods-cloud-backend/login" method="post" >
-					<input type="hidden" name="usePresets" id="usePresets" value="false" />
-					<fieldset>
-						<legend>
-							Please enter your credentials to log into iRODS
-						</legend>
+<div class="form-signin" name="login" ng-controller="loginCtrl" >
+                    <input ng-model="login.host" type="text" class="form-control" value="152.54.3.85" placeholder="{{ 'HOST'  }}" required autofocus>
+                    <br><input ng-model="login.port" type="text" class="form-control" value="1247" placeholder="{{ 'PORT'   }}" required>
+                    <br><input ng-model="login.zone" type="text" class="form-control" value="tempZone" placeholder="{{ 'ZONE'   }}" required>
+                    <br><input ng-model="login.userName" type="text" class="form-control" placeholder="{{ 'USER_NAME'  }}" required>
+                    <br><input ng-model="login.password" type="password" class="form-control" placeholder="{{ 'PASSWORD'   }}" required>
+                    <select ng-model="login.authType" class="form-control" required >
+                        <option value="STANDARD">Standard</option>
+                        <option value="PAM">PAM</option>
+                    </select>
+                    <br><button class="btn btn-lg btn-primary btn-block" type="submit" ng-click="submitLogin()" prevent-default>
+                        {{ 'SIGN_IN'   }}</button>
+                    <!--<label class="checkbox pull-left">
+                        <input type="checkbox" value="remember-me">
+                        Remember me
+                    </label>-->
+                   
 
-
-
-						
-
-							<label>Host:</label>
-
-							<input type="text" class="input-text" name="host" id="host"
-								value="152.54.3.85" />
-
-							<label>Port:</label>
-
-							<input type="text" class="input-text" name="port" id="port"
-								value="1247" />
-
-							<label>Zone:</label>
-
-							<input type="text" class="input-text" name="zone" id="zone"
-								value="tempZone" />
-
-							<label>Authentication Type:</label>
-
-							<select name="authType" id="authType" >
-<option value="Standard" selected="selected" >Standard</option>
-<option value="PAM" >PAM</option>
-</select>
-						
-
-
-						<label>Use a guest login:</label>
-
-						<input type="hidden" name="_useGuestLogin" /><input type="checkbox" name="useGuestLogin" id="useGuestLogin" onclick="toggleGuestLogin()"  />
-
-
-						<label>User Name:</label> <input type="text"
-							class="input-text" name="userName" id="userName"
-							value="alice" /> <label>Password:</label> <input type="password"
-							class="input-text" name="password" id="password"
-							value="alice" />
-
-						<button id="login" name="login"
-							style="margin-left: 150px; margin-top: 20px; margin-bottom: 20px;" type="submit">
-							Login
-						</button>
-
-						
-							<div>
-								<div>
-									<label>Resource:</label>
-								</div>
-								<div>
-									<input type="text" class="input-text" name="resource"
-										id="resource" value="   " />
-									<stong> (Optional) <strong></strong>
-									</stong>
-								</div>
-							</div>
-						
-					</fieldset>
-				</form>
+                </div>

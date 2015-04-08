@@ -9,7 +9,7 @@ angular.module('myApp', [
   'myApp.view2',
   'myApp.home',
   'myApp.login',
-    'globalsModule',
+  'globalsModule',
   'myApp.version'
 ]).
 config(['$routeProvider', function($routeProvider) {

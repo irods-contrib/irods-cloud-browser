@@ -9,7 +9,7 @@ angular.module('myApp.login', ['ngRoute'])
   });
 }])
 
-.controller('loginCtrl', ['$scope', '$log', '$http', '$location', 'MessageService',function ($scope, $log, $http, $location, MessageService) {
+.controller('loginCtrl', ['$scope', '$log', '$http', '$location', 'MessageService','globals','$q','$timeout',function ($scope, $log, $http, $location, MessageService, $globals, $q, $timeout) {
 		var irodsAccount = function (host, port, zone, userName, password, authType, resource) {
 		    return {
 		        host: host,
@@ -31,14 +31,14 @@ angular.module('myApp.login', ['ngRoute'])
             $log.info("irodsAccount for host:" + actval);
             $http({
                 method: 'POST',
-                url: 'login',
+                url: $globals.backendUrl('login'),
                 data: actval,
                 headers: { 'Content-Type': 'application/json' }  // set the headers so angular passing info as request payload
             }).then(function (data) {
                     $log.info("login successful" + data);
                     // userService.setLoggedInIdentity(data);
 
-                    var path = globals.getLastPath();
+                    var path = $globals.getLastPath();
                     return $q.when(path);
 
                 }).then(function(path) {
@@ -59,6 +59,6 @@ angular.module('myApp.login', ['ngRoute'])
 
                 });
         };
-        $scope.alerts();
+      //  $scope.alerts();
 
 }]);

@@ -31,7 +31,7 @@ angular.module('myApp.login', ['ngRoute'])
             $log.info("irodsAccount for host:" + actval);
             $http({
                 method: 'POST',
-                url: 'login',
+                url: 'http://172.25.14.199/irods-cloud-backend/login',
                 data: actval,
                 headers: { 'Content-Type': 'application/json' }  // set the headers so angular passing info as request payload
             }).then(function (data) {

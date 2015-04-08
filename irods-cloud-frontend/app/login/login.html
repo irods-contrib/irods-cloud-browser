@@ -1,1 +1,67 @@
 <h1>THIS IS MY TEST BREH</h1>
+<form action="http://172.25.14.199/irods-cloud-backend/login" method="post" >
+					<input type="hidden" name="usePresets" id="usePresets" value="false" />
+					<fieldset>
+						<legend>
+							Please enter your credentials to log into iRODS
+						</legend>
+
+
+
+						
+
+							<label>Host:</label>
+
+							<input type="text" class="input-text" name="host" id="host"
+								value="152.54.3.85" />
+
+							<label>Port:</label>
+
+							<input type="text" class="input-text" name="port" id="port"
+								value="1247" />
+
+							<label>Zone:</label>
+
+							<input type="text" class="input-text" name="zone" id="zone"
+								value="tempZone" />
+
+							<label>Authentication Type:</label>
+
+							<select name="authType" id="authType" >
+<option value="Standard" selected="selected" >Standard</option>
+<option value="PAM" >PAM</option>
+</select>
+						
+
+
+						<label>Use a guest login:</label>
+
+						<input type="hidden" name="_useGuestLogin" /><input type="checkbox" name="useGuestLogin" id="useGuestLogin" onclick="toggleGuestLogin()"  />
+
+
+						<label>User Name:</label> <input type="text"
+							class="input-text" name="userName" id="userName"
+							value="alice" /> <label>Password:</label> <input type="password"
+							class="input-text" name="password" id="password"
+							value="alice" />
+
+						<button id="login" name="login"
+							style="margin-left: 150px; margin-top: 20px; margin-bottom: 20px;" type="submit">
+							Login
+						</button>
+
+						
+							<div>
+								<div>
+									<label>Resource:</label>
+								</div>
+								<div>
+									<input type="text" class="input-text" name="resource"
+										id="resource" value="   " />
+									<stong> (Optional) <strong></strong>
+									</stong>
+								</div>
+							</div>
+						
+					</fieldset>
+				</form>

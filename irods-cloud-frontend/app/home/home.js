@@ -17,7 +17,7 @@ angular.module('myApp.home', ['ngRoute'])
         $scope.listVirtualCollections = function () {
 
             $log.info("getting virtual colls");
-            return $http({method: 'GET', url: 'http://localhost:8080/irods-cloud-backend/virtualCollection'}).success(function (data) {
+            return $http({method: 'GET', url: 'http://172.25.14.199/irods-cloud-backend/virtualCollection'}).success(function (data) {
                 $scope.virtualCollections = data;
             }).error(function () {
                 $scope.virtualCollections = [];

@@ -14,17 +14,23 @@ angular.module('myApp.home', ['ngRoute'])
         /**
          * List all virtual collections for the user
          */
+        // $scope.listVirtualCollections = function () {
+
+        //     $log.info("getting virtual colls");
+        //     return $http({method: 'GET', url: 'http://172.25.14.199/irods-cloud-backend/virtualCollection'}).success(function (data) {
+        //         $scope.virtualCollections = data;
+        //     }).error(function () {
+        //         $scope.virtualCollections = [];
+        //     });
+
+        // };
         $scope.listVirtualCollections = function () {
 
             $log.info("getting virtual colls");
-            return $http({method: 'GET', url: 'http://172.25.14.199/irods-cloud-backend/virtualCollection'}).success(function (data) {
-                $scope.virtualCollections = data;
-            }).error(function () {
-                $scope.virtualCollections = [];
+            virtualCollectionsService.listUserVirtualCollections().then(function (virColls) {
+                $scope.virtualCollections = virColls.data;
             });
-
         };
-
         /**
          * INIT
          */

@@ -1,1 +1,34 @@
-<h1>THIS IS HOME BREH</h1>
+  
+<div id="side_nav">
+	<div class="side_nav_toggle_button" ng-click="side_nav_toggle()"><<</div>
+	<ul>
+		<li class="dark_back_option_double">Option 1</li>
+		<li class="dark_back_option_double">Option 2</li>
+		<li class="dark_back_option_double">Option 3</li>
+	</ul>
+</div>
+<div id="main_contents"> 
+	<div class="one_column">
+		<div class="column_content">
+		<div class="light_header">Saved Searches</div>
+			<ul >
+			    <li class="light_back_option" ng-repeat="virtualCollection in virtualCollections" ng-click="selectVirtualCollection(virtualCollection.uniqueName, virtualCollection)">			        
+			            {{virtualCollection.uniqueName}}
+			    </li>
+			</ul>
+		</div>
+	</div>
+	<div class="three_column">
+		<div class="column_content">
+			<p>sample text</p><br>
+			<p>sample text</p><br>
+			<p>sample text</p><br>
+			<p>sample text</p><br>
+			<p>sample text</p><br>
+			<p>sample text</p><br>
+		</div>
+	</div>
+	<div class="one_column">
+		<div class="column_content"></div>
+	</div>
+</div>

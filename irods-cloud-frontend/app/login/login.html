@@ -1,20 +1,38 @@
-<h1>THIS IS MY TEST BREH</h1>
-<div class="form-signin" name="loginx" ng-controller="loginCtrl" >
-                    <input ng-model="login.host" type="text" class="form-control" value="152.54.3.85" placeholder="{{ 'HOST'  }}" required autofocus>
-                    <br><input ng-model="login.port" type="text" class="form-control" value="1247" placeholder="{{ 'PORT'   }}" required>
-                    <br><input ng-model="login.zone" type="text" class="form-control" value="tempZone" placeholder="{{ 'ZONE'   }}" required>
-                    <br><input ng-model="login.userName" type="text" class="form-control" placeholder="{{ 'USER_NAME'  }}" required>
-                    <br><input ng-model="login.password" type="password" class="form-control" placeholder="{{ 'PASSWORD'   }}" required>
-                    <select ng-model="login.authType" class="form-control" required >
-                        <option value="STANDARD">Standard</option>
-                        <option value="PAM">PAM</option>
-                    </select>
-                    <br><button class="btn btn-lg btn-primary btn-block" type="submit" ng-click="submitLogin()" prevent-default>
-                        {{ 'SIGN_IN'   }}</button>
-                    <!--<label class="checkbox pull-left">
-                        <input type="checkbox" value="remember-me">
-                        Remember me
-                    </label>-->
-                   
-
+<div id="main_contents">   
+    <div class="three_column centered">
+        <div class="column_content">
+            <div class="dark_header"> Log In</div>
+            <div class="row">
+                <div class="col-xs-3 col-xs-offset-1 single_top">
+                    <img src="images/secure_lock.png">
                 </div>
+                <div class="col-xs-6 double_top" name="login" ng-controller="loginCtrl">
+                    <div class="col-xs-12">Host:</div>
+                    <div class="col-xs-12"><input ng-model="login.host" type="text-area" class="col-xs-12" required autofocus></div>
+                    <br>
+                    <div class="col-xs-12">Port:</div>
+                    <div class="col-xs-12"><input ng-model="login.port" type="text-area" class="col-xs-12" required></div>
+                    <br>
+                    <div class="col-xs-12">Zone Name:</div>
+                    <div class="col-xs-12"><input ng-model="login.zone" type="text-area" class="col-xs-12" required></div>
+                    <br>
+                    <div class="col-xs-12">User Name:</div>
+                    <div class="col-xs-12"><input ng-model="login.userName" type="text-area" class="col-xs-12" required></div>
+                    <br>
+                    <div class="col-xs-12">Password:</div>
+                    <div class="col-xs-12"><input ng-model="login.password" type="password" class="col-xs-12" required></div>
+                    <br>
+                    <div class="col-xs-12">Authentication:</div>
+                    <div class="col-xs-12">
+                        <select ng-model="login.authType" class="col-xs-12" required >
+                            <option value="STANDARD">Standard</option>
+                            <option value="PAM">PAM</option>
+                        </select>
+                    </div>
+                    <div class="col-xs-12"><button class="single_top btn btn-success pull-right" type="submit" ng-click="submitLogin()" prevent-default>Log In</button></div>
+                </div>
+            </div>
+            <div class="row"></div>
+        </div>
+    </div>
+</div>

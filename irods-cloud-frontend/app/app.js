@@ -14,4 +14,7 @@ angular.module('myApp', [
 ]).
 config(['$routeProvider', function($routeProvider) {
   $routeProvider.otherwise({redirectTo: '/view1'});
+}]).config(['$httpProvider', function($httpProvider) {
+    $httpProvider.defaults.withCredentials = true;
 }]);
+

@@ -1,0 +1,152 @@
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed, 
+figure, figcaption, footer, header, hgroup, 
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  font: sans-serif;
+  vertical-align: baseline;
+}
+
+/* ||||||||||||||||||||||||||||||||||| */
+/* |||||||| HEADER NAV STYLES |||||||| */
+/* ||||||||||||||||||||||||||||||||||| */
+.green_nav{
+	background: #00B099;
+	position: absolute;
+	z-index: 2;
+}
+
+/* ||||||||||||||||||||||||||||||||||| */
+/* ||||||||| SIDE NAV STYLES ||||||||| */
+/* ||||||||||||||||||||||||||||||||||| */
+#side_nav{	
+	height:100%;
+	position:relative;
+	float: left;
+	color:#fff;
+	width:18%;
+	padding: 58px 0px 0px 0px;
+}
+.side_nav_toggle_button{
+
+}
+.single_top{
+	margin-top: 20px;
+}
+.double_top{
+	margin-top: 40px;
+}
+/* ||||||||||||||||||||||||||||||||||| */
+/* ||||||| MAIN WRAPPER STYLES ||||||| */
+/* ||||||||||||||||||||||||||||||||||| */
+#main_contents{
+	background:#CFD0CC;
+	display: flex;
+	min-height:100vh;
+	padding: 5px;
+}
+.main_wrapper{
+	background: #384B50;
+	padding:0px;
+	width:100%;
+	position: relative;
+	float: left;
+}
+.three_column{
+	padding: 53px 5px 5px 5px;
+	position: relative;
+	float: left;
+	height: 100%;
+	width:60%;
+}
+.one_column{
+	padding: 53px 5px 5px 5px;
+	position: relative;
+	float: left;
+	height: 100%;
+	width: 20%;
+}
+.main_content{
+	border-top:2px solid #00B099;
+	background: #fff;
+	min-height:300px;
+	height: 100%;
+	width:100%;
+}
+.column_content{
+	border-top:2px solid #00B099;
+	background: #fff;
+	padding: 0px 0px 20px 0px;
+	min-height:300px;
+	height: 100%;
+	width:100%;
+}
+
+
+/* ||||||||||||||||||||||||||||||||||| */
+/* |||||||| POSITIONING STYLES ||||||| */
+/* ||||||||||||||||||||||||||||||||||| */
+.centered{
+	margin: 0 auto;
+}
+
+/* ||||||||||||||||||||||||||||||||||| */
+/* |||| BUTTONS AND OPTIONS STYLES ||| */
+/* ||||||||||||||||||||||||||||||||||| */
+.dark_back_option_double{
+	color:#fff;
+	opacity:0.5;
+	height:50px;
+	padding: 12px;
+}
+.dark_back_option_double:hover{
+	color:#fff;
+	opacity:1;
+	background: rgba(0,0,0,0.3);
+	height:50px;
+}
+.light_back_option{
+	color:#000;
+	opacity:0.5;
+	height:30px;
+	padding: 3px 12px;
+	list-style: none;
+}
+.light_back_option:hover{
+	color:#fff;
+	opacity:1;
+	background: rgba(0,0,0,0.3);
+}
+.dark_header{
+	color: #fff;
+	background: #384B50;
+	text-align: left;
+	padding: 5px 0px 0px 15px;
+	font-size: 16px;
+	font-weight: bold;
+	height:35px;
+}
+.light_header{
+	color: #384B50;
+	text-align: left;
+	padding: 5px 0px 0px 15px;
+	font-size: 16px;
+	font-weight: bold;
+	height:35px;
+	border-bottom:1px solid #C7C9C7; 
+}
+
+
+

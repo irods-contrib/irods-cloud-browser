@@ -1,19 +1,19 @@
   
 <div id="side_nav">
 	<div class="side_nav_toggle_button" ng-click="side_nav_toggle()"><<</div>
-	<ul>
-		<li class="dark_back_option_double">Option 1</li>
-		<li class="dark_back_option_double">Option 2</li>
-		<li class="dark_back_option_double">Option 3</li>
+	<ul class="side_nav_options">
+		<li class="dark_back_option_double">Hierarchical Browsing</li>
+		<li class="dark_back_option_double">Focused Browsing</li>
+		<li class="dark_back_option_double">Organic Browsing</li>
 	</ul>
 </div>
 <div id="main_contents"> 
 	<div class="one_column">
 		<div class="column_content">
-		<div class="light_header">Saved Searches</div>
+		<div class="light_header"><img src="images/saved_search_icon_dark.png"><span>Saved Searches</span></div>
 			<ul >
 			    <li class="light_back_option" ng-repeat="virtualCollection in virtualCollections" ng-click="selectVirtualCollection(virtualCollection.uniqueName, virtualCollection)">			        
-			            {{virtualCollection.uniqueName}}
+			            <img src="images/saved_search_icon.png"><span>{{virtualCollection.uniqueName}}</span>
 			    </li>
 			</ul>
 		</div>

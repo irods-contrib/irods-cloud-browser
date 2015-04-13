@@ -20,18 +20,21 @@ angular.module('myApp.home', ['ngRoute'])
             }).error(function () {
                 $scope.virtualCollections = [];
             });
-        };
-
-        
-
-        $scope.side_nav_toggle = function () {
-            $scope.side_nav_display = $('#side_nav').width();
-            if ($scope.side_nav_display >= 100){
-                $('#side_nav').animate({'width':'3%'},'normal');
-                $('#main_contents').animate({'width':'97%'},'normal');
-            }else if($scope.side_nav_display < 100){           
-                $('#main_contents').animate({'width':'82%'},'normal');
-                $('#side_nav').animate({'width':'18%'},'normal');
+        };        
+        var side_nav_toggled = "no";
+        $scope.side_nav_toggle = function () {            
+            if (side_nav_toggled == "no"){
+                side_nav_toggled = "yes";
+                $('.side_nav_options').animate({'opacity':'0'});
+                $('#side_nav').animate({'width':'3%'});
+                $('#main_contents').animate({'width':'96.9%'});
+                $('.side_nav_toggle_button').text('>>');
+            }else if(side_nav_toggled == "yes"){  
+                side_nav_toggled = "no";      
+                $('#main_contents').animate({'width':'81.9%'});
+                $('#side_nav').animate({'width':'18%'});
+                $('.side_nav_options').animate({'opacity':'1'});
+                $('.side_nav_toggle_button').text('<<');
             }
         };
         /**

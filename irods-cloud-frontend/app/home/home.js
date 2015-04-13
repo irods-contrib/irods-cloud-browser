@@ -3,22 +3,7 @@
 angular.module('myApp.home', ['ngRoute'])
 
 .config(['$routeProvider', function($routeProvider) {
-  $routeProvider.when('/home', {
-    templateUrl: 'home/home.html',
-    controller: 'homeCtrl',
-      resolve: {
-          // set vc name as selected
-          selectedVc: function ($route) {
-
-              return null;
-          },
-          // do a listing
-          pagingAwareCollectionListing: function ($route, collectionsService) {
-              return {};
-          }
-
-      }
-  }).when('/home/:vcName', {
+  $routeProvider.when('/home/:vcName', {
             templateUrl: 'home/home.html',
             controller: 'homeCtrl',
             resolve: {
@@ -42,7 +27,22 @@ angular.module('myApp.home', ['ngRoute'])
                 }
 
             }
-        });
+        }).when('/home', {
+      templateUrl: 'home/home.html',
+      controller: 'homeCtrl',
+      resolve: {
+          // set vc name as selected
+          selectedVc: function ($route) {
+
+              return null;
+          },
+          // do a listing
+          pagingAwareCollectionListing: function ($route, collectionsService) {
+              return {};
+          }
+
+      }
+  });
 }])
     .controller('homeCtrl', ['$scope','$log', '$http', '$location', 'MessageService','globals','virtualCollectionsService','collectionsService','selectedVc','pagingAwareCollectionListing',function ($scope, $log, $http, $location, MessageService, $globals, $virtualCollectionsService, $collectionsService, selectedVc, pagingAwareCollectionListing) {
 
@@ -95,7 +95,7 @@ angular.module('myApp.home', ['ngRoute'])
         $scope.listVirtualCollections();
 
 }])
-    .factory('virtualCollectionsService', ['$http', '$log', function ($http, $log) {
+    .factory('virtualCollectionsService', ['$http', '$log','globals', function ($http, $log, globals) {
         var virtualCollections = [];
         var virtualCollectionContents = [];
         var selectedVirtualCollection = {};
@@ -120,7 +120,7 @@ angular.module('myApp.home', ['ngRoute'])
                     return;
                 }
 
-                return $http({method: 'GET', url: 'virtualCollection/' + vcName}).success(function (data) {
+                return $http({method: 'GET', url: globals.backendUrl('virtualCollection/') + vcName}).success(function (data) {
                     virtualCollections = data;
                 }).error(function () {
                     virtualCollections = [];

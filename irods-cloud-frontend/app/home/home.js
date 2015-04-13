@@ -51,7 +51,7 @@ angular.module('myApp.home', ['ngRoute'])
          */
 
         $scope.selectedVc = selectedVc;
-        $scope.pagingAwareCollectionListing = pagingAwareCollectionListing.data;
+            $scope.pagingAwareCollectionListing = pagingAwareCollectionListing.data;
 
 
         /*
@@ -132,7 +132,7 @@ angular.module('myApp.home', ['ngRoute'])
 
 
     }])
-    .factory('collectionsService', ['$http', '$log', function ($http, $log) {
+    .factory('collectionsService', ['$http', '$log', 'globals', function ($http, $log, $globals) {
 
         var pagingAwareCollectionListing = {};
 
@@ -166,7 +166,7 @@ angular.module('myApp.home', ['ngRoute'])
                 }
 
                 $log.info("requesting vc:" + reqVcName + " and path:" + reqParentPath);
-                return $http({method: 'GET', url: 'collection/' + reqVcName, params: {path: reqParentPath, offset: reqOffset }}).success(function (response) {
+                return $http({method: 'GET', url: $globals.backendUrl('collection/') + reqVcName, params: {path: reqParentPath, offset: reqOffset }}).success(function (response) {
                     pagingAwareCollectionListing = response.data;
 
                 }).error(function () {

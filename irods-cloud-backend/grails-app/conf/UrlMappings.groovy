@@ -6,9 +6,12 @@ class UrlMappings {
 
 		"/virtualCollection/$name"(resource:"virtualCollection")
 
+		"/collection/$virtualCollection"(resource:"collection")
 
-		"/$controller/$action?/$id?(.$format)?"{ constraints {
-				// apply constraints here
+		"/collection"(resource:"collection")
+
+
+		"/$controller/$action?/$id?(.$format)?"{ constraints { // apply constraints here
 			} }
 
 		"/"(view:"/index")

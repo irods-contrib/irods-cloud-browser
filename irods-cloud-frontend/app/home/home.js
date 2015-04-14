@@ -72,19 +72,17 @@ angular.module('myApp.home', ['ngRoute'])
          * Handle the selection of a virtual collection from the virtual collection list, by causing a route change and updating the selected virtual collection
          * @param vcName
          */
-        $scope.selectVirtualCollection = function (vcName) {
+        $scope.selectVirtualCollection = function (vcName,path) {
             $log.info("selectVirtualCollection()");
             if (!vcName) {
-                MessageCenterService.danger("missing vcName");
+                MessageService.danger("missing vcName");
                 return;
             }
-
             $log.info("list vc contents for vc name:" + vcName);
             $location.path("/home/" + vcName);
-            $location.search("path", "");
-
-
+            $location.search("path", path);
         };
+
 
         var side_nav_toggled = "no";
         $scope.side_nav_toggle = function () {            

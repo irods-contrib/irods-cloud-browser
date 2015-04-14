@@ -43,7 +43,7 @@ angular.module('myApp.home', ['ngRoute'])
 
       }
   });
-}])
+}]).pagingAwareCollectionListing
     .controller('homeCtrl', ['$scope','$log', '$http', '$location', 'MessageService','globals','virtualCollectionsService','collectionsService','selectedVc','pagingAwareCollectionListing',function ($scope, $log, $http, $location, MessageService, $globals, $virtualCollectionsService, $collectionsService, selectedVc, pagingAwareCollectionListing) {
 
         /*
@@ -51,7 +51,7 @@ angular.module('myApp.home', ['ngRoute'])
          */
 
         $scope.selectedVc = selectedVc;
-            $scope.pagingAwareCollectionListing = pagingAwareCollectionListing.data;
+        $scope.pagingAwareCollectionListing = pagingAwareCollectionListing.data;
 
 
         /*
@@ -68,6 +68,20 @@ angular.module('myApp.home', ['ngRoute'])
             });
         };
 
+        /**
+         * Handle the selection of a virtual collection from the virtual collection list, by causing a route change and updating the selected virtual collection
+         * @param vcName
+         */
+        $scope.selectVirtualCollection = function (vcName) {
+            if (!vcName) {
+                MessageCenterService.danger("missing vcName");
+                return;
+            }
+
+            $log.info("initializing virtual collection for:" + vcName);
+            $location.path("/home/" + vcName + "?path=");
+
+        };
 
         var side_nav_toggled = "no";
         $scope.side_nav_toggle = function () {            
@@ -102,7 +116,7 @@ angular.module('myApp.home', ['ngRoute'])
 
             listUserVirtualCollections: function () {
                 $log.info("getting virtual colls");
-                return $http({method: 'GET', url: $globals.backendUrl('virtualCollection')}).success(function (data) {
+                return $http({method: 'GET', url: globals.backendUrl('virtualCollection')}).success(function (data) {
                    virtualCollections = data;
                 }).error(function () {
                    virtualCollections = [];

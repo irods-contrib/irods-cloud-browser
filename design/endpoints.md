@@ -38,6 +38,17 @@ assume web context = irods-cloud-backend, this can vary based on the war file yo
 ### Response (JSON)
 
   [{"class":"org.irods.jargon.vircoll.types.CollectionBasedVirtualCollection","description":"iRODS Collection at a given   path","i18Description":"virtual.collection.default.description","i18Name":"virtual.collection.default.name","i18icon":"virtual.collection.default.icon","pagingStyle":{"enumType":"org.irods.jargon.core.query.PagingAwareCollectionListing$PagingStyle","name":"SPLIT_COLLECTIONS_AND_FILES"},"parameters":{},"rootPath":"/","uniqueName":"root"},{"class":"org.irods.jargon.vircoll.types.CollectionBasedVirtualCollection","description":"iRODS Collection at a given path","i18Description":"virtual.collection.default.description","i18Name":"virtual.collection.default.name","i18icon":"virtual.collection.default.icon","pagingStyle":{"enumType":"org.irods.jargon.core.query.PagingAwareCollectionListing$PagingStyle","name":"SPLIT_COLLECTIONS_AND_FILES"},"parameters":{},"rootPath":"/test1/home/test1","uniqueName":"home"},{"class":"org.irods.jargon.vircoll.types.StarredFoldersVirtualCollection","description":"Files and folders marked as starred in iRODS","i18Description":"virtual.collection.description.starred","i18Name":"virtual.collection.name.starred","i18icon":"virtual.collection.icon.starred","pagingStyle":{"enumType":"org.irods.jargon.core.query.PagingAwareCollectionListing$PagingStyle","name":"CONTINUOUS"},"parameters":{},"uniqueName":"Starred Files"}]
+  
+  
+## Get details about a particular virtual collection by name
+**URL** irods-cloud-backend/virtualCollection/_vcName as URL Encoded String_<br>
+**Method** GET
+
+### Parameters
+
+### Response (JSON)
+  
+  {"class":"org.irods.jargon.vircoll.types.CollectionBasedVirtualCollection","description":"iRODS Collection at a given path","i18Description":"virtual.collection.default.description","i18Name":"virtual.collection.default.name","i18icon":"virtual.collection.default.icon","pagingStyle":{"enumType":"org.irods.jargon.core.query.PagingAwareCollectionListing$PagingStyle","name":"SPLIT_COLLECTIONS_AND_FILES"},"parameters":{},"rootPath":"/test1/home/test1","uniqueName":"home"}
  
 ## List contents of a virtual collection
 **URL** irods-cloud-backend/collection/_vcName as URL Encoded String_<br>

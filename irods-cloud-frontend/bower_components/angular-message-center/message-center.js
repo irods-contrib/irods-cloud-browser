@@ -14,7 +14,7 @@ factory('MessageService', ['$rootScope', function ($rootScope) {
   var MessageService = {};
   MessageService.config = {
     disabled: false,
-    max: 3,
+    max: 7,
     timeout: 3000
   };
 

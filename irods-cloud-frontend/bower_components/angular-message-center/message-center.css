@@ -11,16 +11,16 @@
 
 .message-center-regular {
 	top: 7px;
-	left: 40%;
-	right: 40%;
+	left: 20%;
+	right: 20%;
 	margin: auto;
 }
 
 /*How do I make it so it doesn't span the entire distance but still remain centered for responsive effect*/
 .message-center-important{
 	top: 7px;
-	left: 40%;
-	right: 40%;
+	left: 20%;
+	right: 20%;
 	margin: auto;
 }
 

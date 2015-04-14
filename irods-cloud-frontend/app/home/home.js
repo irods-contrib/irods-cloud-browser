@@ -68,9 +68,6 @@ angular.module('myApp.home', ['ngRoute'])
             });
         };
 
-        $scope.listVirtualCollectionContents = function () {
-
-        };
 
         var side_nav_toggled = "no";
         $scope.side_nav_toggle = function () {            

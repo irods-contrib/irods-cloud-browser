@@ -43,7 +43,7 @@ angular.module('myApp.home', ['ngRoute'])
 
       }
   });
-}]).pagingAwareCollectionListing
+}])
     .controller('homeCtrl', ['$scope','$log', '$http', '$location', 'MessageService','globals','virtualCollectionsService','collectionsService','selectedVc','pagingAwareCollectionListing',function ($scope, $log, $http, $location, MessageService, $globals, $virtualCollectionsService, $collectionsService, selectedVc, pagingAwareCollectionListing) {
 
         /*
@@ -73,13 +73,16 @@ angular.module('myApp.home', ['ngRoute'])
          * @param vcName
          */
         $scope.selectVirtualCollection = function (vcName) {
+            $log.info("selectVirtualCollection()");
             if (!vcName) {
                 MessageCenterService.danger("missing vcName");
                 return;
             }
 
-            $log.info("initializing virtual collection for:" + vcName);
-            $location.path("/home/" + vcName + "?path=");
+            $log.info("list vc contents for vc name:" + vcName);
+            $location.path("/home/" + vcName);
+            $location.search("path", "");
+
 
         };
 

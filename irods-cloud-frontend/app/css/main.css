@@ -18,7 +18,10 @@ time, mark, audio, video {
   font: sans-serif;
   vertical-align: baseline;
 }
-
+.light_hr {
+	margin:0px;
+	border-top: 1px solid #eee;
+}
 /* ||||||||||||||||||||||||||||||||||| */
 /* |||||||| HEADER NAV STYLES |||||||| */
 /* ||||||||||||||||||||||||||||||||||| */
@@ -37,10 +40,14 @@ time, mark, audio, video {
 	float: left;
 	color:#fff;
 	width:18%;
-	padding: 58px 0px 0px 0px;
+	padding: 50px 0px 0px 0px;
 }
 .side_nav_toggle_button{
-
+	padding: 0px 10px 4px;
+	border-bottom: 1px solid rgba(255,255,255,0.2)
+}
+.side_nav_toggle_button:hover{
+	background: rgba(255,255,255,0.2);
 }
 .side_nav_options{
 	overflow: hidden;
@@ -52,7 +59,7 @@ time, mark, audio, video {
 	margin-top: 40px;
 }
 /* ||||||||||||||||||||||||||||||||||| */
-/* ||||||| MAIN WRAPPER STYLES ||||||| */
+/* |||||| MAIN CONTAINERS STYLES ||||| */
 /* ||||||||||||||||||||||||||||||||||| */
 #main_contents{
 	background:#CFD0CC;
@@ -66,6 +73,13 @@ time, mark, audio, video {
 	width:100%;
 	position: relative;
 	float: left;
+}
+.four_column{
+	padding: 53px 5px 5px 5px;
+	position: relative;
+	float: left;
+	height: 100%;
+	width:80%;
 }
 .three_column{
 	padding: 53px 5px 5px 5px;
@@ -91,7 +105,7 @@ time, mark, audio, video {
 .column_content{
 	border-top:2px solid #00B099;
 	background: #fff;
-	padding: 10px;
+	padding: 5px;
 	min-height:300px;
 	height: 100%;
 	width:100%;
@@ -111,30 +125,41 @@ time, mark, audio, video {
 .dark_back_option_double{
 	color:#fff;
 	opacity:0.5;
-	height:50px;
-	padding: 12px;
+	height:40px;
+	padding: 7px 10px;
 	white-space: nowrap;
 }
 .dark_back_option_double:hover{
 	color:#fff;
 	opacity:1;
 	background: rgba(0,0,0,0.3);
-	height:50px;
 }
 .light_back_option{
 	color:#000;
 	opacity:0.5;
-	height:30px;
+	height:20px;
+	margin: 2px 0px;
+	font-size: 12px;
 	list-style: none;
 }
-.light_back_option:hover{
+.light_back_option_even{
+	color:#000;
+	background: rgba(0,0,0,0.1);
+	opacity:0.5;
+	height:20px;
+	margin: 2px 0px;
+	font-size: 12px;
+	list-style: none;
+}
+.light_back_option:hover,.light_back_option_even:hover{
 	color:#fff;
 	opacity:1;
 	background: rgba(0,0,0,0.3);
 }
-.light_back_option span{
-	padding: 3px;
+.light_back_option span, .light_back_option_even span{
+	padding: 2px;
 	position: absolute;
+	cursor: pointer;
 }
 .dark_header{
 	color: #fff;
@@ -148,14 +173,15 @@ time, mark, audio, video {
 .light_header{
 	color: #384B50;
 	text-align: left;
-	font-size: 16px;
+	font-size: 14px;
 	font-weight: bold;
-	height:35px;
+	height:27px;
 	border-bottom:1px solid #C7C9C7; 
 }
 .light_header span{
 	position: absolute;
-	padding: 3px;
+	line-height: 19px;
+	padding: 0px 3px;
 }
 
 

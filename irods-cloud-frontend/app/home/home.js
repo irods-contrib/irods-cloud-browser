@@ -44,7 +44,7 @@ angular.module('myApp.home', ['ngRoute'])
       }
   });
 }])
-    .controller('homeCtrl', ['$scope','$log', '$http', '$location', 'MessageService','globals','virtualCollectionsService','collectionsService','selectedVc','pagingAwareCollectionListing',function ($scope, $log, $http, $location, MessageService, $globals, $virtualCollectionsService, $collectionsService, selectedVc, pagingAwareCollectionListing) {
+    .controller('homeCtrl', ['$scope','$log', '$http', '$location', 'MessageService','globals','breadcrumbsService','virtualCollectionsService','collectionsService','selectedVc','pagingAwareCollectionListing',function ($scope, $log, $http, $location, MessageService, $globals, breadcrumbsService, $virtualCollectionsService, $collectionsService, selectedVc, pagingAwareCollectionListing) {
 
         /*
         basic scope data for collections and views
@@ -83,6 +83,38 @@ angular.module('myApp.home', ['ngRoute'])
             $location.search("path", path);
         };
 
+        /**
+         * Get the breadcrumbs from the pagingAwareCollectionListing in the scope.  This updates the path
+         * in the global scope breadcrmubsService.  I don't know if that's the best way, but gotta get it somehow.
+         * Someday when I'm better at angualar we can do this differently.
+         */
+        $scope.getBreadcrumbPaths = function () {
+
+            if (!$scope.pagingAwareCollectionListing) {
+                return [];
+            }
+
+            breadcrumbsService.setCurrentAbsolutePath($scope.pagingAwareCollectionListing.pagingAwareCollectionListingDescriptor.parentAbsolutePath);
+            return breadcrumbsService.getWholePathComponents();
+
+        };
+
+        /**
+         * Upon the selection of an element in a breadrumb link, set that as the location of the browser, triggering
+         * a view of that collection
+         * @param index
+         */
+        $scope.goToBreadcrumb = function (index) {
+
+            if (!index) {
+                $log.error("cannot go to breadcrumb, no index");
+                return;
+            }
+
+            $location.path("/home/root");
+            $location.search("path", breadcrumbsService.buildPathUpToIndex(index));
+
+        };
 
         var side_nav_toggled = "no";
         $scope.side_nav_toggle = function () {            
@@ -195,5 +227,117 @@ angular.module('myApp.home', ['ngRoute'])
         };
 
 
-    }]);
+    }])
+.factory('breadcrumbsService',  function ($rootScope, $log) {
+
+        var bc = {};
+
+        /**
+         * Global representation of current file path for display
+         */
+        bc.currentAbsolutePath = null;
+        bc.pathComponents = [];
+
+
+        /**
+         * Set the current iRODS path and split into components for use in breadcrumbs
+         * @param pathIn
+         */
+        bc.setCurrentAbsolutePath = function (pathIn) {
+
+            if (!pathIn) {
+               this.clear();
+                return;
+            }
+
+            this.currentAbsolutePath = pathIn;
+            $log.info("path:" + pathIn);
+            this.pathComponents = this.pathToArray(pathIn);
+            $log.info("path components set:" + this.pathComponents);
+
+        }
+
+        /**
+         * Turn a path into
+         * @param pathIn
+         * @returns {*}
+         */
+        bc.pathToArray = function(pathIn)  {
+            if (!pathIn) {
+                $log.info("no pathin");
+                return [];
+            }
+
+            var array = pathIn.split("/");
+            $log.info("array orig is:" + array);
+            // first element may be blank because it's the root, so it'll be trimmed from the front
+
+            if (array.length == 0) {
+                return [];
+            }
+
+           array.shift();
+            return array;
+
+        }
+
+        /**
+         * given an index into the breadcrumbs, roll back and build an absolute path based on each element in the
+         * bread crumbs array
+         * @param index int wiht the index in the breadcrumbs that is the last part of the selected path
+         * @returns {string}
+         */
+        bc.buildPathUpToIndex = function(index) {
+
+            var path = this.getWholePathComponents();
+
+            if (!path) {
+                $log.error("no path components, cannot go to breadcrumb");
+                throw("cannot build path");
+            }
+
+            var totalPath = "";
+
+            for (var i = 0; i <= index; i++) {
+
+                // skip a blank path, which indicates an element that is a '/' for root, avoid double slashes
+                if (path[i]) {
+
+                    totalPath = totalPath + "/" + path[i];
+                }
+            }
+
+            $log.info("got total path:" + totalPath);
+            return totalPath;
+
+
+        }
+
+        /**
+         * Get all of the path components
+         * @returns {*}
+         */
+        bc.getWholePathComponents = function() {
+
+            if (!this.pathComponents) {
+                return [];
+            } else {
+                return this.pathComponents;
+            }
+
+        }
+
+
+        /**
+         * Reset path data
+         */
+        bc.clear = function() {
+            this.currentAbsolutePath = null;
+            this.pathComponents = [];
+        }
+
+        return bc;
+
+    })
+;
 

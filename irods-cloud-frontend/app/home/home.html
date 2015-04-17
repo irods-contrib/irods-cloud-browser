@@ -30,20 +30,17 @@
 			<hr class="light_hr">
 			<div class="dark_header"><span>You've selected:</span> <span id="select-result">none</span></div>
 			<ul id="selectable">
-			    <li ng-class-odd="'light_back_option ui-widget-content'" ng-class-even="'light_back_option_even ui-widget-content'" ng-repeat="collectionAndDataObject in pagingAwareCollectionListing.collectionAndDataObjectListingEntries" on-last-repeat>
-		            <div class="col-xs-6 list_content">
+			    <li class="ui-widget-content" ng-class-odd="'light_back_option'" ng-class-even="'light_back_option_even'" ng-repeat="collectionAndDataObject in pagingAwareCollectionListing.collectionAndDataObjectListingEntries" on-last-repeat>
+		            <div class="col-xs-8 list_content">
 			            <img ng-show="{{collectionAndDataObject.dataObject}} == false" src="images/collection_icon.png">
 			            <img ng-show="{{collectionAndDataObject.dataObject}} == true" src="images/data_object_icon.png">	          
 		            	<span ng-click="selectVirtualCollection(selectedVc.data.uniqueName,collectionAndDataObject.formattedAbsolutePath)">{{collectionAndDataObject.nodeLabelDisplayValue}}</span>
 		            </div>
-		            <div class="col-xs-2 list_content">
-		            	some
+		            <div class="col-xs-2 list_content text-right">
+		            	<p>{{collectionAndDataObject.modifiedAt}}</p>
 		            </div>
-		            <div class="col-xs-2 list_content">
-		            	some
-		            </div>
-		            <div class="col-xs-2 list_content">
-		            	some
+		            <div class="col-xs-2 list_content text-right">
+		            	<p ng-show="{{collectionAndDataObject.dataObject}} == true">{{collectionAndDataObject.displayDataSize}}</p>
 		            </div>
 			    </li>
 			</ul>

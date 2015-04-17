@@ -122,6 +122,9 @@ time, mark, audio, video {
 	padding: 0px;
 	height:20px;
 }
+.list_content p {
+	padding: 2px 5px;
+}
 /* ||||||||||||||||||||||||||||||||||| */
 /* |||||||| POSITIONING STYLES ||||||| */
 /* ||||||||||||||||||||||||||||||||||| */

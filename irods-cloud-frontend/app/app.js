@@ -5,11 +5,11 @@ angular.module('myApp', [
   'ngRoute',
     'httpInterceptorModule',
      'MessageCenter',// look in components for http interceptor that will trap errors and auth processing
-  'myApp.view1',
   'myApp.home',
   'myApp.login',
   'globalsModule',
-  'myApp.version'
+  'myApp.version',
+    'fileModule'
 ]).
 config(['$routeProvider', function($routeProvider) {
   $routeProvider.otherwise({redirectTo: '/home'});

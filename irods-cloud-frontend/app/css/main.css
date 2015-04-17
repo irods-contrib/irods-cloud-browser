@@ -22,6 +22,8 @@ time, mark, audio, video {
 	margin:0px;
 	border-top: 1px solid #eee;
 }
+  #selectable .ui-selecting { background: #FECA40; }
+  #selectable .ui-selected { background: #F39814; color: white; }
 /* ||||||||||||||||||||||||||||||||||| */
 /* |||||||| HEADER NAV STYLES |||||||| */
 /* ||||||||||||||||||||||||||||||||||| */
@@ -51,6 +53,7 @@ time, mark, audio, video {
 }
 .side_nav_options{
 	overflow: hidden;
+	padding: 0px 5px;
 }
 .single_top{
 	margin-top: 20px;
@@ -110,8 +113,15 @@ time, mark, audio, video {
 	height: 100%;
 	width:100%;
 }
-
-
+#breadcrumbs_container{
+	position:relative;
+	display:inline-block;
+	float: right;
+}
+.list_content{
+	padding: 0px;
+	height:20px;
+}
 /* ||||||||||||||||||||||||||||||||||| */
 /* |||||||| POSITIONING STYLES ||||||| */
 /* ||||||||||||||||||||||||||||||||||| */
@@ -126,7 +136,7 @@ time, mark, audio, video {
 	color:#fff;
 	opacity:0.5;
 	height:40px;
-	padding: 7px 10px;
+	padding: 7px 2px;
 	white-space: nowrap;
 }
 .dark_back_option_double:hover{
@@ -165,10 +175,11 @@ time, mark, audio, video {
 	color: #fff;
 	background: #384B50;
 	text-align: left;
-	padding: 5px 0px 0px 15px;
+	padding: 7px 0px 0px 15px;
 	font-size: 16px;
 	font-weight: bold;
 	height:35px;
+	overflow: hidden;
 }
 .light_header{
 	color: #384B50;

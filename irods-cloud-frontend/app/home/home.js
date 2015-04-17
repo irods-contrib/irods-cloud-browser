@@ -44,6 +44,14 @@ angular.module('myApp.home', ['ngRoute'])
       }
   });
 }])
+
+.directive('onLastRepeat', function() {
+        return function(scope, element, attrs) {
+            if (scope.$last) setTimeout(function(){
+                scope.$emit('onRepeatLast', element, attrs);
+            }, 1);
+        };
+    })
     .controller('homeCtrl', ['$scope','$log', '$http', '$location', 'MessageService','globals','breadcrumbsService','virtualCollectionsService','collectionsService','selectedVc','pagingAwareCollectionListing',function ($scope, $log, $http, $location, MessageService, $globals, breadcrumbsService, $virtualCollectionsService, $collectionsService, selectedVc, pagingAwareCollectionListing) {
 
         /*
@@ -52,27 +60,40 @@ angular.module('myApp.home', ['ngRoute'])
 
         $scope.selectedVc = selectedVc;
         $scope.pagingAwareCollectionListing = pagingAwareCollectionListing.data;
-
+        $scope.$on('onRepeatLast', function(scope, element, attrs){
+                  $( "#selectable" ).selectable(
+                    {
+                          stop: function() {
+                            var result = $( "#select-result" ).empty();
+                            $( ".ui-selected", this ).each(function() {
+                              var index = $( "#selectable li" ).index( this );
+                              result.append( " #" + ( index + 1 ) );
+                            });
+                          }
+                        }
+                    );
+              });
 
         /*
         Get a default list of the virtual collections that apply to the logged in user, for side nav
          */
         
         $scope.listVirtualCollections = function () {
-
+            
             $log.info("getting virtual colls");
+
             return $http({method: 'GET', url: $globals.backendUrl('virtualCollection')}).success(function (data) {
                 $scope.virtualCollections = data;
             }).error(function () {
                 $scope.virtualCollections = [];
             });
         };
-
         /**
          * Handle the selection of a virtual collection from the virtual collection list, by causing a route change and updating the selected virtual collection
          * @param vcName
          */
         $scope.selectVirtualCollection = function (vcName,path) {
+
             $log.info("selectVirtualCollection()");
             if (!vcName) {
                 MessageService.danger("missing vcName");
@@ -82,7 +103,6 @@ angular.module('myApp.home', ['ngRoute'])
             $location.path("/home/" + vcName);
             $location.search("path", path);
         };
-
         /**
          * Get the breadcrumbs from the pagingAwareCollectionListing in the scope.  This updates the path
          * in the global scope breadcrmubsService.  I don't know if that's the best way, but gotta get it somehow.
@@ -96,7 +116,6 @@ angular.module('myApp.home', ['ngRoute'])
 
             breadcrumbsService.setCurrentAbsolutePath($scope.pagingAwareCollectionListing.pagingAwareCollectionListingDescriptor.parentAbsolutePath);
             return breadcrumbsService.getWholePathComponents();
-
         };
 
         /**
@@ -115,7 +134,6 @@ angular.module('myApp.home', ['ngRoute'])
             $location.search("path", breadcrumbsService.buildPathUpToIndex(index));
 
         };
-
         var side_nav_toggled = "no";
         $scope.side_nav_toggle = function () {            
             if (side_nav_toggled == "no"){

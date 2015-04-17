@@ -62,17 +62,16 @@ angular.module('myApp.home', ['ngRoute'])
         $scope.pagingAwareCollectionListing = pagingAwareCollectionListing.data;
 
         $scope.$on('onRepeatLast', function(scope, element, attrs){
-                  $( "#selectable" ).selectable(
-                    {
-                          stop: function() {
-                            var result = $( "#select-result" ).empty();
-                            $( ".ui-selected", this ).each(function() {
-                              var index = $( "#selectable li" ).index( this );
-                              result.append( " #" + ( index + 1 ) );
-                            });
-                          }
-                        }
-                    );
+                  $( "#selectable" ).selectable({
+      stop: function() {
+        $('.list_content').removeClass("ui-selected");
+        var result = $( "#select-result" ).empty();
+        $( ".ui-selected", this ).each(function() {
+            var index = $( "#selectable li" ).index( this );
+            result.append( " #" + ( index + 1 ) );
+        });
+      }
+    });
               });
 
         /*

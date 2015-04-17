@@ -34,7 +34,9 @@
 		            <div class="col-xs-8 list_content">
 			            <img ng-show="{{collectionAndDataObject.dataObject}} == false" src="images/collection_icon.png">
 			            <img ng-show="{{collectionAndDataObject.dataObject}} == true" src="images/data_object_icon.png">	          
-		            	<span ng-click="selectVirtualCollection(selectedVc.data.uniqueName,collectionAndDataObject.formattedAbsolutePath)">{{collectionAndDataObject.nodeLabelDisplayValue}}</span>
+		            	<span ng-show="{{collectionAndDataObject.dataObject}} == false" ng-click="selectVirtualCollection(selectedVc.data.uniqueName,collectionAndDataObject.formattedAbsolutePath)">{{collectionAndDataObject.nodeLabelDisplayValue}}</span>
+		            	<span ng-show="{{collectionAndDataObject.dataObject}} == true" ng-click="retrieveDataProfile(collectionAndDataObject.formattedAbsolutePath)">{{collectionAndDataObject.nodeLabelDisplayValue}}</span>
+		            	
 		            </div>
 		            <div class="col-xs-2 list_content text-right">
 		            	<p>{{collectionAndDataObject.modifiedAt}}</p>

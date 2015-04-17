@@ -171,7 +171,7 @@ angular.module('myApp.home', ['ngRoute'])
             $scope.dataProfile = fileService.retrieveDataProfile(irodsAbsolutePath);
 
         }
-
+        
 
 }])
     .factory('virtualCollectionsService', ['$http', '$log','globals', function ($http, $log, globals) {

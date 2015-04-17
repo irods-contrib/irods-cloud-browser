@@ -4,7 +4,7 @@
  */
 
 angular.module('fileModule',[])
-    .factory('fileService', ['$http', '$log', 'globals',function ($http, $log, globals) {
+    .factory('fileService', ['$http', '$log', '$q','globals',function ($http, $log, $q, globals) {
 
 
     var dataProfile = {};

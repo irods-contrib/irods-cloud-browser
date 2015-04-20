@@ -163,14 +163,15 @@ angular.module('myApp.home', ['ngRoute'])
         /*
         Retrieve the data profile for the data object at the given absolute path
          */
-        $scope.selectProfile = function(irodsAbsolutePath) {
-            $log.info("going to Data Profile");
+        $scope.retrieveDataProfile = function(irodsAbsolutePath) {
+            $log.info("retrieveDataProfile()");
             if (!irodsAbsolutePath) {
                 $log.error("missing irodsAbsolutePath")
                 MessageService.danger("missing irodsAbsolutePath");
+                $scope.dataProfile = {};
             }
-            $location.path("/profile/" + irodsAbsolutePath);
-            $location.search("path", path);
+
+            $scope.dataProfile = fileService.retrieveDataProfile(irodsAbsolutePath);
 
         }
 

@@ -53,7 +53,6 @@ time, mark, audio, video {
 }
 .side_nav_options{
 	overflow: hidden;
-	padding: 0px 5px;
 }
 .single_top{
 	margin-top: 20px;
@@ -83,6 +82,13 @@ time, mark, audio, video {
 	float: left;
 	height: 100%;
 	width:80%;
+}
+.full_column{
+	padding: 53px 5px 5px 5px;
+	position: relative;
+	float: left;
+	height: 100%;
+	width:100%;
 }
 .three_column{
 	padding: 53px 5px 5px 5px;
@@ -141,11 +147,21 @@ time, mark, audio, video {
 	height:40px;
 	padding: 7px 2px;
 	white-space: nowrap;
+	cursor: pointer;
+}
+.dark_back_option_double span{
+	padding: 2px 7px;
+	font-size: 14px;
+	position: absolute;
+}
+.dark_back_option_double img{
+	padding: 0px 0px 0px 7px;
 }
 .dark_back_option_double:hover{
 	color:#fff;
 	opacity:1;
 	background: rgba(0,0,0,0.3);
+	cursor: pointer;
 }
 .light_back_option{
 	color:#000;

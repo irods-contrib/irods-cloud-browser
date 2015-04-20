@@ -2,9 +2,9 @@
 <div id="side_nav">
 	<div class="side_nav_toggle_button" ng-click="side_nav_toggle()"><<</div>
 	<ul class="side_nav_options">
-		<li class="dark_back_option_double">Hierarchical Browsing</li>
-		<li class="dark_back_option_double">Focused Browsing</li>
-		<li class="dark_back_option_double">Organic Browsing</li>
+		<li class="dark_back_option_double"><img src="images/hier_browsing_icon.png"><span>Hierarchical Browse</span></li>
+		<li class="dark_back_option_double"><img src="images/focused_browsing_icon.png"><span>Focused Browse</span></li>
+		<li class="dark_back_option_double"><img src="images/organic_browsing_icon.png"><span>Organic Browse</span></li>
 	</ul>
 </div>
 <div id="main_contents"> 
@@ -31,14 +31,14 @@
 			<div class="dark_header"><span>You've selected:</span> <span id="select-result">none</span></div>
 			<ul id="selectable">
 			    <li class="ui-widget-content" ng-class-odd="'light_back_option'" ng-class-even="'light_back_option_even'" ng-repeat="collectionAndDataObject in pagingAwareCollectionListing.collectionAndDataObjectListingEntries" on-last-repeat>
-		            <div class="col-xs-8 list_content">
+		            <div class="col-xs-7 list_content">
 			            <img ng-show="{{collectionAndDataObject.dataObject}} == false" src="images/collection_icon.png">
 			            <img ng-show="{{collectionAndDataObject.dataObject}} == true" src="images/data_object_icon.png">	          
 		            	<span ng-show="{{collectionAndDataObject.dataObject}} == false" ng-click="selectVirtualCollection(selectedVc.data.uniqueName,collectionAndDataObject.formattedAbsolutePath)">{{collectionAndDataObject.nodeLabelDisplayValue}}</span>
-		            	<span ng-show="{{collectionAndDataObject.dataObject}} == true" ng-click="retrieveDataProfile(collectionAndDataObject.formattedAbsolutePath)">{{collectionAndDataObject.nodeLabelDisplayValue}}</span>
+		            	<span ng-show="{{collectionAndDataObject.dataObject}} == true" ng-click="selectProfile(collectionAndDataObject.formattedAbsolutePath)">{{collectionAndDataObject.nodeLabelDisplayValue}}</span>
 		            	
 		            </div>
-		            <div class="col-xs-2 list_content text-right">
+		            <div class="col-xs-3 list_content text-right">
 		            	<p>{{collectionAndDataObject.modifiedAt}}</p>
 		            </div>
 		            <div class="col-xs-2 list_content text-right">
@@ -46,6 +46,7 @@
 		            </div>
 			    </li>
 			</ul>
+			<div>{{dataProfile.$$state.value.childName}}</div>
 		</div>
 	</div>
 </div>

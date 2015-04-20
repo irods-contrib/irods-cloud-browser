@@ -71,6 +71,7 @@ path=subpath if needed
 **Method** GET
 
 ### Parameters
+path=absolute path
 
 ### Response (JSON)
   

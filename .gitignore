@@ -38,3 +38,4 @@ irods-cloud-frontend/node_modules/
 **/.project
 **/.settings
 **/.idea
+**/.pmd

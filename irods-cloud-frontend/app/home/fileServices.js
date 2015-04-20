@@ -24,7 +24,7 @@ angular.module('fileModule',[])
 
             var deferred = $q.defer();
 
-            var promise =  $http({method: 'GET', url: globals.backendUrl('file/') , params: {path: absolutePath}}).success(function(data, status, headers, config) {
+            var promise =  $http({method: 'GET', url: globals.backendUrl('file') , params: {path: absolutePath}}).success(function(data, status, headers, config) {
 
                 deferred.resolve(data);
                 // decorate data with tag string

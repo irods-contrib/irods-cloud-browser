@@ -27,7 +27,10 @@ class AuthenticationFilters {
 
 				log.info("request action:${request.action}")
 
-				if (request.action == "POST") {
+				if (request.action == null) {
+
+					log.info('action is null, treat as get?')
+				} else if (request.action == "POST") {
 
 					def token = session.xsrfToken
 					def headerToken =  null

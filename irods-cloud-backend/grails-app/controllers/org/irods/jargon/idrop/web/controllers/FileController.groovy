@@ -34,6 +34,11 @@ class FileController extends RestfulController {
 	def index() {
 
 		log.info("index")
+		show()
+	}
+
+	def show() {
+		log.info("in show()")
 		def irodsAccount = request.irodsAccount
 		if (!irodsAccount) throw new IllegalStateException("no irodsAccount in request")
 		def path = params.path

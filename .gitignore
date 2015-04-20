@@ -39,3 +39,4 @@ irods-cloud-frontend/node_modules/
 **/.settings
 **/.idea
 **/.pmd
+**/*.log

@@ -170,7 +170,6 @@ angular.module('myApp.home', ['ngRoute'])
                 MessageService.danger("missing irodsAbsolutePath");
             }
             $location.path("/profile/" + irodsAbsolutePath);
-            $location.search("path", path);
 
         }
 

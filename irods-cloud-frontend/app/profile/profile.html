@@ -1,33 +1,3 @@
-  
-<div id="side_nav">
-	<div class="side_nav_toggle_button" ng-click="side_nav_toggle()"><<</div>
-	<ul class="side_nav_options">
-		<li class="dark_back_option_double"><img src="images/hier_browsing_icon.png"><span>Hierarchical Browse</span></li>
-		<li class="dark_back_option_double"><img src="images/focused_browsing_icon.png"><span>Focused Browse</span></li>
-		<li class="dark_back_option_double"><img src="images/organic_browsing_icon.png"><span>Organic Browse</span></li>
-	</ul>
-</div>
-<div id="main_contents"> 
-	<div class="one_column">
-		<div class="column_content">
-			<div class="light_header"><img src="images/saved_search_icon_dark.png"><span>Saved Searches</span></div>
-			<ul >
-			    <li ng-class-odd="'light_back_option'" ng-class-even="'light_back_option_even'" ng-repeat="virtualCollection in virtualCollections" ng-click="selectVirtualCollection(virtualCollection.uniqueName, '')">
-			            <img src="images/saved_search_icon.png"><span>{{virtualCollection.uniqueName}}</span>
-			    </li>
-			</ul>
-		</div>
-	</div>
-	<div class="full_column">
-		<div class="column_content">
-			<div class="dark_header"> 
-				<div id="breadcrumbs_container">
-					<span class="dark_back_option_double" ng-click="goToBreadcrumb($index)" ng-repeat="breadcrumb in getBreadcrumbPaths() track by $id(breadcrumb + $index)">
-						 /{{breadcrumb}} 				
-					</span>
-				</div>				
-			</div>
+
+			<div>This is a test</div>
 			<div>{{dataProfile.$$state.value.childName}}</div>
-		</div>
-	</div>
-</div>

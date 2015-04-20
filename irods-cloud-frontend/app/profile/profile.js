@@ -3,51 +3,23 @@
 angular.module('myApp.profile', ['ngRoute'])
 
 .config(['$routeProvider', function($routeProvider) {
-  $routeProvider.when('/profile/:vpath', {
+  $routeProvider.when('/profile', {
             templateUrl: 'profile/profile.html',
             controller: 'profileCtrl',
             resolve: {
+                dataProfile: function ($route, fileService) {
+
+                    var dataProfile = fileService.retrieveDataProfile($route.current.params.path);
+                    return dataProfile;
+                }
+
             }
-        }).when('/profile', {
-      templateUrl: 'profile/profile.html',
-      controller: 'profileCtrl',
-      resolve: {
-          // set vc name as selected
-          selectedVc: function ($route) {
-
-              return null;
-          },
-          // do a listing
-          pagingAwareCollectionListing: function ($route, collectionsService) {
-              return {};
-          }
-
-      }
-  });
+        });
 }])
 
-    .controller('profileCtrl', ['$scope','$log', '$http', '$location', 'MessageService','globals','breadcrumbsService','virtualCollectionsService','collectionsService','fileService','selectedVc','pagingAwareCollectionListing',function ($scope, $log, $http, $location, MessageService, $globals, breadcrumbsService, $virtualCollectionsService, $collectionsService, fileService, selectedVc, pagingAwareCollectionListing) {
+    .controller('profileCtrl', ['$scope','$log', '$http', '$location', 'MessageService','globals','breadcrumbsService','virtualCollectionsService','collectionsService','fileService','dataProfile',function ($scope, $log, $http, $location, MessageService, $globals, breadcrumbsService, $virtualCollectionsService, $collectionsService, fileService, dataProfile) {
 
-        /*
-        basic scope data for collections and views
-         */
-
-        /*
-        Retrieve the data profile for the data object at the given absolute path
-         */
-        $scope.retrieveDataProfile = function(irodsAbsolutePath) {
-            $log.info("retrieveDataProfile()");
-            if (!irodsAbsolutePath) {
-                $log.error("missing irodsAbsolutePath")
-                MessageService.danger("missing irodsAbsolutePath");
-                $scope.dataProfile = {};
-            }
-
-            $scope.dataProfile = fileService.retrieveDataProfile(irodsAbsolutePath);
-
-        }
-
-        $scope.retrieveDataProfile();
+       $scope.dataProfile = dataProfile;
 
       
 }]);

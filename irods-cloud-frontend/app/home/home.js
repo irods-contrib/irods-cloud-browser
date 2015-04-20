@@ -2,8 +2,8 @@
 
 angular.module('myApp.home', ['ngRoute'])
 
-.config(['$routeProvider', function($routeProvider) {
-  $routeProvider.when('/home/:vcName', {
+    .config(['$routeProvider', function ($routeProvider) {
+        $routeProvider.when('/home/:vcName', {
             templateUrl: 'home/home.html',
             controller: 'homeCtrl',
             resolve: {
@@ -28,58 +28,58 @@ angular.module('myApp.home', ['ngRoute'])
 
             }
         }).when('/home', {
-      templateUrl: 'home/home.html',
-      controller: 'homeCtrl',
-      resolve: {
-          // set vc name as selected
-          selectedVc: function ($route) {
+            templateUrl: 'home/home.html',
+            controller: 'homeCtrl',
+            resolve: {
+                // set vc name as selected
+                selectedVc: function ($route) {
 
-              return null;
-          },
-          // do a listing
-          pagingAwareCollectionListing: function ($route, collectionsService) {
-              return {};
-          }
+                    return null;
+                },
+                // do a listing
+                pagingAwareCollectionListing: function ($route, collectionsService) {
+                    return {};
+                }
 
-      }
-  });
-}])
+            }
+        });
+    }])
 
-.directive('onLastRepeat', function() {
-        return function(scope, element, attrs) {
-            if (scope.$last) setTimeout(function(){
+    .directive('onLastRepeat', function () {
+        return function (scope, element, attrs) {
+            if (scope.$last) setTimeout(function () {
                 scope.$emit('onRepeatLast', element, attrs);
             }, 1);
         };
     })
-    .controller('homeCtrl', ['$scope','$log', '$http', '$location', 'MessageService','globals','breadcrumbsService','virtualCollectionsService','collectionsService','fileService','selectedVc','pagingAwareCollectionListing',function ($scope, $log, $http, $location, MessageService, $globals, breadcrumbsService, $virtualCollectionsService, $collectionsService, fileService, selectedVc, pagingAwareCollectionListing) {
+    .controller('homeCtrl', ['$scope', '$log', '$http', '$location', 'MessageService', 'globals', 'breadcrumbsService', 'virtualCollectionsService', 'collectionsService', 'fileService', 'selectedVc', 'pagingAwareCollectionListing', function ($scope, $log, $http, $location, MessageService, $globals, breadcrumbsService, $virtualCollectionsService, $collectionsService, fileService, selectedVc, pagingAwareCollectionListing) {
 
         /*
-        basic scope data for collections and views
+         basic scope data for collections and views
          */
 
         $scope.selectedVc = selectedVc;
         $scope.pagingAwareCollectionListing = pagingAwareCollectionListing.data;
 
-        $scope.$on('onRepeatLast', function(scope, element, attrs){
-                  $( "#selectable" ).selectable({
-      stop: function() {
-        $('.list_content').removeClass("ui-selected");
-        var result = $( "#select-result" ).empty();
-        $( ".ui-selected", this ).each(function() {
-            var index = $( "#selectable li" ).index( this );
-            result.append( " #" + ( index + 1 ) );
+        $scope.$on('onRepeatLast', function (scope, element, attrs) {
+            $("#selectable").selectable({
+                stop: function () {
+                    $('.list_content').removeClass("ui-selected");
+                    var result = $("#select-result").empty();
+                    $(".ui-selected", this).each(function () {
+                        var index = $("#selectable li").index(this);
+                        result.append(" #" + ( index + 1 ));
+                    });
+                }
+            });
         });
-      }
-    });
-              });
 
         /*
-        Get a default list of the virtual collections that apply to the logged in user, for side nav
+         Get a default list of the virtual collections that apply to the logged in user, for side nav
          */
-        
+
         $scope.listVirtualCollections = function () {
-            
+
             $log.info("getting virtual colls");
 
             return $http({method: 'GET', url: $globals.backendUrl('virtualCollection')}).success(function (data) {
@@ -92,7 +92,7 @@ angular.module('myApp.home', ['ngRoute'])
          * Handle the selection of a virtual collection from the virtual collection list, by causing a route change and updating the selected virtual collection
          * @param vcName
          */
-        $scope.selectVirtualCollection = function (vcName,path) {
+        $scope.selectVirtualCollection = function (vcName, path) {
 
             $log.info("selectVirtualCollection()");
             if (!vcName) {
@@ -135,18 +135,18 @@ angular.module('myApp.home', ['ngRoute'])
 
         };
         var side_nav_toggled = "no";
-        $scope.side_nav_toggle = function () {            
-            if (side_nav_toggled == "no"){
+        $scope.side_nav_toggle = function () {
+            if (side_nav_toggled == "no") {
                 side_nav_toggled = "yes";
-                $('.side_nav_options').animate({'opacity':'0'});
-                $('#side_nav').animate({'width':'3%'});
-                $('#main_contents').animate({'width':'96.9%'});
+                $('.side_nav_options').animate({'opacity': '0'});
+                $('#side_nav').animate({'width': '3%'});
+                $('#main_contents').animate({'width': '96.9%'});
                 $('.side_nav_toggle_button').text('>>');
-            }else if(side_nav_toggled == "yes"){  
-                side_nav_toggled = "no";      
-                $('#main_contents').animate({'width':'81.9%'});
-                $('#side_nav').animate({'width':'18%'});
-                $('.side_nav_options').animate({'opacity':'1'});
+            } else if (side_nav_toggled == "yes") {
+                side_nav_toggled = "no";
+                $('#main_contents').animate({'width': '81.9%'});
+                $('#side_nav').animate({'width': '18%'});
+                $('.side_nav_options').animate({'opacity': '1'});
                 $('.side_nav_toggle_button').text('<<');
             }
         };
@@ -157,38 +157,39 @@ angular.module('myApp.home', ['ngRoute'])
         $scope.listVirtualCollections();
 
 
-
-        
-
         /*
-        Retrieve the data profile for the data object at the given absolute path
+         Retrieve the data profile for the data object at the given absolute path
          */
-        $scope.selectProfile = function(irodsAbsolutePath) {
+        $scope.selectProfile = function (irodsAbsolutePath) {
             $log.info("going to Data Profile");
             if (!irodsAbsolutePath) {
                 $log.error("missing irodsAbsolutePath")
                 MessageService.danger("missing irodsAbsolutePath");
             }
-            $location.path("/profile/" + irodsAbsolutePath);
+            //alert("setting location..");
+            //$location.search(null);
+
+            $location.url("/profile/");
+           $location.search("path", irodsAbsolutePath);
 
         }
 
 
-}])
-    .factory('virtualCollectionsService', ['$http', '$log','globals', function ($http, $log, globals) {
+    }])
+    .factory('virtualCollectionsService', ['$http', '$log', 'globals', function ($http, $log, globals) {
         var virtualCollections = [];
         var virtualCollectionContents = [];
         var selectedVirtualCollection = {};
 
-      return {
+        return {
 
 
             listUserVirtualCollections: function () {
                 $log.info("getting virtual colls");
                 return $http({method: 'GET', url: globals.backendUrl('virtualCollection')}).success(function (data) {
-                   virtualCollections = data;
+                    virtualCollections = data;
                 }).error(function () {
-                   virtualCollections = [];
+                    virtualCollections = [];
                 });
             },
 
@@ -200,7 +201,10 @@ angular.module('myApp.home', ['ngRoute'])
                     return;
                 }
 
-                return $http({method: 'GET', url: globals.backendUrl('virtualCollection/') + vcName}).success(function (data) {
+                return $http({
+                    method: 'GET',
+                    url: globals.backendUrl('virtualCollection/') + vcName
+                }).success(function (data) {
                     virtualCollections = data;
                 }).error(function () {
                     virtualCollections = [];
@@ -218,7 +222,7 @@ angular.module('myApp.home', ['ngRoute'])
 
         return {
 
-            selectVirtualCollection : function(vcName) {
+            selectVirtualCollection: function (vcName) {
                 //alert(vcName);
             },
 
@@ -246,7 +250,11 @@ angular.module('myApp.home', ['ngRoute'])
                 }
 
                 $log.info("requesting vc:" + reqVcName + " and path:" + reqParentPath);
-                return $http({method: 'GET', url: $globals.backendUrl('collection/') + reqVcName, params: {path: reqParentPath, offset: reqOffset }}).success(function (response) {
+                return $http({
+                    method: 'GET',
+                    url: $globals.backendUrl('collection/') + reqVcName,
+                    params: {path: reqParentPath, offset: reqOffset}
+                }).success(function (response) {
                     pagingAwareCollectionListing = response.data;
 
                 }).error(function () {
@@ -255,7 +263,7 @@ angular.module('myApp.home', ['ngRoute'])
                 });
 
             },
-            addNewCollection: function(parentPath, childName) {
+            addNewCollection: function (parentPath, childName) {
                 $log.info("addNewCollection()");
             }
 
@@ -264,7 +272,7 @@ angular.module('myApp.home', ['ngRoute'])
 
 
     }])
-.factory('breadcrumbsService',  function ($rootScope, $log) {
+    .factory('breadcrumbsService', function ($rootScope, $log) {
 
         var bc = {};
 
@@ -282,7 +290,7 @@ angular.module('myApp.home', ['ngRoute'])
         bc.setCurrentAbsolutePath = function (pathIn) {
 
             if (!pathIn) {
-               this.clear();
+                this.clear();
                 return;
             }
 
@@ -298,7 +306,7 @@ angular.module('myApp.home', ['ngRoute'])
          * @param pathIn
          * @returns {*}
          */
-        bc.pathToArray = function(pathIn)  {
+        bc.pathToArray = function (pathIn) {
             if (!pathIn) {
                 $log.info("no pathin");
                 return [];
@@ -312,7 +320,7 @@ angular.module('myApp.home', ['ngRoute'])
                 return [];
             }
 
-           array.shift();
+            array.shift();
             return array;
 
         }
@@ -323,7 +331,7 @@ angular.module('myApp.home', ['ngRoute'])
          * @param index int wiht the index in the breadcrumbs that is the last part of the selected path
          * @returns {string}
          */
-        bc.buildPathUpToIndex = function(index) {
+        bc.buildPathUpToIndex = function (index) {
 
             var path = this.getWholePathComponents();
 
@@ -353,7 +361,7 @@ angular.module('myApp.home', ['ngRoute'])
          * Get all of the path components
          * @returns {*}
          */
-        bc.getWholePathComponents = function() {
+        bc.getWholePathComponents = function () {
 
             if (!this.pathComponents) {
                 return [];
@@ -367,7 +375,7 @@ angular.module('myApp.home', ['ngRoute'])
         /**
          * Reset path data
          */
-        bc.clear = function() {
+        bc.clear = function () {
             this.currentAbsolutePath = null;
             this.pathComponents = [];
         }

@@ -62,12 +62,12 @@ path=subpath if needed
 ### Response (JSON)
  {"class":"org.irods.jargon.core.query.PagingAwareCollectionListing","collectionAndDataObjectListingEntries":[{"class":"org.irods.jargon.core.query.CollectionAndDataObjectListingEntry","collection":true,"count":2,"createdAt":"2014-09-02T12:01:22Z","dataObject":false,"dataSize":0,"description":"","displayDataSize":"0 B","formattedAbsolutePath":"/test1","id":10000,"lastResult":true,"modifiedAt":"2014-09-02T12:01:22Z","nodeLabelDisplayValue":"test1","objectType":{"enumType":"org.irods.jargon.core.query.CollectionAndDataObjectListingEntry$ObjectType","name":"COLLECTION"},"ownerName":"rodsBoot","ownerZone":"test1","parentPath":"/","pathOrName":"/test1","specColType":{"enumType":"org.irods.jargon.core.pub.domain.ObjStat$SpecColType","name":"NORMAL"},"specialObjectPath":"","totalRecords":2,"userFilePermission":[]}],"pagingAwareCollectionListingDescriptor":{"class":"org.irods.jargon.core.query.PagingAwareCollectionListingDescriptor","collectionsComplete":true,"count":2,"dataObjectsComplete":true,"dataObjectsCount":0,"dataObjectsOffset":0,"dataObjectsTotalRecords":0,"objStat":null,"offset":0,"pageSizeUtilized":5000,"pagingStyle":null,"parentAbsolutePath":"/","pathComponents":[],"totalRecords":2}}
  
- 
- 
- # File and Collection details
- 
- ## Get data profile for a particular file or collection
+# File and Collection details
+
+## Get data profile for a particular file or collection
+
 **URL** irods-cloud-backend/file
+
 **Method** GET
 
 ### Parameters

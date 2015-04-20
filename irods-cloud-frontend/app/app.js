@@ -7,6 +7,7 @@ angular.module('myApp', [
      'MessageCenter',// look in components for http interceptor that will trap errors and auth processing
   'myApp.home',
   'myApp.login',
+  'myApp.profile',
   'globalsModule',
   'myApp.version',
     'fileModule'

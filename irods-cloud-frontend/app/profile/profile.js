@@ -1,11 +1,11 @@
 'use strict';
 
-angular.module('myApp.home', ['ngRoute'])
+angular.module('myApp.profile', ['ngRoute'])
 
 .config(['$routeProvider', function($routeProvider) {
-  $routeProvider.when('/home/:vcName', {
-            templateUrl: 'home/home.html',
-            controller: 'homeCtrl',
+  $routeProvider.when('/profile/:vpath', {
+            templateUrl: 'profile/profile.html',
+            controller: 'profileCtrl',
             resolve: {
 
                 // set vc name as selected
@@ -27,9 +27,9 @@ angular.module('myApp.home', ['ngRoute'])
                 }
 
             }
-        }).when('/home', {
-      templateUrl: 'home/home.html',
-      controller: 'homeCtrl',
+        }).when('/profile', {
+      templateUrl: 'profile/profile.html',
+      controller: 'profileCtrl',
       resolve: {
           // set vc name as selected
           selectedVc: function ($route) {
@@ -45,14 +45,7 @@ angular.module('myApp.home', ['ngRoute'])
   });
 }])
 
-.directive('onLastRepeat', function() {
-        return function(scope, element, attrs) {
-            if (scope.$last) setTimeout(function(){
-                scope.$emit('onRepeatLast', element, attrs);
-            }, 1);
-        };
-    })
-    .controller('homeCtrl', ['$scope','$log', '$http', '$location', 'MessageService','globals','breadcrumbsService','virtualCollectionsService','collectionsService','fileService','selectedVc','pagingAwareCollectionListing',function ($scope, $log, $http, $location, MessageService, $globals, breadcrumbsService, $virtualCollectionsService, $collectionsService, fileService, selectedVc, pagingAwareCollectionListing) {
+    .controller('profileCtrl', ['$scope','$log', '$http', '$location', 'MessageService','globals','breadcrumbsService','virtualCollectionsService','collectionsService','fileService','selectedVc','pagingAwareCollectionListing',function ($scope, $log, $http, $location, MessageService, $globals, breadcrumbsService, $virtualCollectionsService, $collectionsService, fileService, selectedVc, pagingAwareCollectionListing) {
 
         /*
         basic scope data for collections and views

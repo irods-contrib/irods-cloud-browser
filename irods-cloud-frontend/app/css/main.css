@@ -17,6 +17,7 @@ time, mark, audio, video {
   font-size: 100%;
   font: sans-serif;
   vertical-align: baseline;
+  list-style: none;
 }
 .light_hr {
 	margin:0px;
@@ -124,6 +125,11 @@ time, mark, audio, video {
 	display:inline-block;
 	float: right;
 }
+#profile_title_container{
+	position:relative;
+	display:inline-block;
+	float: left;
+}
 .list_content{
 	padding: 0px;
 	height:20px;
@@ -131,13 +137,63 @@ time, mark, audio, video {
 .list_content p {
 	padding: 2px 5px;
 }
+.profile_description{
+	position: relative;
+	float: left;
+	border-left: 1px solid #999;
+	padding: 0px 10px;
+	font-size: 12px;
+
+}
+.profile_image{
+	position: relative;
+	float: left;
+	padding: 0px 10px 0px 3px;
+}
+.profile_header{
+	position: relative;
+	display: inline-block;
+	width:100%;
+}
+.profile_body{
+	position: relative;
+	display: inline-block;
+	width:100%;
+}
+.green_toggle_container{
+	background: #00B099;
+	padding: 5px 10px;
+	margin:0px 0px 10px 0px;
+}
+.green_toggle_container_open{
+	border:1px solid #00B099;
+	background: #fff;
+}
+.green_title{
+	color:#fff;
+	height:23px;
+}
+.green_toggle_container_open .green_title{
+	color:#00B099;
+}
+.green_content{
+	display: none;
+	border-top:1px solid #999;
+}
 /* ||||||||||||||||||||||||||||||||||| */
 /* |||||||| POSITIONING STYLES ||||||| */
 /* ||||||||||||||||||||||||||||||||||| */
 .centered{
 	margin: 0 auto;
 }
-
+.right{
+	position: relative;
+	float: right;
+}
+.left{
+	position: relative;
+	float: left;
+}
 /* ||||||||||||||||||||||||||||||||||| */
 /* |||| BUTTONS AND OPTIONS STYLES ||| */
 /* ||||||||||||||||||||||||||||||||||| */
@@ -188,6 +244,17 @@ time, mark, audio, video {
 .light_back_option span, .light_back_option_even span{
 	padding: 2px;
 	position: absolute;
+	cursor: pointer;
+}
+.dark_toggle_button{
+	opacity:0.5;
+	height:22px;
+	width: 30px;
+	cursor: pointer;
+}
+.dark_toggle_button:hover{
+	opacity:1;
+	width: 30px;
 	cursor: pointer;
 }
 .dark_header{

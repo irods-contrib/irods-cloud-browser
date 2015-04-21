@@ -1,7 +1,106 @@
-
-			<div>This is a test</div>
-			<div>{{dataProfile.$$state.value.childName}}</div>
-
-
-            <br>
-            {{dataProfile}}
+  
+<div id="side_nav">
+	<div class="side_nav_toggle_button" ng-click="side_nav_toggle()"><<</div>
+	<ul class="side_nav_options">
+		<li class="dark_back_option_double"><img src="images/hier_browsing_icon.png"><span>Hierarchical Browse</span></li>
+		<li class="dark_back_option_double"><img src="images/focused_browsing_icon.png"><span>Focused Browse</span></li>
+		<li class="dark_back_option_double"><img src="images/organic_browsing_icon.png"><span>Organic Browse</span></li>
+	</ul>
+</div>
+<div id="main_contents"> 
+	<div class="full_column">
+		<div class="column_content">
+			<div class="dark_header"> 
+				<div id="profile_title_container">
+					<span class="dark_back_option_double" ng-click="back_button()">
+						 << Back			
+					</span>
+					<span >
+						 - {{dataProfile.childName}}		
+					</span>
+				</div>				
+			</div>
+			<div class="column_content">
+				<div class="profile_header">
+					<div class="profile_image">
+						<img src="images/data_object_big_icon.png">
+					</div>
+					<div class="profile_description">
+						<ul>
+							<li>
+								<b>Name:&nbsp;</b>{{dataProfile.childName}}
+							</li>
+							<li>
+								<b>Created:&nbsp;</b>{{dataProfile.domainObject.createdAt}}
+							</li>
+							<li>
+								<b>Last Updated:&nbsp;</b>{{dataProfile.domainObject.updatedAt}}
+							</li>
+							<li>
+								<b>Size:&nbsp;</b>{{dataProfile.domainObject.displayDataSize}}
+							</li>
+							<li>
+								<b>Owner:&nbsp;</b>{{dataProfile.domainObject.dataOwnerName}}
+							</li>
+						</ul>
+					</div>
+				</div>
+				<div class="profile_body">
+					<div class="green_toggle_container">
+						<div class="green_title">
+							Actions
+							<div class="dark_toggle_button right" ng-click="green_action_toggle($event)">
+								 <img src="images/arrow_down.png">
+							</div>
+						</div>
+						<div class="green_content">
+							test text<br>
+							test text<br>
+						</div>
+					</div>
+					<div class="green_toggle_container">
+						<div class="green_title">
+							Metadata
+							<div class="dark_toggle_button right" ng-click="green_action_toggle($event)">
+								 <img src="images/arrow_down.png">
+							</div>
+						</div>
+						<div class="green_content">
+							test text<br>
+							test text<br>
+							test text<br>
+							test text<br>
+							test text<br>
+							test text<br>
+							test text<br>
+						</div>
+					</div>
+					<div class="green_toggle_container">
+						<div class="green_title">
+							History
+							<div class="dark_toggle_button right" ng-click="green_action_toggle($event)">
+								 <img src="images/arrow_down.png">
+							</div>
+						</div>
+						<div class="green_content">
+							test text<br>
+							test text<br>
+							test text<br>
+							test text<br>
+							test text<br>
+							test text<br>
+							test text<br>
+							test text<br>
+							test text<br>
+							test text<br>
+							test text<br>
+							test text<br>
+							test text<br>
+							test text<br>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

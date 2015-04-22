@@ -82,6 +82,20 @@ angular.module('myApp.profile', ['ngRoute'])
         $scope.back_button = function (){
           history.go(-1);
         }
-      
-}]);
+
+        /**
+         *
+         */
+        $scope.getBreadcrumbPaths = function () {
+
+            if (!$scope.dataProfile) {
+                return [];
+            }
+
+            breadcrumbsService.setCurrentAbsolutePath($scope.dataProfile.domainObject.absolutePath);
+            return breadcrumbsService.getWholePathComponents();
+        };
+
+
+    }]);
    

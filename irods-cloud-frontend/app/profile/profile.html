@@ -1,6 +1,11 @@
 <div class="pop_up_window">
 	testing this
-</div> 
+</div>
+<div id="breadcrumbs_container">
+					<span class="dark_back_option_double" ng-click="goToBreadcrumb($index)" ng-repeat="breadcrumb in getBreadcrumbPaths() track by $id(breadcrumb + $index)">
+						 /{{breadcrumb}}
+					</span>
+</div>
 <div id="side_nav" ng-mouseover="side_nav_autotoggle('on')" ng-mouseleave="side_nav_autotoggle('off')">
 	<div class="side_nav_toggle_button" ng-click="side_nav_toggle()"><<</div>
 	<ul class="side_nav_options">

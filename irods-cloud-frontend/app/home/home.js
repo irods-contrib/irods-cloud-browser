@@ -134,7 +134,7 @@ angular.module('myApp.home', ['ngRoute'])
             $location.search("path", breadcrumbsService.buildPathUpToIndex(index));
 
         };
-        var side_nav_toggled = "no";
+        var side_nav_toggled = "yes";
         $scope.side_nav_toggle = function () {
             if (side_nav_toggled == "no") {
                 side_nav_toggled = "yes";
@@ -148,6 +148,17 @@ angular.module('myApp.home', ['ngRoute'])
                 $('#side_nav').animate({'width': '18%'});
                 $('.side_nav_options').animate({'opacity': '1'});
                 $('.side_nav_toggle_button').text('<<');
+            }
+        };
+         var toggle_on
+        $scope.side_nav_autotoggle = function (auto_toggle) {
+
+            if ( auto_toggle == 'off' ) {    
+              if(side_nav_toggled == "no"){  
+                toggle_on = setTimeout($scope.side_nav_toggle, 3500);
+              }
+            } else if (auto_toggle == 'on' ) {
+              clearTimeout(toggle_on);
             }
         };
         /**

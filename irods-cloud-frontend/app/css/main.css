@@ -42,7 +42,7 @@ time, mark, audio, video {
 	position:relative;
 	float: left;
 	color:#fff;
-	width:18%;
+	width:3%;
 	padding: 50px 0px 0px 0px;
 }
 .side_nav_toggle_button{
@@ -54,6 +54,7 @@ time, mark, audio, video {
 }
 .side_nav_options{
 	overflow: hidden;
+	opacity: 0;
 }
 .single_top{
 	margin-top: 20px;
@@ -69,6 +70,7 @@ time, mark, audio, video {
 	display: flex;
 	min-height:100vh;
 	padding: 5px;
+	width: 96.9%;
 }
 .main_wrapper{
 	background: #384B50;

@@ -35,7 +35,7 @@ angular.module('myApp.profile', ['ngRoute'])
             });
         };
        $scope.listVirtualCollections();
-       var side_nav_toggled = "no";
+       var side_nav_toggled = "yes";
         $scope.side_nav_toggle = function () {
             if (side_nav_toggled == "no") {
                 side_nav_toggled = "yes";
@@ -52,9 +52,6 @@ angular.module('myApp.profile', ['ngRoute'])
             }
         };
         var toggle_on
-        if(side_nav_toggled == "no"){  
-          toggle_on = setTimeout($scope.side_nav_toggle, 3500);
-        }
         $scope.side_nav_autotoggle = function (auto_toggle) {
 
             if ( auto_toggle == 'off' ) {    
@@ -79,10 +76,6 @@ angular.module('myApp.profile', ['ngRoute'])
           $(container).toggleClass('green_toggle_container_open');
         };
 
-        $scope.back_button = function (){
-          history.go(-1);
-        }
-
         /**
          *
          */
@@ -92,10 +85,25 @@ angular.module('myApp.profile', ['ngRoute'])
                 return [];
             }
 
-            breadcrumbsService.setCurrentAbsolutePath($scope.dataProfile.domainObject.absolutePath);
+            breadcrumbsService.setCurrentAbsolutePath($scope.dataProfile.parentPath);
             return breadcrumbsService.getWholePathComponents();
         };
+        /**
+         * Upon the selection of an element in a breadrumb link, set that as the location of the browser, triggering
+         * a view of that collection
+         * @param index
+         */
+        $scope.goToBreadcrumb = function (index) {
 
+            if (!index) {
+                $log.error("cannot go to breadcrumb, no index");
+                return;
+            }
+
+            $location.path("/home/root");
+            $location.search("path", breadcrumbsService.buildPathUpToIndex(index));
+
+        };
 
     }]);
    

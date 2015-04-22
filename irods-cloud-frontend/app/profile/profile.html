@@ -1,13 +1,9 @@
 <div class="pop_up_window">
 	testing this
 </div>
-<div id="breadcrumbs_container">
-					<span class="dark_back_option_double" ng-click="goToBreadcrumb($index)" ng-repeat="breadcrumb in getBreadcrumbPaths() track by $id(breadcrumb + $index)">
-						 /{{breadcrumb}}
-					</span>
-</div>
+
 <div id="side_nav" ng-mouseover="side_nav_autotoggle('on')" ng-mouseleave="side_nav_autotoggle('off')">
-	<div class="side_nav_toggle_button" ng-click="side_nav_toggle()"><<</div>
+	<div class="side_nav_toggle_button" ng-click="side_nav_toggle()">>></div>
 	<ul class="side_nav_options">
 		<li class="dark_back_option_double" ng-click="pop_up_test()"><img src="images/hier_browsing_icon.png"><span>Hierarchical Browse</span></li>
 		<li class="dark_back_option_double"><img src="images/focused_browsing_icon.png"><span>Focused Browse</span></li>
@@ -18,14 +14,11 @@
 	<div class="full_column">
 		<div class="column_content">
 			<div class="dark_header"> 
-				<div id="profile_title_container">
-					<span class="dark_back_option_double" ng-click="back_button()">
-						 << Back			
+				<div id="breadcrumbs_container">
+					<span class="dark_back_option_double" ng-click="goToBreadcrumb($index)" ng-repeat="breadcrumb in getBreadcrumbPaths() track by $id(breadcrumb + $index)">
+						 /{{breadcrumb}}
 					</span>
-					<span >
-						 - {{dataProfile.childName}}		
-					</span>
-				</div>				
+				</div>			
 			</div>
 			<div class="column_content">
 				<div class="profile_header">

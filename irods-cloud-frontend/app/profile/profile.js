@@ -51,6 +51,27 @@ angular.module('myApp.profile', ['ngRoute'])
                 $('.side_nav_toggle_button').text('<<');
             }
         };
+        var toggle_on
+        if(side_nav_toggled == "no"){  
+          toggle_on = setTimeout($scope.side_nav_toggle, 3500);
+        }
+        $scope.side_nav_autotoggle = function (auto_toggle) {
+
+            if ( auto_toggle == 'off' ) {    
+              if(side_nav_toggled == "no"){  
+                toggle_on = setTimeout($scope.side_nav_toggle, 3500);
+              }
+            } else if (auto_toggle == 'on' ) {
+              clearTimeout(toggle_on);
+            }
+        };
+
+        $scope.pop_up_test = function(){
+          $('.pop_up_window').fadeIn(100,function(){
+            $('.pop_up_window').delay( 8000 ).fadeOut(1000);
+          });
+        };
+
         $scope.green_action_toggle= function($event){
           var content = $event.currentTarget.parentElement.nextElementSibling;
           var container = $event.currentTarget.parentElement.parentElement;

@@ -162,8 +162,8 @@ time, mark, audio, video {
 }
 .green_toggle_container{
 	background: #00B099;
-	padding: 5px 10px;
-	margin:0px 0px 10px 0px;
+	padding: 5px 10px 0px;
+	margin:0px 0px 5px 0px;
 }
 .green_toggle_container_open{
 	border:1px solid #00B099;
@@ -171,7 +171,9 @@ time, mark, audio, video {
 }
 .green_title{
 	color:#fff;
-	height:23px;
+	height:20px;
+	font-size: 14px;
+	line-height: 14px;
 }
 .green_toggle_container_open .green_title{
 	color:#00B099;
@@ -179,6 +181,18 @@ time, mark, audio, video {
 .green_content{
 	display: none;
 	border-top:1px solid #999;
+	font-size: 12px;
+}
+.pop_up_window{
+	position:absolute;
+	margin: 0 auto;
+	width: 100%;
+	height: 100%;
+	display: none;
+	background: rgba(0,0,0,0.6);
+	z-index: 2;
+	color:#fff;
+	font-size: 60px;
 }
 /* ||||||||||||||||||||||||||||||||||| */
 /* |||||||| POSITIONING STYLES ||||||| */
@@ -249,12 +263,12 @@ time, mark, audio, video {
 .dark_toggle_button{
 	opacity:0.5;
 	height:22px;
-	width: 30px;
+	width: 20px;
 	cursor: pointer;
 }
 .dark_toggle_button:hover{
 	opacity:1;
-	width: 30px;
+	width: 20px;
 	cursor: pointer;
 }
 .dark_header{

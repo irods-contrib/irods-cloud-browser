@@ -88,6 +88,13 @@ angular.module('myApp.profile', ['ngRoute'])
             breadcrumbsService.setCurrentAbsolutePath($scope.dataProfile.parentPath);
             return breadcrumbsService.getWholePathComponents();
         };
+
+        $scope.getDownloadLink = function() {
+            return  $globals.backendUrl('download') + "?path=" + $scope.dataProfile.domainObject.absolutePath;
+
+        };
+
+
         /**
          * Upon the selection of an element in a breadrumb link, set that as the location of the browser, triggering
          * a view of that collection

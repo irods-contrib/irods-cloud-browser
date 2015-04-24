@@ -56,7 +56,7 @@ angular.module('myApp.profile', ['ngRoute'])
 
             if ( auto_toggle == 'off' ) {    
               if(side_nav_toggled == "no"){  
-                toggle_on = setTimeout($scope.side_nav_toggle, 3500);
+                toggle_on = setTimeout($scope.side_nav_toggle, 1000);
               }
             } else if (auto_toggle == 'on' ) {
               clearTimeout(toggle_on);

@@ -165,8 +165,17 @@ time, mark, audio, video {
 	background: #00B099;
 	padding: 5px 10px 0px;
 	margin:0px 0px 5px 0px;
+	display: inline-block;
+	width: 100%;
+}
+.green_toggle_container:hover{
+	background: #00917E;
 }
 .green_toggle_container_open{
+	border:1px solid #00B099;
+	background: #fff;
+}
+.green_toggle_container_open:hover{
 	border:1px solid #00B099;
 	background: #fff;
 }
@@ -183,6 +192,7 @@ time, mark, audio, video {
 	display: none;
 	border-top:1px solid #999;
 	font-size: 12px;
+	width: 100%;
 }
 .pop_up_window{
 	position:absolute;
@@ -224,7 +234,18 @@ time, mark, audio, video {
 	width: 1px;
 	height: 1px;
 }
-
+.border_left{
+	border-left: 1px solid #999;
+}
+/* ||||||||||||||||||||||||||||||||||| */
+/* ||||||| BOOTSTRAP RE-STYLING |||||| */
+/* ||||||||||||||||||||||||||||||||||| */
+.list-group{
+	margin: 10px;
+}
+.col-xs-6, .col-xs-4{
+	padding:0px;
+}
 /* ||||||||||||||||||||||||||||||||||| */
 /* |||||||| POSITIONING STYLES ||||||| */
 /* ||||||||||||||||||||||||||||||||||| */

@@ -2,7 +2,7 @@
 <div id="side_nav" ng-mouseover="side_nav_autotoggle('on')" ng-mouseleave="side_nav_autotoggle('off')">
 	<div class="side_nav_toggle_button" ng-click="side_nav_toggle()">>></div>
 	<ul class="side_nav_options">
-		<li class="dark_back_option_double"><img src="images/hier_browsing_icon.png"><span>Hierarchical Browse</span></li>
+		<li class="dark_back_option_double"><img src="images/hier_browsing_icon.png"><span ng-click='getDownloadLink()'>Hierarchical Browse</span></li>
 		<li class="dark_back_option_double"><img src="images/focused_browsing_icon.png"><span>Focused Browse</span></li>
 		<li class="dark_back_option_double"><img src="images/organic_browsing_icon.png"><span>Organic Browse</span></li>
 	</ul>
@@ -34,8 +34,8 @@
 		            <div class="col-xs-7 list_content">
 			            <img ng-show="{{collectionAndDataObject.dataObject}} == false" src="images/collection_icon.png">
 			            <img ng-show="{{collectionAndDataObject.dataObject}} == true" src="images/data_object_icon.png">	          
-		            	<span ng-show="{{collectionAndDataObject.dataObject}} == false" ng-click="selectVirtualCollection(selectedVc.data.uniqueName,collectionAndDataObject.formattedAbsolutePath)">{{collectionAndDataObject.nodeLabelDisplayValue}}</span>
-		            	<span ng-show="{{collectionAndDataObject.dataObject}} == true" ng-click="selectProfile(collectionAndDataObject.formattedAbsolutePath)">{{collectionAndDataObject.nodeLabelDisplayValue}}</span>
+		            	<span ng-show="{{collectionAndDataObject.dataObject}} == false" id='{{collectionAndDataObject.formattedAbsolutePath}}' ng-click="selectVirtualCollection(selectedVc.data.uniqueName,collectionAndDataObject.formattedAbsolutePath)">{{collectionAndDataObject.nodeLabelDisplayValue}}</span>
+		            	<span ng-show="{{collectionAndDataObject.dataObject}} == true" id='{{collectionAndDataObject.formattedAbsolutePath}}' ng-click="selectProfile(collectionAndDataObject.formattedAbsolutePath)">{{collectionAndDataObject.nodeLabelDisplayValue}}</span>
 		            	
 		            </div>
 		            <div class="col-xs-3 list_content text-right">

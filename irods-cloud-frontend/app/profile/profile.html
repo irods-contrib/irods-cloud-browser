@@ -20,9 +20,6 @@
 					</span>
 				</div>			
 			</div>
-            <div class="column_content">
-                temporary link <a href="{{getDownloadLink()}}" target="_blank">here</a>
-            </div>
 			<div class="column_content">
 				<div class="profile_header">
 					<div class="profile_image">
@@ -50,9 +47,9 @@
 				</div>
 				<div class="profile_body">
 					<div class="green_toggle_container">
-						<div class="green_title">
+						<div class="green_title" ng-click="green_action_toggle($event)">
 							Description
-							<div class="dark_toggle_button right" ng-click="green_action_toggle($event)">
+							<div class="dark_toggle_button right" >
 								 <img src="images/arrow_down.png">
 							</div>
 						</div>
@@ -62,21 +59,36 @@
 						</div>
 					</div>
 					<div class="green_toggle_container">
-						<div class="green_title">
+						<div class="green_title" ng-click="green_action_toggle($event)">
 							Actions
-							<div class="dark_toggle_button right" ng-click="green_action_toggle($event)">
+							<div class="dark_toggle_button right">
 								 <img src="images/arrow_down.png">
 							</div>
 						</div>
 						<div class="green_content">
-							test text<br>
-							test text<br>
+							<div class="col-xs-4 ">								
+								<ul class="list-group">
+									<li class="list-group-item disabled">
+										<h2>System Actions</h2>
+									</li>
+									<li class="list-group-item">
+										<a class='btn btn-default btn-xs' href='{{getDownloadLink()}}'>Download</a>
+									</li>
+								</ul>
+							</div>
+							<div class="col-xs-4 ">
+								<ul class="list-group">
+									<li class="list-group-item disabled">
+										<h2>File Type Actions</h2>
+									</li>
+								</ul>
+							</div>
 						</div>
 					</div>
 					<div class="green_toggle_container">
-						<div class="green_title">
+						<div class="green_title" ng-click="green_action_toggle($event)">
 							Metadata
-							<div class="dark_toggle_button right" ng-click="green_action_toggle($event)">
+							<div class="dark_toggle_button right" >
 								 <img src="images/arrow_down.png">
 							</div>
 						</div>
@@ -91,9 +103,9 @@
 						</div>
 					</div>
 					<div class="green_toggle_container">
-						<div class="green_title">
+						<div class="green_title" ng-click="green_action_toggle($event)">
 							History
-							<div class="dark_toggle_button right" ng-click="green_action_toggle($event)">
+							<div class="dark_toggle_button right">
 								 <img src="images/arrow_down.png">
 							</div>
 						</div>

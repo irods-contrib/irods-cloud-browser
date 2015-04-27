@@ -117,7 +117,19 @@ angular.module('myApp.home', ['ngRoute'])
             breadcrumbsService.setCurrentAbsolutePath($scope.pagingAwareCollectionListing.pagingAwareCollectionListingDescriptor.parentAbsolutePath);
             return breadcrumbsService.getWholePathComponents();
         };
-
+        var download_path
+        $scope.getDownloadLink = function() {
+            $('.list_content').removeClass("ui-selected");
+            var links = $('.ui-selected *');
+            links.each(function(){
+                if($(this).children('span').attr('id') != undefined ){
+                    var download_path = $(this).children('span').attr('id');
+                    return $globals.backendUrl('download') + "?path=" + download_path;
+                };
+            });
+          };
+          
+            
         /**
          * Upon the selection of an element in a breadrumb link, set that as the location of the browser, triggering
          * a view of that collection

@@ -129,11 +129,10 @@ angular.module('myApp.home', ['ngRoute'])
             });
           };
         $scope.trigger_download = function(element){
-            // return $globals.backendUrl('download') + "?path=" + element;
+            //return $http({method:'POST', url: $globals.backendUrl('download') + "?path=" + element, headers:});
             window.open($globals.backendUrl('download') + "?path=" + element);
         };
-          
-            
+    
         /**
          * Upon the selection of an element in a breadrumb link, set that as the location of the browser, triggering
          * a view of that collection

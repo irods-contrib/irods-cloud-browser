@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('myApp.home', ['ngRoute'])
+angular.module('myApp.home', ['ngRoute'], ['ngFileUpload'])
 
     .config(['$routeProvider', function ($routeProvider) {
         $routeProvider.when('/home/:vcName', {
@@ -52,7 +52,7 @@ angular.module('myApp.home', ['ngRoute'])
             }, 1);
         };
     })
-    .controller('homeCtrl', ['$scope', '$log', '$http', '$location', 'MessageService', 'globals', 'breadcrumbsService', 'virtualCollectionsService', 'collectionsService', 'fileService', 'selectedVc', 'pagingAwareCollectionListing', function ($scope, $log, $http, $location, MessageService, $globals, breadcrumbsService, $virtualCollectionsService, $collectionsService, fileService, selectedVc, pagingAwareCollectionListing) {
+    .controller('homeCtrl', ['$scope', 'Upload', '$log', '$http', '$location', 'MessageService', 'globals', 'breadcrumbsService', 'virtualCollectionsService', 'collectionsService', 'fileService', 'selectedVc', 'pagingAwareCollectionListing', function ($scope, Upload, $log, $http, $location, MessageService, $globals, breadcrumbsService, $virtualCollectionsService, $collectionsService, fileService, selectedVc, pagingAwareCollectionListing) {
 
         /*
          basic scope data for collections and views
@@ -73,7 +73,26 @@ angular.module('myApp.home', ['ngRoute'])
                 }
             });
         });
-
+        $scope.$watch('files', function () {
+                $scope.upload($scope.files);
+            });
+        $scope.upload = function (files) {
+                if (files && files.length) {
+                    for (var i = 0; i < files.length; i++) {
+                        var file = files[i];
+                        Upload.upload({
+                            url: 'upload/url',
+                            fields: {'username': $scope.username},
+                            file: file
+                        }).progress(function (evt) {
+                            var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
+                            console.log('progress: ' + progressPercentage + '% ' + evt.config.file.name);
+                        }).success(function (data, status, headers, config) {
+                            console.log('file ' + config.file.name + 'uploaded. Response: ' + data);
+                        });
+                    }
+                }
+            };
         /*
          Get a default list of the virtual collections that apply to the logged in user, for side nav
          */

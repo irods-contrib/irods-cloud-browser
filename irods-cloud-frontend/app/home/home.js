@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('myApp.home', ['ngRoute'], ['ngFileUpload'])
+angular.module('myApp.home', ['ngRoute','ngFileUpload'])
 
     .config(['$routeProvider', function ($routeProvider) {
         $routeProvider.when('/home/:vcName', {

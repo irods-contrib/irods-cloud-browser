@@ -82,7 +82,7 @@ angular.module('myApp.home', ['ngRoute','ngFileUpload'])
                         var file = files[i];
                         Upload.upload({
                             url: $globals.backendUrl('file') ,
-                            data: $.param({collectionParentName: "/tempZone/home/alice"}),
+                            fields:{collectionParentName: $scope.pagingAwareCollectionListing.pagingAwareCollectionListingDescriptor.parentAbsolutePath},
                             file: file
                         }).progress(function (evt) {
                             var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);

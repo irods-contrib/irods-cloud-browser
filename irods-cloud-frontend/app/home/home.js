@@ -76,20 +76,21 @@ angular.module('myApp.home', ['ngRoute','ngFileUpload'])
         $scope.$watch('files', function () {
                 $scope.upload($scope.files);
             });
+        $scope.multiple = true;
         $scope.upload = function (files) {
                 if (files && files.length) {
                     for (var i = 0; i < files.length; i++) {
                         var file = files[i];
                         Upload.upload({
                             url: $globals.backendUrl('file') ,
-                            headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-                            data: $.param({'collectionParentName': "/tempZone/home/alice"}),
+                            fields:{collectionParentName: $scope.pagingAwareCollectionListing.pagingAwareCollectionListingDescriptor.parentAbsolutePath},
                             file: file
                         }).progress(function (evt) {
                             var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
                             console.log('progress: ' + progressPercentage + '% ' + evt.config.file.name);
                         }).success(function (data, status, headers, config) {
                             console.log('file ' + config.file.name + 'uploaded. Response: ' + data);
+                            $scope.pagingAwareCollectionListing = $collectionsService.listCollectionContents(selectedVc.data.uniqueName, $scope.pagingAwareCollectionListing, 0);
                         });
                     }
                 }

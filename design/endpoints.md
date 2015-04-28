@@ -76,3 +76,16 @@ path=absolute path
 ### Response (JSON)
  
   {"acls":[{"class":"org.irods.jargon.core.pub.domain.UserFilePermission","filePermissionEnum":{"enumType":"org.irods.jargon.core.protovalues.FilePermissionEnum","name":"OWN"},"nameWithZone":"test1#fedZone1","userId":"10012","userName":"test1","userType":{"enumType":"org.irods.jargon.core.protovalues.UserTypeEnum","name":"RODS_ADMIN"},"userZone":"fedZone1"}],"childName":"metadata avu.tiff","class":"org.irods.jargon.dataprofile.DataProfile","domainObject":{"absolutePath":"/fedZone1/home/test1/testing/hive screen caps/metadata avu.tiff","checksum":"sha2:692IQlC7jMnbkJ0pTcKMezBGst9YezDW3SAEFwDqv9M=","class":"org.irods.jargon.core.pub.domain.DataObject","collectionId":28033,"collectionName":"/fedZone1/home/test1/testing/hive screen caps","comments":"","count":1,"createdAt":"2015-04-18T05:06:48Z","dataMapId":0,"dataName":"metadata avu.tiff","dataOwnerName":"test1","dataOwnerZone":"fedZone1","dataPath":"/var/lib/irods/Vault1/home/test1/testing/hive screen caps/metadata avu.tiff","dataReplicationNumber":0,"dataSize":140832,"dataStatus":"","dataTypeName":"generic","dataVersion":0,"displayDataSize":"137 KB","expiry":"","id":28036,"lastResult":true,"objectPath":"","replicationStatus":"1","resourceGroupName":"test1-resc","resourceName":"test1-resc","specColType":{"enumType":"org.irods.jargon.core.pub.domain.ObjStat$SpecColType","name":"NORMAL"},"totalRecords":0,"updatedAt":"2015-04-18T05:06:48Z"},"file":true,"irodsTagValues":[],"metadata":[],"mimeType":"image/tiff","parentPath":"/fedZone1/home/test1/testing/hive screen caps","pathComponents":["","fedZone1","home","test1","testing","hive screen caps","metadata avu.tiff"],"shared":false,"starred":false}
+  
+  
+  
+# File Actions
+
+## Upload a file
+
+**URL** irods-cloud-backend/file
+
+**Method** POST
+
+### Parameters
+_collectionParentName:_ path of parent collection in iRODS 

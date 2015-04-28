@@ -124,10 +124,14 @@ angular.module('myApp.home', ['ngRoute'])
             links.each(function(){
                 if($(this).children('span').attr('id') != undefined ){
                     var download_path = $(this).children('span').attr('id');
-                    return $globals.backendUrl('download') + "?path=" + download_path;
+                    $scope.trigger_download(download_path);
                 };
             });
           };
+        $scope.trigger_download = function(element){
+            // return $globals.backendUrl('download') + "?path=" + element;
+            window.open($globals.backendUrl('download') + "?path=" + element);
+        };
           
             
         /**

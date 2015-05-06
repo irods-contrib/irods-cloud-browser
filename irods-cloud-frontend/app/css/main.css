@@ -82,28 +82,24 @@ time, mark, audio, video {
 	padding: 53px 5px 5px 5px;
 	position: relative;
 	float: left;
-	height: 100%;
 	width:80%;
 }
 .full_column{
 	padding: 53px 5px 5px 5px;
 	position: relative;
 	float: left;
-	height: 100%;
 	width:100%;
 }
 .three_column{
 	padding: 53px 5px 5px 5px;
 	position: relative;
 	float: left;
-	height: 100%;
 	width:60%;
 }
 .one_column{
 	padding: 53px 5px 5px 5px;
 	position: relative;
 	float: left;
-	height: 100%;
 	width: 20%;
 }
 .main_content{
@@ -124,7 +120,43 @@ time, mark, audio, video {
 #breadcrumbs_container{
 	position:relative;
 	display:inline-block;
+	float: left;
+	width: 100%;
+}
+.upload_button{
+	position:relative;
+	display:inline-block;
 	float: right;
+	opacity: 0.5;
+	width: 30px;
+	text-align: center;
+	height: 21px;
+	float:right;
+	margin: 0px 5px;
+}
+.upload_container_result{
+	display: none;
+}
+.upload_button:hover{
+	background: rgba(0,0,0,0.2);
+	opacity:1;
+}
+.drop_box{
+	position: relative;
+	width: 100%;
+	border: 2px solid #00B099;
+	margin: 10px 0px;
+	height:170px;
+	text-align: center;
+	vertical-align: middle;
+	color:#dddddd;
+	font-size: 30px;
+}
+.pop_up_close_button{
+	opacity: 0.5;
+}
+.pop_up_close_button:hover{
+	opacity: 1;
 }
 #profile_title_container{
 	position:relative;
@@ -200,10 +232,8 @@ time, mark, audio, video {
 	width: 100%;
 	height: 100%;
 	display: none;
-	background: rgba(0,0,0,0.6);
+	background: rgba(0,0,0,0.8);
 	z-index: 2;
-	color:#fff;
-	font-size: 60px;
 }
 .intro_screen{
 	 position: absolute;
@@ -251,6 +281,7 @@ time, mark, audio, video {
 /* ||||||||||||||||||||||||||||||||||| */
 .centered{
 	margin: 0 auto;
+	float:none;
 }
 .right{
 	position: relative;

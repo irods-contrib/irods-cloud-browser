@@ -66,10 +66,19 @@ angular.module('myApp.home', ['ngRoute','ngFileUpload'])
                 stop: function () {
                     $('.list_content').removeClass("ui-selected");
                     var result = $("#select-result").empty();
-                    $(".ui-selected", this).each(function () {
-                        var index = $("#selectable li").index(this);
-                        result.append(" #" + ( index + 1 ));
-                    });
+                    // $(".ui-selected", this).each(function () {
+                    //     var index = $("#selectable li").index(this);
+                    //     if(index == 0 || index == -1 ){
+                    //     }else{
+                    //         result.append(" #" + ( index + 1 )); 
+                    //     }                       
+                    // });
+                    if($(".ui-selected").length > 1){
+                        result.append($('.ui-selected').length+" files"); 
+                    }else if ($(".ui-selected").length == 1){
+                        var name_of_selection = $('.ui-selected').children('.list_content').children('.data_object').text();
+                        result.append(name_of_selection); 
+                    }
                 }
             });
         });
@@ -79,18 +88,24 @@ angular.module('myApp.home', ['ngRoute','ngFileUpload'])
         $scope.multiple = true;
         $scope.upload = function (files) {
                 if (files && files.length) {
-                    for (var i = 0; i < files.length; i++) {
+                    $(".upload_container").css('display','none');
+                    $(".upload_container_result").css('display','block');
+                    for (var i = 0; i < files.length; i++) {                                                                
                         var file = files[i];
+                        if(i%2 != 0)  {
+                            $(".upload_container_result ul").append('<li id="uploading_item_'+i+'" class="light_back_option"><div class="col-xs-7 list_content"><img src="images/data_object_icon.png">'+file.name+'</div></li>');
+                        }else{
+                            $(".upload_container_result ul").append('<li id="uploading_item_'+i+'" class="light_back_option_even"><div class="col-xs-7 list_content"><img src="images/data_object_icon.png">'+file.name+'</div></li>');
+                        };                           
                         Upload.upload({
                             url: $globals.backendUrl('file') ,
                             fields:{collectionParentName: $scope.pagingAwareCollectionListing.pagingAwareCollectionListingDescriptor.parentAbsolutePath},
                             file: file
-                        }).progress(function (evt) {
-                            var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
-                            console.log('progress: ' + progressPercentage + '% ' + evt.config.file.name);
-                        }).success(function (data, status, headers, config) {
+                        }).progress(function (evt) {                            
+                            var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);                           
+                }).success(function (data, status, headers, config) {
                             console.log('file ' + config.file.name + 'uploaded. Response: ' + data);
-                            $scope.pagingAwareCollectionListing = $collectionsService.listCollectionContents(selectedVc.data.uniqueName, $scope.pagingAwareCollectionListing, 0);
+                            $scope.selectVirtualCollection(selectedVc.data.uniqueName, $scope.pagingAwareCollectionListing.pagingAwareCollectionListingDescriptor.parentAbsolutePath);
                         });
                     }
                 }
@@ -139,16 +154,36 @@ angular.module('myApp.home', ['ngRoute','ngFileUpload'])
             return breadcrumbsService.getWholePathComponents();
         };
         var download_path
+        $scope.current_collection_index = $scope.pagingAwareCollectionListing.pagingAwareCollectionListingDescriptor.pathComponents.length-1;
         $scope.getDownloadLink = function() {
             $('.list_content').removeClass("ui-selected");
+            if ($(".data_false")[0]){
+                alert("You can't download an entire collection through this web interface, please use the iRODS desktop application for bulk downloads");
+            }
+            $('.data_false').removeClass("ui-selected");
             var links = $('.ui-selected *');
+            $log.info(links);
             links.each(function(){
                 if($(this).children('span').attr('id') != undefined ){
                     var download_path = $(this).children('span').attr('id');
+                    $log.info(download_path);
                     $scope.trigger_download(download_path);
                 };
             });
           };
+
+        $scope.pop_up_test = function(){
+            $('.pop_up_window').fadeIn(100);
+        };
+        $scope.pop_up_close = function(){
+            $('.pop_up_window').fadeOut(100, function(){
+                $(".upload_container").css('display','block');
+                $(".upload_container_result").html('<ul></ul>');
+                $(".upload_container_result").css('display','none');
+                location.reload();
+            });
+            
+        };
         $scope.trigger_download = function(element){
             //return $http({method:'POST', url: $globals.backendUrl('download') + "?path=" + element, headers:});
             window.open($globals.backendUrl('download') + "?path=" + element);

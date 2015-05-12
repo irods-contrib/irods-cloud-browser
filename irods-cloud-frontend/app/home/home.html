@@ -2,17 +2,27 @@
 	<div class="three_column centered">
 		<div class="column_content">
 			<div class="light_header"><img src="images/upload_icon_dark.png"><span>Uploading files to {{pagingAwareCollectionListing.pagingAwareCollectionListingDescriptor.pathComponents[current_collection_index]}}</span><img class="pop_up_close_button right" title="close window" ng-click="pop_up_close()" src="images/close_icon.png"></div>
-			<br>
+			
 			<div class="upload_container">
+				<br>
 				Choose the file(s) you wish to upload to <b>THIS</b> collection.<br>
 				<div class="btn btn-default btn-xs" ngf-select ngf-change="upload($files)" ngf-multiple="multiple">Browse Files</div> or Drag & Drop the file(s) into the green window <b>BELOW</b>.<br>
 				<div ngf-drop ngf-select ng-model="files" class="drop_box" 
-        ngf-drag-over-class="dragover" ngf-multiple="true" ngf-allow-dir="true"
-        accept="image/*,application/pdf"><br>Drag and drop files here.</div>
-        <div ngf-no-file-drop>File Drag/Drop is not supported for this browser</div>
+		        ngf-drag-over-class="dragover" ngf-multiple="true" ngf-allow-dir="true"
+		        accept="image/*,application/pdf"><br>Drag and drop files here.</div>
 			</div>
 			<div class="upload_container_result">
 				<ul></ul>
+				<div class="container"><hr class="hr_flat"></div>
+				<div class="right container t_right">
+					<div class="btn btn-success" ng-click="pop_up_close()">Done</div>
+				</div>
+				<div class="container"><hr class="hr_flat"></div>
+				<div class="container">You can also&nbsp;<div class="btn btn-default btn-xs" ngf-select ngf-change="upload($files)" ngf-multiple="multiple">Browse More Files</div> or Drag & Drop the file(s) into the window <b>BELOW</b>.<br>
+				<div ngf-drop ngf-select ng-model="files" class="drop_box" 
+		        ngf-drag-over-class="dragover" ngf-multiple="true" ngf-allow-dir="true"
+		        accept="image/*,application/pdf"><br>Drag and drop files here.</div>
+				</div>
 			</div>
 			
 			
@@ -22,7 +32,7 @@
 <div id="side_nav" ng-mouseover="side_nav_autotoggle('on')" ng-mouseleave="side_nav_autotoggle('off')">
 	<div class="side_nav_toggle_button" ng-click="side_nav_toggle()">>></div>
 	<ul class="side_nav_options">
-		<li class="dark_back_option_double"><img src="images/hier_browsing_icon.png"><span ng-click='getDownloadLink()'>Hierarchical Browse</span></li>
+		<li class="dark_back_option_double"><img src="images/hier_browsing_icon.png"><span>Hierarchical Browse</span></li>
 		<li class="dark_back_option_double"><img src="images/focused_browsing_icon.png"><span>Focused Browse</span></li>
 		<li class="dark_back_option_double"><img src="images/organic_browsing_icon.png"><span>Organic Browse</span></li>
 	</ul>
@@ -45,13 +55,23 @@
 					<span class="dark_back_option_double" ng-click="goToBreadcrumb($index)" ng-repeat="breadcrumb in getBreadcrumbPaths() track by $id(breadcrumb + $index)">
 						 /{{breadcrumb}} 				
 					</span>
-					<div class="upload_button" title="Upload files to this collection" ng-click="pop_up_test()"> 
-						<img src="images/upload_icon.png">			
+					<div class="right">
+						<div class="upload_button" title="Upload files to this collection" ng-click="pop_up_test()"> 
+							<img src="images/upload_icon.png"><span>&nbsp;Upload</span>	
+						</div>
 					</div>
 				</div>				
 			</div>
 			<hr class="light_hr">
-			<div class="dark_header"><span>You've selected:</span> <span id="select-result">none</span></div>
+			<div class="dark_header">
+				<span>You've selected:</span>
+				<span id="select-result">none</span>
+				<div class="right">
+					<div class="download_button" title="Download selected file(s) " ng-click='getDownloadLink()' > 
+						<img src="images/download_icon.png"><span>&nbsp;Download</span>	
+					</div>
+				</div>
+			</div>
 			<ul id="selectable">
 			    <li class="ui-widget-content data_{{collectionAndDataObject.dataObject}}" ng-class-odd="'light_back_option'" ng-class-even="'light_back_option_even'" ng-repeat="collectionAndDataObject in pagingAwareCollectionListing.collectionAndDataObjectListingEntries" on-last-repeat>
 		            <div class="col-xs-7 list_content">

@@ -16,7 +16,6 @@ time, mark, audio, video {
   border: 0;
   font-size: 100%;
   font: sans-serif;
-  vertical-align: baseline;
   list-style: none;
 }
 .light_hr {
@@ -128,7 +127,10 @@ time, mark, audio, video {
 	display:inline-block;
 	float: right;
 	opacity: 0.5;
-	width: 30px;
+	width: 70px;
+	font-size: 12px;
+	font-weight: lighter;
+	text-align: center;
 	text-align: center;
 	height: 21px;
 	float:right;
@@ -138,6 +140,23 @@ time, mark, audio, video {
 	display: none;
 }
 .upload_button:hover{
+	background: rgba(0,0,0,0.2);
+	opacity:1;
+}
+.download_button{
+	position:relative;
+	display:none;
+	float: right;
+	opacity: 0.5;
+	width: 85px;
+	font-size: 12px;
+	font-weight: lighter;
+	text-align: center;
+	height: 21px;
+	float:right;
+	margin: 0px 5px;
+}
+.download_button:hover{
 	background: rgba(0,0,0,0.2);
 	opacity:1;
 }
@@ -276,6 +295,7 @@ time, mark, audio, video {
 .col-xs-6, .col-xs-4{
 	padding:0px;
 }
+
 /* ||||||||||||||||||||||||||||||||||| */
 /* |||||||| POSITIONING STYLES ||||||| */
 /* ||||||||||||||||||||||||||||||||||| */
@@ -291,6 +311,17 @@ time, mark, audio, video {
 	position: relative;
 	float: left;
 }
+.container{
+	width: 100%;
+	padding: 10px 0px 0px 0px;
+	display: inline-block;
+}
+.t_right{
+	text-align: right;
+}
+.hr_flat{
+	margin: 0px;
+}
 /* ||||||||||||||||||||||||||||||||||| */
 /* |||| BUTTONS AND OPTIONS STYLES ||| */
 /* ||||||||||||||||||||||||||||||||||| */
@@ -299,6 +330,7 @@ time, mark, audio, video {
 	opacity:0.5;
 	height:40px;
 	padding: 7px 2px;
+	border-bottom: 1px solid rgba(255,255,255,0.2);
 	white-space: nowrap;
 	cursor: pointer;
 }

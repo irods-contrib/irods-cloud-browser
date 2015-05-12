@@ -75,9 +75,13 @@ angular.module('myApp.home', ['ngRoute','ngFileUpload'])
                     // });
                     if($(".ui-selected").length > 1){
                         result.append($('.ui-selected').length+" files"); 
+                        $(".download_button").fadeIn();
                     }else if ($(".ui-selected").length == 1){
                         var name_of_selection = $('.ui-selected').children('.list_content').children('.data_object').text();
                         result.append(name_of_selection); 
+                        $(".download_button").fadeIn();
+                    }else if($(".ui-selected").length == 0){
+                        $(".download_button").fadeOut();
                     }
                 }
             });
@@ -90,22 +94,23 @@ angular.module('myApp.home', ['ngRoute','ngFileUpload'])
                 if (files && files.length) {
                     $(".upload_container").css('display','none');
                     $(".upload_container_result").css('display','block');
+
                     for (var i = 0; i < files.length; i++) {                                                                
                         var file = files[i];
-                        if(i%2 != 0)  {
-                            $(".upload_container_result ul").append('<li id="uploading_item_'+i+'" class="light_back_option"><div class="col-xs-7 list_content"><img src="images/data_object_icon.png">'+file.name+'</div></li>');
-                        }else{
+                        
                             $(".upload_container_result ul").append('<li id="uploading_item_'+i+'" class="light_back_option_even"><div class="col-xs-7 list_content"><img src="images/data_object_icon.png">'+file.name+'</div></li>');
-                        };                           
+                                                 
                         Upload.upload({
                             url: $globals.backendUrl('file') ,
                             fields:{collectionParentName: $scope.pagingAwareCollectionListing.pagingAwareCollectionListingDescriptor.parentAbsolutePath},
                             file: file
                         }).progress(function (evt) {                            
-                            var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);                           
+                            var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
+                            $log.info(progressPercentage);                           
                 }).success(function (data, status, headers, config) {
                             console.log('file ' + config.file.name + 'uploaded. Response: ' + data);
                             $scope.selectVirtualCollection(selectedVc.data.uniqueName, $scope.pagingAwareCollectionListing.pagingAwareCollectionListingDescriptor.parentAbsolutePath);
+
                         });
                     }
                 }
@@ -166,7 +171,6 @@ angular.module('myApp.home', ['ngRoute','ngFileUpload'])
             links.each(function(){
                 if($(this).children('span').attr('id') != undefined ){
                     var download_path = $(this).children('span').attr('id');
-                    $log.info(download_path);
                     $scope.trigger_download(download_path);
                 };
             });

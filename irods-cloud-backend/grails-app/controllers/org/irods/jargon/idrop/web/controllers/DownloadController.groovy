@@ -7,6 +7,8 @@ import org.irods.jargon.core.pub.IRODSAccessObjectFactory
 import org.irods.jargon.core.pub.Stream2StreamAO
 import org.irods.jargon.core.pub.io.IRODSFile
 import org.irods.jargon.core.pub.io.IRODSFileFactory
+import org.irods.jargon.core.pub.io.IRODSFileInputStream
+import org.irods.jargon.idrop.web.services.FileService
 import org.irods.jargon.idrop.web.services.JargonServiceFactoryService
 
 class DownloadController extends RestfulController {
@@ -14,6 +16,7 @@ class DownloadController extends RestfulController {
 	static responseFormats = ['json']
 	IRODSAccessObjectFactory irodsAccessObjectFactory
 	JargonServiceFactoryService jargonServiceFactoryService
+	FileService fileService
 
 	/**
 	 * Download a file from iRODS
@@ -33,7 +36,7 @@ class DownloadController extends RestfulController {
 
 		IRODSFileFactory irodsFileFactory = irodsAccessObjectFactory.getIRODSFileFactory(irodsAccount)
 
-		InputStream irodsFileInputStream = null
+		//InputStream irodsFileInputStream = null
 		if (path instanceof String[]) {
 			log.info("multiple paths, create a zip")
 		} else {
@@ -41,7 +44,7 @@ class DownloadController extends RestfulController {
 		}
 
 
-		//IRODSFileInputStream irodsFileInputStream = irodsFileFactory.instanceIRODSFileInputStream(path)
+		IRODSFileInputStream irodsFileInputStream = irodsFileFactory.instanceIRODSFileInputStream(path)
 		IRODSFile irodsFile = irodsFileFactory.instanceIRODSFile(path)
 		def length =  irodsFile.length()
 		def name = irodsFile.getName()

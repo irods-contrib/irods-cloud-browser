@@ -17,7 +17,7 @@ angular.module('myApp.profile', ['ngRoute'])
         });
 }])
 
-    .controller('profileCtrl', ['$scope','$log', '$http', '$location', 'MessageService','globals','breadcrumbsService','virtualCollectionsService','collectionsService','fileService','dataProfile',function ($scope, $log, $http, $location, MessageService, $globals, breadcrumbsService, $virtualCollectionsService, $collectionsService, fileService, dataProfile) {
+    .controller('profileCtrl', ['$scope','$log', 'Upload', '$http', '$location', 'MessageService','globals','breadcrumbsService','virtualCollectionsService','collectionsService','fileService','dataProfile',function ($scope, $log, Upload, $http, $location, MessageService, $globals, breadcrumbsService, $virtualCollectionsService, $collectionsService, fileService, dataProfile) {
 
        $scope.dataProfile = dataProfile;
         /*
@@ -63,12 +63,46 @@ angular.module('myApp.profile', ['ngRoute'])
             }
         };
 
-        $scope.pop_up_test = function(){
-          $('.pop_up_window').fadeIn(100,function(){
-            $('.pop_up_window').delay( 8000 ).fadeOut(1000);
-          });
-        };
+        
+        $scope.$watch('files', function () {
+                $scope.upload($scope.files);
+            });
+        $scope.multiple = true;
+        $scope.upload = function (files) {
+                if (files && files.length) {
+                    $(".upload_container").css('display','none');
+                    $(".upload_container_result").css('display','block');
 
+                    for (var i = 0; i < files.length; i++) {                                                                
+                        var file = files[i];
+                        
+                            $(".upload_container_result ul").append('<li id="uploading_item_'+i+'" class="light_back_option_even"><div class="col-xs-7 list_content"><img src="images/data_object_icon.png">'+file.name+'</div></li>');
+                                                 
+                        Upload.upload({
+                            url: $globals.backendUrl('file') ,
+                            fields:{collectionParentName: $scope.dataProfile.parentPath + "/" +$scope.dataProfile.childName},
+                            file: file
+                        }).progress(function (evt) {                            
+                            var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
+                            $log.info(progressPercentage);                           
+                }).success(function (data, status, headers, config) {
+                            console.log('file ' + config.file.name + 'uploaded. Response: ' + data);
+                        });
+                    }
+                }
+            };
+        $scope.pop_up_close = function(){
+            $('.pop_up_window').fadeOut(100, function(){
+                $(".upload_container").css('display','block');
+                $(".upload_container_result").html('<ul></ul>');
+                $(".upload_container_result").css('display','none');
+                location.reload();
+            });
+            
+        };
+        $scope.pop_up_open = function(){
+            $('.pop_up_window').fadeIn(100);
+        };
         $scope.green_action_toggle= function($event){
           var content = $event.currentTarget.nextElementSibling;
           var container = $event.currentTarget.parentElement;

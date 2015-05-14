@@ -1,11 +1,38 @@
 <div class="pop_up_window">
-	testing this
+	<div class="three_column centered">
+		<div class="column_content">
+			<div class="light_header"><img src="images/upload_icon_dark.png"><span>Uploading files to {{dataProfile.childName}}</span><img class="pop_up_close_button right" title="close window" ng-click="pop_up_close()" src="images/close_icon.png"></div>
+			
+			<div class="upload_container">
+				<br>
+				Choose the file(s) you wish to upload to <b>THIS</b> collection.<br>
+				<div class="btn btn-default btn-xs" ngf-select ngf-change="upload($files)" ngf-multiple="multiple">Browse Files</div> or Drag & Drop the file(s) into the green window <b>BELOW</b>.<br>
+				<div ngf-drop ngf-select ng-model="files" class="drop_box" 
+		        ngf-drag-over-class="dragover" ngf-multiple="true" ngf-allow-dir="true"
+		        accept="image/*,application/pdf"><br>Drag and drop files here.</div>
+			</div>
+			<div class="upload_container_result">
+				<ul></ul>
+				<div class="container"><hr class="hr_flat"></div>
+				<div class="right container t_right">
+					<div class="btn btn-success" ng-click="pop_up_close()">Done</div>
+				</div>
+				<div class="container"><hr class="hr_flat"></div>
+				<div class="container">You can also&nbsp;<div class="btn btn-default btn-xs" ngf-select ngf-change="upload($files)" ngf-multiple="multiple">Browse More Files</div> or Drag & Drop the file(s) into the window <b>BELOW</b>.<br>
+				<div ngf-drop ngf-select ng-model="files" class="drop_box" 
+		        ngf-drag-over-class="dragover" ngf-multiple="true" ngf-allow-dir="true"
+		        accept="image/*,application/pdf"><br>Drag and drop files here.</div>
+				</div>
+			</div>
+			
+			
+		</div>
+	</div>
 </div>
-
 <div id="side_nav" ng-mouseover="side_nav_autotoggle('on')" ng-mouseleave="side_nav_autotoggle('off')">
 	<div class="side_nav_toggle_button" ng-click="side_nav_toggle()">>></div>
 	<ul class="side_nav_options">
-		<li class="dark_back_option_double" ng-click="pop_up_test()"><img src="images/hier_browsing_icon.png"><span>Hierarchical Browse</span></li>
+		<li class="dark_back_option_double"><img src="images/hier_browsing_icon.png"><span>Hierarchical Browse</span></li>
 		<li class="dark_back_option_double"><img src="images/focused_browsing_icon.png"><span>Focused Browse</span></li>
 		<li class="dark_back_option_double"><img src="images/organic_browsing_icon.png"><span>Organic Browse</span></li>
 	</ul>
@@ -18,14 +45,35 @@
 					<span class="dark_back_option_double" ng-click="goToBreadcrumb($index)" ng-repeat="breadcrumb in getBreadcrumbPaths() track by $id(breadcrumb + $index)">
 						 /{{breadcrumb}}
 					</span>
+					<span>/{{dataProfile.childName}}</span>
 				</div>			
 			</div>
-			<div class="column_content">
+			<div class="container">
 				<div class="profile_header">
 					<div class="profile_image">
-						<img src="images/data_object_big_icon.png">
+						<img ng-show="{{dataProfile.file}} == false" src="images/collection_big_icon.png">
+			            <img ng-show="{{dataProfile.file}} == true" src="images/data_object_big_icon.png">
 					</div>
-					<div class="profile_description">
+					<div class="profile_description" ng-show="{{dataProfile.file}} == false">
+						<ul>
+							<li>
+								<b>Name:&nbsp;</b>{{dataProfile.childName}}
+							</li>
+							<li>
+								<b>Created:&nbsp;</b>{{dataProfile.domainObject.createdAt}}
+							</li>
+							<li>
+								<b>Shared:&nbsp;</b>{{dataProfile.shared}}
+							</li>
+							<li>
+								<b>Id:&nbsp;</b>{{dataProfile.domainObject.collectionId}}
+							</li>
+							<li>
+								<b>Owner:&nbsp;</b>{{dataProfile.domainObject.collectionOwnerName}}
+							</li>
+						</ul>
+					</div>
+					<div class="profile_description" ng-show="{{dataProfile.file}} == true">
 						<ul>
 							<li>
 								<b>Name:&nbsp;</b>{{dataProfile.childName}}
@@ -44,10 +92,28 @@
 							</li>
 						</ul>
 					</div>
+					<div class="profile_description" ng-show="{{dataProfile.file}} == true">
+						<ul>
+							<li>
+								<b>Data Object Type:&nbsp;</b>{{dataProfile.mimeType}}
+							</li>							
+						</ul>
+					</div>
 				</div>
 				<div class="profile_body">
-					<div class="green_toggle_container">
-						<div class="green_title" ng-click="green_action_toggle($event)">
+					<div class="green_toggle_container" ng-show="{{dataProfile.file}} == false">
+						<div class="green_title" ng-click="green_action_toggle($event)" >
+							Description
+							<div class="dark_toggle_button right" >
+								 <img src="images/arrow_down.png">
+							</div>
+						</div>
+						<div class="green_content">
+							Collection Descriptive text
+						</div>
+					</div>
+					<div class="green_toggle_container" ng-show="{{dataProfile.file}} == true">
+						<div class="green_title" ng-click="green_action_toggle($event)" >
 							Description
 							<div class="dark_toggle_button right" >
 								 <img src="images/arrow_down.png">
@@ -58,17 +124,44 @@
 							test text<br>
 						</div>
 					</div>
-					<div class="green_toggle_container">
+					<div class="green_toggle_container" ng-show="{{dataProfile.file}} == false">
 						<div class="green_title" ng-click="green_action_toggle($event)">
 							Actions
 							<div class="dark_toggle_button right">
 								 <img src="images/arrow_down.png">
 							</div>
 						</div>
-						<div class="green_content">
+						<div class="green_content" >
 							<div class="col-xs-4 ">								
 								<ul class="list-group">
-									<li class="list-group-item disabled">
+									<li class="list-group-item list-group-item-success">
+										<h2>System Actions</h2>
+									</li>
+									<li class="list-group-item">
+										<div class='btn btn-default btn-xs' ng-click="pop_up_open()">Upload Files</div>
+									</li>
+								</ul>
+							</div>
+							<div class="col-xs-4 ">
+								<ul class="list-group">
+									<li class="list-group-item list-group-item-success">
+										<h2>Collection Actions</h2>
+									</li>
+								</ul>
+							</div>
+						</div>
+					</div>
+					<div class="green_toggle_container" ng-show="{{dataProfile.file}} == true">
+						<div class="green_title" ng-click="green_action_toggle($event)">
+							Actions
+							<div class="dark_toggle_button right">
+								 <img src="images/arrow_down.png">
+							</div>
+						</div>
+						<div class="green_content" >
+							<div class="col-xs-4 ">								
+								<ul class="list-group">
+									<li class="list-group-item list-group-item-success">
 										<h2>System Actions</h2>
 									</li>
 									<li class="list-group-item">
@@ -78,14 +171,14 @@
 							</div>
 							<div class="col-xs-4 ">
 								<ul class="list-group">
-									<li class="list-group-item disabled">
+									<li class="list-group-item list-group-item-success">
 										<h2>File Type Actions</h2>
 									</li>
 								</ul>
 							</div>
 						</div>
 					</div>
-					<div class="green_toggle_container">
+					<div class="green_toggle_container" ng-show="{{dataProfile.file}} == true">
 						<div class="green_title" ng-click="green_action_toggle($event)">
 							Metadata
 							<div class="dark_toggle_button right" >
@@ -102,7 +195,7 @@
 							test text<br>
 						</div>
 					</div>
-					<div class="green_toggle_container">
+					<div class="green_toggle_container" ng-show="{{dataProfile.file}} == true">
 						<div class="green_title" ng-click="green_action_toggle($event)">
 							History
 							<div class="dark_toggle_button right">

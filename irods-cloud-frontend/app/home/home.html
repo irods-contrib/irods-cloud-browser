@@ -56,8 +56,11 @@
 						 /{{breadcrumb}} 				
 					</span>
 					<div class="right">
-						<div class="upload_button" title="Upload files to this collection" ng-click="pop_up_test()"> 
+						<div class="upload_button" title="Upload files to this collection" ng-click="pop_up_open()"> 
 							<img src="images/upload_icon.png"><span>&nbsp;Upload</span>	
+						</div>
+						<div class="upload_button" title="Go to Profile page of this collection" ng-click="selectProfile(pagingAwareCollectionListing.pagingAwareCollectionListingDescriptor.parentAbsolutePath)"> 
+							<img src="images/collection_light_icon.png"><span>&nbsp;Profile</span>	
 						</div>
 					</div>
 				</div>				

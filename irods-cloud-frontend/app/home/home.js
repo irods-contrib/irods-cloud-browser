@@ -109,8 +109,6 @@ angular.module('myApp.home', ['ngRoute','ngFileUpload'])
                             $log.info(progressPercentage);                           
                 }).success(function (data, status, headers, config) {
                             console.log('file ' + config.file.name + 'uploaded. Response: ' + data);
-                            $scope.selectVirtualCollection(selectedVc.data.uniqueName, $scope.pagingAwareCollectionListing.pagingAwareCollectionListingDescriptor.parentAbsolutePath);
-
                         });
                     }
                 }
@@ -176,7 +174,7 @@ angular.module('myApp.home', ['ngRoute','ngFileUpload'])
             });
           };
 
-        $scope.pop_up_test = function(){
+        $scope.pop_up_open = function(){
             $('.pop_up_window').fadeIn(100);
         };
         $scope.pop_up_close = function(){

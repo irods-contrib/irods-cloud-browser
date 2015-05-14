@@ -313,7 +313,7 @@ time, mark, audio, video {
 }
 .container{
 	width: 100%;
-	padding: 10px 0px 0px 0px;
+	padding: 5px 0px 0px 0px;
 	display: inline-block;
 }
 .t_right{

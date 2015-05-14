@@ -1,4 +1,3 @@
-import org.irods.jargon.core.packinstr.StructFileExtAndRegInp.BundleType
 
 // Place your Spring DSL code here
 beans = {
@@ -22,7 +21,7 @@ beans = {
 	zipServiceConfiguration(org.irods.jargon.zipservice.api.ZipServiceConfiguration) {
 		failFast = true
 		maxTotalBytesForZip = 1 * 1024 * 1024 * 1024
-		preferredBundleType = BundleType.TAR
+		//preferredBundleType = BundleType.TAR   TODO:// use normal stringy stuff
 		generateTempDirInUserHome = true
 
 	}

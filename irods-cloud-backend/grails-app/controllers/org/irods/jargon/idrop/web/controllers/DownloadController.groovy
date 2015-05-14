@@ -8,11 +8,13 @@ import org.irods.jargon.core.pub.Stream2StreamAO
 import org.irods.jargon.core.pub.io.IRODSFile
 import org.irods.jargon.core.pub.io.IRODSFileFactory
 import org.irods.jargon.core.pub.io.IRODSFileInputStream
+import org.irods.jargon.idrop.web.services.JargonServiceFactoryService
 
 class DownloadController extends RestfulController {
 
 	static responseFormats = ['json']
 	IRODSAccessObjectFactory irodsAccessObjectFactory
+	JargonServiceFactoryService jargonServiceFactoryService
 
 	/**
 	 * Download a file from iRODS

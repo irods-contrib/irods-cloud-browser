@@ -40,3 +40,5 @@ irods-cloud-frontend/node_modules/
 **/.idea
 **/.pmd
 **/*.log
+**/*.iml
+**/target-eclipse

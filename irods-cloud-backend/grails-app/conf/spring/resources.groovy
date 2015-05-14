@@ -1,3 +1,5 @@
+import org.irods.jargon.core.packinstr.StructFileExtAndRegInp.BundleType
+
 // Place your Spring DSL code here
 beans = {
 
@@ -16,4 +18,12 @@ beans = {
 	/*virtualCollectionFactory(idrop.web3.virtualCollectionFactoryImpl) { irodsAccessObjectFactory = ref("irodsAccessObjectFactory") }
 	 virtualCollectionService(org.irods.jargon.idrop.web.services.VirtualCollectionService)  { irodsAccessObjectFactory = ref("irodsAccessObjectFactory") }*/
 
+
+	zipServiceConfiguration(org.irods.jargon.zipservice.api.ZipServiceConfiguration) {
+		failFast = true
+		maxTotalBytesForZip = 1 * 1024 * 1024 * 1024
+		preferredBundleType = BundleType.TAR
+		generateTempDirInUserHome = true
+
+	}
 }

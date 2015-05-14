@@ -5,6 +5,7 @@ import org.irods.jargon.core.pub.IRODSAccessObjectFactory
 import org.irods.jargon.usertagging.starring.IRODSStarringServiceImpl
 import org.irods.jargon.vircoll.impl.VirtualCollectionDiscoveryServiceImpl
 import org.irods.jargon.vircoll.impl.VirtualCollectionExecutorFactoryImpl
+import org.irods.jargon.zipservice.api.ZipServiceConfiguration
 
 /**
  * This is a bit of slight-of-hand intended to make it easy to mock various services. 
@@ -15,6 +16,7 @@ class JargonServiceFactoryService {
 
 	static transactional = false
 	IRODSAccessObjectFactory irodsAccessObjectFactory
+	ZipServiceConfiguration zipServiceConfiguration
 
 	/**
 	 * Get an instance of the virtual collection executor factory for the given account

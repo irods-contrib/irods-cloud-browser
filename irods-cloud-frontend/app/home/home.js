@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('myApp.home', ['ngRoute','ngFileUpload'])
+angular.module('myApp.home', ['ngRoute', 'ngFileUpload'])
 
     .config(['$routeProvider', function ($routeProvider) {
         $routeProvider.when('/home/:vcName', {
@@ -73,48 +73,48 @@ angular.module('myApp.home', ['ngRoute','ngFileUpload'])
                     //         result.append(" #" + ( index + 1 )); 
                     //     }                       
                     // });
-                    if($(".ui-selected").length > 1){
-                        result.append($('.ui-selected').length+" files"); 
+                    if ($(".ui-selected").length > 1) {
+                        result.append($('.ui-selected').length + " files");
                         $(".download_button").fadeIn();
-                    }else if ($(".ui-selected").length == 1){
+                    } else if ($(".ui-selected").length == 1) {
                         var name_of_selection = $('.ui-selected').children('.list_content').children('.data_object').text();
-                        result.append(name_of_selection); 
+                        result.append(name_of_selection);
                         $(".download_button").fadeIn();
-                    }else if($(".ui-selected").length == 0){
+                    } else if ($(".ui-selected").length == 0) {
                         $(".download_button").fadeOut();
                     }
                 }
             });
         });
         $scope.$watch('files', function () {
-                $scope.upload($scope.files);
-            });
+            $scope.upload($scope.files);
+        });
         $scope.multiple = true;
         $scope.upload = function (files) {
-                if (files && files.length) {
-                    $(".upload_container").css('display','none');
-                    $(".upload_container_result").css('display','block');
+            if (files && files.length) {
+                $(".upload_container").css('display', 'none');
+                $(".upload_container_result").css('display', 'block');
 
-                    for (var i = 0; i < files.length; i++) {                                                                
-                        var file = files[i];
-                        
-                            $(".upload_container_result ul").append('<li id="uploading_item_'+i+'" class="light_back_option_even"><div class="col-xs-7 list_content"><img src="images/data_object_icon.png">'+file.name+'</div></li>');
-                                                 
-                        Upload.upload({
-                            url: $globals.backendUrl('file') ,
-                            fields:{collectionParentName: $scope.pagingAwareCollectionListing.pagingAwareCollectionListingDescriptor.parentAbsolutePath},
-                            file: file
-                        }).progress(function (evt) {                            
-                            var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
-                            $log.info(progressPercentage);                           
-                }).success(function (data, status, headers, config) {
-                            console.log('file ' + config.file.name + 'uploaded. Response: ' + data);
-                            $scope.selectVirtualCollection(selectedVc.data.uniqueName, $scope.pagingAwareCollectionListing.pagingAwareCollectionListingDescriptor.parentAbsolutePath);
+                for (var i = 0; i < files.length; i++) {
+                    var file = files[i];
 
-                        });
-                    }
+                    $(".upload_container_result ul").append('<li id="uploading_item_' + i + '" class="light_back_option_even"><div class="col-xs-7 list_content"><img src="images/data_object_icon.png">' + file.name + '</div></li>');
+
+                    Upload.upload({
+                        url: $globals.backendUrl('file'),
+                        fields: {collectionParentName: $scope.pagingAwareCollectionListing.pagingAwareCollectionListingDescriptor.parentAbsolutePath},
+                        file: file
+                    }).progress(function (evt) {
+                        var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
+                        $log.info(progressPercentage);
+                    }).success(function (data, status, headers, config) {
+                        console.log('file ' + config.file.name + 'uploaded. Response: ' + data);
+                        $scope.selectVirtualCollection(selectedVc.data.uniqueName, $scope.pagingAwareCollectionListing.pagingAwareCollectionListingDescriptor.parentAbsolutePath);
+
+                    });
                 }
-            };
+            }
+        };
         /*
          Get a default list of the virtual collections that apply to the logged in user, for side nav
          */
@@ -158,41 +158,45 @@ angular.module('myApp.home', ['ngRoute','ngFileUpload'])
             breadcrumbsService.setCurrentAbsolutePath($scope.pagingAwareCollectionListing.pagingAwareCollectionListingDescriptor.parentAbsolutePath);
             return breadcrumbsService.getWholePathComponents();
         };
-        var download_path
-        $scope.current_collection_index = $scope.pagingAwareCollectionListing.pagingAwareCollectionListingDescriptor.pathComponents.length-1;
-        $scope.getDownloadLink = function() {
+        // var download_path
+        if ($scope.pagingAwareCollectionListing) {
+
+            $scope.current_collection_index = $scope.pagingAwareCollectionListing.pagingAwareCollectionListingDescriptor.pathComponents.length - 1;
+        }
+        $scope.getDownloadLink = function () {
             $('.list_content').removeClass("ui-selected");
-            if ($(".data_false")[0]){
+            if ($(".data_false")[0]) {
                 alert("You can't download an entire collection through this web interface, please use the iRODS desktop application for bulk downloads");
             }
             $('.data_false').removeClass("ui-selected");
             var links = $('.ui-selected *');
             $log.info(links);
-            links.each(function(){
-                if($(this).children('span').attr('id') != undefined ){
+            links.each(function () {
+                if ($(this).children('span').attr('id') != undefined) {
                     var download_path = $(this).children('span').attr('id');
                     $scope.trigger_download(download_path);
-                };
+                }
+                ;
             });
-          };
+        };
 
-        $scope.pop_up_test = function(){
+        $scope.pop_up_test = function () {
             $('.pop_up_window').fadeIn(100);
         };
-        $scope.pop_up_close = function(){
-            $('.pop_up_window').fadeOut(100, function(){
-                $(".upload_container").css('display','block');
+        $scope.pop_up_close = function () {
+            $('.pop_up_window').fadeOut(100, function () {
+                $(".upload_container").css('display', 'block');
                 $(".upload_container_result").html('<ul></ul>');
-                $(".upload_container_result").css('display','none');
+                $(".upload_container_result").css('display', 'none');
                 location.reload();
             });
-            
+
         };
-        $scope.trigger_download = function(element){
+        $scope.trigger_download = function (element) {
             //return $http({method:'POST', url: $globals.backendUrl('download') + "?path=" + element, headers:});
             window.open($globals.backendUrl('download') + "?path=" + element);
         };
-    
+
         /**
          * Upon the selection of an element in a breadrumb link, set that as the location of the browser, triggering
          * a view of that collection
@@ -225,15 +229,15 @@ angular.module('myApp.home', ['ngRoute','ngFileUpload'])
                 $('.side_nav_toggle_button').text('<<');
             }
         };
-         var toggle_on
+        var toggle_on
         $scope.side_nav_autotoggle = function (auto_toggle) {
 
-            if ( auto_toggle == 'off' ) {    
-              if(side_nav_toggled == "no"){  
-                toggle_on = setTimeout($scope.side_nav_toggle, 1000);
-              }
-            } else if (auto_toggle == 'on' ) {
-              clearTimeout(toggle_on);
+            if (auto_toggle == 'off') {
+                if (side_nav_toggled == "no") {
+                    toggle_on = setTimeout($scope.side_nav_toggle, 1000);
+                }
+            } else if (auto_toggle == 'on') {
+                clearTimeout(toggle_on);
             }
         };
         /**
@@ -256,7 +260,7 @@ angular.module('myApp.home', ['ngRoute','ngFileUpload'])
             //$location.search(null);
 
             $location.url("/profile/");
-           $location.search("path", irodsAbsolutePath);
+            $location.search("path", irodsAbsolutePath);
 
         }
 

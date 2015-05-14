@@ -21,7 +21,7 @@ grails.project.fork = [
 	console: [maxMemory: 768, minMemory: 64, debug: false, maxPerm: 256]
 ]
 
-grails.project.dependency.resolver = "maven" // or ivy
+grails.project.dependency.resolver = "ivy" // or ivy
 grails.project.dependency.resolution = {
 	// inherit Grails' default dependencies
 	inherits("global") {
@@ -56,7 +56,7 @@ grails.project.dependency.resolution = {
 		// runtime 'org.postgresql:postgresql:9.3-1101-jdbc41'
 		//test "org.grails:grails-datastore-test-support:1.0.2-grails-2.4"
 		compile 'commons-io:commons-io:2.1'
-		provided 'junit:junit:4.8.1'
+		compile 'junit:junit:4.12'
 		compile ('org.irods.jargon:jargon-core:4.0.3.1-SNAPSHOT') { excludes ([group:'org.jglobus'])}
 		compile ('org.irods.jargon:jargon-data-utils:4.0.3.1-SNAPSHOT')  { excludes ([group:'org.jglobus'])}
 		compile ('org.irods.jargon:jargon-ticket:4.0.3.1-SNAPSHOT')   { excludes ([group:'org.jglobus'])}
@@ -67,8 +67,8 @@ grails.project.dependency.resolution = {
 		compile ('org.irods.jargon:dot-irods-utilities:4.0.3.1-SNAPSHOT')  { excludes ([group:'org.jglobus'])}
 		compile ('org.irods.jargon:data-profile:4.0.3.1-SNAPSHOT')  { excludes ([group:'org.jglobus'])}
 		compile ('org.irods.jargon:jargon-zipservice:4.0.3.1-SNAPSHOT')
-		//runtime 'org.springframework:spring-expression:4.0.5.RELEASE'
-		//runtime 'org.springframework:spring-aop:4.0.5.RELEASE'
+		runtime 'org.springframework:spring-expression:4.1.6.RELEASE'
+		runtime 'org.springframework:spring-aop:4.1.6.RELEASE'
 		//provided 'javax.servlet:servlet-api:2.5'
 
 		compile( group: 'log4j', name: 'log4j', version: '1.2.16', export: false )

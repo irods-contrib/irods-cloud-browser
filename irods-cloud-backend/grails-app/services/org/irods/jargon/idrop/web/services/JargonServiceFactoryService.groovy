@@ -56,7 +56,6 @@ class JargonServiceFactoryService {
 		if (!zipServiceConfiguration) {
 			throw new JargonRuntimeException("no configured zipServiceConfiguration")
 		}
-
 		return new JargonZipServiceImpl(zipServiceConfiguration, irodsAccessObjectFactory, irodsAccount)
 	}
 }

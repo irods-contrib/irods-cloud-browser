@@ -1,10 +1,12 @@
 package org.irods.jargon.idrop.web.services
 
 import org.irods.jargon.core.connection.IRODSAccount
+import org.irods.jargon.core.exception.JargonRuntimeException
 import org.irods.jargon.core.pub.IRODSAccessObjectFactory
 import org.irods.jargon.usertagging.starring.IRODSStarringServiceImpl
 import org.irods.jargon.vircoll.impl.VirtualCollectionDiscoveryServiceImpl
 import org.irods.jargon.vircoll.impl.VirtualCollectionExecutorFactoryImpl
+import org.irods.jargon.zipservice.api.JargonZipServiceImpl
 import org.irods.jargon.zipservice.api.ZipServiceConfiguration
 
 /**
@@ -43,5 +45,17 @@ class JargonServiceFactoryService {
 	 */
 	def instanceStarringService(IRODSAccount irodsAccount) {
 		return new IRODSStarringServiceImpl(irodsAccessObjectFactory, irodsAccount)
+	}
+
+	/**
+	 * Obtain an instance of the zip service, which can handle multi-file downloads
+	 * @param irodsAccount
+	 * @return
+	 */
+	def instanceJargonZipService(IRODSAccount irodsAccount) {
+		if (!zipServiceConfiguration) {
+			throw new JargonRuntimeException("no configured zipServiceConfiguration")
+		}
+		return new JargonZipServiceImpl(zipServiceConfiguration, irodsAccessObjectFactory, irodsAccount)
 	}
 }

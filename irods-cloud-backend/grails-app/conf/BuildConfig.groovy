@@ -21,14 +21,14 @@ grails.project.fork = [
 	console: [maxMemory: 768, minMemory: 64, debug: false, maxPerm: 256]
 ]
 
-grails.project.dependency.resolver = "ivy" // or ivy
+grails.project.dependency.resolver = "maven" // or ivy
 grails.project.dependency.resolution = {
 	// inherit Grails' default dependencies
 	inherits("global") {
 		// specify dependency exclusions here; for example, uncomment this to disable ehcache:
 		// excludes 'ehcache'
 	}
-	log "error" // log level of Ivy resolver, either 'error', 'warn', 'info', 'debug' or 'verbose'
+	log "info" // log level of Ivy resolver, either 'error', 'warn', 'info', 'debug' or 'verbose'
 	checksums false // Whether to verify checksums on resolve
 	legacyResolve false // whether to do a secondary resolve on plugin installation, not advised and here for backwards compatibility
 
@@ -66,7 +66,7 @@ grails.project.dependency.resolution = {
 		compile ('org.irods.jargon:jargon-extensions-if:4.0.3.1-SNAPSHOT')  { }
 		compile ('org.irods.jargon:dot-irods-utilities:4.0.3.1-SNAPSHOT')  { excludes ([group:'org.jglobus'])}
 		compile ('org.irods.jargon:data-profile:4.0.3.1-SNAPSHOT')  { excludes ([group:'org.jglobus'])}
-		compile ('org.irods.jargon:jargon-zipservice:4.0.3.1-SNAPSHOT')
+		compile 'org.irods.jargon:jargon-zipservice:4.0.3.1-SNAPSHOT'
 		runtime 'org.springframework:spring-expression:4.1.6.RELEASE'
 		runtime 'org.springframework:spring-aop:4.1.6.RELEASE'
 		//provided 'javax.servlet:servlet-api:2.5'

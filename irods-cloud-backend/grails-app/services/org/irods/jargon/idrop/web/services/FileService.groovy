@@ -133,5 +133,11 @@ class FileService {
 	 */
 	InputStream obtainInputStreamForDownloadMultipleFiles(String[] paths, IRODSAccount irodsAccount) throws FileNotFoundException, JargonException {
 		log.info("obtainInputStreamForDownloadMultipleFiles")
+		if (!paths) {
+			throw new IllegalArgumentException("null or missing paths")
+		}
+		if (!irodsAccount) {
+			throw new IllegalArgumentException("null irodsAccount")
+		}
 	}
 }

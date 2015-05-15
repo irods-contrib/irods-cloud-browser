@@ -8,7 +8,6 @@ import org.irods.jargon.core.pub.DataObjectAO
 import org.irods.jargon.core.pub.IRODSAccessObjectFactory
 import org.irods.jargon.core.pub.domain.ObjStat
 import org.irods.jargon.core.pub.io.IRODSFile
-import org.irods.jargon.core.pub.io.IRODSFileInputStream
 
 
 /**
@@ -103,7 +102,7 @@ class FileService {
 		log.info("path:${path}")
 		log.info("irodsAccount:${irodsAccount}")
 
-		IRODSFileInputStream irodsFileInputStream = irodsAccessObjectFactory.getIRODSFileFactory(irodsAccount).instanceIRODSFileInputStream(path)
+		def irodsFileInputStream = irodsAccessObjectFactory.getIRODSFileFactory(irodsAccount).instanceIRODSFileInputStream(path)
 		IRODSFile irodsFile = irodsAccessObjectFactory.getIRODSFileFactory(irodsAccount).instanceIRODSFile(path)
 		if (!irodsFile.exists()) {
 			throw new FileNotFoundException("file does not exist")

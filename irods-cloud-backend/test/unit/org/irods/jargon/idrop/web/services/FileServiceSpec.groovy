@@ -10,7 +10,11 @@ import org.irods.jargon.core.pub.CollectionAndDataObjectListAndSearchAO
 import org.irods.jargon.core.pub.DataObjectAO
 import org.irods.jargon.core.pub.IRODSAccessObjectFactory
 import org.irods.jargon.core.pub.domain.ObjStat
+import org.irods.jargon.core.pub.io.IRODSFile
+import org.irods.jargon.core.pub.io.IRODSFileFactory
+import org.irods.jargon.core.pub.io.IRODSFileInputStream
 import org.irods.jargon.core.query.CollectionAndDataObjectListingEntry.ObjectType
+import org.irods.jargon.zipservice.api.JargonZipService
 import org.junit.*
 
 import spock.lang.Specification
@@ -124,5 +128,53 @@ class FileServiceSpec extends Specification {
 
 		actual != null
 		actual instanceof org.irods.jargon.core.pub.domain.DataObject
+	}
+
+	void "should build a single file download for a single path"() {
+
+		given:
+		IRODSAccount irodsAccount = IRODSAccount.instance("host", 1247, "user", "password", "", "zone", "")
+		String path = "/a/path/file.txt"
+		def irodsAccessObjectFactory = mockFor(IRODSAccessObjectFactory)
+
+		def inputStream = mockFor(IRODSFileInputStream)
+		def inputStreamMock = inputStream.createMock()
+
+		def irodsFile = mockFor(IRODSFile)
+		irodsFile.demand.exists{-> return true}
+		irodsFile.demand.canRead{-> return true}
+		irodsFile.demand.length{-> return 100L}
+		irodsFile.demand.getName{-> "hello"}
+		irodsFile.demand.getName{-> "hello"}
+		def irodsFileMock = irodsFile.createMock()
+
+		def irodsFileFactory = mockFor(IRODSFileFactory)
+		irodsFileFactory.demand.instanceIRODSFileInputStream{path1 -> return inputStreamMock}
+		irodsFileFactory.demand.instanceIRODSFile{path2 -> return irodsFileMock}
+		def irodsFileFactoryMock = irodsFileFactory.createMock()
+		irodsAccessObjectFactory.demand.getIRODSFileFactory{acct1 -> return irodsFileFactoryMock}
+		irodsAccessObjectFactory.demand.getIRODSFileFactory{acct2 -> return irodsFileFactoryMock}
+		def irodsAccessObjectFactoryMock = irodsAccessObjectFactory.createMock()
+
+		def jargonServiceFactoryService = mockFor(JargonServiceFactoryService)
+
+		def jargonZipService = mockFor(JargonZipService)
+		def jargonZipServiceMock = jargonZipService.createMock()
+
+		jargonServiceFactoryService.demand.instanceJargonZipService{act -> return jargonZipServiceMock}
+		def jargonServiceFactoryServiceMock = jargonServiceFactoryService.createMock()
+
+		FileService fileService = new FileService()
+		fileService.irodsAccessObjectFactory = irodsAccessObjectFactoryMock
+		fileService.jargonServiceFactoryService = jargonServiceFactoryServiceMock
+
+		when:
+
+		def actual = fileService.obtainInputStreamForDownloadSingleFile(path, irodsAccount)
+
+		then:
+
+		actual != null
+		actual instanceof DownloadFileSpecification
 	}
 }

@@ -29,7 +29,7 @@ grails.project.dependency.resolution = {
 		// excludes 'ehcache'
 	}
 	log "error" // log level of Ivy resolver, either 'error', 'warn', 'info', 'debug' or 'verbose'
-	checksums true // Whether to verify checksums on resolve
+	checksums false // Whether to verify checksums on resolve
 	legacyResolve false // whether to do a secondary resolve on plugin installation, not advised and here for backwards compatibility
 
 	repositories {

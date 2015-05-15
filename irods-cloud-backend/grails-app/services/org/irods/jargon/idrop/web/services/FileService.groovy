@@ -10,6 +10,7 @@ import org.irods.jargon.core.pub.domain.ObjStat
 import org.irods.jargon.core.pub.io.IRODSFile
 import org.irods.jargon.core.pub.io.IRODSFileInputStream
 
+
 /**
  * Service for iRODS files (collections and data objects) dealing with file details and operations
  * @author Mike Conway - DICE
@@ -91,7 +92,7 @@ class FileService {
 	 * @throws FileNotFoundException
 	 * @throws JargonException
 	 */
-	InputStream obtainInputStreamForDownloadSingleFile(String path, IRODSAccount irodsAccount) throws FileNotFoundException, JargonException {
+	DownloadFileSpecification obtainInputStreamForDownloadSingleFile(String path, IRODSAccount irodsAccount) throws FileNotFoundException, JargonException {
 		log.info("obtainInputStreamForDownloadSingleFile")
 		if (!path) {
 			throw new IllegalArgumentException("null or missing path")
@@ -102,8 +103,8 @@ class FileService {
 		log.info("path:${path}")
 		log.info("irodsAccount:${irodsAccount}")
 
-		IRODSFileInputStream irodsFileInputStream = irodsFileFactory.instanceIRODSFileInputStream(path)
-		IRODSFile irodsFile = irodsFileFactory.instanceIRODSFile(path)
+		IRODSFileInputStream irodsFileInputStream = irodsAccessObjectFactory.getIRODSFileFactory(irodsAccount).instanceIRODSFileInputStream(path)
+		IRODSFile irodsFile = irodsAccessObjectFactory.getIRODSFileFactory(irodsAccount).instanceIRODSFile(path)
 		if (!irodsFile.exists()) {
 			throw new FileNotFoundException("file does not exist")
 		}
@@ -116,10 +117,10 @@ class FileService {
 		log.info("opened input stream")
 
 		def dls = new DownloadFileSpecification()
-		dls.setContentDispositionHeader("Content-disposition", "attachment;filename=\"${irodsFile.name}\"")
-		dls.setLength(length)
-		dls.setType("application/octet-stream") // TODO: later add mime type?
-		dls.setInputStream(irodsFileInputStream)
+		dls.contentDispositionHeader = "attachment;filename=\"${irodsFile.name}\""
+		dls.length = length
+		dls.type = "application/octet-stream"
+		dls.inputStream =  irodsFileInputStream
 		return dls
 	}
 
@@ -131,7 +132,7 @@ class FileService {
 	 * @throws FileNotFoundException
 	 * @throws JargonException
 	 */
-	InputStream obtainInputStreamForDownloadMultipleFiles(String[] paths, IRODSAccount irodsAccount) throws FileNotFoundException, JargonException {
+	DownloadFileSpecification obtainInputStreamForDownloadMultipleFiles(String[] paths, IRODSAccount irodsAccount) throws FileNotFoundException, JargonException {
 		log.info("obtainInputStreamForDownloadMultipleFiles")
 		if (!paths) {
 			throw new IllegalArgumentException("null or missing paths")
@@ -139,5 +140,18 @@ class FileService {
 		if (!irodsAccount) {
 			throw new IllegalArgumentException("null irodsAccount")
 		}
+		log.info("getting zip service and building bundle file")
+		def jargonZipService = jargonServiceFactoryService.instanceJargonZipService(irodsAccount)
+
+		def bundleStreamWrapper = jargonZipService.obtainBundleStreamWrapper(paths)
+		log.info("..retrieved bundle file as input stream")
+
+		def dls = new DownloadFileSpecification()
+		dls.contentDispositionHeader = "attachment;filename=\"${bundleStreamWrapper.bundleFileName}\""
+		dls.length = bundleStreamWrapper.length
+		dls.type = "application/octet-stream"
+		dls.inputStream =  bundleStreamWrapper.inputStream
+
+		return dls
 	}
 }

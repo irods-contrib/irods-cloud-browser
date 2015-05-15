@@ -5,9 +5,8 @@ import grails.rest.RestfulController
 import org.irods.jargon.core.exception.JargonException
 import org.irods.jargon.core.pub.IRODSAccessObjectFactory
 import org.irods.jargon.core.pub.Stream2StreamAO
-import org.irods.jargon.core.pub.io.IRODSFile
 import org.irods.jargon.core.pub.io.IRODSFileFactory
-import org.irods.jargon.core.pub.io.IRODSFileInputStream
+import org.irods.jargon.idrop.web.services.DownloadFileSpecification
 import org.irods.jargon.idrop.web.services.FileService
 import org.irods.jargon.idrop.web.services.JargonServiceFactoryService
 
@@ -37,29 +36,30 @@ class DownloadController extends RestfulController {
 		IRODSFileFactory irodsFileFactory = irodsAccessObjectFactory.getIRODSFileFactory(irodsAccount)
 
 		//InputStream irodsFileInputStream = null
+		DownloadFileSpecification dfs;
 		if (path instanceof String[]) {
 			log.info("multiple paths, create a zip")
+			dfs = fileService.obtainInputStreamForDownloadMultipleFiles(path, irodsAccount)
 		} else {
 			log.info("single path for download")
+			dfs = fileService.obtainInputStreamForDownloadSingleFile(path, irodsAccount)
 		}
+		log.info("got download file data")
 
 
-		IRODSFileInputStream irodsFileInputStream = irodsFileFactory.instanceIRODSFileInputStream(path)
-		IRODSFile irodsFile = irodsFileFactory.instanceIRODSFile(path)
-		def length =  irodsFile.length()
-		def name = irodsFile.getName()
+		def length =  dfs.length
 		log.info("file length = ${length}")
 		log.info("opened input stream")
 
 		response.setContentType("application/octet-stream")
 		response.setContentLength((int) length)
-		response.setHeader("Content-disposition", "attachment;filename=\"${name}\"")
+		response.setHeader("Content-disposition",dfs.contentDispositionHeader)
 
 		//response.outputStream << irodsFileInputStream // Performing a binary stream copy
 
 		Stream2StreamAO stream2Stream = irodsAccessObjectFactory.getStream2StreamAO(irodsAccount)
 		def stats = stream2Stream
-				.streamToStreamCopyUsingStandardIO(irodsFileInputStream, new BufferedOutputStream(response.outputStream, 32768))
+				.streamToStreamCopyUsingStandardIO(dfs.inputStream, new BufferedOutputStream(response.outputStream, 32768))
 		log.info("transferStats:${stats}")
 
 

@@ -14,4 +14,5 @@ class DownloadFileSpecification {
 	long length
 	String type
 	String contentDispositionHeader
+	String bundleFileName
 }

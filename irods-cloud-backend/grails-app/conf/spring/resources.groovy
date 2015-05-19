@@ -21,8 +21,6 @@ beans = {
 	zipServiceConfiguration(org.irods.jargon.zipservice.api.ZipServiceConfiguration) {
 		failFast = true
 		maxTotalBytesForZip = 1 * 1024 * 1024 * 1024
-		//preferredBundleType = BundleType.TAR   TODO:// use normal stringy stuff
-		generateTempDirInUserHome = true
 
 	}
 }

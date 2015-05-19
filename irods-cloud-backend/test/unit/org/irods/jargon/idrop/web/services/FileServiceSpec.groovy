@@ -13,8 +13,8 @@ import org.irods.jargon.core.pub.domain.ObjStat
 import org.irods.jargon.core.pub.io.IRODSFile
 import org.irods.jargon.core.pub.io.IRODSFileFactory
 import org.irods.jargon.core.pub.io.IRODSFileInputStream
-import org.irods.jargon.core.query.CollectionAndDataObjectListingEntry.ObjectType
-import org.irods.jargon.zipservice.api.JargonZipService
+import org.irods.jargon.core.query.CollectionAndDataObjectListingEntry
+import org.irods.jargon.zipservice.api.*
 import org.junit.*
 
 import spock.lang.Specification
@@ -61,7 +61,7 @@ class FileServiceSpec extends Specification {
 		def irodsAccessObjectFactory = mockFor(IRODSAccessObjectFactory)
 
 		ObjStat objStat = new ObjStat()
-		objStat.setObjectType(ObjectType.COLLECTION)
+		objStat.objectType = CollectionAndDataObjectListingEntry.ObjectType.COLLECTION
 
 		def  listAndSearchAO = mockFor(CollectionAndDataObjectListAndSearchAO)
 		listAndSearchAO.demand.retrieveObjectStatForPath{absPath -> return objStat}
@@ -99,7 +99,7 @@ class FileServiceSpec extends Specification {
 		def irodsAccessObjectFactory = mockFor(IRODSAccessObjectFactory)
 
 		ObjStat objStat = new ObjStat()
-		objStat.setObjectType(ObjectType.DATA_OBJECT)
+		objStat.objectType = CollectionAndDataObjectListingEntry.ObjectType.DATA_OBJECT
 
 		def  listAndSearchAO = mockFor(CollectionAndDataObjectListAndSearchAO)
 		listAndSearchAO.demand.retrieveObjectStatForPath{absPath -> return objStat}
@@ -176,5 +176,46 @@ class FileServiceSpec extends Specification {
 
 		actual != null
 		actual instanceof DownloadFileSpecification
+	}
+
+	void "should build a multi download for multiple paths"() {
+
+		given:
+
+		IRODSAccount irodsAccount = IRODSAccount.instance("host", 1247, "user", "password", "", "zone", "")
+		List<String> paths = new ArrayList<String>()
+		paths.add("/a/path/file.txt")
+		paths.add("/a/path/file2.txt")
+		def inputStream = mockFor(IRODSFileInputStream)
+		def inputStreamMock = inputStream.createMock()
+		def irodsAccessObjectFactory = mockFor(IRODSAccessObjectFactory)
+		def irodsAccessObjectFactoryMock = irodsAccessObjectFactory.createMock()
+		def jargonServiceFactoryService = mockFor(JargonServiceFactoryService)
+		def length = 100L
+		def bundleName = "bundle.tar"
+
+		def jargonZipService = mockFor(JargonZipService)
+
+		def bundleStreamWrapper = new BundleStreamWrapper(inputStreamMock, length, bundleName)
+		jargonZipService.demand.obtainBundleAsInputStreamWithAdditionalMetadataGivenPaths{paths1 -> return bundleStreamWrapper}
+		def jargonZipServiceMock = jargonZipService.createMock()
+
+		jargonServiceFactoryService.demand.instanceJargonZipService{act -> return jargonZipServiceMock}
+		def jargonServiceFactoryServiceMock = jargonServiceFactoryService.createMock()
+		FileService fileService = new FileService()
+		fileService.irodsAccessObjectFactory = irodsAccessObjectFactoryMock
+		fileService.jargonServiceFactoryService = jargonServiceFactoryServiceMock
+
+		when:
+
+		def actual = fileService.obtainInputStreamForDownloadMultipleFiles(paths, irodsAccount)
+
+		then:
+
+		actual != null
+		actual instanceof DownloadFileSpecification
+		actual.length == length
+		actual.bundleFileName == bundleName
+		actual.inputStream != null
 	}
 }

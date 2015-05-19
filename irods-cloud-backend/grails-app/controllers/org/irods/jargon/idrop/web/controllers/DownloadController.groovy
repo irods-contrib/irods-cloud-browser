@@ -55,14 +55,10 @@ class DownloadController extends RestfulController {
 		response.setContentLength((int) length)
 		response.setHeader("Content-disposition",dfs.contentDispositionHeader)
 
-		//response.outputStream << irodsFileInputStream // Performing a binary stream copy
-
 		Stream2StreamAO stream2Stream = irodsAccessObjectFactory.getStream2StreamAO(irodsAccount)
 		def stats = stream2Stream
 				.streamToStreamCopyUsingStandardIO(dfs.inputStream, new BufferedOutputStream(response.outputStream, 32768))
 		log.info("transferStats:${stats}")
-
-
 
 	}
 }

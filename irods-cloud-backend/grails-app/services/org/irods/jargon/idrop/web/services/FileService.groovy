@@ -131,7 +131,7 @@ class FileService {
 	 * @throws FileNotFoundException
 	 * @throws JargonException
 	 */
-	DownloadFileSpecification obtainInputStreamForDownloadMultipleFiles(String[] paths, IRODSAccount irodsAccount) throws FileNotFoundException, JargonException {
+	DownloadFileSpecification obtainInputStreamForDownloadMultipleFiles(List<String> paths, IRODSAccount irodsAccount) throws FileNotFoundException, JargonException {
 		log.info("obtainInputStreamForDownloadMultipleFiles")
 		if (!paths) {
 			throw new IllegalArgumentException("null or missing paths")
@@ -142,7 +142,7 @@ class FileService {
 		log.info("getting zip service and building bundle file")
 		def jargonZipService = jargonServiceFactoryService.instanceJargonZipService(irodsAccount)
 
-		def bundleStreamWrapper = jargonZipService.obtainBundleStreamWrapper(paths)
+		def bundleStreamWrapper = jargonZipService.obtainBundleAsInputStreamWithAdditionalMetadataGivenPaths(paths)
 		log.info("..retrieved bundle file as input stream")
 
 		def dls = new DownloadFileSpecification()
@@ -150,6 +150,7 @@ class FileService {
 		dls.length = bundleStreamWrapper.length
 		dls.type = "application/octet-stream"
 		dls.inputStream =  bundleStreamWrapper.inputStream
+		dls.bundleFileName = bundleStreamWrapper.bundleFileName
 
 		return dls
 	}

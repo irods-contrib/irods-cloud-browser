@@ -52,7 +52,7 @@ angular.module('myApp.home', ['ngRoute', 'ngFileUpload'])
             }, 1);
         };
     })
-    .controller('homeCtrl', ['$scope', 'Upload', '$log', '$http', '$location', 'MessageService', 'globals', 'breadcrumbsService', 'virtualCollectionsService', 'collectionsService', 'fileService', 'selectedVc', 'pagingAwareCollectionListing', function ($scope, Upload, $log, $http, $location, MessageService, $globals, breadcrumbsService, $virtualCollectionsService, $collectionsService, fileService, selectedVc, pagingAwareCollectionListing) {
+    .controller('homeCtrl', ['$scope', 'Upload', '$log', '$http', '$location', 'MessageService', 'globals', 'breadcrumbsService', 'downloadService', 'virtualCollectionsService', 'collectionsService', 'fileService', 'selectedVc', 'pagingAwareCollectionListing', function ($scope, Upload, $log, $http, $location, MessageService, $globals, breadcrumbsService, downloadService, $virtualCollectionsService, $collectionsService, fileService, selectedVc, pagingAwareCollectionListing) {
 
         /*
          basic scope data for collections and views
@@ -182,17 +182,18 @@ angular.module('myApp.home', ['ngRoute', 'ngFileUpload'])
                 alert("You can't download an entire collection through this web interface, please use the iRODS desktop application for bulk downloads");
             }
             var links = $('.ui-selected');
+            var multiple_paths = '';
             if(links.length == 1){
                 var path = $('.ui-selected').attr('id');
-                alert(path);
+                window.open($globals.backendUrl('download') + "?path=" + path, '_blank');
             }else{
-                var pathArray = [];
                 links.each(function () {
-                    pathArray.push($(this).attr('id'));
+                    var path = $(this).attr('id');
+                    multiple_paths += 'path='+path+'&';
                 });
-                $log.info(pathArray);
-            }
-            var links = $('.ui-selected *');
+                multiple_paths = multiple_paths.substring(0, multiple_paths.length - 1);
+                window.open($globals.backendUrl('download') + "?" + multiple_paths , '_blank');
+            }//http://mywebsite/mypage?myarray=value1&myarray=value2&myarray=value3
         };
 
         $scope.pop_up_open = function(){
@@ -326,10 +327,23 @@ angular.module('myApp.home', ['ngRoute', 'ngFileUpload'])
         return {
 
             downloadSingle: function (path) {
-                //alert(vcName);
+
+                $log.info("dowloading single");
+                if (!path) {
+                    $log.error("no path provided");
+                    throw "no path provided";
+                }
+                var params = {"path":path};
+                window.open($globals.backendUrl('download') + "?path=" + path, '_blank');
             },
             downloadBundle: function (pathArray) {
-                //alert(vcName);
+                $log.info("dowloading bundle");
+                if (!path) {
+                    $log.error("no path provided");
+                    throw "no path provided";
+                }
+
+                window.open($globals.backendUrl('download') + "?path=" + path, '_blank');
             }
         };
 

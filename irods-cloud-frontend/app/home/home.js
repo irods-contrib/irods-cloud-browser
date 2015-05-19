@@ -304,6 +304,22 @@ angular.module('myApp.home', ['ngRoute', 'ngFileUpload'])
 
 
     }])
+    .factory('downloadService', ['$http', '$log', 'globals', function ($http, $log, $globals) {
+
+
+
+        return {
+
+            downloadSingle: function (pathArray) {
+                //alert(vcName);
+            },
+            downloadBundle: function (pathArray) {
+                //alert(vcName);
+            }
+        };
+
+
+    }])
     .factory('collectionsService', ['$http', '$log', 'globals', function ($http, $log, $globals) {
 
         var pagingAwareCollectionListing = {};

@@ -36,10 +36,14 @@ class DownloadController extends RestfulController {
 		IRODSFileFactory irodsFileFactory = irodsAccessObjectFactory.getIRODSFileFactory(irodsAccount)
 
 		//InputStream irodsFileInputStream = null
-		DownloadFileSpecification dfs;
+		DownloadFileSpecification dfs
 		if (path instanceof String[]) {
 			log.info("multiple paths, create a zip")
-			dfs = fileService.obtainInputStreamForDownloadMultipleFiles(path, irodsAccount)
+			List<String> pathList = new ArrayList<String>()
+			path.each{pathElem -> pathList.add(pathElem)}
+
+
+			dfs = fileService.obtainInputStreamForDownloadMultipleFiles(pathList, irodsAccount)
 		} else {
 			log.info("single path for download")
 			dfs = fileService.obtainInputStreamForDownloadSingleFile(path, irodsAccount)

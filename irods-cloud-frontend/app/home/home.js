@@ -310,11 +310,33 @@ angular.module('myApp.home', ['ngRoute', 'ngFileUpload'])
 
         return {
 
-            downloadSingle: function (pathArray) {
-                //alert(vcName);
+            downloadSingle: function (path) {
+                $log.info("dowloading single");
+                if (!path) {
+                    $log.error("no path provided");
+                    throw "no path provided";
+                }
+                var params = {"path":path};
+                return $http({method: 'GET', params:params, url: globals.backendUrl('download')}).success(function (data) {
+                   alert("download done!");
+                }).error(function () {
+                    alert("error!");
+                });
             },
             downloadBundle: function (pathArray) {
-                //alert(vcName);
+                $log.info("dowloading bundle");
+                if (!path) {
+                    $log.error("no path provided");
+                    throw "no path provided";
+                }
+
+                var params = {};
+
+                return $http({method: 'GET', params:params, url: globals.backendUrl('download')}).success(function (data) {
+                    alert("download done!");
+                }).error(function () {
+                    alert("error!");
+                });
             }
         };
 

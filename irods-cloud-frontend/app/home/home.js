@@ -182,18 +182,21 @@ angular.module('myApp.home', ['ngRoute', 'ngFileUpload'])
                 alert("You can't download an entire collection through this web interface, please use the iRODS desktop application for bulk downloads");
             }
             var links = $('.ui-selected');
+            $log.info(links);
             var multiple_paths = '';
             if(links.length == 1){
                 var path = $('.ui-selected').attr('id');
                 window.open($globals.backendUrl('download') + "?path=" + path, '_blank');
             }else{
                 links.each(function () {
-                    var path = $(this).attr('id');
-                    multiple_paths += 'path='+path+'&';
+                    if ($(this).attr('id') != undefined) {
+                        var path = $(this).attr('id');
+                        multiple_paths += 'path='+path+'&';
+                    };
                 });
                 multiple_paths = multiple_paths.substring(0, multiple_paths.length - 1);
                 window.open($globals.backendUrl('download') + "?" + multiple_paths , '_blank');
-            }//http://mywebsite/mypage?myarray=value1&myarray=value2&myarray=value3
+            }
         };
 
         $scope.pop_up_open = function(){

@@ -161,21 +161,38 @@ angular.module('myApp.home', ['ngRoute', 'ngFileUpload'])
 
             $scope.current_collection_index = $scope.pagingAwareCollectionListing.pagingAwareCollectionListingDescriptor.pathComponents.length - 1;
         }
+        // $scope.getDownloadLink = function () {
+        //     $('.list_content').removeClass("ui-selected");
+        //     if ($(".data_false")[0]) {
+        //         alert("You can't download an entire collection through this web interface, please use the iRODS desktop application for bulk downloads");
+        //     }
+        //     $('.data_false').removeClass("ui-selected");
+        //     var links = $('.ui-selected *');
+        //     links.each(function () {
+        //         if ($(this).children('span').attr('id') != undefined) {
+        //             var download_path = $(this).children('span').attr('id');
+        //             $scope.trigger_download(download_path);
+        //         }
+        //         ;
+        //     });
+        // };
         $scope.getDownloadLink = function () {
             $('.list_content').removeClass("ui-selected");
             if ($(".data_false")[0]) {
                 alert("You can't download an entire collection through this web interface, please use the iRODS desktop application for bulk downloads");
             }
-            $('.data_false').removeClass("ui-selected");
+            var links = $('.ui-selected');
+            if(links.length == 1){
+                var path = $('.ui-selected').attr('id');
+                alert(path);
+            }else{
+                var pathArray = [];
+                links.each(function () {
+                    pathArray.push($(this).attr('id'));
+                });
+                $log.info(pathArray);
+            }
             var links = $('.ui-selected *');
-            $log.info(links);
-            links.each(function () {
-                if ($(this).children('span').attr('id') != undefined) {
-                    var download_path = $(this).children('span').attr('id');
-                    $scope.trigger_download(download_path);
-                }
-                ;
-            });
         };
 
         $scope.pop_up_open = function(){
@@ -306,18 +323,15 @@ angular.module('myApp.home', ['ngRoute', 'ngFileUpload'])
     }])
     .factory('downloadService', ['$http', '$log', 'globals', function ($http, $log, $globals) {
 
-
-
         return {
 
-            downloadSingle: function (pathArray) {
+            downloadSingle: function (path) {
                 //alert(vcName);
             },
             downloadBundle: function (pathArray) {
                 //alert(vcName);
             }
         };
-
 
     }])
     .factory('collectionsService', ['$http', '$log', 'globals', function ($http, $log, $globals) {

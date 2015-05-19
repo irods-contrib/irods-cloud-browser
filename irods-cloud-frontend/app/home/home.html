@@ -76,7 +76,7 @@
 				</div>
 			</div>
 			<ul id="selectable">
-			    <li class="ui-widget-content data_{{collectionAndDataObject.dataObject}}" ng-class-odd="'light_back_option'" ng-class-even="'light_back_option_even'" ng-repeat="collectionAndDataObject in pagingAwareCollectionListing.collectionAndDataObjectListingEntries" on-last-repeat>
+			    <li class="ui-widget-content data_{{collectionAndDataObject.dataObject}}" ng-class-odd="'light_back_option'" ng-class-even="'light_back_option_even'" ng-repeat="collectionAndDataObject in pagingAwareCollectionListing.collectionAndDataObjectListingEntries" id='{{collectionAndDataObject.formattedAbsolutePath}}' on-last-repeat>
 		            <div class="col-xs-7 list_content">
 			            <img ng-show="{{collectionAndDataObject.dataObject}} == false" src="images/collection_icon.png">
 			            <img ng-show="{{collectionAndDataObject.dataObject}} == true" src="images/data_object_icon.png">	          

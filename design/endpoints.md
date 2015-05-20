@@ -89,3 +89,13 @@ path=absolute path
 
 ### Parameters
 _collectionParentName:_ path of parent collection in iRODS 
+
+## Delete a file or list of files (data objects or collections)
+
+**URL** irods-cloud-backend/file
+
+**Method** Delete
+
+### Parameters
+_path:_ single path or array of paths
+_force:_ true|false

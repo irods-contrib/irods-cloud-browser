@@ -218,4 +218,43 @@ class FileServiceSpec extends Specification {
 		actual.bundleFileName == bundleName
 		actual.inputStream != null
 	}
+
+	void "should delete two files"() {
+		given:
+		IRODSAccount irodsAccount = IRODSAccount.instance("host", 1247, "user", "password", "", "zone", "")
+		def irodsAccessObjectFactory = mockFor(IRODSAccessObjectFactory)
+
+		def path1 = "/a/path/1.txt"
+		def path2 = "/a/path/2/subdir"
+
+		def irodsFileFactory = mockFor(IRODSFileFactory)
+
+		def irodsFile1 = mockFor(IRODSFile)
+		irodsFile1.demand.delete{-> return true}
+		irodsFile1.demand.delete{-> return true}
+		def irodsFile1Mock = irodsFile1.createMock()
+
+
+		irodsFileFactory.demand.instanceIRODSFile{pathIn1 -> return irodsFile1Mock}
+		irodsFileFactory.demand.instanceIRODSFile{pathIn2 -> return irodsFile1Mock}
+
+		def irodsFileFactoryMock = irodsFileFactory.createMock()
+
+		irodsAccessObjectFactory.demand.getIRODSFileFactory{act1 -> return irodsFileFactoryMock}
+		def irodsAccessObjectFactoryMock = irodsAccessObjectFactory.createMock()
+
+		FileService fileService = new FileService()
+		fileService.irodsAccessObjectFactory = irodsAccessObjectFactoryMock
+
+		List<String> paths = new ArrayList<String>()
+		paths.add(path1)
+		paths.add(path2)
+
+		when:
+
+		fileService.delete(paths, false, irodsAccount)
+
+		then:
+		1 == 1
+	}
 }

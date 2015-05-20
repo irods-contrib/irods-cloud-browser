@@ -37,11 +37,45 @@ class FileController extends RestfulController {
 		show()
 	}
 
+	/**
+	 * Delete contents of files or collections, as a list of paths, so that mutiple deletes are supported
+	 */
+	def delete() {
+		log.info("in delete()")
+		def irodsAccount = request.irodsAccount
+		if (!irodsAccount) throw new IllegalStateException("no irodsAccount in request")
+		def path = params.path
+		if (!path) {
+			throw new IllegalArgumentException("path is missing")
+		}
+
+		boolean force = false
+		if (params.force) {
+			force = params.force
+		}
+
+		log.info("path:${path}")
+		def pathList = new ArrayList<String>()
+		if (path instanceof String[]) {
+			log.info("multiple paths, create a zip")
+			path.each{pathElem -> pathList.add(pathElem)}
+		} else {
+			log.info("single path for download")
+			pathList.add(path)
+		}
+		fileService.delete(pathList, force, irodsAccount)
+		log.info("done")
+		render(status:204)
+	}
+
 	def show() {
 		log.info("in show()")
 		def irodsAccount = request.irodsAccount
 		if (!irodsAccount) throw new IllegalStateException("no irodsAccount in request")
 		def path = params.path
+		if (!path) {
+			throw new IllegalArgumentException("path is missing")
+		}
 		log.info("path:${path}")
 		def dataProfile = dataProfileMidTierService.retrieveDataProfile(path, irodsAccount)
 		render dataProfile as JSON

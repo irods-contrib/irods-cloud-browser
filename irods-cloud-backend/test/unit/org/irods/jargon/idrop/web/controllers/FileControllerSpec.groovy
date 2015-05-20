@@ -42,4 +42,45 @@ class FileControllerSpec extends Specification {
 		controller.response.status == 200
 		log.info("responseText:${response.text}")
 	}
+
+
+	void "shold get delete for a single path path"() {
+		given:
+
+		def fileService = mockFor(FileService)
+		fileService.demand.delete{path, force, irodsAccount -> }
+		controller.fileService = fileService.createMock()
+
+		IRODSAccount testAccount = IRODSAccount.instance("host", 1247, "user", "password", "","zone", "")
+		request.irodsAccount = testAccount
+		params.path = "/a/path"
+		params.force = false
+
+
+		when:
+		controller.delete()
+
+		then:
+		controller.response.status == 204
+	}
+
+	void "shold get delete for a multiple paths"() {
+		given:
+
+		def fileService = mockFor(FileService)
+		fileService.demand.delete{path, force, irodsAccount -> }
+		controller.fileService = fileService.createMock()
+
+		IRODSAccount testAccount = IRODSAccount.instance("host", 1247, "user", "password", "","zone", "")
+		request.irodsAccount = testAccount
+		params.path = ["path", "path"]
+		params.force = false
+
+
+		when:
+		controller.delete()
+
+		then:
+		controller.response.status == 204
+	}
 }

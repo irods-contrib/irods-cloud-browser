@@ -154,4 +154,32 @@ class FileService {
 
 		return dls
 	}
+
+	/**
+	 * Delete irods files/folders, taking a list of files so multi-selects can be supported
+	 * @param paths <code>List<String></code> of file paths
+	 * @param force <code>boolean</code> whether to force delete
+	 * @param irodsAccount
+	 * @throws JargonException
+	 */
+	void delete(List<String> paths, boolean force, IRODSAccount irodsAccount) throws JargonException {
+		log.info("delete()")
+		if (!paths) {
+			throw new IllegalArgumentException("paths:${paths}")
+		}
+		log.info("force:${force}")
+		def irodsFileFactory = irodsAccessObjectFactory.getIRODSFileFactory(irodsAccount)
+		def irodsFile
+		paths.each{pathElem ->
+			log.info("deleting:${pathElem}")
+			irodsFile = irodsFileFactory.instanceIRODSFile(pathElem)
+			log.info("irodsFile for delete:${irodsFile}")
+			if (force) {
+				irodsFile.deleteWithForceOption()
+			} else {
+				irodsFile.delete()
+			}
+		}
+		log.info("done")
+	}
 }

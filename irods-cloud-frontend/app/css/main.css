@@ -437,6 +437,9 @@ time, mark, audio, video {
 	height:27px;
 	border-bottom:1px solid #C7C9C7; 
 }
+.deleter{
+	padding: 5px 5px 39px 5px;
+}
 .light_header span{
 	position: absolute;
 	line-height: 19px;

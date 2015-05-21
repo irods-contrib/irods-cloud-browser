@@ -91,17 +91,39 @@ angular.module('myApp.profile', ['ngRoute'])
                     }
                 }
             };
-        $scope.pop_up_close = function(){
-            $('.pop_up_window').fadeOut(100, function(){
-                $(".upload_container").css('display','block');
+            $scope.delete_action = function (){
+                var delete_paths = 'path='+ $scope.dataProfile.parentPath + "/" +$scope.dataProfile.childName;
+                $log.info('Deleting:'+delete_paths);
+                return $http({
+                        method: 'DELETE',
+                        url: $globals.backendUrl('file') + '?' + delete_paths 
+                    }).success(function (data) {
+                        alert('Deletion completed');
+                        window.history.back();
+                    })
+            };
+        $scope.upload_pop_up_open = function(){
+            $('.pop_up_window').fadeIn(100);
+            $('.uploader').fadeIn(100);
+        };
+        $scope.delete_pop_up_open = function(){
+            $('.pop_up_window').fadeIn(100);            
+                
+                    $(".delete_container ul").append('<li class="light_back_option_even"><div class="col-xs-7 list_content"><img src="images/data_object_icon.png">'+$scope.dataProfile.childName+'</div></li>');
+                         
+            $('.deleter').fadeIn(100);
+        };
+        $scope.pop_up_close = function () {
+
+            $('.pop_up_window').fadeOut(100, function () {
+                $(".upload_container").css('display', 'block');
                 $(".upload_container_result").html('<ul></ul>');
-                $(".upload_container_result").css('display','none');
+                $(".upload_container_result").css('display', 'none');
+                $('.uploader').fadeOut(100);
+                $('.deleter').fadeOut(100);
                 location.reload();
             });
-            
-        };
-        $scope.pop_up_open = function(){
-            $('.pop_up_window').fadeIn(100);
+
         };
         $scope.green_action_toggle= function($event){
           var content = $event.currentTarget.nextElementSibling;

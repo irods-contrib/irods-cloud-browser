@@ -175,6 +175,7 @@ angular.module('myApp.home', ['ngRoute', 'ngFileUpload'])
                     method: 'DELETE',
                     url: $globals.backendUrl('file') + '?' + delete_paths 
                 }).success(function (data) {
+                    alert('Deletion completed');
                     location.reload();
                 })
         };

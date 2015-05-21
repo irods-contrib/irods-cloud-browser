@@ -1,6 +1,6 @@
 <div class="pop_up_window">
 	<div class="three_column centered">
-		<div class="column_content">
+		<div class="column_content uploader">
 			<div class="light_header"><img src="images/upload_icon_dark.png"><span>Uploading files to {{pagingAwareCollectionListing.pagingAwareCollectionListingDescriptor.pathComponents[current_collection_index]}}</span><img class="pop_up_close_button right" title="close window" ng-click="pop_up_close()" src="images/close_icon.png"></div>
 			
 			<div class="upload_container">
@@ -27,16 +27,24 @@
 			
 			
 		</div>
+		<div class="column_content deleter">
+			<div class="delete_header"><img src="images/dark_delete_icon.png"><span>&nbsp;Are you sure you want to DELETE the following:</span><img class="pop_up_close_button right" title="close window" ng-click="pop_up_close()" src="images/close_icon.png"></div>
+			
+			<div class="delete_container">
+				<br>
+				<ul></ul>
+				<div class="container"><hr class="hr_flat"></div>
+				<div class="left">
+					<div class="btn btn-default" ng-click="pop_up_close()">Cancel</div>
+				</div>
+				<div class="right t_right">
+					Yes, I'm sure.&nbsp;<div class="btn btn-danger" ng-click="delete_action()">Delete</div>
+				</div>
+			</div>
+		</div>
 	</div>
 </div>
-<div id="side_nav" ng-mouseover="side_nav_autotoggle('on')" ng-mouseleave="side_nav_autotoggle('off')">
-	<div class="side_nav_toggle_button" ng-click="side_nav_toggle()">>></div>
-	<ul class="side_nav_options">
-		<li class="dark_back_option_double"><img src="images/hier_browsing_icon.png"><span>Hierarchical Browse</span></li>
-		<li class="dark_back_option_double"><img src="images/focused_browsing_icon.png"><span>Focused Browse</span></li>
-		<li class="dark_back_option_double"><img src="images/organic_browsing_icon.png"><span>Organic Browse</span></li>
-	</ul>
-</div>
+<div ng-include="'side_nav.html'"></div>
 <div id="main_contents"> 
 	<div class="one_column">
 		<div class="column_content">
@@ -56,9 +64,10 @@
 						 /{{breadcrumb}} 				
 					</span>
 					<div class="right">
-						<div class="upload_button" title="Upload files to this collection" ng-click="pop_up_open()"> 
+						<div class="upload_button" title="Upload files to this collection" ng-click="upload_pop_up_open()"> 
 							<img src="images/upload_icon.png"><span>&nbsp;Upload</span>	
 						</div>
+						<div class="small_vertical_divider"></div>
 						<div class="upload_button" title="Go to Profile page of this collection" ng-click="selectProfile(pagingAwareCollectionListing.pagingAwareCollectionListingDescriptor.parentAbsolutePath)"> 
 							<img src="images/collection_light_icon.png"><span>&nbsp;Profile</span>	
 						</div>
@@ -70,6 +79,10 @@
 				<span>You've selected:</span>
 				<span id="select-result">none</span>
 				<div class="right">
+					<div class="download_button" title="Delete selected file(s) " ng-click='delete_pop_up_open()' > 
+						<img src="images/delete_icon.png"><span>&nbsp;Delete</span>	
+					</div>
+					<div class="small_vertical_divider"></div>
 					<div class="download_button" title="Download selected file(s) " ng-click='getDownloadLink()' > 
 						<img src="images/download_icon.png"><span>&nbsp;Download</span>	
 					</div>
@@ -93,5 +106,8 @@
 			    </li>
 			</ul>
 		</div>
+	</div>
+	<div class="powered_by">
+		<img src="images/powered_by_irods.png">
 	</div>
 </div>

@@ -29,14 +29,7 @@
 		</div>
 	</div>
 </div>
-<div id="side_nav" ng-mouseover="side_nav_autotoggle('on')" ng-mouseleave="side_nav_autotoggle('off')">
-	<div class="side_nav_toggle_button" ng-click="side_nav_toggle()">>></div>
-	<ul class="side_nav_options">
-		<li class="dark_back_option_double"><img src="images/hier_browsing_icon.png"><span>Hierarchical Browse</span></li>
-		<li class="dark_back_option_double"><img src="images/focused_browsing_icon.png"><span>Focused Browse</span></li>
-		<li class="dark_back_option_double"><img src="images/organic_browsing_icon.png"><span>Organic Browse</span></li>
-	</ul>
-</div>
+<div ng-include="'side_nav.html'"></div>
 <div id="main_contents"> 
 	<div class="full_column">
 		<div class="column_content">
@@ -102,29 +95,6 @@
 				</div>
 				<div class="profile_body">
 					<div class="green_toggle_container" ng-show="{{dataProfile.file}} == false">
-						<div class="green_title" ng-click="green_action_toggle($event)" >
-							Description
-							<div class="dark_toggle_button right" >
-								 <img src="images/arrow_down.png">
-							</div>
-						</div>
-						<div class="green_content">
-							Collection Descriptive text
-						</div>
-					</div>
-					<div class="green_toggle_container" ng-show="{{dataProfile.file}} == true">
-						<div class="green_title" ng-click="green_action_toggle($event)" >
-							Description
-							<div class="dark_toggle_button right" >
-								 <img src="images/arrow_down.png">
-							</div>
-						</div>
-						<div class="green_content">
-							test text<br>
-							test text<br>
-						</div>
-					</div>
-					<div class="green_toggle_container" ng-show="{{dataProfile.file}} == false">
 						<div class="green_title" ng-click="green_action_toggle($event)">
 							Actions
 							<div class="dark_toggle_button right">
@@ -134,7 +104,7 @@
 						<div class="green_content" >
 							<div class="col-xs-4 ">								
 								<ul class="list-group">
-									<li class="list-group-item list-group-item-success">
+									<li class="list-group-item list-group-item-info">
 										<h2>System Actions</h2>
 									</li>
 									<li class="list-group-item">
@@ -144,7 +114,7 @@
 							</div>
 							<div class="col-xs-4 ">
 								<ul class="list-group">
-									<li class="list-group-item list-group-item-success">
+									<li class="list-group-item list-group-item-info">
 										<h2>Collection Actions</h2>
 									</li>
 								</ul>
@@ -161,7 +131,7 @@
 						<div class="green_content" >
 							<div class="col-xs-4 ">								
 								<ul class="list-group">
-									<li class="list-group-item list-group-item-success">
+									<li class="list-group-item list-group-item-info">
 										<h2>System Actions</h2>
 									</li>
 									<li class="list-group-item">
@@ -171,7 +141,7 @@
 							</div>
 							<div class="col-xs-4 ">
 								<ul class="list-group">
-									<li class="list-group-item list-group-item-success">
+									<li class="list-group-item list-group-item-info">
 										<h2>File Type Actions</h2>
 									</li>
 								</ul>
@@ -186,24 +156,18 @@
 							</div>
 						</div>
 						<div class="green_content">
-							test text<br>
-							test text<br>
-							test text<br>
-							test text<br>
-							test text<br>
-							test text<br>
-							test text<br>
-						</div>
-					</div>
-					<div class="green_toggle_container" ng-show="{{dataProfile.file}} == true">
-						<div class="green_title" ng-click="green_action_toggle($event)">
-							History
-							<div class="dark_toggle_button right">
-								 <img src="images/arrow_down.png">
-							</div>
-						</div>
-						<div class="green_content">
-						<img src="images/ir_logo.svg" width='70'>
+							
+							
+								<div class="list-group">
+									<div class="list-group-item list-group-item-info">
+										<div class="q_column"><h2>Attribute</h2></div><div class="q_column"><h2>Value</h2></div><div class="q_column"><h2>Unit</h2></div>
+									</div>
+									<div class="list-group-item" ng-repeat="avu in dataProfile.metadata">
+										<div class="q_column">{{avu.avuAttribute}}</div><div class="q_column">{{avu.avuValue}}</div><div class="q_column">{{avu.avuUnit}}</div>
+									</div>
+								</div>
+							
+							
 						</div>
 					</div>
 				</div>

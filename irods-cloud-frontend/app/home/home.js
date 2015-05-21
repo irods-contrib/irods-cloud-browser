@@ -161,21 +161,23 @@ angular.module('myApp.home', ['ngRoute', 'ngFileUpload'])
 
             $scope.current_collection_index = $scope.pagingAwareCollectionListing.pagingAwareCollectionListingDescriptor.pathComponents.length - 1;
         }
-        // $scope.getDownloadLink = function () {
-        //     $('.list_content').removeClass("ui-selected");
-        //     if ($(".data_false")[0]) {
-        //         alert("You can't download an entire collection through this web interface, please use the iRODS desktop application for bulk downloads");
-        //     }
-        //     $('.data_false').removeClass("ui-selected");
-        //     var links = $('.ui-selected *');
-        //     links.each(function () {
-        //         if ($(this).children('span').attr('id') != undefined) {
-        //             var download_path = $(this).children('span').attr('id');
-        //             $scope.trigger_download(download_path);
-        //         }
-        //         ;
-        //     });
-        // };
+        $scope.delete_action = function (){
+            var delete_objects = $('.ui-selected');
+            var delete_paths = '';
+            delete_objects.each(function () {
+                if ($(this).attr('id') != undefined) {
+                    delete_paths += 'path='+ $(this).attr('id') +'&';
+                };
+            });
+            delete_paths = delete_paths.substring(0, delete_paths.length - 1);
+            $log.info('Deleting:'+delete_paths);
+            return $http({
+                    method: 'DELETE',
+                    url: $globals.backendUrl('file') + '?' + delete_paths 
+                }).success(function (data) {
+                    location.reload();
+                })
+        };
         $scope.getDownloadLink = function () {
             $('.list_content').removeClass("ui-selected");
             if ($(".data_false")[0]) {
@@ -199,21 +201,31 @@ angular.module('myApp.home', ['ngRoute', 'ngFileUpload'])
             }
         };
 
-        $scope.pop_up_open = function(){
+        $scope.upload_pop_up_open = function(){
             $('.pop_up_window').fadeIn(100);
+            $('.uploader').fadeIn(100);
+        };
+        $scope.delete_pop_up_open = function(){
+            $('.pop_up_window').fadeIn(100);
+            var delete_objects = $('.ui-selected');
+            delete_objects.each(function () {
+                if ($(this).attr('id') != undefined) {
+                    $(".delete_container ul").append('<li class="light_back_option_even"><div class="col-xs-7 list_content"><img src="images/data_object_icon.png">'+$(this).attr('id')+'</div></li>');
+                };
+            });            
+            $('.deleter').fadeIn(100);
         };
         $scope.pop_up_close = function () {
+
             $('.pop_up_window').fadeOut(100, function () {
                 $(".upload_container").css('display', 'block');
                 $(".upload_container_result").html('<ul></ul>');
                 $(".upload_container_result").css('display', 'none');
+                $('.uploader').fadeOut(100);
+                $('.deleter').fadeOut(100);
                 location.reload();
             });
 
-        };
-        $scope.trigger_download = function (element) {
-            //return $http({method:'POST', url: $globals.backendUrl('download') + "?path=" + element, headers:});
-            window.open($globals.backendUrl('download') + "?path=" + element);
         };
 
         /**

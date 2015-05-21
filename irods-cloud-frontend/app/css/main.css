@@ -25,14 +25,19 @@ time, mark, audio, video {
   #selectable .ui-selecting { background: #FECA40; }
   #selectable .ui-selected { background: #F39814; color: white; }
 /* ||||||||||||||||||||||||||||||||||| */
-/* |||||||| HEADER NAV STYLES |||||||| */
+/* |||||||||||  NAV STYLES ||||||||||| */
 /* ||||||||||||||||||||||||||||||||||| */
 .green_nav{
-	background: #00B099;
+	background: #009DB6;
 	position: absolute;
 	z-index: 2;
 }
-
+.powered_by{
+	position: absolute;
+	z-index: 12;
+	bottom: 0px;
+	right: 0px;
+}
 /* ||||||||||||||||||||||||||||||||||| */
 /* ||||||||| SIDE NAV STYLES ||||||||| */
 /* ||||||||||||||||||||||||||||||||||| */
@@ -78,38 +83,43 @@ time, mark, audio, video {
 	float: left;
 }
 .four_column{
-	padding: 53px 5px 5px 5px;
+	padding: 53px 5px 35px 5px;
 	position: relative;
 	float: left;
 	width:80%;
 }
 .full_column{
-	padding: 53px 5px 5px 5px;
+	padding: 53px 5px 35px 5px;
 	position: relative;
 	float: left;
 	width:100%;
 }
 .three_column{
-	padding: 53px 5px 5px 5px;
+	padding: 53px 5px 35px 5px;
 	position: relative;
 	float: left;
 	width:60%;
 }
 .one_column{
-	padding: 53px 5px 5px 5px;
+	padding: 53px 5px 35px 5px;
 	position: relative;
 	float: left;
 	width: 20%;
 }
+.q_column{
+	width:33%;
+	position: relative;
+	display: inline-block;
+}
 .main_content{
-	border-top:2px solid #00B099;
+	border-top:2px solid #009DB6;
 	background: #fff;
 	min-height:300px;
 	height: 100%;
 	width:100%;
 }
 .column_content{
-	border-top:2px solid #00B099;
+	border-top:2px solid #009DB6;
 	background: #fff;
 	padding: 5px;
 	min-height:300px;
@@ -131,10 +141,23 @@ time, mark, audio, video {
 	font-size: 12px;
 	font-weight: lighter;
 	text-align: center;
-	text-align: center;
 	height: 21px;
-	float:right;
 	margin: 0px 5px;
+}
+.uploader{
+	display: none;
+}
+.deleter{
+	display: none;
+}
+.small_vertical_divider{
+	background: #fff;
+	position:relative;
+	display:inline-block;
+	float: right;
+	opacity: 0.5;
+	width:1px;
+	height: 21px;
 }
 .upload_container_result{
 	display: none;
@@ -163,7 +186,7 @@ time, mark, audio, video {
 .drop_box{
 	position: relative;
 	width: 100%;
-	border: 2px solid #00B099;
+	border: 2px solid #009DB6;
 	margin: 10px 0px;
 	height:170px;
 	text-align: center;
@@ -213,21 +236,21 @@ time, mark, audio, video {
 	width:100%;
 }
 .green_toggle_container{
-	background: #00B099;
+	background: #009DB6;
 	padding: 5px 10px 0px;
 	margin:0px 0px 5px 0px;
 	display: inline-block;
 	width: 100%;
 }
 .green_toggle_container:hover{
-	background: #00917E;
+	background: #006171;
 }
 .green_toggle_container_open{
-	border:1px solid #00B099;
+	border:1px solid #006171;
 	background: #fff;
 }
 .green_toggle_container_open:hover{
-	border:1px solid #00B099;
+	border:1px solid #006171;
 	background: #fff;
 }
 .green_title{
@@ -237,7 +260,7 @@ time, mark, audio, video {
 	line-height: 14px;
 }
 .green_toggle_container_open .green_title{
-	color:#00B099;
+	color:#006171;
 }
 .green_content{
 	display: none;
@@ -295,7 +318,9 @@ time, mark, audio, video {
 .col-xs-6, .col-xs-4{
 	padding:0px;
 }
-
+.navbar-brand{
+	padding: 6px 0px 0px 0px;
+}
 /* ||||||||||||||||||||||||||||||||||| */
 /* |||||||| POSITIONING STYLES ||||||| */
 /* ||||||||||||||||||||||||||||||||||| */
@@ -398,6 +423,14 @@ time, mark, audio, video {
 }
 .light_header{
 	color: #384B50;
+	text-align: left;
+	font-size: 14px;
+	font-weight: bold;
+	height:27px;
+	border-bottom:1px solid #C7C9C7; 
+}
+.delete_header{
+	color: #C93C3C;
 	text-align: left;
 	font-size: 14px;
 	font-weight: bold;

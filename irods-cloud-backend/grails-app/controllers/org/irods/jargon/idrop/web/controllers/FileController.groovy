@@ -81,6 +81,31 @@ class FileController extends RestfulController {
 		render dataProfile as JSON
 	}
 
+	/**
+	 * PUT handles file/folder create
+	 */
+	def update() {
+		log.info("update()")
+		def irodsAccount = request.irodsAccount
+		if (!irodsAccount) throw new IllegalStateException("no irodsAccount in request")
+		def path = params.path
+		if (!path) {
+			throw new IllegalArgumentException("path is missing")
+		}
+		boolean collection = true
+		if (!params.collection) {
+			// true
+		} else if (params.collection == false) {
+			collection = false
+		}
+
+		log.info("collection:${collection}")
+
+		if (collection) {
+			log.info("adding a new folder")
+			irodsAccessObjectFactory
+		}
+	}
 
 	/**
 	 * POST handling file upload

@@ -7,10 +7,9 @@ import grails.test.mixin.*
 import org.irods.jargon.core.connection.IRODSAccount
 import org.irods.jargon.core.pub.IRODSAccessObjectFactory
 import org.irods.jargon.core.pub.Stream2StreamAO
-import org.irods.jargon.core.pub.TransferStatistics
-import org.irods.jargon.core.pub.io.IRODSFile
 import org.irods.jargon.core.pub.io.IRODSFileFactory
-import org.irods.jargon.core.pub.io.IRODSFileInputStream
+import org.irods.jargon.idrop.web.services.DownloadFileSpecification
+import org.irods.jargon.idrop.web.services.FileService
 import org.junit.*
 
 import spock.lang.Specification
@@ -29,32 +28,34 @@ class DownloadControllerSpec extends Specification {
 		request.irodsAccount = testAccount
 		params.path = "/a/path"
 
-		def factory = mockFor(IRODSAccessObjectFactory)
+		def irodsAccessObjectFactory = mockFor(IRODSAccessObjectFactory)
+
 		def irodsFileFactory = mockFor(IRODSFileFactory)
-
-		def irodsFileInputStream = mockFor(IRODSFileInputStream)
-		irodsFileInputStream.demand.read{b -> return -1}
-		def irodsFileInputStreamMock = irodsFileInputStream.createMock()
-
-		def irodsFile = mockFor(IRODSFile)
-		irodsFile.demand.length{return 100L}
-		irodsFile.demand.getName{return "hi"}
-		def irodsFileMock = irodsFile.createMock()
-		irodsFileFactory.demand.instanceIRODSFileInputStream{path -> return irodsFileInputStreamMock}
-		irodsFileFactory.demand.instanceIRODSFile{path -> return irodsFileMock}
-
 		def irodsFileFactoryMock = irodsFileFactory.createMock()
-		factory.demand.getIRODSFileFactory{irodsAcct -> return irodsFileFactoryMock}
+		irodsAccessObjectFactory.demand.getIRODSFileFactory{irodsAcct -> return irodsFileFactoryMock}
+
+
 
 		def stream2StreamAO = mockFor(Stream2StreamAO)
-		stream2StreamAO.demand.streamToStreamCopyUsingStandardIO{is, bos -> return new TransferStatistics()}
+		stream2StreamAO.demand.streamToStreamCopyUsingStandardIO{is1, os2 -> return null}
 		def stream2StreamAOMock = stream2StreamAO.createMock()
+		irodsAccessObjectFactory.demand.getStream2StreamAO{irodsAcct2 -> return stream2StreamAOMock}
+		def irodsAccessObjectFactoryMock = irodsAccessObjectFactory.createMock()
+		controller.irodsAccessObjectFactory = irodsAccessObjectFactoryMock
 
-		factory.demand.getStream2StreamAO{act -> return stream2StreamAOMock}
-		def mockFactory = factory.createMock()
+		def inputStream = mockFor(InputStream)
+		def inputStreamMock = inputStream.createMock()
 
-		controller.irodsAccessObjectFactory = mockFactory
-
+		def fileService = mockFor(FileService)
+		DownloadFileSpecification dfs = new DownloadFileSpecification()
+		dfs.bundleFileName = "blah"
+		dfs.contentDispositionHeader = "foo"
+		dfs.length = 100L
+		dfs.type = "bar"
+		dfs.inputStream = inputStreamMock
+		fileService.demand.obtainInputStreamForDownloadSingleFile{p1,a1 -> return dfs}
+		def fileServiceMock = fileService.createMock()
+		controller.fileService = fileServiceMock
 
 		when:
 		controller.show()

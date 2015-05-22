@@ -61,7 +61,7 @@ class DownloadController extends RestfulController {
 
 		Stream2StreamAO stream2Stream = irodsAccessObjectFactory.getStream2StreamAO(irodsAccount)
 		def stats = stream2Stream
-				.streamToStreamCopyUsingStandardIO(dfs.inputStream, new BufferedOutputStream(response.outputStream, 32768))
+				.streamToStreamCopyUsingStandardIO(dfs.inputStream, new BufferedOutputStream(response.outputStream))
 		log.info("transferStats:${stats}")
 
 	}

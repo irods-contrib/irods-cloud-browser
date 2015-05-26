@@ -257,4 +257,41 @@ class FileServiceSpec extends Specification {
 		then:
 		1 == 1
 	}
+
+	void "should create new folder and return a listing entry"() {
+		given:
+		IRODSAccount irodsAccount = IRODSAccount.instance("host", 1247, "user", "password", "", "zone", "")
+		def irodsAccessObjectFactory = mockFor(IRODSAccessObjectFactory)
+
+		def path = "/a/path/dir"
+
+		def irodsFileFactory = mockFor(IRODSFileFactory)
+
+		def irodsFile1 = mockFor(IRODSFile)
+		irodsFile1.demand.mkdir{-> return true}
+		def irodsFile1Mock = irodsFile1.createMock()
+
+		irodsFileFactory.demand.instanceIRODSFile{pathIn1 -> return irodsFile1Mock}
+		def irodsFileFactoryMock = irodsFileFactory.createMock()
+
+		irodsAccessObjectFactory.demand.getIRODSFileFactory{act1 -> return irodsFileFactoryMock}
+		def listingEntry = new CollectionAndDataObjectListingEntry()
+		def collectionAO = mockFor(CollectionAO)
+		collectionAO.demand.getListingEntryForAbsolutePath{pth1 -> return listingEntry}
+		def collectionAOMock = collectionAO.createMock()
+
+		irodsAccessObjectFactory.demand.getCollectionAO{ia1 -> return collectionAOMock}
+
+		def irodsAccessObjectFactoryMock = irodsAccessObjectFactory.createMock()
+
+		FileService fileService = new FileService()
+		fileService.irodsAccessObjectFactory = irodsAccessObjectFactoryMock
+
+		when:
+
+		def actual = fileService.newFolder(path, irodsAccount)
+
+		then:
+		actual != null
+	}
 }

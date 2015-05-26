@@ -3,6 +3,7 @@ package org.irods.jargon.idrop.web.controllers
 import grails.test.mixin.*
 
 import org.irods.jargon.core.connection.IRODSAccount
+import org.irods.jargon.core.query.CollectionAndDataObjectListingEntry
 import org.irods.jargon.dataprofile.DataProfile
 import org.irods.jargon.idrop.web.services.DataProfileMidTierService
 import org.irods.jargon.idrop.web.services.FileService
@@ -40,6 +41,29 @@ class FileControllerSpec extends Specification {
 
 		then:
 		controller.response.status == 200
+		log.info("responseText:${response.text}")
+	}
+
+	void "shold create new folder and return a listing"() {
+		given:
+
+		def fileService = mockFor(FileService)
+		def listingEntry = new CollectionAndDataObjectListingEntry()
+		fileService.demand.newFolder{path, irodsAccount -> return listingEntry}
+		controller.fileService = fileService.createMock()
+
+		IRODSAccount testAccount = IRODSAccount.instance("host", 1247, "user", "password", "","zone", "")
+		request.irodsAccount = testAccount
+		params.path = "/a/path"
+		params.collection = true
+
+
+		when:
+		controller.update()
+
+		then:
+		controller.response.status == 200
+		controller.response.text != null
 		log.info("responseText:${response.text}")
 	}
 

@@ -82,7 +82,9 @@ class FileController extends RestfulController {
 	}
 
 	/**
-	 * PUT handles file/folder create
+	 * PUT handles file/folder create.  Right now the creation of folders only is supported
+	 * <p/>
+	 * 
 	 */
 	def update() {
 		log.info("update()")
@@ -101,10 +103,15 @@ class FileController extends RestfulController {
 
 		log.info("collection:${collection}")
 
+		def listingEntry
 		if (collection) {
 			log.info("adding a new folder")
-			irodsAccessObjectFactory
+			listingEntry = fileService.newFolder(path, irodsAccount)
+		} else {
+			throw new UnsupportedOperationException("Cannot create files, only folders")
 		}
+
+		render listingEntry as JSON
 	}
 
 	/**

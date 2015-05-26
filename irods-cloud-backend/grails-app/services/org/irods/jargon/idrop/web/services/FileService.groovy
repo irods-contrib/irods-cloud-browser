@@ -8,6 +8,8 @@ import org.irods.jargon.core.pub.DataObjectAO
 import org.irods.jargon.core.pub.IRODSAccessObjectFactory
 import org.irods.jargon.core.pub.domain.ObjStat
 import org.irods.jargon.core.pub.io.IRODSFile
+import org.irods.jargon.core.query.CollectionAndDataObjectListingEntry
+
 
 
 /**
@@ -165,12 +167,15 @@ class FileService {
 	void delete(List<String> paths, boolean force, IRODSAccount irodsAccount) throws JargonException {
 		log.info("delete()")
 		if (!paths) {
-			throw new IllegalArgumentException("paths:${paths}")
+			throw new IllegalArgumentException("path is missing")
+		}
+		if (!irodsAccount) {
+			throw new IllegalArgumentException("irodsAccount is missing")
 		}
 		log.info("force:${force}")
 		def irodsFileFactory = irodsAccessObjectFactory.getIRODSFileFactory(irodsAccount)
 		def irodsFile
-		paths.each{pathElem ->
+		paths.each{ pathElem ->
 			log.info("deleting:${pathElem}")
 			irodsFile = irodsFileFactory.instanceIRODSFile(pathElem)
 			log.info("irodsFile for delete:${irodsFile}")
@@ -181,5 +186,30 @@ class FileService {
 			}
 		}
 		log.info("done")
+	}
+
+	/**
+	 * Idempotent method to create a directory and return a listing entry.  This is so that the entry can easily be 
+	 * inserted into an interface
+	 * @param path <code>String</code> with an iRODS path
+	 * @param irodsAccount
+	 * @return
+	 * @throws JargonException
+	 */
+	CollectionAndDataObjectListingEntry newFolder(String path, IRODSAccount irodsAccount) throws JargonException {
+		log.info("newFolder()")
+		if (!path) {
+			throw new IllegalArgumentException("null or empty path")
+		}
+		if (!irodsAccount) {
+			throw new IllegalArgumentException("irodsAccount is missing")
+		}
+		def irodsFile = irodsAccessObjectFactory.getIRODSFileFactory(irodsAccount).instanceIRODSFile(path)
+		irodsFile.mkdir()
+
+		log.info("dir made, return a listing entry")
+		def collectionAO = irodsAccessObjectFactory.getCollectionAO(irodsAccount)
+		def listingEntry = collectionAO.getListingEntryForAbsolutePath(path)
+		return listingEntry
 	}
 }

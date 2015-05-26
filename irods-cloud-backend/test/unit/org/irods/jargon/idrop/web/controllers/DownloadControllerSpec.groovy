@@ -8,9 +8,10 @@ import org.irods.jargon.core.connection.IRODSAccount
 import org.irods.jargon.core.pub.IRODSAccessObjectFactory
 import org.irods.jargon.core.pub.Stream2StreamAO
 import org.irods.jargon.core.pub.TransferStatistics
-import org.irods.jargon.core.pub.io.IRODSFile
 import org.irods.jargon.core.pub.io.IRODSFileFactory
 import org.irods.jargon.core.pub.io.IRODSFileInputStream
+import org.irods.jargon.idrop.web.services.DownloadFileSpecification
+import org.irods.jargon.idrop.web.services.FileService
 import org.junit.*
 
 import spock.lang.Specification
@@ -35,16 +36,16 @@ class DownloadControllerSpec extends Specification {
 		def irodsFileInputStream = mockFor(IRODSFileInputStream)
 		irodsFileInputStream.demand.read{b -> return -1}
 		def irodsFileInputStreamMock = irodsFileInputStream.createMock()
+		def dfs = new DownloadFileSpecification()
+		dfs.bundleFileName = "file"
+		dfs.contentDispositionHeader = "header"
+		dfs.inputStream = irodsFileInputStreamMock
+		dfs.length = 100L
+		dfs.type = "blah"
 
-		def irodsFile = mockFor(IRODSFile)
-		irodsFile.demand.length{return 100L}
-		irodsFile.demand.getName{return "hi"}
-		def irodsFileMock = irodsFile.createMock()
-		irodsFileFactory.demand.instanceIRODSFileInputStream{path -> return irodsFileInputStreamMock}
-		irodsFileFactory.demand.instanceIRODSFile{path -> return irodsFileMock}
-
-		def irodsFileFactoryMock = irodsFileFactory.createMock()
-		factory.demand.getIRODSFileFactory{irodsAcct -> return irodsFileFactoryMock}
+		def fileService = mockFor(FileService)
+		fileService.demand.obtainInputStreamForDownloadSingleFile{pth1, act1 -> return dfs}
+		def fileServiceMock = fileService.createMock()
 
 		def stream2StreamAO = mockFor(Stream2StreamAO)
 		stream2StreamAO.demand.streamToStreamCopyUsingStandardIO{is, bos -> return new TransferStatistics()}
@@ -54,7 +55,7 @@ class DownloadControllerSpec extends Specification {
 		def mockFactory = factory.createMock()
 
 		controller.irodsAccessObjectFactory = mockFactory
-
+		controller.fileService = fileServiceMock
 
 		when:
 		controller.show()

@@ -5,7 +5,6 @@ import grails.rest.RestfulController
 import org.irods.jargon.core.exception.JargonException
 import org.irods.jargon.core.pub.IRODSAccessObjectFactory
 import org.irods.jargon.core.pub.Stream2StreamAO
-import org.irods.jargon.core.pub.io.IRODSFileFactory
 import org.irods.jargon.idrop.web.services.DownloadFileSpecification
 import org.irods.jargon.idrop.web.services.FileService
 import org.irods.jargon.idrop.web.services.JargonServiceFactoryService
@@ -32,8 +31,6 @@ class DownloadController extends RestfulController {
 			log.error("no path in request ")
 			throw new JargonException("no path in request")
 		}
-
-		IRODSFileFactory irodsFileFactory = irodsAccessObjectFactory.getIRODSFileFactory(irodsAccount)
 
 		//InputStream irodsFileInputStream = null
 		DownloadFileSpecification dfs

@@ -99,3 +99,21 @@ _collectionParentName:_ path of parent collection in iRODS
 ### Parameters
 _path:_ single path or array of paths
 _force:_ true|false
+
+
+
+## Create a new file or folder
+
+**URL** irods-cloud-backend/file
+
+**Method** PUT
+
+### Parameters
+_path:_ path of new file or folder
+_collection:_ true|false, false if not provided, will create a new folder if true, a new file if false
+
+### Response (JSON)
+
+Will return a listing entry JSON object that reflects the new file or folder.  If the file or folder already exists, it will just return the entry
+
+   {"class":"org.irods.jargon.core.query.CollectionAndDataObjectListingEntry","collection":false,"count":0,"createdAt":null,"dataObject":false,"dataSize":0,"description":"","displayDataSize":"0 B","formattedAbsolutePath":"/","id":0,"lastResult":false,"modifiedAt":null,"nodeLabelDisplayValue":"","objectType":null,"ownerName":"","ownerZone":"","parentPath":"","pathOrName":"","specColType":{"enumType":"org.irods.jargon.core.pub.domain.ObjStat$SpecColType","name":"NORMAL"},"specialObjectPath":"","totalRecords":0,"userFilePermission":[]}

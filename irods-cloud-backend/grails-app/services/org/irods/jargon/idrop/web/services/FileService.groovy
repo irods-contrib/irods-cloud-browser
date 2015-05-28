@@ -193,7 +193,7 @@ class FileService {
 	 * inserted into an interface
 	 * @param path <code>String</code> with an iRODS path
 	 * @param irodsAccount
-	 * @return
+	 * @return <code>CollectionAndDataObjectListingEntry</code> with the 
 	 * @throws JargonException
 	 */
 	CollectionAndDataObjectListingEntry newFolder(String path, IRODSAccount irodsAccount) throws JargonException {
@@ -210,6 +210,41 @@ class FileService {
 		log.info("dir made, return a listing entry")
 		def collectionAO = irodsAccessObjectFactory.getCollectionAO(irodsAccount)
 		def listingEntry = collectionAO.getListingEntryForAbsolutePath(path)
+		return listingEntry
+	}
+
+	/**
+	 * Rename a file to a new name within the same parent collection
+	 * @param path <code>String</code> with an iRODS path that is the existing path of the file or collection
+	 * @param newName <code>String</code> with the new name, in the existing parent collection (this is different from a move)
+	 * @param irodsAccount
+	 * @return
+	 * @throws JargonException
+	 */
+	CollectionAndDataObjectListingEntry rename(String path, String newName, IRODSAccount irodsAccount) throws JargonException {
+		log.info("rename()")
+		if (!path) {
+			throw new IllegalArgumentException("null or empty path")
+		}
+		if (!newName) {
+			throw new IllegalArgumentException("null or empty newName")
+		}
+		if (!irodsAccount) {
+			throw new IllegalArgumentException("irodsAccount is missing")
+		}
+
+		log.info("path:${path}")
+		log.info("newName:${newName}")
+
+		def dataTransferOperations = irodsAccessObjectFactory.getDataTransferOperations(irodsAccount)
+		def sourceFile = irodsAccessObjectFactory.getIRODSFileFactory(irodsAccount).instanceIRODSFile(path)
+		def targetFile = irodsAccessObjectFactory.getIRODSFileFactory(irodsAccount).instanceIRODSFile(sourceFile.parent, newName)
+		log.info("target is:${targetFile}...doing move...")
+		dataTransferOperations.move(sourceFile, targetFile)
+		log.info("move completed")
+		def collectionAO = irodsAccessObjectFactory.getCollectionAO(irodsAccount)
+		def listingEntry = collectionAO.getListingEntryForAbsolutePath(targetFile.absolutePath)
+		log.info("entry for new file:${listingEntry}")
 		return listingEntry
 	}
 }

@@ -8,6 +8,7 @@ import org.irods.jargon.core.connection.IRODSAccount
 import org.irods.jargon.core.pub.CollectionAO
 import org.irods.jargon.core.pub.CollectionAndDataObjectListAndSearchAO
 import org.irods.jargon.core.pub.DataObjectAO
+import org.irods.jargon.core.pub.DataTransferOperations
 import org.irods.jargon.core.pub.IRODSAccessObjectFactory
 import org.irods.jargon.core.pub.domain.ObjStat
 import org.irods.jargon.core.pub.io.IRODSFile
@@ -290,6 +291,57 @@ class FileServiceSpec extends Specification {
 		when:
 
 		def actual = fileService.newFolder(path, irodsAccount)
+
+		then:
+		actual != null
+	}
+
+	void "should rename a file"() {
+		given:
+		IRODSAccount irodsAccount = IRODSAccount.instance("host", 1247, "user", "password", "", "zone", "")
+		def irodsAccessObjectFactory = mockFor(IRODSAccessObjectFactory)
+
+		def path = "/a/path/dir"
+		def newName = "newname"
+
+		def irodsFileFactory = mockFor(IRODSFileFactory)
+
+		def irodsFile1 = mockFor(IRODSFile)
+		irodsFile1.demand.parent{-> return path}
+		def irodsFile1Mock = irodsFile1.createMock()
+
+		def irodsFile2 = mockFor(IRODSFile)
+		irodsFile2.demand.absolutePath{-> return path + "/" + newName}
+		def irodsFile2Mock = irodsFile1.createMock()
+
+		//irodsFileFactory.demand.instanceIRODSFile{pathIn1 -> return irodsFile1Mock}
+		irodsFileFactory.demand.instanceIRODSFile{pathIn2, name1 -> return irodsFile2Mock}
+		def irodsFileFactoryMock = irodsFileFactory.createMock()
+
+
+		def listingEntry = new CollectionAndDataObjectListingEntry()
+		def collectionAO = mockFor(CollectionAO)
+		collectionAO.demand.getListingEntryForAbsolutePath{pth1 -> return listingEntry}
+		def collectionAOMock = collectionAO.createMock()
+
+		def dataTransferOperations = mockFor(DataTransferOperations)
+		dataTransferOperations.demand.move{f1,f2->return void}
+		def dataTransferOperationsMock = dataTransferOperations.createMock()
+
+		irodsAccessObjectFactory.demand.getDataTransferOperations{ia2 -> return dataTransferOperationsMock}
+		irodsAccessObjectFactory.demand.getIRODSFileFactory{act1 -> return irodsFileFactoryMock}
+		irodsAccessObjectFactory.demand.getIRODSFileFactory{act2 -> return irodsFileFactoryMock}
+
+		irodsAccessObjectFactory.demand.getCollectionAO{ia1 -> return collectionAOMock}
+
+		def irodsAccessObjectFactoryMock = irodsAccessObjectFactory.createMock()
+
+		FileService fileService = new FileService()
+		fileService.irodsAccessObjectFactory = irodsAccessObjectFactoryMock
+
+		when:
+
+		def actual = fileService.rename(path, newName, irodsAccount)
 
 		then:
 		actual != null

@@ -1,5 +1,7 @@
 package org.irods.jargon.idrop.web.controllers
 
+import grails.converters.JSON
+
 import org.irods.jargon.idrop.web.services.FileService
 
 /**
@@ -14,7 +16,7 @@ class RenameController {
 	FileService fileService
 
 	/**
-	 * POST will be a rename action
+	 * POST will be a rename action, this renames a file in the same parent collection as the given new name
 	 * @return
 	 */
 	def save() {
@@ -29,6 +31,8 @@ class RenameController {
 		if (!newName) {
 			throw new IllegalArgumentException("newName is missing")
 		}
-		return null
+		def listingEntry = fileService.rename(path, newName, irodsAccount)
+		log.info("renamed to:${listingEntry}")
+		render listingEntry as JSON
 	}
 }

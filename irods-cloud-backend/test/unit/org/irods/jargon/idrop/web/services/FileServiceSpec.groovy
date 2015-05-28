@@ -1,7 +1,7 @@
 package org.irods.jargon.idrop.web.services
 
-
-
+import static org.mockito.Mockito.*
+import static org.mockito.Mockito.*
 import grails.test.mixin.*
 
 import org.irods.jargon.core.connection.IRODSAccount
@@ -17,8 +17,10 @@ import org.irods.jargon.core.pub.io.IRODSFileInputStream
 import org.irods.jargon.core.query.CollectionAndDataObjectListingEntry
 import org.irods.jargon.zipservice.api.*
 import org.junit.*
+import org.mockito.Mockito
 
 import spock.lang.Specification
+
 
 /**
  * See the API for {@link grails.test.mixin.services.ServiceUnitTestMixin} for usage instructions
@@ -302,21 +304,21 @@ class FileServiceSpec extends Specification {
 		def irodsAccessObjectFactory = mockFor(IRODSAccessObjectFactory)
 
 		def path = "/a/path/dir"
+		def pathParent = "/a/path"
 		def newName = "newname"
 
 		def irodsFileFactory = mockFor(IRODSFileFactory)
 
-		def irodsFile1 = mockFor(IRODSFile)
-		irodsFile1.demand.parent{-> return path}
-		def irodsFile1Mock = irodsFile1.createMock()
+		IRODSFile irodsFile1 = Mockito.mock(IRODSFile)
+		Mockito.when(irodsFile1.getParent()).thenReturn(pathParent)
 
-		def irodsFile2 = mockFor(IRODSFile)
-		irodsFile2.demand.absolutePath{-> return path + "/" + newName}
-		def irodsFile2Mock = irodsFile1.createMock()
+		IRODSFile irodsFile2 = Mockito.mock(IRODSFile)
+		Mockito.when(irodsFile2.getAbsolutePath()).thenReturn(path)
 
-		//irodsFileFactory.demand.instanceIRODSFile{pathIn1 -> return irodsFile1Mock}
-		irodsFileFactory.demand.instanceIRODSFile{pathIn2, name1 -> return irodsFile2Mock}
-		def irodsFileFactoryMock = irodsFileFactory.createMock()
+		def irodsFileFactoryMock = Mockito.mock(IRODSFileFactory.class)
+		Mockito.when(irodsFileFactoryMock.instanceIRODSFile(path)).thenReturn(irodsFile1)
+		Mockito.when(irodsFileFactoryMock.instanceIRODSFile(pathParent, newName)).thenReturn(irodsFile2)
+		//irodsFileFactory.demand.instanceIRODSFile(0..99){String path1 -> return irodsFile1Mock}
 
 
 		def listingEntry = new CollectionAndDataObjectListingEntry()
@@ -329,8 +331,7 @@ class FileServiceSpec extends Specification {
 		def dataTransferOperationsMock = dataTransferOperations.createMock()
 
 		irodsAccessObjectFactory.demand.getDataTransferOperations{ia2 -> return dataTransferOperationsMock}
-		irodsAccessObjectFactory.demand.getIRODSFileFactory{act1 -> return irodsFileFactoryMock}
-		irodsAccessObjectFactory.demand.getIRODSFileFactory{act2 -> return irodsFileFactoryMock}
+		irodsAccessObjectFactory.demand.getIRODSFileFactory(0..999){act1 -> return irodsFileFactoryMock}
 
 		irodsAccessObjectFactory.demand.getCollectionAO{ia1 -> return collectionAOMock}
 

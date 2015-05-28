@@ -237,8 +237,9 @@ class FileService {
 		log.info("newName:${newName}")
 
 		def dataTransferOperations = irodsAccessObjectFactory.getDataTransferOperations(irodsAccount)
-		def sourceFile = irodsAccessObjectFactory.getIRODSFileFactory(irodsAccount).instanceIRODSFile(path)
-		def targetFile = irodsAccessObjectFactory.getIRODSFileFactory(irodsAccount).instanceIRODSFile(sourceFile.parent, newName)
+		def irodsFileFactory = irodsAccessObjectFactory.getIRODSFileFactory(irodsAccount)
+		def sourceFile = irodsFileFactory.instanceIRODSFile(path)
+		def targetFile = irodsFileFactory.instanceIRODSFile(sourceFile.parent, newName)
 		log.info("target is:${targetFile}...doing move...")
 		dataTransferOperations.move(sourceFile, targetFile)
 		log.info("move completed")

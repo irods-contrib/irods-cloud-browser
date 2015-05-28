@@ -69,6 +69,7 @@ grails.project.dependency.resolution = {
 		compile 'org.irods.jargon:jargon-zipservice:4.0.3.1-SNAPSHOT'
 		runtime 'org.springframework:spring-expression:4.1.6.RELEASE'
 		runtime 'org.springframework:spring-aop:4.1.6.RELEASE'
+		test ('org.mockito:mockito-all:1.9.5')
 		//provided 'javax.servlet:servlet-api:2.5'
 
 		compile( group: 'log4j', name: 'log4j', version: '1.2.16', export: false )

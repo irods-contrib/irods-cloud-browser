@@ -117,24 +117,7 @@ button.close:hover {
 
 /*Phone*/
 @media(max-width: 767px) {
-	.message-center-regular {
-		bottom: 5px;
-		left: 5px;
-		right: 5px;
-		width: auto;
-	}
-
-	.message-center-important {
-		width: auto;
-		left: 5px;
-		right: 5px;
-	}
-
-	.message-box .message {
-		font-size: 12px;
-		width: 100%;
-		line-height: 20px;
-	}
+	
 }
 
 .message-animation.ng-enter, .message-animation.ng-leave {

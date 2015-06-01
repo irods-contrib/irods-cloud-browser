@@ -42,6 +42,43 @@
 				</div>
 			</div>
 		</div>
+		<div class="column_content creater">
+			<div class="light_header"><img src="images/dark_add_icon.png"><span>&nbsp;Adding sub-collection to {{pagingAwareCollectionListing.pagingAwareCollectionListingDescriptor.pathComponents[current_collection_index]}}</span><img class="pop_up_close_button right" title="close window" ng-click="pop_up_close()" src="images/close_icon.png"></div>
+			
+			<div class="add_container">
+				<br>
+				<ul>
+					<li><b>New collection name</b></li>
+					<li><input type="text" id="new_collection_name" value=""/>
+				</ul>
+				<div class="container"><hr class="hr_flat"></div>
+				<div class="left">
+					<div class="btn btn-default" ng-click="pop_up_close()">Cancel</div>
+				</div>
+				<div class="right t_right">
+					<div class="btn btn-success" ng-click="create_collection_action()">Create</div>
+				</div>
+			</div>
+		</div>
+		<div class="column_content renamer">
+			<div class="light_header"><img src="images/dark_edit_icon.png"><span>&nbsp;Renaming</span><img class="pop_up_close_button right" title="close window" ng-click="pop_up_close()" src="images/close_icon.png"></div>
+			
+			<div class="rename_container">
+				<br>
+				<ul>
+					<li >You are renaming <b><span class="selected_object"></span></b> to:</li>
+					<li ><input type="text" id="new_renaming_name" value=""/>
+					<li><span class="disc_text">*If you are renaming a DATA OBJECT please make sure to include the DATA OBJECT extension (i.e. sample<b>.txt</b>)</em></li>
+				</ul>
+				<div class="container"><hr class="hr_flat"></div>
+				<div class="left">
+					<div class="btn btn-default" ng-click="pop_up_close()">Cancel</div>
+				</div>
+				<div class="right t_right">
+					<div class="btn btn-success" ng-click="rename_action()">Rename</div>
+				</div>
+			</div>
+		</div>
 	</div>
 </div>
 <div ng-include="'side_nav.html'"></div>
@@ -71,6 +108,10 @@
 						<div class="upload_button" title="Go to Profile page of this collection" ng-click="selectProfile(pagingAwareCollectionListing.pagingAwareCollectionListingDescriptor.parentAbsolutePath)"> 
 							<img src="images/collection_light_icon.png"><span>&nbsp;Profile</span>	
 						</div>
+						<div class="small_vertical_divider"></div>
+						<div class="create_subcollection_button" title="Create a new sub-collection inside this collection" ng-click="create_pop_up_open()"> 
+							<img src="images/add_icon.png"><span>&nbsp;Add sub-collection</span>	
+						</div>
 					</div>
 				</div>				
 			</div>
@@ -81,6 +122,10 @@
 				<div class="right">
 					<div class="download_button" title="Delete selected file(s) " ng-click='delete_pop_up_open()' > 
 						<img src="images/delete_icon.png"><span>&nbsp;Delete</span>	
+					</div>
+					<div class="rename_divider small_vertical_divider"></div>
+					<div class="rename_button" title="Rename selected file/collection" ng-click='rename_pop_up_open()' > 
+						<img src="images/edit_icon.png"><span>&nbsp;Rename</span>	
 					</div>
 					<div class="small_vertical_divider"></div>
 					<div class="download_button" title="Download selected file(s) " ng-click='getDownloadLink()' > 

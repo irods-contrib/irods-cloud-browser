@@ -130,8 +130,6 @@ angular.module('myApp.profile', ['ngRoute'])
           var container = $event.currentTarget.parentElement;
           $(content).toggle('normal');
           $(container).toggleClass('green_toggle_container_open');
-          $log.info($event);
-          $log.info(container);
         };
 
         /**

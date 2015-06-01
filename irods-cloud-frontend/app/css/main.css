@@ -22,15 +22,16 @@ time, mark, audio, video {
 	margin:0px;
 	border-top: 1px solid #eee;
 }
-  #selectable .ui-selecting { background: #FECA40; }
-  #selectable .ui-selected { background: #F39814; color: white; }
+  #selectable .ui-selecting { background: #D69A85; }
+  #selectable .ui-selected { background: #F05022; color: white; }
 /* ||||||||||||||||||||||||||||||||||| */
 /* |||||||||||  NAV STYLES ||||||||||| */
 /* ||||||||||||||||||||||||||||||||||| */
 .green_nav{
-	background: #009DB6;
+	background: #F05022;
 	position: absolute;
 	z-index: 2;
+	min-width: 1200px;
 }
 .powered_by{
 	position: absolute;
@@ -81,6 +82,7 @@ time, mark, audio, video {
 	width:100%;
 	position: relative;
 	float: left;
+	min-width: 1200px;
 }
 .four_column{
 	padding: 53px 5px 35px 5px;
@@ -112,14 +114,14 @@ time, mark, audio, video {
 	display: inline-block;
 }
 .main_content{
-	border-top:2px solid #009DB6;
+	border-top:2px solid #F05022;
 	background: #fff;
 	min-height:300px;
 	height: 100%;
 	width:100%;
 }
 .column_content{
-	border-top:2px solid #009DB6;
+	border-top:2px solid #F05022;
 	background: #fff;
 	padding: 5px;
 	min-height:300px;
@@ -144,10 +146,28 @@ time, mark, audio, video {
 	height: 21px;
 	margin: 0px 5px;
 }
+.create_subcollection_button{
+	position:relative;
+	display:inline-block;
+	float: right;
+	opacity: 0.5;
+	width: 150px;
+	font-size: 12px;
+	font-weight: lighter;
+	text-align: center;
+	height: 21px;
+	margin: 0px 5px;
+}
 .uploader{
 	display: none;
 }
 .deleter{
+	display: none;
+}
+.creater{
+	display: none;
+}
+.renamer{
 	display: none;
 }
 .small_vertical_divider{
@@ -166,7 +186,11 @@ time, mark, audio, video {
 	background: rgba(0,0,0,0.2);
 	opacity:1;
 }
-.download_button{
+.create_subcollection_button:hover{
+	background: rgba(0,0,0,0.2);
+	opacity:1;
+}
+.download_button,.rename_button{
 	position:relative;
 	display:none;
 	float: right;
@@ -179,14 +203,17 @@ time, mark, audio, video {
 	float:right;
 	margin: 0px 5px;
 }
-.download_button:hover{
+.download_button:hover,.rename_button:hover{
 	background: rgba(0,0,0,0.2);
 	opacity:1;
+}
+.rename_divider{
+	display: none;
 }
 .drop_box{
 	position: relative;
 	width: 100%;
-	border: 2px solid #009DB6;
+	border: 2px solid #F05022;
 	margin: 10px 0px;
 	height:170px;
 	text-align: center;
@@ -236,21 +263,21 @@ time, mark, audio, video {
 	width:100%;
 }
 .green_toggle_container{
-	background: #009DB6;
+	background: #F05022;
 	padding: 5px 10px 0px;
 	margin:0px 0px 5px 0px;
 	display: inline-block;
 	width: 100%;
 }
 .green_toggle_container:hover{
-	background: #006171;
+	background: #D69A85;
 }
 .green_toggle_container_open{
-	border:1px solid #006171;
+	border:1px solid #D69A85;
 	background: #fff;
 }
 .green_toggle_container_open:hover{
-	border:1px solid #006171;
+	border:1px solid #D69A85;
 	background: #fff;
 }
 .green_title{
@@ -260,7 +287,7 @@ time, mark, audio, video {
 	line-height: 14px;
 }
 .green_toggle_container_open .green_title{
-	color:#006171;
+	color:#D69A85;
 }
 .green_content{
 	display: none;
@@ -309,6 +336,10 @@ time, mark, audio, video {
 .border_left{
 	border-left: 1px solid #999;
 }
+.disc_text{
+	font-size: 11px;
+	color: #888;
+}
 /* ||||||||||||||||||||||||||||||||||| */
 /* ||||||| BOOTSTRAP RE-STYLING |||||| */
 /* ||||||||||||||||||||||||||||||||||| */
@@ -321,6 +352,7 @@ time, mark, audio, video {
 .navbar-brand{
 	padding: 6px 0px 0px 0px;
 }
+
 /* ||||||||||||||||||||||||||||||||||| */
 /* |||||||| POSITIONING STYLES ||||||| */
 /* ||||||||||||||||||||||||||||||||||| */

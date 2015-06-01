@@ -76,12 +76,19 @@ angular.module('myApp.home', ['ngRoute', 'ngFileUpload'])
                     if ($(".ui-selected").length > 1) {
                         result.append($('.ui-selected').length + " files");
                         $(".download_button").fadeIn();
+                        $(".rename_button").fadeOut();
+                        $(".rename_divider").fadeOut();
                     } else if ($(".ui-selected").length == 1) {
                         var name_of_selection = $('.ui-selected').children('.list_content').children('.data_object').text();
                         result.append(name_of_selection);
                         $(".download_button").fadeIn();
+                        $(".rename_button").fadeIn();
+                        $(".rename_divider").fadeIn();
+
                     } else if ($(".ui-selected").length == 0) {
                         $(".download_button").fadeOut();
+                        $(".rename_button").fadeOut();
+                        $(".rename_divider").fadeOut();
                     }
                 }
             });
@@ -161,6 +168,7 @@ angular.module('myApp.home', ['ngRoute', 'ngFileUpload'])
 
             $scope.current_collection_index = $scope.pagingAwareCollectionListing.pagingAwareCollectionListingDescriptor.pathComponents.length - 1;
         }
+
         $scope.delete_action = function (){
             var delete_objects = $('.ui-selected');
             var delete_paths = '';
@@ -179,6 +187,31 @@ angular.module('myApp.home', ['ngRoute', 'ngFileUpload'])
                     location.reload();
                 })
         };
+
+        $scope.rename_action = function (){
+            var rename_path = $('.ui-selected').attr('id');
+            var new_name = $('#new_renaming_name').val();
+            $log.info('Renaming:'+rename_path);
+            return $http({
+                    method: 'PUT',
+                    url: $globals.backendUrl('rename'),
+                    params: {path: rename_path, newName: new_name}
+                }).success(function (data) {
+                    location.reload();
+                })
+        };
+
+        $scope.create_collection_action = function (){
+            var collections_new_name = $('#new_collection_name').val();
+            $log.info('Adding:'+collections_new_name);
+            return $http({
+                    method: 'PUT',
+                    url: $globals.backendUrl('file') + '?path='+ $scope.pagingAwareCollectionListing.pagingAwareCollectionListingDescriptor.parentAbsolutePath +'/'+ collections_new_name
+                }).success(function (data) {
+                    location.reload();
+                })
+        };
+
         $scope.getDownloadLink = function () {
             $('.list_content').removeClass("ui-selected");
             if ($(".data_false")[0]) {
@@ -201,7 +234,16 @@ angular.module('myApp.home', ['ngRoute', 'ngFileUpload'])
                 window.open($globals.backendUrl('download') + "?" + multiple_paths , '_blank');
             }
         };
-
+        $scope.create_pop_up_open = function(){
+            $('.pop_up_window').fadeIn(100);
+            $('.creater').fadeIn(100);
+        };
+        $scope.rename_pop_up_open = function(){
+            $('.pop_up_window').fadeIn(100);
+            $('.renamer').fadeIn(100);
+            var name_of_selection = $('.ui-selected').children('.list_content').children('.data_object').text();
+            $('.selected_object').append(name_of_selection);
+        };
         $scope.upload_pop_up_open = function(){
             $('.pop_up_window').fadeIn(100);
             $('.uploader').fadeIn(100);
@@ -224,6 +266,8 @@ angular.module('myApp.home', ['ngRoute', 'ngFileUpload'])
                 $(".upload_container_result").css('display', 'none');
                 $('.uploader').fadeOut(100);
                 $('.deleter').fadeOut(100);
+                $('.creater').fadeOut(100);
+                $('.renamer').fadeOut(100);
                 location.reload();
             });
 

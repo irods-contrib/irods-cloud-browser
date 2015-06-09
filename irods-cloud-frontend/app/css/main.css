@@ -132,7 +132,8 @@ time, mark, audio, video {
 	position:relative;
 	display:inline-block;
 	float: left;
-	width: 100%;
+	padding: 0px;
+    border-right: 2px solid rgba(255,255,255,0.5);
 }
 .upload_button{
 	position:relative;
@@ -350,7 +351,7 @@ time, mark, audio, video {
 	padding:0px;
 }
 .navbar-brand{
-	padding: 6px 0px 0px 0px;
+	padding: 15px 0px 0px 0px;
 }
 
 /* ||||||||||||||||||||||||||||||||||| */

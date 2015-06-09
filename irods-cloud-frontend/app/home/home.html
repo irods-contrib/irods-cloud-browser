@@ -96,24 +96,24 @@
 	<div class="four_column">
 		<div class="column_content">
 			<div class="dark_header"> 
-				<div id="breadcrumbs_container">
+				<div id="breadcrumbs_container" class="col-lg-7 ">
 					<span class="dark_back_option_double" ng-click="goToBreadcrumb($index)" ng-repeat="breadcrumb in getBreadcrumbPaths() track by $id(breadcrumb + $index)">
 						 /{{breadcrumb}} 				
-					</span>
-					<div class="right">
+					</span>					
+				</div>		
+				<div class="right col-lg-5 ">
 						<div class="upload_button" title="Upload files to this collection" ng-click="upload_pop_up_open()"> 
-							<img src="images/upload_icon.png"><span>&nbsp;Upload</span>	
-						</div>
-						<div class="small_vertical_divider"></div>
-						<div class="upload_button" title="Go to Profile page of this collection" ng-click="selectProfile(pagingAwareCollectionListing.pagingAwareCollectionListingDescriptor.parentAbsolutePath)"> 
-							<img src="images/collection_light_icon.png"><span>&nbsp;Profile</span>	
-						</div>
-						<div class="small_vertical_divider"></div>
-						<div class="create_subcollection_button" title="Create a new sub-collection inside this collection" ng-click="create_pop_up_open()"> 
-							<img src="images/add_icon.png"><span>&nbsp;Add sub-collection</span>	
-						</div>
+						<img src="images/upload_icon.png"><span>&nbsp;Upload</span>	
 					</div>
-				</div>				
+					<div class="small_vertical_divider"></div>
+					<div class="upload_button" title="Go to Profile page of this collection" ng-click="selectProfile(pagingAwareCollectionListing.pagingAwareCollectionListingDescriptor.parentAbsolutePath)"> 
+						<img src="images/collection_light_icon.png"><span>&nbsp;Profile</span>	
+					</div>
+					<div class="small_vertical_divider"></div>
+					<div class="create_subcollection_button" title="Create a new sub-collection inside this collection" ng-click="create_pop_up_open()"> 
+						<img src="images/add_icon.png"><span>&nbsp;Add sub-collection</span>	
+					</div>
+				</div>		
 			</div>
 			<hr class="light_hr">
 			<div class="dark_header">

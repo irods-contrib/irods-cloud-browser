@@ -56,7 +56,8 @@ angular.module('myApp.login', ['ngRoute'])
         };
 
         $scope.submitLogin = function () {
-            var actval = irodsAccount($scope.login.host, $scope.login.port, $scope.login.zone, $scope.login.userName, $scope.login.password, $scope.login.authType, "");
+            // var actval = irodsAccount($scope.login.host, $scope.login.port, $scope.login.zone, $scope.login.userName, $scope.login.password, $scope.login.authType, "");
+            var actval = irodsAccount('152.54.3.85', '1247', 'tempZone', 'alice', 'alice', 'STANDARD', "");
             $log.info("irodsAccount for host:" + actval);
             $http({
                 method: 'POST',

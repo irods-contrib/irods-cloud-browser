@@ -96,12 +96,14 @@
 	<div class="four_column">
 		<div class="column_content">
 			<div class="dark_header"> 
-				<div id="breadcrumbs_container" class="col-lg-7 ">
-					<span class="dark_back_option_double" ng-click="goToBreadcrumb($index)" ng-repeat="breadcrumb in getBreadcrumbPaths() track by $id(breadcrumb + $index)">
-						 /{{breadcrumb}} 				
-					</span>					
+				<div id="breadcrumbs_container" class="col-xs-7 ">
+					<div class="breadcrumbs_sub_container" >
+						<span class="dark_back_option_double" ng-click="goToBreadcrumb($index)" ng-repeat="breadcrumb in getBreadcrumbPaths() track by $id(breadcrumb + $index)">
+							 /{{breadcrumb}} 				
+						</span>		
+					</div>			
 				</div>		
-				<div class="right col-lg-5 ">
+				<div class="right col-xs-5 ">
 						<div class="upload_button" title="Upload files to this collection" ng-click="upload_pop_up_open()"> 
 						<img src="images/upload_icon.png"><span>&nbsp;Upload</span>	
 					</div>

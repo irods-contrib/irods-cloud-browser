@@ -47,12 +47,14 @@
 	<div class="full_column">
 		<div class="column_content">
 			<div class="dark_header"> 
-				<div id="breadcrumbs_container">
-					<span class="dark_back_option_double" ng-click="goToBreadcrumb($index)" ng-repeat="breadcrumb in getBreadcrumbPaths() track by $id(breadcrumb + $index)">
-						 /{{breadcrumb}}
-					</span>
-					<span>/{{dataProfile.childName}}</span>
-				</div>			
+				
+					<div class="breadcrumbs_sub_container" >
+						<span class="dark_back_option_double" ng-click="goToBreadcrumb($index)" ng-repeat="breadcrumb in getBreadcrumbPaths() track by $id(breadcrumb + $index)">
+							 /{{breadcrumb}}
+						</span>
+						<span>/{{dataProfile.childName}}</span>
+					</div>
+						
 			</div>
 			<div class="container">
 				<div class="profile_header">

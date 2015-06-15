@@ -133,7 +133,13 @@ time, mark, audio, video {
 	display:inline-block;
 	float: left;
 	padding: 0px;
+	overflow: hidden;
     border-right: 2px solid rgba(255,255,255,0.5);
+}
+.breadcrumbs_sub_container{
+	position:relative;
+	min-width:100%;
+	float:right;
 }
 .upload_button{
 	position:relative;

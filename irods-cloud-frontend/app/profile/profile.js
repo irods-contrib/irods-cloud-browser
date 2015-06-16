@@ -118,6 +118,13 @@ angular.module('myApp.profile', ['ngRoute'])
                     location.assign(new_url);       
                 })
         };
+
+        $scope.star_action = function(){
+            var star_path = $scope.dataProfile.parentPath + "/" + $scope.dataProfile.childName;
+            alert(star_path);
+            fileService.starFileOrFolder(star_path);
+        };
+
         $scope.upload_pop_up_open = function(){
             $('.pop_up_window').fadeIn(100);
             $('.uploader').fadeIn(100);

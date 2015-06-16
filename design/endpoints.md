@@ -137,3 +137,35 @@ _newName:_name of file under same path as parent of existing file
 Will return a listing entry JSON object that reflects the renamed file or folder.  
 
    {"class":"org.irods.jargon.core.query.CollectionAndDataObjectListingEntry","collection":false,"count":0,"createdAt":null,"dataObject":false,"dataSize":0,"description":"","displayDataSize":"0 B","formattedAbsolutePath":"/","id":0,"lastResult":false,"modifiedAt":null,"nodeLabelDisplayValue":"","objectType":null,"ownerName":"","ownerZone":"","parentPath":"","pathOrName":"","specColType":{"enumType":"org.irods.jargon.core.pub.domain.ObjStat$SpecColType","name":"NORMAL"},"specialObjectPath":"","totalRecords":0,"userFilePermission":[]}
+   
+   
+   
+## Star a file 
+
+Add a star tag to a file
+
+**URL** irods-cloud-backend/star
+
+**Method** PUT
+
+### Parameters
+_path:_ path of the file to star
+
+### Response (JSON)
+
+n/a
+
+## Unstar a file 
+
+Remove a star tag from a file
+
+**URL** irods-cloud-backend/star
+
+**Method** DELETE
+
+### Parameters
+_path:_ path of the file to unstar
+
+### Response (JSON)
+
+n/a

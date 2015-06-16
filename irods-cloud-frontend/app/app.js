@@ -9,7 +9,6 @@ angular.module('myApp', [
   'myApp.login',
   'myApp.profile',
   'globalsModule',
-  'myApp.version',
     'fileModule',
     'ngFileUpload'
 ]).

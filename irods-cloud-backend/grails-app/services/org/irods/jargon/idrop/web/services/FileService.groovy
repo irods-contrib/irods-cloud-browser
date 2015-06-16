@@ -248,4 +248,30 @@ class FileService {
 		log.info("entry for new file:${listingEntry}")
 		return listingEntry
 	}
+
+	/**
+	 * Copy the file or collection from source to target
+	 * @param sourcePath
+	 * @param targetPath
+	 * @param irodsAccount
+	 * @return
+	 * @throws JargonException
+	 */
+	CollectionAndDataObjectListingEntry copy(String sourcePath, String targetPath, boolean overwrite, irodsAccount) throws JargonException {
+		log.info("rename()")
+		if (!sourcePath) {
+			throw new IllegalArgumentException("null or empty sourcePath")
+		}
+		if (!targetPath) {
+			throw new IllegalArgumentException("null or empty targetPath")
+		}
+		if (!irodsAccount) {
+			throw new IllegalArgumentException("irodsAccount is missing")
+		}
+
+		log.info("sourcePath:${sourcePath}")
+		log.info("targetPath:${targetPath}")
+		log.info("overwrite:${overwrite}")
+		def dataTransferOperations = irodsAccessObjectFactory.getDataTransferOperations(irodsAccount)
+	}
 }

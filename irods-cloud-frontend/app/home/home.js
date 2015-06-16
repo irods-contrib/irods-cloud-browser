@@ -164,7 +164,7 @@ angular.module('myApp.home', ['ngRoute', 'ngFileUpload'])
             return breadcrumbsService.getWholePathComponents();
         };
         // var download_path
-        if ($scope.pagingAwareCollectionListing) {
+        if ($scope.pagingAwareCollectionListing && $scope.pagingAwareCollectionListing.pagingAwareCollectionListingDescriptor.pathComponents) {
 
             $scope.current_collection_index = $scope.pagingAwareCollectionListing.pagingAwareCollectionListingDescriptor.pathComponents.length - 1;
         }

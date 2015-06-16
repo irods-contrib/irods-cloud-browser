@@ -66,7 +66,7 @@ angular.module('fileModule',[])
 
             var promise =  $http({method: 'PUT', url: globals.backendUrl('star') , params: {path: absolutePath}}).then(function (response) {
                 // The then function here is an opportunity to modify the response
-                console.log(response);
+                $log(response);
                 // The return value gets picked up by the then in the controller.
                 return response.data;
             });
@@ -89,7 +89,7 @@ angular.module('fileModule',[])
 
             var promise =  $http({method: 'DELETE', url: globals.backendUrl('star') , params: {path: absolutePath}}).then(function (response) {
                 // The then function here is an opportunity to modify the response
-                console.log(response);
+                $log(response);
                 // The return value gets picked up by the then in the controller.
                 return response.data;
             });

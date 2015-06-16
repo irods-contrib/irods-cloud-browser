@@ -27,5 +27,21 @@ class CopyController {
 		log.info("copy action")
 		def irodsAccount = request.irodsAccount
 		if (!irodsAccount) throw new IllegalStateException("no irodsAccount in request")
+
+		def sourcePath = params.sourcePath
+		if (!sourcePath) {
+			throw new IllegalArgumentException("null sourcePath")
+		}
+
+		log.info("sourcePath:${sourcePath}")
+
+		def targetPath = params.targetPath
+		if (!targetPath) {
+			throw new IllegalArgumentException("null targetPath")
+		}
+
+		log.info("targetPath:${targetPath}")
+
+		return null
 	}
 }

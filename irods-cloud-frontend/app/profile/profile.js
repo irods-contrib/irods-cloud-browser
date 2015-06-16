@@ -91,20 +91,42 @@ angular.module('myApp.profile', ['ngRoute'])
                     }
                 }
             };
-            $scope.delete_action = function (){
-                var delete_paths = 'path='+ $scope.dataProfile.parentPath + "/" +$scope.dataProfile.childName;
-                $log.info('Deleting:'+delete_paths);
-                return $http({
-                        method: 'DELETE',
-                        url: $globals.backendUrl('file') + '?' + delete_paths 
-                    }).success(function (data) {
-                        alert('Deletion completed');
-                        window.history.back();
-                    })
-            };
+        $scope.delete_action = function (){
+            var delete_paths = 'path='+ $scope.dataProfile.parentPath + "/" +$scope.dataProfile.childName;
+            $log.info('Deleting:'+delete_paths);
+            return $http({
+                    method: 'DELETE',
+                    url: $globals.backendUrl('file') + '?' + delete_paths 
+                }).success(function (data) {
+                    alert('Deletion completed');
+                    window.history.go(-1);
+                })
+        };
+        $scope.rename_action = function (){
+            var rename_path = $scope.dataProfile.parentPath + "/" + $scope.dataProfile.childName;
+            var new_name = $('#new_renaming_name').val();
+            var old_url = window.location;
+            var n = String(old_url).lastIndexOf("%2F");
+            var new_url = String(old_url).substr(0,n);
+            var new_url = new_url + "%2F" + new_name;
+            $log.info('Renaming:'+rename_path);
+            return $http({
+                    method: 'PUT',
+                    url: $globals.backendUrl('rename'),
+                    params: {path: rename_path, newName: new_name}
+                }).success(function (data) {
+                    location.assign(new_url);       
+                })
+        };
         $scope.upload_pop_up_open = function(){
             $('.pop_up_window').fadeIn(100);
             $('.uploader').fadeIn(100);
+        };
+        $scope.rename_pop_up_open = function(){
+            $('.pop_up_window').fadeIn(100);
+            $('.renamer').fadeIn(100);
+            var name_of_selection = $('.ui-selected').children('.list_content').children('.data_object').text();
+            $('.selected_object').append(name_of_selection);
         };
         $scope.delete_pop_up_open = function(){
             $('.pop_up_window').fadeIn(100);            

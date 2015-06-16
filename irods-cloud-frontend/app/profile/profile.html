@@ -25,6 +25,25 @@
 				</div>
 			</div>	
 		</div>
+		<div class="column_content renamer">
+			<div class="light_header"><img src="images/dark_edit_icon.png"><span>&nbsp;Renaming</span><img class="pop_up_close_button right" title="close window" ng-click="pop_up_close()" src="images/close_icon.png"></div>
+			
+			<div class="rename_container">
+				<br>
+				<ul>
+					<li >You are renaming <b><span class="selected_object">{{dataProfile.childName}}</span></b> to:</li>
+					<li ><input type="text" id="new_renaming_name" value=""/>
+					<li><span class="disc_text">*If you are renaming a DATA OBJECT please make sure to include the DATA OBJECT extension (i.e. sample<b>.txt</b>)</em></li>
+				</ul>
+				<div class="container"><hr class="hr_flat"></div>
+				<div class="left">
+					<div class="btn btn-default" ng-click="pop_up_close()">Cancel</div>
+				</div>
+				<div class="right t_right">
+					<div class="btn btn-success" ng-click="rename_action()">Rename</div>
+				</div>
+			</div>
+		</div>
 		<div class="column_content deleter">
 			<div class="delete_header"><img src="images/dark_delete_icon.png"><span>&nbsp;Are you sure you want to DELETE the following:</span><img class="pop_up_close_button right" title="close window" ng-click="pop_up_close()" src="images/close_icon.png"></div>
 			
@@ -123,6 +142,9 @@
 										<h2>System Actions</h2>
 									</li>
 									<li class="list-group-item">
+										<a class='btn btn-default btn-xs' ng-click='rename_pop_up_open()'>Rename</a>
+									</li>
+									<li class="list-group-item">
 										<div class='btn btn-default btn-xs' ng-click="upload_pop_up_open()">Upload Files</div>
 									</li>
 									<li class="list-group-item">
@@ -153,8 +175,11 @@
 										<h2>System Actions</h2>
 									</li>
 									<li class="list-group-item">
-										<a class='btn btn-default btn-xs' href='{{getDownloadLink()}}'>Download</a>
+										<a class='btn btn-default btn-xs' ng-click='rename_pop_up_open()'>Rename</a>
 									</li>
+									<li class="list-group-item">
+										<a class='btn btn-default btn-xs' href='{{getDownloadLink()}}'>Download</a>
+									</li>									
 									<li class="list-group-item">
 										<div class='btn btn-danger btn-xs' ng-click="delete_pop_up_open()">Delete</div>
 									</li>

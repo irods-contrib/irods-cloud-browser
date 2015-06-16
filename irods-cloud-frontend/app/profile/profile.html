@@ -66,14 +66,22 @@
 	<div class="full_column">
 		<div class="column_content">
 			<div class="dark_header"> 
-				
+				<div id="breadcrumbs_container" class="col-xs-9 ">
 					<div class="breadcrumbs_sub_container" >
 						<span class="dark_back_option_double" ng-click="goToBreadcrumb($index)" ng-repeat="breadcrumb in getBreadcrumbPaths() track by $id(breadcrumb + $index)">
 							 /{{breadcrumb}}
 						</span>
 						<span>/{{dataProfile.childName}}</span>
 					</div>
-						
+				</div>
+				<div class="right col-xs-3 ">
+					<div class="upload_button empty_star" title="Mark this file or collection as Starred" ng-show="{{dataProfile.starred}} != true" ng-click="star_action()"> 
+						<img src="images/empty_star.png"><span>&nbsp;Star it!</span>	
+					</div>
+					<div class="upload_button full_star" title="Mark this file or collection as Starred" ng-show="{{dataProfile.starred}} == true" ng-click="unstar_action()"> 
+						<img src="images/full_star.png"><span>&nbsp;Unstar it!</span>	
+					</div>
+				</div>		
 			</div>
 			<div class="container">
 				<div class="profile_header">
@@ -140,9 +148,6 @@
 								<ul class="list-group">
 									<li class="list-group-item list-group-item">
 										<h2>System Actions</h2>
-									</li>
-									<li class="list-group-item">
-										<a class='btn btn-default btn-xs' ng-click='star_action()'>Star it</a>
 									</li>
 									<li class="list-group-item">
 										<a class='btn btn-default btn-xs' ng-click='rename_pop_up_open()'>Rename</a>

@@ -2,7 +2,6 @@ package org.irods.jargon.idrop.web.controllers
 
 import grails.rest.RestfulController
 
-import org.irods.jargon.idrop.web.services.JargonServiceFactoryService
 import org.irods.jargon.idrop.web.services.StarService
 
 /**
@@ -26,8 +25,6 @@ class StarController extends RestfulController {
 			throw new IllegalArgumentException("null path")
 		}
 
-		// url mapper will trim leading slash, add back
-		path = "/" + path
 		log.info("path:${path}")
 
 		def irodsAccount = request.irodsAccount
@@ -54,8 +51,6 @@ class StarController extends RestfulController {
 			throw new IllegalArgumentException("null path")
 		}
 
-		// url mapper will trim leading slash, add back
-		path = "/" + path
 		log.info("path:${path}")
 
 		def irodsAccount = request.irodsAccount

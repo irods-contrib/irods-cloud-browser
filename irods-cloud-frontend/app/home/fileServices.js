@@ -51,7 +51,9 @@ angular.module('fileModule',[])
          *    $scope.data = d;
          *  });
          *
-         *
+         *fileService.starFileOrFolder(absPath).then(function(d) {
+         *    // I do cool stuff
+         *  });
          *
          */
 

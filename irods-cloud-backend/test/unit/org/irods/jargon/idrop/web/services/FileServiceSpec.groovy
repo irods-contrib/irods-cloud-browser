@@ -15,6 +15,7 @@ import org.irods.jargon.core.pub.io.IRODSFile
 import org.irods.jargon.core.pub.io.IRODSFileFactory
 import org.irods.jargon.core.pub.io.IRODSFileInputStream
 import org.irods.jargon.core.query.CollectionAndDataObjectListingEntry
+import org.irods.jargon.core.transfer.DefaultTransferControlBlock
 import org.irods.jargon.zipservice.api.*
 import org.junit.*
 import org.mockito.Mockito
@@ -343,6 +344,43 @@ class FileServiceSpec extends Specification {
 		when:
 
 		def actual = fileService.rename(path, newName, irodsAccount)
+
+		then:
+		actual != null
+	}
+
+	void "should copy a file"() {
+		given:
+		IRODSAccount irodsAccount = IRODSAccount.instance("host", 1247, "user", "password", "", "zone", "")
+		def irodsAccessObjectFactory = mockFor(IRODSAccessObjectFactory)
+
+		def sourcePath = "/a/path/dir"
+		def targetPath = "/another/path"
+		def overwrite = true
+
+
+		def listingEntry = new CollectionAndDataObjectListingEntry()
+		def collectionAO = mockFor(CollectionAO)
+		collectionAO.demand.getListingEntryForAbsolutePath{pth1 -> return listingEntry}
+		def collectionAOMock = collectionAO.createMock()
+
+		def dataTransferOperations = mockFor(DataTransferOperations)
+		dataTransferOperations.demand.move{f1,f2->return void}
+		def dataTransferOperationsMock = dataTransferOperations.createMock()
+
+		irodsAccessObjectFactory.demand.getDataTransferOperations{ia2 -> return dataTransferOperationsMock}
+		irodsAccessObjectFactory.demand.getCollectionAO{ia1 -> return collectionAOMock}
+		irodsAccessObjectFactory.demand.getIRODSFileFactory(0..999){act1 -> return irodsFileFactoryMock}
+		irodsAccessObjectFactory.demand.buildDefaultTransferControlBlockBasedOnJargonProperties{-> return DefaultTransferControlBlock.instance()}
+
+		def irodsAccessObjectFactoryMock = irodsAccessObjectFactory.createMock()
+
+		FileService fileService = new FileService()
+		fileService.irodsAccessObjectFactory = irodsAccessObjectFactoryMock
+
+		when:
+
+		def actual = fileService.copy(sourcePath, targetPath, overwrite, irodsAccount)
 
 		then:
 		actual != null

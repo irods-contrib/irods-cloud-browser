@@ -2,6 +2,7 @@ package org.irods.jargon.idrop.web.services
 
 import org.irods.jargon.core.connection.IRODSAccount
 import org.irods.jargon.core.exception.JargonException
+import org.irods.jargon.core.packinstr.TransferOptions.ForceOption
 import org.irods.jargon.core.pub.CollectionAO
 import org.irods.jargon.core.pub.CollectionAndDataObjectListAndSearchAO
 import org.irods.jargon.core.pub.DataObjectAO
@@ -218,7 +219,7 @@ class FileService {
 	 * @param path <code>String</code> with an iRODS path that is the existing path of the file or collection
 	 * @param newName <code>String</code> with the new name, in the existing parent collection (this is different from a move)
 	 * @param irodsAccount
-	 * @return
+	 * @return {@link CollectionAndDataObjectListingEntry} that is the new location
 	 * @throws JargonException
 	 */
 	CollectionAndDataObjectListingEntry rename(String path, String newName, IRODSAccount irodsAccount) throws JargonException {
@@ -251,10 +252,11 @@ class FileService {
 
 	/**
 	 * Copy the file or collection from source to target
-	 * @param sourcePath
-	 * @param targetPath
+	 * @param sourcePath irods path to source of copy
+	 * @param targetPath irods path to target of copy
+	 * @param overwrite indicates whether force is done
 	 * @param irodsAccount
-	 * @return
+	 * @return {@link CollectionAndDataObjectListingEntry} that is the newly copied file or dir
 	 * @throws JargonException
 	 */
 	CollectionAndDataObjectListingEntry copy(String sourcePath, String targetPath, boolean overwrite, irodsAccount) throws JargonException {
@@ -273,5 +275,23 @@ class FileService {
 		log.info("targetPath:${targetPath}")
 		log.info("overwrite:${overwrite}")
 		def dataTransferOperations = irodsAccessObjectFactory.getDataTransferOperations(irodsAccount)
+		def collectionAO = irodsAccessObjectFactory.getCollectionAO(irodsAccount)
+		def transferControlBlock = irodsAccessObjectFactory.buildDefaultTransferControlBlockBasedOnJargonProperties()
+
+		if (overwrite) {
+			transferControlBlock.transferOptions.forceOption = ForceOption.USE_FORCE
+		} else {
+			transferControlBlock.transferOptions.forceOption = ForceOption.NO_FORCE
+		}
+
+		log.info("starting copy...")
+
+		dataTransferOperations.copy(sourcePath, targetPath, null, transferControlBlock)
+
+		log.info("copy complete")
+
+		def listingEntry = collectionAO.getListingEntryForAbsolutePath(targetPath)
+		log.info("entry for new file:${listingEntry}")
+		return listingEntry
 	}
 }

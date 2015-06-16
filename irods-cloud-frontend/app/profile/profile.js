@@ -122,16 +122,13 @@ angular.module('myApp.profile', ['ngRoute'])
         $scope.star_action = function(){
             var star_path = $scope.dataProfile.parentPath + "/" + $scope.dataProfile.childName;
             fileService.starFileOrFolder(star_path);
-            
-            // $('.empty_star').hide();
-            // $('.full_star').attr();
+            location.reload();
 
         };
         $scope.unstar_action = function(){
             var unstar_path = $scope.dataProfile.parentPath + "/" + $scope.dataProfile.childName;
             fileService.unstarFileOrFolder(unstar_path);
-            // $('.empty_star').show();
-            // $('.full_star').hide();
+            location.reload();
         };
 
         $scope.upload_pop_up_open = function(){

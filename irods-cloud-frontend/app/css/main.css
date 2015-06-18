@@ -189,6 +189,11 @@ time, mark, audio, video {
 .upload_container_result{
 	display: none;
 }
+.empty_selection{
+	color:#262626;
+	font-weight: 400;
+  	padding: 0px 0px 0px 10px;
+}
 .upload_button:hover{
 	background: rgba(0,0,0,0.2);
 	opacity:1;
@@ -196,6 +201,12 @@ time, mark, audio, video {
 .create_subcollection_button:hover{
 	background: rgba(0,0,0,0.2);
 	opacity:1;
+}
+.tablet_download_button{
+	display: none;
+}
+.tablet_rename_button{
+	display: none;
 }
 .download_button,.rename_button{
 	position:relative;
@@ -215,6 +226,9 @@ time, mark, audio, video {
 	opacity:1;
 }
 .rename_divider{
+	display: none;
+}
+.download_divider{
 	display: none;
 }
 .drop_box{
@@ -389,6 +403,12 @@ time, mark, audio, video {
 /* ||||||||||||||||||||||||||||||||||| */
 /* |||| BUTTONS AND OPTIONS STYLES ||| */
 /* ||||||||||||||||||||||||||||||||||| */
+.desktop_collection_actions{
+	display: block;
+}
+.tablet_collection_actions{
+	display: none;
+}
 .dark_back_option_double{
 	color:#fff;
 	opacity:0.5;
@@ -458,7 +478,8 @@ time, mark, audio, video {
 	font-size: 16px;
 	font-weight: bold;
 	height:35px;
-	overflow: hidden;
+	z-index: 10;
+
 }
 .light_header{
 	color: #384B50;
@@ -484,5 +505,84 @@ time, mark, audio, video {
 	line-height: 19px;
 	padding: 0px 3px;
 }
+
+
+/*******************************************************************************
+
+                              BEGIN MEDIA QUERIES
+
+*******************************************************************************/
+
+
+/* Small devices (tablets, 600px and up) */
+@media screen and (max-width: 380px){
+
+}
+
+/* Small devices (tablets, 600px and up) */
+@media screen and (max-width: 1199px){
+#side_nav{	
+	height:100%;
+	position:relative;
+	float: left;
+	color:#fff;
+	width:4.4%;
+	padding: 50px 0px 0px 0px;
+}
+.light_back_option{
+	color:#000;
+	opacity:0.5;
+	height:30px;
+	margin: 2px 0px;
+	font-size: 15px;
+	list-style: none;
+}
+.light_back_option_even{
+	color:#000;
+	background: rgba(0,0,0,0.1);
+	opacity:0.5;
+	height:30px;
+	margin: 2px 0px;
+	font-size: 15px;
+	list-style: none;
+}
+.main_wrapper{
+	background: #384B50;
+	padding:0px;
+	width:100%;
+	position: relative;
+	float: left;
+	min-width: 100%;
+}
+.green_nav{
+	background: #F05022;
+	position: absolute;
+	z-index: 2;
+	min-width: 100%;
+}
+.desktop_collection_actions{
+	display: none;
+}
+.tablet_collection_actions{
+	display: block;
+}
+
+
+
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 

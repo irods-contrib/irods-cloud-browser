@@ -96,42 +96,71 @@
 	<div class="four_column">
 		<div class="column_content">
 			<div class="dark_header"> 
-				<div id="breadcrumbs_container" class="col-xs-7 ">
+				<div id="breadcrumbs_container" class="col-xs-10 col-sm-9 col-md-9 col-lg-7">
 					<div class="breadcrumbs_sub_container" >
 						<span class="dark_back_option_double" ng-click="goToBreadcrumb($index)" ng-repeat="breadcrumb in getBreadcrumbPaths() track by $id(breadcrumb + $index)">
 							 /{{breadcrumb}} 				
 						</span>		
 					</div>			
 				</div>		
-				<div class="right col-xs-5 ">
+				<div class="right col-xs-2 col-sm-3 col-md-3 col-lg-5">
+					<div class="desktop_collection_actions">
 						<div class="upload_button" title="Upload files to this collection" ng-click="upload_pop_up_open()"> 
-						<img src="images/upload_icon.png"><span>&nbsp;Upload</span>	
+							<img src="images/upload_icon.png"><span>&nbsp;Upload</span>	
+						</div>
+						<div class="small_vertical_divider"></div>
+						<div class="upload_button" title="Go to Profile page of this collection" ng-click="selectProfile(pagingAwareCollectionListing.pagingAwareCollectionListingDescriptor.parentAbsolutePath)"> 
+							<img src="images/collection_light_icon.png"><span>&nbsp;Profile</span>	
+						</div>
+						<div class="small_vertical_divider"></div>
+						<div class="create_subcollection_button" title="Create a new sub-collection inside this collection" ng-click="create_pop_up_open()">
+							<img src="images/add_icon.png"><span>&nbsp;Add sub-collection</span>	
+						</div>
 					</div>
-					<div class="small_vertical_divider"></div>
-					<div class="upload_button" title="Go to Profile page of this collection" ng-click="selectProfile(pagingAwareCollectionListing.pagingAwareCollectionListingDescriptor.parentAbsolutePath)"> 
-						<img src="images/collection_light_icon.png"><span>&nbsp;Profile</span>	
-					</div>
-					<div class="small_vertical_divider"></div>
-					<div class="create_subcollection_button" title="Create a new sub-collection inside this collection" ng-click="create_pop_up_open()"> 
-						<img src="images/add_icon.png"><span>&nbsp;Add sub-collection</span>	
+					<div class="right btn-group tablet_collection_actions">
+					  <button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+					    Collection Actions <span class="caret"></span>
+					  </button>
+					  <ul class="dropdown-menu dropdown-menu-right">
+					    <li><a title="Upload files to this collection" ng-click="upload_pop_up_open()"><img src="images/upload_icon_dark.png"><span>&nbsp;Upload</span></a></li>
+					    <li><a title="Go to Profile page of this collection" ng-click="selectProfile(pagingAwareCollectionListing.pagingAwareCollectionListingDescriptor.parentAbsolutePath)"><img src="images/dark_collection_icon.png"><span>&nbsp;Profile</span></a></li>
+					    <li><a title="Create a new sub-collection inside this collection" ng-click="create_pop_up_open()"><img src="images/dark_add_icon.png"><span>&nbsp;Add sub-collection</span></a></li>
+					  </ul>
 					</div>
 				</div>		
 			</div>
 			<hr class="light_hr">
 			<div class="dark_header">
-				<span>You've selected:</span>
-				<span id="select-result">none</span>
-				<div class="right">
-					<div class="download_button" title="Delete selected file(s) " ng-click='delete_pop_up_open()' > 
-						<img src="images/delete_icon.png"><span>&nbsp;Delete</span>	
+				<div id="breadcrumbs_container" class="col-xs-10 col-sm-9 col-md-9 col-lg-7">
+					<div class="breadcrumbs_sub_container" >
+						<span>You've selected:</span>
+						<span id="select-result">none</span>
 					</div>
-					<div class="rename_divider small_vertical_divider"></div>
-					<div class="rename_button" title="Rename selected file/collection" ng-click='rename_pop_up_open()' > 
-						<img src="images/edit_icon.png"><span>&nbsp;Rename</span>	
+				</div>
+				<div class="right col-xs-2 col-sm-3 col-md-3 col-lg-5">
+					<div class="desktop_collection_actions">
+						<div class="download_button" title="Delete selected file(s) " ng-click='delete_pop_up_open()' > 
+							<img src="images/delete_icon.png"><span>&nbsp;Delete</span>	
+						</div>
+						<div class="rename_divider small_vertical_divider"></div>
+						<div class="rename_button" title="Rename selected file/collection" ng-click='rename_pop_up_open()' > 
+							<img src="images/edit_icon.png"><span>&nbsp;Rename</span>	
+						</div>
+						<div class="download_divider small_vertical_divider"></div>
+						<div class="download_button" title="Download selected file(s) " ng-click='getDownloadLink()' > 
+							<img src="images/download_icon.png"><span>&nbsp;Download</span>	
+						</div>
 					</div>
-					<div class="small_vertical_divider"></div>
-					<div class="download_button" title="Download selected file(s) " ng-click='getDownloadLink()' > 
-						<img src="images/download_icon.png"><span>&nbsp;Download</span>	
+					<div class="right btn-group tablet_collection_actions">
+					  <button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+					    Selection Actions <span class="caret"></span>
+					  </button>
+					  <ul class="dropdown-menu dropdown-menu-right">
+					  	<li class="empty_selection">Nothing is selected</li>
+					    <li class="tablet_download_button"><a title="Delete selected file(s) " ng-click='delete_pop_up_open()'><img src="images/dark_delete_icon.png"><span>&nbsp;Delete</span></a></li>
+					    <li class="tablet_rename_button"><a title="Rename selected file/collection" ng-click='rename_pop_up_open()'><img src="images/dark_edit_icon.png"><span>&nbsp;Rename</span></a></li>
+					    <li class="tablet_download_button"><a title="Download selected file(s) " ng-click='getDownloadLink()'><img src="images/dark_download_icon.png"><span>&nbsp;Download</span></a></li>
+					  </ul>
 					</div>
 				</div>
 			</div>

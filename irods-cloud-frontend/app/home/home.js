@@ -59,8 +59,7 @@ angular.module('myApp.home', ['ngRoute', 'ngFileUpload'])
          */
 
         $scope.selectedVc = selectedVc;
-        $scope.pagingAwareCollectionListing = pagingAwareCollectionListing.data;
-
+        $scope.pagingAwareCollectionListing = pagingAwareCollectionListing.data;        
         $scope.$on('onRepeatLast', function (scope, element, attrs) {
             $("#selectable").selectable({
                 stop: function () {
@@ -76,25 +75,47 @@ angular.module('myApp.home', ['ngRoute', 'ngFileUpload'])
                     if ($(".ui-selected").length > 1) {
                         result.append($('.ui-selected').length + " files");
                         $(".download_button").fadeIn();
+                        $(".download_divider").fadeIn();
                         $(".rename_button").fadeOut();
                         $(".rename_divider").fadeOut();
+
+                        $(".tablet_download_button").fadeIn();
+                        $(".tablet_rename_button").fadeOut();
+                        $(".empty_selection").fadeOut();
                     } else if ($(".ui-selected").length == 1) {
                         var name_of_selection = $('.ui-selected').children('.list_content').children('.data_object').text();
                         result.append(name_of_selection);
                         $(".download_button").fadeIn();
                         $(".rename_button").fadeIn();
                         $(".rename_divider").fadeIn();
+                        $(".download_divider").fadeIn();
 
+                        $(".tablet_download_button").fadeIn();
+                        $(".tablet_rename_button").fadeIn();
+                        $(".empty_selection").fadeOut();
                     } else if ($(".ui-selected").length == 0) {
                         $(".download_button").fadeOut();
                         $(".rename_button").fadeOut();
                         $(".rename_divider").fadeOut();
+                        $(".download_divider").fadeOut();
+
+                        $(".tablet_download_button").fadeOut();
+                        $(".tablet_rename_button").fadeOut();
+                        $(".empty_selection").fadeIn();
                     }
                 }
             });
         });
         $scope.$watch('files', function () {
             $scope.upload($scope.files);
+        });
+        $(".ui-selectee").dblclick(function(e){
+            e.preventDefault();
+            if($(e.target).hasClass('ui-selected')){
+                $(e.target).removeClass('ui-selected');
+            }else{
+                $(e.target).addClass('ui-selected');
+            }
         });
         $scope.multiple = true;
         $scope.upload = function (files) {

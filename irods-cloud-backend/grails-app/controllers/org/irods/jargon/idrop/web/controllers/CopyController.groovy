@@ -1,5 +1,7 @@
 package org.irods.jargon.idrop.web.controllers
 
+import grails.converters.JSON
+
 import org.irods.jargon.core.pub.IRODSAccessObjectFactory
 import org.irods.jargon.idrop.web.services.FileService
 
@@ -33,6 +35,12 @@ class CopyController {
 			throw new IllegalArgumentException("null sourcePath")
 		}
 
+		def resource = params.resource
+		if (!resource) {
+			log.info("no resource, assume blank")
+			resource = ""
+		}
+
 		log.info("sourcePath:${sourcePath}")
 
 		def targetPath = params.targetPath
@@ -40,8 +48,16 @@ class CopyController {
 			throw new IllegalArgumentException("null targetPath")
 		}
 
+		def overwrite = params.overwrite
+		if (!overwrite) {
+			log.info("overwrite not specified, assume false")
+			overwrite = false
+		}
+
 		log.info("targetPath:${targetPath}")
 
-		return null
+		def listingEntry = fileService.copy(resource, targetPath, resource, overwrite, irodsAccount)
+		log.info("copy completed to ${listingEntry}")
+		render listingEntry as JSON
 	}
 }

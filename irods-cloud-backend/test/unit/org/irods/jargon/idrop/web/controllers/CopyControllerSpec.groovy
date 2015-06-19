@@ -20,7 +20,7 @@ class CopyControllerSpec extends Specification {
 
 		def fileService = mockFor(FileService)
 		def entry = new CollectionAndDataObjectListingEntry()
-		fileService.demand.copy{sourcePath, targetPath, irodsAccount -> return entry}
+		fileService.demand.copy{sourcePath, targetPath, resc, overwrite, irodsAccount -> return entry}
 		controller.fileService = fileService.createMock()
 
 		def testAccount = IRODSAccount.instance("host", 1247, "user", "password", "","zone", "")

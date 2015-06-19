@@ -95,6 +95,47 @@ angular.module('fileModule',[])
             });
             // Return the promise to the controller
             return promise;
+        },
+
+        /**
+         * Copy a file or folder from source to target
+         * @param sourcePath irodsPath to source
+         * @param targetPath irodsPath to target
+         * @param targetResource blank if not used, resource for target
+         * @param overwrite boolean if force is required
+         * @returns JSON representation of CollectionAndDataObjectListingEntry for target of copy
+         */
+        copyFileOrFolder: function(sourcePath, targetPath, targetResource, overwrite) {
+            $log.info("copy()");
+
+            if (!sourcePath) {
+                $log.error("sourcePath is missing");
+                throw "sourcePath is missing";
+            }
+
+            if (!targetPath) {
+                $log.error("targetPath is missing");
+                throw "targetPath is missing";
+            }
+
+            if (!targetResource) {
+               targetResource = "";
+            }
+
+            if (!overwrite) {
+                overwrite = false;
+            }
+
+            var promise =  $http({method: 'POST', url: globals.backendUrl('copy') , params: {sourcePath: sourcePath, targetPath: targetPath, resource: targetResource, overwrite:overwrite}}).then(function (response) {
+                // The then function here is an opportunity to modify the response
+                $log(response);
+                // The return value gets picked up by the then in the controller.
+                return response.data; // return CollectionAndDataObjectListingEntry as JSON
+            });
+            // Return the promise to the controller
+            return promise;
+
+
         }
     };
 

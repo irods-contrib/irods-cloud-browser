@@ -59,42 +59,74 @@ angular.module('myApp.home', ['ngRoute', 'ngFileUpload'])
          */
 
         $scope.selectedVc = selectedVc;
-        $scope.pagingAwareCollectionListing = pagingAwareCollectionListing.data;
-
+        $scope.pagingAwareCollectionListing = pagingAwareCollectionListing.data;        
         $scope.$on('onRepeatLast', function (scope, element, attrs) {
-            $("#selectable").selectable({
-                stop: function () {
-                    $('.list_content').removeClass("ui-selected");
-                    var result = $("#select-result").empty();
-                    // $(".ui-selected", this).each(function () {
-                    //     var index = $("#selectable li").index(this);
-                    //     if(index == 0 || index == -1 ){
-                    //     }else{
-                    //         result.append(" #" + ( index + 1 )); 
-                    //     }                       
-                    // });
-                    if ($(".ui-selected").length > 1) {
-                        result.append($('.ui-selected').length + " files");
-                        $(".download_button").fadeIn();
-                        $(".rename_button").fadeOut();
-                        $(".rename_divider").fadeOut();
-                    } else if ($(".ui-selected").length == 1) {
-                        var name_of_selection = $('.ui-selected').children('.list_content').children('.data_object').text();
-                        result.append(name_of_selection);
-                        $(".download_button").fadeIn();
-                        $(".rename_button").fadeIn();
-                        $(".rename_divider").fadeIn();
-
-                    } else if ($(".ui-selected").length == 0) {
-                        $(".download_button").fadeOut();
-                        $(".rename_button").fadeOut();
-                        $(".rename_divider").fadeOut();
+            if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
+                $(".ui-selectee").dblclick(function(e){
+                    e.preventDefault();
+                    if($(e.target).parent().hasClass('ui-selected')){
+                        $(e.target).parent().removeClass('ui-selected');
+                    }else{
+                        $(e.target).parent().addClass('ui-selected');
                     }
-                }
-            });
+                });
+            }else{                
+                $("#selectable").selectable({
+                    stop: function () {
+                        $('.list_content').removeClass("ui-selected");
+                        var result = $("#select-result").empty();
+                        // $(".ui-selected", this).each(function () {
+                        //     var index = $("#selectable li").index(this);
+                        //     if(index == 0 || index == -1 ){
+                        //     }else{
+                        //         result.append(" #" + ( index + 1 )); 
+                        //     }                       
+                        // });
+                        if ($(".ui-selected").length > 1) {
+                            result.append($('.ui-selected').length + " files");
+                            $(".download_button").fadeIn();
+                            $(".download_divider").fadeIn();
+                            $(".rename_button").fadeOut();
+                            $(".rename_divider").fadeOut();
+
+                            $(".tablet_download_button").fadeIn();
+                            $(".tablet_rename_button").fadeOut();
+                            $(".empty_selection").fadeOut();
+                        } else if ($(".ui-selected").length == 1) {
+                            var name_of_selection = $('.ui-selected').children('.list_content').children('.data_object').text();
+                            result.append(name_of_selection);
+                            $(".download_button").fadeIn();
+                            $(".rename_button").fadeIn();
+                            $(".rename_divider").fadeIn();
+                            $(".download_divider").fadeIn();
+
+                            $(".tablet_download_button").fadeIn();
+                            $(".tablet_rename_button").fadeIn();
+                            $(".empty_selection").fadeOut();
+                        } else if ($(".ui-selected").length == 0) {
+                            $(".download_button").fadeOut();
+                            $(".rename_button").fadeOut();
+                            $(".rename_divider").fadeOut();
+                            $(".download_divider").fadeOut();
+
+                            $(".tablet_download_button").fadeOut();
+                            $(".tablet_rename_button").fadeOut();
+                            $(".empty_selection").fadeIn();
+                        }
+                    }
+                });
+            }    
         });
         $scope.$watch('files', function () {
             $scope.upload($scope.files);
+        });
+        $(".ui-selectee").dblclick(function(e){
+            e.preventDefault();
+            if($(e.target).hasClass('ui-selected')){
+                $(e.target).removeClass('ui-selected');
+            }else{
+                $(e.target).addClass('ui-selected');
+            }
         });
         $scope.multiple = true;
         $scope.upload = function (files) {

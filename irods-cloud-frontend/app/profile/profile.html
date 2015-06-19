@@ -68,10 +68,12 @@
 			<div class="dark_header"> 
 				<div id="breadcrumbs_container" class="col-xs-9 ">
 					<div class="breadcrumbs_sub_container" >
+
 						<span class="dark_back_option_double" ng-click="goToBreadcrumb($index)" ng-repeat="breadcrumb in getBreadcrumbPaths() track by $id(breadcrumb + $index)">
 							 /{{breadcrumb}}
 						</span>
-						<span>/{{dataProfile.childName}}</span>
+						/{{dataProfile.childName}}
+
 					</div>
 				</div>
 				<div class="right col-xs-3 ">

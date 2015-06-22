@@ -255,11 +255,12 @@ class FileService {
 	 * @param sourcePath irods path to source of copy
 	 * @param targetPath irods path to target of copy
 	 * @param overwrite indicates whether force is done
+	 * @param targetResource indicates resource for copy target, may be left blank to take default
 	 * @param irodsAccount
 	 * @return {@link CollectionAndDataObjectListingEntry} that is the newly copied file or dir
 	 * @throws JargonException
 	 */
-	CollectionAndDataObjectListingEntry copy(String sourcePath, String targetPath, boolean overwrite, irodsAccount) throws JargonException {
+	CollectionAndDataObjectListingEntry copy(String sourcePath, String targetPath, String targetResource, boolean overwrite, irodsAccount) throws JargonException {
 		log.info("rename()")
 		if (!sourcePath) {
 			throw new IllegalArgumentException("null or empty sourcePath")
@@ -286,7 +287,7 @@ class FileService {
 
 		log.info("starting copy...")
 
-		dataTransferOperations.copy(sourcePath, targetPath, null, transferControlBlock)
+		dataTransferOperations.copy(sourcePath, targetPath, targetResource, null, transferControlBlock)
 
 		log.info("copy complete")
 

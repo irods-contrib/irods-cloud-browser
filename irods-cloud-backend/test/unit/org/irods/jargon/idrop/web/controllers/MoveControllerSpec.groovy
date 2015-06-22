@@ -11,10 +11,10 @@ import spock.lang.Specification
 /**
  * See the API for {@link grails.test.mixin.web.ControllerUnitTestMixin} for usage instructions
  */
-@TestFor(CopyController)
-class CopyControllerSpec extends Specification {
+@TestFor(MoveController)
+class MoveControllerSpec extends Specification {
 
-	void "test copy"() {
+	void "test move"() {
 
 		given:
 

@@ -5,6 +5,7 @@ import static org.mockito.Mockito.*
 import grails.test.mixin.*
 
 import org.irods.jargon.core.connection.IRODSAccount
+import org.irods.jargon.core.packinstr.TransferOptions
 import org.irods.jargon.core.pub.CollectionAO
 import org.irods.jargon.core.pub.CollectionAndDataObjectListAndSearchAO
 import org.irods.jargon.core.pub.DataObjectAO
@@ -16,6 +17,8 @@ import org.irods.jargon.core.pub.io.IRODSFileFactory
 import org.irods.jargon.core.pub.io.IRODSFileInputStream
 import org.irods.jargon.core.query.CollectionAndDataObjectListingEntry
 import org.irods.jargon.core.transfer.DefaultTransferControlBlock
+import org.irods.jargon.core.transfer.TransferControlBlock
+import org.irods.jargon.core.transfer.TransferStatusCallbackListener
 import org.irods.jargon.zipservice.api.*
 import org.junit.*
 import org.mockito.Mockito
@@ -357,6 +360,7 @@ class FileServiceSpec extends Specification {
 		def sourcePath = "/a/path/dir"
 		def targetPath = "/another/path"
 		def overwrite = true
+		def resource = ""
 
 
 		def listingEntry = new CollectionAndDataObjectListingEntry()
@@ -364,14 +368,19 @@ class FileServiceSpec extends Specification {
 		collectionAO.demand.getListingEntryForAbsolutePath{pth1 -> return listingEntry}
 		def collectionAOMock = collectionAO.createMock()
 
-		def dataTransferOperations = mockFor(DataTransferOperations)
-		dataTransferOperations.demand.move{f1,f2->return void}
-		def dataTransferOperationsMock = dataTransferOperations.createMock()
 
-		irodsAccessObjectFactory.demand.getDataTransferOperations{ia2 -> return dataTransferOperationsMock}
+
+		TransferControlBlock transferControlBlock = DefaultTransferControlBlock.instance()
+		def transferOptions = new TransferOptions()
+		transferControlBlock.transferOptions = transferOptions
+		def dataTransferOperations = Mockito.mock(DataTransferOperations.class)
+		TransferStatusCallbackListener cl = Mockito.mock(TransferStatusCallbackListener.class)
+		//Mockito.when(dataTransferOperations.copy(sourcePath, sourcePath, "", cl, transferControlBlock)).thenReturn(void)
+
+		irodsAccessObjectFactory.demand.getDataTransferOperations{ia2 -> return dataTransferOperations}
 		irodsAccessObjectFactory.demand.getCollectionAO{ia1 -> return collectionAOMock}
 		irodsAccessObjectFactory.demand.getIRODSFileFactory(0..999){act1 -> return irodsFileFactoryMock}
-		irodsAccessObjectFactory.demand.buildDefaultTransferControlBlockBasedOnJargonProperties{-> return DefaultTransferControlBlock.instance()}
+		irodsAccessObjectFactory.demand.buildDefaultTransferControlBlockBasedOnJargonProperties{-> return transferControlBlock}
 
 		def irodsAccessObjectFactoryMock = irodsAccessObjectFactory.createMock()
 
@@ -380,7 +389,7 @@ class FileServiceSpec extends Specification {
 
 		when:
 
-		def actual = fileService.copy(sourcePath, targetPath, overwrite, irodsAccount)
+		def actual = fileService.copy(sourcePath, targetPath, resource, overwrite, irodsAccount)
 
 		then:
 		actual != null

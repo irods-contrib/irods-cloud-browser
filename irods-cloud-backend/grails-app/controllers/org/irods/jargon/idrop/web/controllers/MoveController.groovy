@@ -6,7 +6,7 @@ import org.irods.jargon.core.pub.IRODSAccessObjectFactory
 import org.irods.jargon.idrop.web.services.FileService
 
 /**
- * Controller for copy operations
+ * Controller for move operations
  * <p/>
  * For the backend, we are not striving for purity of REST, sorry...we have a REST API for that.  What we want here are minimal sized controllers with minimal manipulation needed
  * from the javascript side, so small controllers, simple urls, simple parameters are the rule
@@ -14,19 +14,19 @@ import org.irods.jargon.idrop.web.services.FileService
  * @author Mike Conway - DICE
  *
  */
-class CopyController {
+class MoveController {
 
 	static responseFormats = ['json']
 	FileService fileService
 	IRODSAccessObjectFactory irodsAccessObjectFactory
 
 	/**
-	 * POST method causes a copy to be made, expects sourcePath and targetPath to be specified
+	 * POST method causes a move to be made, expects sourcePath and targetPath to be specified
 	 * @return
 	 */
 	def save() {
 		log.info("save()")
-		log.info("copy action")
+		log.info("move action")
 		def irodsAccount = request.irodsAccount
 		if (!irodsAccount) throw new IllegalStateException("no irodsAccount in request")
 
@@ -56,8 +56,8 @@ class CopyController {
 
 		log.info("targetPath:${targetPath}")
 
-		def listingEntry = fileService.copy(resource, targetPath, resource, overwrite, irodsAccount)
-		log.info("copy completed to ${listingEntry}")
+		def listingEntry = null //fileService.copy(resource, targetPath, resource, overwrite, irodsAccount)
+		log.info("move completed to ${listingEntry}")
 		render listingEntry as JSON
 	}
 }

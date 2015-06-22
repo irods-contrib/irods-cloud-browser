@@ -140,6 +140,28 @@ Will return a listing entry JSON object that reflects the renamed file or folder
    
    
    
+  xxxx
+  
+  
+## Copy a new file or folder
+
+**URL** irods-cloud-backend/copy
+
+**Method** POST
+
+### Parameters
+_sourcePath:_ path of file or folder to be copied
+_targetPath_: path of the target to which the file or folder will be copied
+_resource_: optional iRODS resource for the copy, may be omitted and will take default resource
+_overwrite_: true|false, will default to false if not provided
+
+### Response (JSON)
+
+Will return a listing entry JSON object that reflects the target file or folder. 
+
+   {"class":"org.irods.jargon.core.query.CollectionAndDataObjectListingEntry","collection":false,"count":0,"createdAt":null,"dataObject":false,"dataSize":0,"description":"","displayDataSize":"0 B","formattedAbsolutePath":"/","id":0,"lastResult":false,"modifiedAt":null,"nodeLabelDisplayValue":"","objectType":null,"ownerName":"","ownerZone":"","parentPath":"","pathOrName":"","specColType":{"enumType":"org.irods.jargon.core.pub.domain.ObjStat$SpecColType","name":"NORMAL"},"specialObjectPath":"","totalRecords":0,"userFilePermission":[]}
+
+   
 ## Star a file 
 
 Add a star tag to a file

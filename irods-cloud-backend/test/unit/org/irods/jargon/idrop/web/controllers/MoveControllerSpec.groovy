@@ -20,15 +20,36 @@ class MoveControllerSpec extends Specification {
 
 		def fileService = mockFor(FileService)
 		def entry = new CollectionAndDataObjectListingEntry()
-		fileService.demand.copy{sourcePath, targetPath, resc, overwrite, irodsAccount -> return entry}
+		fileService.demand.move{sourcePath, targetPath, resc, irodsAccount -> return entry}
 		controller.fileService = fileService.createMock()
 
 		def testAccount = IRODSAccount.instance("host", 1247, "user", "password", "","zone", "")
 		request.irodsAccount = testAccount
 		params.sourcePath = "/a/path"
 		params.targetPath = "/another/path"
-		params.overwrite = true
 
+		when:
+		controller.save()
+
+		then:
+		controller.response.status == 200
+		log.info("responseText:${response.text}")
+	}
+
+	void "test phymove"() {
+
+		given:
+
+		def fileService = mockFor(FileService)
+		def entry = new CollectionAndDataObjectListingEntry()
+		fileService.demand.move{sourcePath, targetPath, resc, irodsAccount -> return entry}
+		controller.fileService = fileService.createMock()
+
+		def testAccount = IRODSAccount.instance("host", 1247, "user", "password", "","zone", "")
+		request.irodsAccount = testAccount
+		params.sourcePath = "/a/path"
+		params.targetPath = ""
+		params.resource = "resc"
 		when:
 		controller.save()
 

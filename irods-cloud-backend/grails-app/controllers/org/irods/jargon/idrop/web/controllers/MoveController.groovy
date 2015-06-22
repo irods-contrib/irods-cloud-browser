@@ -21,7 +21,22 @@ class MoveController {
 	IRODSAccessObjectFactory irodsAccessObjectFactory
 
 	/**
-	 * POST method causes a move to be made, expects sourcePath and targetPath to be specified
+	 * POST method causes a move to be made
+	 *
+	 * Modes
+	 *
+	 *<ul>
+	 *<li>
+	 * source moved to target, resource can be provided
+	 *</li>
+	 *<li>
+	 * source, no target, resource provided this is a phymove
+	 *</li>
+	 *<li>
+	 * source, same target, resource provided, this is a phymove
+	 *</li>
+	 *</ul>
+	 * otherwise it's an error
 	 * @return
 	 */
 	def save() {
@@ -45,7 +60,7 @@ class MoveController {
 
 		def targetPath = params.targetPath
 		if (!targetPath) {
-			throw new IllegalArgumentException("null targetPath")
+			targetPath = ""
 		}
 
 		def overwrite = params.overwrite
@@ -56,7 +71,7 @@ class MoveController {
 
 		log.info("targetPath:${targetPath}")
 
-		def listingEntry = null //fileService.copy(resource, targetPath, resource, overwrite, irodsAccount)
+		def listingEntry = fileService.move(resource, targetPath, resource,  irodsAccount)
 		log.info("move completed to ${listingEntry}")
 		render listingEntry as JSON
 	}

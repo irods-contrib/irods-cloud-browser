@@ -394,4 +394,85 @@ class FileServiceSpec extends Specification {
 		then:
 		actual != null
 	}
+
+	void "should move a file from source to target"() {
+		given:
+		IRODSAccount irodsAccount = IRODSAccount.instance("host", 1247, "user", "password", "", "zone", "")
+		def irodsAccessObjectFactory = mockFor(IRODSAccessObjectFactory)
+
+		def sourcePath = "/a/path/dir"
+		def targetPath = "/another/path"
+		def overwrite = true
+		def resource = ""
+
+		def listingEntry = new CollectionAndDataObjectListingEntry()
+		def collectionAO = mockFor(CollectionAO)
+		collectionAO.demand.getListingEntryForAbsolutePath{pth1 -> return listingEntry}
+		def collectionAOMock = collectionAO.createMock()
+
+		TransferControlBlock transferControlBlock = DefaultTransferControlBlock.instance()
+		def transferOptions = new TransferOptions()
+		transferControlBlock.transferOptions = transferOptions
+		def dataTransferOperations = Mockito.mock(DataTransferOperations.class)
+		TransferStatusCallbackListener cl = Mockito.mock(TransferStatusCallbackListener.class)
+		//Mockito.when(dataTransferOperations.copy(sourcePath, sourcePath, "", cl, transferControlBlock)).thenReturn(void)
+
+		irodsAccessObjectFactory.demand.getDataTransferOperations{ia2 -> return dataTransferOperations}
+		irodsAccessObjectFactory.demand.getCollectionAO{ia1 -> return collectionAOMock}
+		irodsAccessObjectFactory.demand.getIRODSFileFactory(0..999){act1 -> return irodsFileFactoryMock}
+
+		def irodsAccessObjectFactoryMock = irodsAccessObjectFactory.createMock()
+
+		FileService fileService = new FileService()
+		fileService.irodsAccessObjectFactory = irodsAccessObjectFactoryMock
+
+		when:
+
+		def actual = fileService.move(sourcePath, targetPath, resource, irodsAccount)
+
+		then:
+		Mockito.verify(dataTransferOperations).move(sourcePath, targetPath)
+
+		actual != null
+	}
+
+	void "should phymove a file from source to target resource"() {
+		given:
+		IRODSAccount irodsAccount = IRODSAccount.instance("host", 1247, "user", "password", "", "zone", "")
+		def irodsAccessObjectFactory = mockFor(IRODSAccessObjectFactory)
+
+		def sourcePath = "/a/path/dir"
+		def targetPath = ""
+		def resource = "resc"
+
+		def listingEntry = new CollectionAndDataObjectListingEntry()
+		def collectionAO = mockFor(CollectionAO)
+		collectionAO.demand.getListingEntryForAbsolutePath{pth1 -> return listingEntry}
+		def collectionAOMock = collectionAO.createMock()
+
+		TransferControlBlock transferControlBlock = DefaultTransferControlBlock.instance()
+		def transferOptions = new TransferOptions()
+		transferControlBlock.transferOptions = transferOptions
+		def dataTransferOperations = Mockito.mock(DataTransferOperations.class)
+		TransferStatusCallbackListener cl = Mockito.mock(TransferStatusCallbackListener.class)
+		//Mockito.when(dataTransferOperations.copy(sourcePath, sourcePath, "", cl, transferControlBlock)).thenReturn(void)
+
+		irodsAccessObjectFactory.demand.getDataTransferOperations{ia2 -> return dataTransferOperations}
+		irodsAccessObjectFactory.demand.getCollectionAO{ia1 -> return collectionAOMock}
+		irodsAccessObjectFactory.demand.getIRODSFileFactory(0..999){act1 -> return irodsFileFactoryMock}
+
+		def irodsAccessObjectFactoryMock = irodsAccessObjectFactory.createMock()
+
+		FileService fileService = new FileService()
+		fileService.irodsAccessObjectFactory = irodsAccessObjectFactoryMock
+
+		when:
+
+		def actual = fileService.move(sourcePath, targetPath, resource, irodsAccount)
+
+		then:
+		Mockito.verify(dataTransferOperations).physicalMove(sourcePath, resource)
+
+		actual != null
+	}
 }

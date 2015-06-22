@@ -295,4 +295,75 @@ class FileService {
 		log.info("entry for new file:${listingEntry}")
 		return listingEntry
 	}
+
+	/**
+	 * Move the file or collection from source to target
+	 * <p/>
+	 * The move can either be from source to target, or to move the source to a specified physical resource
+	 * 
+	 * @param sourcePath irods path to source of move
+	 * @param targetPath irods path to target of move
+	 * @param overwrite indicates whether force is done
+	 * @param targetResource indicates resource for move target, may be left blank to take default
+	 * @param irodsAccount
+	 * @return {@link CollectionAndDataObjectListingEntry} that is the newly copied file or dir
+	 * @throws JargonException
+	 */
+	CollectionAndDataObjectListingEntry move(String sourcePath, String targetPath, String targetResource, irodsAccount) throws JargonException {
+		log.info("move()")
+		if (!sourcePath) {
+			throw new IllegalArgumentException("null or empty sourcePath")
+		}
+		if (!targetPath) {
+			targetPath = ""
+		}
+		if (!irodsAccount) {
+			throw new IllegalArgumentException("irodsAccount is missing")
+		}
+
+		log.info("sourcePath:${sourcePath}")
+		log.info("targetPath:${targetPath}")
+
+		/*
+		 * Modes
+		 *
+		 * source moved to target, resource can be provided
+		 *
+		 * source, no target, resource provided this is a phymove
+		 *
+		 * source, same target, resource provided, this is a phymove
+		 *
+		 * otherwise it's an error
+		 *
+		 */
+
+		if (!targetPath && !targetResource) {
+			log.error("targetPath not provided, resource not provided. If a phymove, specify the resource")
+			throw new JargonException("No target path or resource provided")
+		}
+
+		if (targetPath == sourcePath && !targetResource) {
+			log.error("resource not provided for a physical move")
+			throw new JargonException("No target path or resource provided")
+		}
+
+		def dataTransferOperations = irodsAccessObjectFactory.getDataTransferOperations(irodsAccount)
+		def collectionAO = irodsAccessObjectFactory.getCollectionAO(irodsAccount)
+
+		log.info("starting move...")
+		def listingEntry = null
+		if (sourcePath == targetPath || targetPath == "") {
+			log.info("phymove operation")
+			dataTransferOperations.physicalMove(sourcePath, targetResource)
+			listingEntry = collectionAO.getListingEntryForAbsolutePath(sourcePath)
+		} else {
+			log.info("move operation")
+			dataTransferOperations.move(sourcePath, targetPath)
+			listingEntry = collectionAO.getListingEntryForAbsolutePath(targetPath)
+		}
+
+		log.info("move complete")
+		log.info("entry for new file:${listingEntry}")
+		return listingEntry
+	}
 }

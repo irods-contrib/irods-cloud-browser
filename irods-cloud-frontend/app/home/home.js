@@ -62,13 +62,25 @@ angular.module('myApp.home', ['ngRoute', 'ngFileUpload'])
         $scope.pagingAwareCollectionListing = pagingAwareCollectionListing.data;        
         $scope.$on('onRepeatLast', function (scope, element, attrs) {
             if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
-                $(".ui-selectee").dblclick(function(e){
-                    e.preventDefault();
-                    if($(e.target).parent().hasClass('ui-selected')){
-                        $(e.target).parent().removeClass('ui-selected');
-                    }else{
-                        $(e.target).parent().addClass('ui-selected');
-                    }
+                
+                $(".ui-selectee").on("tap",function(e){
+                  var result = $("#select-result").empty();
+                  e.preventDefault();
+
+                  if($(e.target).hasClass('ui-selected')){
+                      $(e.target).removeClass('ui-selected');
+                  }else{
+                      $(e.target).addClass('ui-selected');
+                  }
+                  if ($(".ui-selected").length > 1) {
+                            result.append($('.ui-selected').length + " files");                            
+                        } else if ($(".ui-selected").length == 1) {
+                            var name_of_selection = $('.ui-selected').text();
+                            result.append(name_of_selection);
+                        } else if ($(".ui-selected").length == 0) {
+
+                        }
+
                 });
             }else{                
                 $("#selectable").selectable({
@@ -115,18 +127,11 @@ angular.module('myApp.home', ['ngRoute', 'ngFileUpload'])
                         }
                     }
                 });
-            }    
+            }         e.preventDefault();
+                   
         });
         $scope.$watch('files', function () {
             $scope.upload($scope.files);
-        });
-        $(".ui-selectee").dblclick(function(e){
-            e.preventDefault();
-            if($(e.target).hasClass('ui-selected')){
-                $(e.target).removeClass('ui-selected');
-            }else{
-                $(e.target).addClass('ui-selected');
-            }
         });
         $scope.multiple = true;
         $scope.upload = function (files) {

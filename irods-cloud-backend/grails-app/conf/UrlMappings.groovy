@@ -16,8 +16,11 @@ class UrlMappings {
 
 		"/download"(resource:"download")
 
-		"/$controller/$action?/$id?(.$format)?"{ constraints {
-				// apply constraints here
+		"/copy"(resource:"copy")
+
+		"/move"(resource:"move")
+
+		"/$controller/$action?/$id?(.$format)?"{ constraints { // apply constraints here
 			} }
 
 		"/"(view:"/index")

@@ -135,7 +135,6 @@ angular.module('fileModule',[])
             // Return the promise to the controller
             return promise;
 
-
         }
     };
 

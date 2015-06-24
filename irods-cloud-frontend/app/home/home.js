@@ -83,7 +83,7 @@ angular.module('myApp.home', ['ngRoute', 'ngFileUpload'])
 
                 });
             }else{                
-                $("#selectable").selectable({
+                $(".selectable").selectable({
                     stop: function () {
                         $('.list_content').removeClass("ui-selected");
                         var result = $("#select-result").empty();
@@ -271,6 +271,10 @@ angular.module('myApp.home', ['ngRoute', 'ngFileUpload'])
                 window.open($globals.backendUrl('download') + "?" + multiple_paths , '_blank');
             }
         };
+        $scope.copy_pop_up_open = function(){
+            $('.pop_up_window').fadeIn(100);
+            $('.copier').fadeIn(100);
+        };
         $scope.create_pop_up_open = function(){
             $('.pop_up_window').fadeIn(100);
             $('.creater').fadeIn(100);
@@ -305,6 +309,7 @@ angular.module('myApp.home', ['ngRoute', 'ngFileUpload'])
                 $('.deleter').fadeOut(100);
                 $('.creater').fadeOut(100);
                 $('.renamer').fadeOut(100);
+                $('.copier').fadeOut(100);
                 location.reload();
             });
 

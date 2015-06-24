@@ -22,8 +22,8 @@ time, mark, audio, video {
 	margin:0px;
 	border-top: 1px solid #eee;
 }
-  #selectable .ui-selecting { background: #D69A85; }
-  #selectable .ui-selected { background: #F05022; color: white; }
+  .selectable .ui-selecting { background: #D69A85; }
+  .selectable .ui-selected { background: #F05022; color: white; }
 /* ||||||||||||||||||||||||||||||||||| */
 /* |||||||||||  NAV STYLES ||||||||||| */
 /* ||||||||||||||||||||||||||||||||||| */
@@ -128,6 +128,14 @@ time, mark, audio, video {
 	height: 100%;
 	width:100%;
 }
+.slim_column_content{
+	border-top:2px solid #F05022;
+	background: #fff;
+	margin: 5px 0px 0px 0px;
+	padding: 5px;
+	height: 100%;
+	width:100%;
+}
 #breadcrumbs_container{
 	position:relative;
 	display:inline-block;
@@ -164,6 +172,10 @@ time, mark, audio, video {
 	text-align: center;
 	height: 21px;
 	margin: 0px 5px;
+}
+.copier{
+	display: none;
+	padding: 5px;
 }
 .uploader{
 	display: none;

@@ -47,18 +47,17 @@
 			<div class="light_header"><img src="images/dark_add_icon.png"><span>&nbsp;Copying</span><img class="pop_up_close_button right" title="close window" ng-click="pop_up_close()" src="images/close_icon.png"></div>
 			
 			<div class="copy_container">
-				<br>
 				<ul></ul>								
 			</div>
 		</div>
-		<div class="slim_column_content copier">
+		<div class="slim_column_content themed_header copier">
 			Copy to:
 		</div>
 			<div class="one_column copier">
 				<div class="column_content">
 					<div class="light_header"><img src="images/saved_search_icon_dark.png"><span>Saved Searches</span></div>
 					<ul >
-					    <li ng-class-odd="'light_back_option'" ng-class-even="'light_back_option_even'" ng-repeat="virtualCollection in virtualCollections" ng-click="selectVirtualCollection(virtualCollection.uniqueName, '')">
+					    <li ng-class-odd="'light_back_option'" ng-class-even="'light_back_option_even'" ng-repeat="virtualCollection in copy_vc_list" ng-click="copy_list_refresh(virtualCollection.uniqueName,'')">
 					            <img src="images/saved_search_icon.png"><span>{{virtualCollection.uniqueName}}</span>
 					    </li>
 					</ul>
@@ -66,14 +65,11 @@
 			</div>
 			<div class="four_column copier">
 				<div class="column_content">
-					<ul class="selectable">
-					    <li class="ui-widget-content data_{{collectionAndDataObject.dataObject}} ui-selectee" ng-class-odd="'light_back_option'" ng-class-even="'light_back_option_even'" ng-repeat="collectionAndDataObject in pagingAwareCollectionListing.collectionAndDataObjectListingEntries" id='{{collectionAndDataObject.formattedAbsolutePath}}' on-last-repeat>
+					<ul class="selectable copy_listing">
+			    			<li class="ui-widget-content data_{{collectionAndDataObject.dataObject}} copy_list_item ui-selectee" ng-class-odd="'light_back_option'" ng-show="{{collectionAndDataObject.dataObject}} == false" ng-class-even="'light_back_option_even'" ng-repeat="collectionAndDataObject in copy_list.collectionAndDataObjectListingEntries" id='{{collectionAndDataObject.formattedAbsolutePath}}' on-last-repeat>
 				            <div class="col-xs-7 list_content">
 					            <img ng-show="{{collectionAndDataObject.dataObject}} == false" src="images/collection_icon.png">
-					            <img ng-show="{{collectionAndDataObject.dataObject}} == true" src="images/data_object_icon.png">	          
-				            	<span class="collection_object" ng-show="{{collectionAndDataObject.dataObject}} == false" id='{{collectionAndDataObject.formattedAbsolutePath}}' ng-click="selectVirtualCollection(selectedVc.data.uniqueName,collectionAndDataObject.formattedAbsolutePath)">{{collectionAndDataObject.nodeLabelDisplayValue}}</span>
-				            	<span class="data_object" ng-show="{{collectionAndDataObject.dataObject}} == true" id='{{collectionAndDataObject.formattedAbsolutePath}}' ng-click="selectProfile(collectionAndDataObject.formattedAbsolutePath)">{{collectionAndDataObject.nodeLabelDisplayValue}}</span>
-				            	
+				            	<span class="collection_object" id='{{collectionAndDataObject.formattedAbsolutePath}}' ng-click="copy_list_refresh(copyVC,collectionAndDataObject.formattedAbsolutePath)">{{collectionAndDataObject.nodeLabelDisplayValue}}</span>
 				            </div>
 				            <div class="col-xs-3 list_content text-right">
 				            	<p>{{collectionAndDataObject.modifiedAt}}</p>
@@ -218,8 +214,8 @@
 		            <div class="col-xs-7 list_content">
 			            <img ng-show="{{collectionAndDataObject.dataObject}} == false" src="images/collection_icon.png">
 			            <img ng-show="{{collectionAndDataObject.dataObject}} == true" src="images/data_object_icon.png">	          
-		            	<span class="collection_object" ng-show="{{collectionAndDataObject.dataObject}} == false" id='{{collectionAndDataObject.formattedAbsolutePath}}' ng-click="selectVirtualCollection(selectedVc.data.uniqueName,collectionAndDataObject.formattedAbsolutePath)">{{collectionAndDataObject.nodeLabelDisplayValue}}</span>
-		            	<span class="data_object" ng-show="{{collectionAndDataObject.dataObject}} == true" id='{{collectionAndDataObject.formattedAbsolutePath}}' ng-click="selectProfile(collectionAndDataObject.formattedAbsolutePath)">{{collectionAndDataObject.nodeLabelDisplayValue}}</span>
+		            	<span class="collection_object" ng-show="{{collectionAndDataObject.dataObject}} == false" ng-click="selectVirtualCollection(selectedVc.data.uniqueName,collectionAndDataObject.formattedAbsolutePath)">{{collectionAndDataObject.nodeLabelDisplayValue}}</span>
+		            	<span class="data_object" ng-show="{{collectionAndDataObject.dataObject}} == true" ng-click="selectProfile(collectionAndDataObject.formattedAbsolutePath)">{{collectionAndDataObject.nodeLabelDisplayValue}}</span>
 		            	
 		            </div>
 		            <div class="col-xs-3 list_content text-right">

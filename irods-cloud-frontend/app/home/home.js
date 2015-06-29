@@ -84,7 +84,8 @@ angular.module('myApp.home', ['ngRoute', 'ngFileUpload'])
                 });
             }else{                
                 $(".selectable").selectable({
-                    stop: function () {
+                    stop: function (){
+
                         $('.list_content').removeClass("ui-selected");
                         var result = $("#select-result").empty();
                         // $(".ui-selected", this).each(function () {
@@ -94,7 +95,10 @@ angular.module('myApp.home', ['ngRoute', 'ngFileUpload'])
                         //         result.append(" #" + ( index + 1 )); 
                         //     }                       
                         // });
-                        if ($(".ui-selected").length > 1) {
+                        if ($(".copy_list_item.ui-selected").length > 1) {
+                            $('.copy_list_item.ui-selected').not(':first').removeClass('ui-selected');
+                        } 
+                        if ($("li.ui-selected").length > 1) {
                             result.append($('.ui-selected').length + " files");
                             $(".download_button").fadeIn();
                             $(".download_divider").fadeIn();
@@ -104,7 +108,8 @@ angular.module('myApp.home', ['ngRoute', 'ngFileUpload'])
                             $(".tablet_download_button").fadeIn();
                             $(".tablet_rename_button").fadeOut();
                             $(".empty_selection").fadeOut();
-                        } else if ($(".ui-selected").length == 1) {
+                            
+                        } else if ($("li.ui-selected").length == 1) {
                             var name_of_selection = $('.ui-selected').children('.list_content').children('.data_object').text();
                             result.append(name_of_selection);
                             $(".download_button").fadeIn();
@@ -115,7 +120,7 @@ angular.module('myApp.home', ['ngRoute', 'ngFileUpload'])
                             $(".tablet_download_button").fadeIn();
                             $(".tablet_rename_button").fadeIn();
                             $(".empty_selection").fadeOut();
-                        } else if ($(".ui-selected").length == 0) {
+                        } else if ($("li.ui-selected").length == 0) {
                             $(".download_button").fadeOut();
                             $(".rename_button").fadeOut();
                             $(".rename_divider").fadeOut();
@@ -125,9 +130,11 @@ angular.module('myApp.home', ['ngRoute', 'ngFileUpload'])
                             $(".tablet_rename_button").fadeOut();
                             $(".empty_selection").fadeIn();
                         }
+
+
                     }
                 });
-            }         e.preventDefault();
+            }         
                    
         });
         $scope.$watch('files', function () {
@@ -251,9 +258,6 @@ angular.module('myApp.home', ['ngRoute', 'ngFileUpload'])
 
         $scope.getDownloadLink = function () {
             $('.list_content').removeClass("ui-selected");
-            if ($(".data_false")[0]) {
-                alert("You can't download an entire collection through this web interface, please use the iRODS desktop application for bulk downloads");
-            }
             var links = $('.ui-selected');
             $log.info(links);
             var multiple_paths = '';
@@ -273,7 +277,49 @@ angular.module('myApp.home', ['ngRoute', 'ngFileUpload'])
         };
         $scope.copy_pop_up_open = function(){
             $('.pop_up_window').fadeIn(100);
+            $scope.name_of_selection = $('.ui-selected');
+            $scope.name_of_selection.each(function() {
+                if ($(this).attr('id') != undefined) {
+                    if($(this).hasClass("data_true")){
+                        $(".copy_container ul").append('<li class="light_back_option_even"><div class="col-xs-7 list_content"><img src="images/data_object_icon.png">'+$(this).attr('id')+'</div></li>'); 
+                    }else{
+                        $(".copy_container ul").append('<li class="light_back_option_even"><div class="col-xs-7 list_content"><img src="images/collection_icon.png">'+$(this).attr('id')+'</div></li>');
+                    };
+                };              
+            }); 
             $('.copier').fadeIn(100);
+            return $http({
+                method: 'GET', 
+                url: $globals.backendUrl('virtualCollection')
+            }).success(function (data) {
+                $scope.copy_vc_list = data;
+            }).error(function () {
+                alert("Something went wrong while fetching the Virtual Collections");
+                $scope.copy_vc_list = [];
+            });
+            return $http({
+                method: 'GET',
+                url: $globals.backendUrl('collection/') + selectedVc.data.uniqueName,
+                params: {path: "", offset: 0}
+            }).success(function (data) {
+                $scope.copy_list = data;
+            }).error(function () {
+                alert("Something went wrong while fetching the contents of the Collection");
+                $scope.copy_list = [];
+            });
+        };
+        $scope.copy_list_refresh = function(VC,selectedPath){
+            $scope.copyVC = VC;
+            return $http({
+                method: 'GET',
+                url: $globals.backendUrl('collection/') + VC,
+                params: {path: selectedPath, offset: 0}
+            }).success(function (data) {
+                $scope.copy_list = data;
+            }).error(function () {
+                alert("Something went wrong while fetching the contents of the Collection");
+                $scope.copy_list = [];
+            });
         };
         $scope.create_pop_up_open = function(){
             $('.pop_up_window').fadeIn(100);

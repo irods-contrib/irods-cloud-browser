@@ -85,7 +85,6 @@ angular.module('myApp.home', ['ngRoute', 'ngFileUpload'])
             }else{                
                 $(".selectable").selectable({
                     stop: function (){
-
                         $('.list_content').removeClass("ui-selected");
                         var result = $("#select-result").empty();
                         // $(".ui-selected", this).each(function () {

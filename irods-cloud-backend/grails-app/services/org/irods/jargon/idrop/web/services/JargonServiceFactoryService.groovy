@@ -5,7 +5,7 @@ import org.irods.jargon.core.exception.JargonRuntimeException
 import org.irods.jargon.core.pub.IRODSAccessObjectFactory
 import org.irods.jargon.usertagging.starring.IRODSStarringServiceImpl
 import org.irods.jargon.vircoll.impl.VirtualCollectionDiscoveryServiceImpl
-import org.irods.jargon.vircoll.impl.VirtualCollectionExecutorFactoryImpl
+import org.irods.jargon.vircoll.impl.VirtualCollectionFactoryImpl
 import org.irods.jargon.zipservice.api.JargonZipServiceImpl
 import org.irods.jargon.zipservice.api.ZipServiceConfiguration
 
@@ -26,7 +26,7 @@ class JargonServiceFactoryService {
 	 * @return
 	 */
 	def instanceVirtualCollectionExecutorFactory(IRODSAccount irodsAccount) {
-		return new VirtualCollectionExecutorFactoryImpl(irodsAccessObjectFactory, irodsAccount)
+		return new VirtualCollectionFactoryImpl(irodsAccessObjectFactory, irodsAccount)
 	}
 
 	/**

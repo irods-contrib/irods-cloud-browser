@@ -9,7 +9,7 @@ import org.irods.jargon.core.query.PagingAwareCollectionListing
 import org.irods.jargon.idrop.web.services.VirtualCollectionService.ListingType
 import org.irods.jargon.vircoll.AbstractVirtualCollection
 import org.irods.jargon.vircoll.VirtualCollectionDiscoveryService
-import org.irods.jargon.vircoll.impl.VirtualCollectionExecutorFactoryImpl
+import org.irods.jargon.vircoll.impl.VirtualCollectionFactoryImpl
 import org.irods.jargon.vircoll.types.CollectionBasedVirtualCollection
 import org.irods.jargon.vircoll.types.CollectionBasedVirtualCollectionExecutor
 
@@ -34,7 +34,7 @@ class VirtualCollectionServiceSpec  extends Specification  {
 		collectionBasedVirtualCollectionExecutor.demand.queryAll{return listing}
 		def execMock = collectionBasedVirtualCollectionExecutor.createMock()
 
-		def virtualCollectionFactory = mockFor(VirtualCollectionExecutorFactoryImpl)
+		def virtualCollectionFactory = mockFor(VirtualCollectionFactoryImpl)
 		virtualCollectionFactory.demand.instanceExecutorBasedOnVirtualCollection{vc -> return execMock}
 		def factMock = virtualCollectionFactory.createMock()
 
@@ -76,7 +76,7 @@ class VirtualCollectionServiceSpec  extends Specification  {
 		def execMock = collectionBasedVirtualCollectionExecutor.createMock()
 
 
-		def virtualCollectionFactory = mockFor(VirtualCollectionExecutorFactoryImpl)
+		def virtualCollectionFactory = mockFor(VirtualCollectionFactoryImpl)
 		virtualCollectionFactory.demand.instanceExecutorBasedOnVirtualCollection{vc -> return execMock}
 		def factMock = virtualCollectionFactory.createMock()
 
@@ -128,7 +128,7 @@ class VirtualCollectionServiceSpec  extends Specification  {
 		def collectionBasedVirtualCollectionExecutor = mockFor(CollectionBasedVirtualCollectionExecutor)
 		collectionBasedVirtualCollectionExecutor.demand.queryAll{return listing}
 		def execMock = collectionBasedVirtualCollectionExecutor.createMock()
-		def virtualCollectionFactory = mockFor(VirtualCollectionExecutorFactoryImpl)
+		def virtualCollectionFactory = mockFor(VirtualCollectionFactoryImpl)
 		virtualCollectionFactory.demand.instanceExecutorBasedOnVirtualCollection{vc -> return execMock}
 
 		def factMock = virtualCollectionFactory.createMock()

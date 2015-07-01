@@ -98,6 +98,42 @@ angular.module('fileModule',[])
         },
 
         /**
+         * Move a file or folder from source to target, or move the source to the specified resource
+         * @param sourcePath irodsPath to source
+         * @param targetPath irodsPath to target
+         * @param targetResource blank if not used, resource for target
+         * @returns JSON representation of CollectionAndDataObjectListingEntry for target of copy
+         */
+        moveFileOrFolder: function(sourcePath, targetPath, targetResource) {
+            $log.info("move()");
+
+            if (!sourcePath) {
+                $log.error("sourcePath is missing");
+                throw "sourcePath is missing";
+            }
+
+            if (!targetPath) {
+               targetPath = "";
+            }
+
+            if (!targetResource) {
+                targetResource = "";
+            }
+
+
+            var promise =  $http({method: 'POST', url: globals.backendUrl('move') , params: {sourcePath: sourcePath, targetPath: targetPath, resource: targetResource}}).then(function (response) {
+                // The then function here is an opportunity to modify the response
+                $log(response);
+                // The return value gets picked up by the then in the controller.
+                return response.data; // return CollectionAndDataObjectListingEntry as JSON
+            });
+            // Return the promise to the controller
+            return promise;
+
+        },
+
+
+        /**
          * Copy a file or folder from source to target
          * @param sourcePath irodsPath to source
          * @param targetPath irodsPath to target

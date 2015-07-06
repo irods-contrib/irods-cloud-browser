@@ -1,3 +1,7 @@
+<script type="text/javascript">
+	$('.grid').masonry();  
+</script>
+
 <div class="pop_up_window">
 	<div class="three_column centered">
 		<div class="column_content uploader">
@@ -209,23 +213,11 @@
 					</div>
 				</div>
 			</div>
-			<ul class="selectable">
-			    <li class="ui-widget-content data_{{collectionAndDataObject.dataObject}} ui-selectee" ng-class-odd="'light_back_option'" ng-class-even="'light_back_option_even'" ng-repeat="collectionAndDataObject in pagingAwareCollectionListing.collectionAndDataObjectListingEntries" id='{{collectionAndDataObject.formattedAbsolutePath}}' on-last-repeat>
-		            <div class="col-xs-10 col-sm-10 col-md-7 col-lg-7 list_content">
-			            <img ng-show="{{collectionAndDataObject.dataObject}} == false" src="images/collection_icon.png">
-			            <img ng-show="{{collectionAndDataObject.dataObject}} == true" src="images/data_object_icon.png">	          
-		            	<span class="collection_object" ng-show="{{collectionAndDataObject.dataObject}} == false" ng-click="selectVirtualCollection(selectedVc.data.uniqueName,collectionAndDataObject.formattedAbsolutePath)">{{collectionAndDataObject.nodeLabelDisplayValue}}</span>
-		            	<span class="data_object" ng-show="{{collectionAndDataObject.dataObject}} == true" ng-click="selectProfile(collectionAndDataObject.formattedAbsolutePath)">{{collectionAndDataObject.nodeLabelDisplayValue}}</span>
-		            	
-		            </div>
-		            <div class="col-xs-3 list_content text-right tablet_disappear">
-		            	<p>{{collectionAndDataObject.modifiedAt}}</p>
-		            </div>
-		            <div class="col-xs-2 list_content text-right">
-		            	<p ng-show="{{collectionAndDataObject.dataObject}} == true">{{collectionAndDataObject.displayDataSize}}</p>
-		            </div>
-			    </li>
-			</ul>
+			<div class="grid">
+			  <div class="grid-item" ng-repeat="collectionAndDataObject in pagingAwareCollectionListing.collectionAndDataObjectListingEntries">
+			  		<span ng-click="selectProfile(collectionAndDataObject.formattedAbsolutePath)">{{collectionAndDataObject.nodeLabelDisplayValue}}</span>
+			  </div>
+			</div>
 		</div>
 	</div>
 	<div class="powered_by">

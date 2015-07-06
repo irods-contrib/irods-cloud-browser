@@ -534,11 +534,15 @@ body{
 	line-height: 19px;
 	padding: 0px 3px;
 }
+.grid-item{
+	background: #aeaeae;
+	height:100px;
+}
 
 
-/*******************************************************************************
+/******************************************************************************
 
-                              BEGIN MEDIA QUERIES
+                                 BEGIN MEDIA QUERIES
 
 *******************************************************************************/
 
@@ -596,8 +600,18 @@ body{
 	display: block;
 }
 
+}
 
 
+/* Small devices (tablets, 600px and up) */
+@media screen and (max-width: 991px){
+
+.tablet_disappear{
+	display:none;
+}
+#side_nav {
+  width: 5.4%;
+}
 
 }
 

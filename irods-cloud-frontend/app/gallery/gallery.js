@@ -1,11 +1,11 @@
 'use strict';
 
-angular.module('myApp.home', ['ngRoute', 'ngFileUpload'])
+angular.module('myApp.gallery', ['ngRoute', 'ngFileUpload'])
 
     .config(['$routeProvider', function ($routeProvider) {
-        $routeProvider.when('/home/:vcName', {
-            templateUrl: 'home/home.html',
-            controller: 'homeCtrl',
+        $routeProvider.when('/gallery/:vcName', {
+            templateUrl: 'gallery/gallery.html',
+            controller: 'galleryCtrl',
             resolve: {
 
                 // set vc name as selected
@@ -27,9 +27,9 @@ angular.module('myApp.home', ['ngRoute', 'ngFileUpload'])
                 }
 
             }
-        }).when('/home', {
-            templateUrl: 'home/home.html',
-            controller: 'homeCtrl',
+        }).when('/gallery', {
+            templateUrl: 'gallery/gallery.html',
+            controller: 'galleryCtrl',
             resolve: {
                 // set vc name as selected
                 selectedVc: function ($route) {
@@ -52,7 +52,7 @@ angular.module('myApp.home', ['ngRoute', 'ngFileUpload'])
             }, 1);
         };
     })
-    .controller('homeCtrl', ['$scope', 'Upload', '$log', '$http', '$location', 'MessageService', 'globals', 'breadcrumbsService', 'downloadService', 'virtualCollectionsService', 'collectionsService', 'fileService', 'selectedVc', 'pagingAwareCollectionListing', function ($scope, Upload, $log, $http, $location, MessageService, $globals, breadcrumbsService, downloadService, $virtualCollectionsService, $collectionsService, fileService, selectedVc, pagingAwareCollectionListing) {
+    .controller('galleryCtrl', ['$scope', 'Upload', '$log', '$http', '$location', 'MessageService', 'globals', 'breadcrumbsService', 'downloadService', 'virtualCollectionsService', 'collectionsService', 'fileService', 'selectedVc', 'pagingAwareCollectionListing', function ($scope, Upload, $log, $http, $location, MessageService, $globals, breadcrumbsService, downloadService, $virtualCollectionsService, $collectionsService, fileService, selectedVc, pagingAwareCollectionListing) {
 
         /*
          basic scope data for collections and views
@@ -82,7 +82,7 @@ angular.module('myApp.home', ['ngRoute', 'ngFileUpload'])
                         }
 
                 });
-            }else{                
+            }else{              
                 $(".selectable").selectable({
                     stop: function (){ 
                         $('.list_content').removeClass("ui-selected");
@@ -189,7 +189,7 @@ angular.module('myApp.home', ['ngRoute', 'ngFileUpload'])
                 return;
             }
             $log.info("list vc contents for vc name:" + vcName);
-            $location.path("/home/" + vcName);
+            $location.path("/gallery/" + vcName);
             $location.search("path", path);
         };
         /**
@@ -372,7 +372,7 @@ angular.module('myApp.home', ['ngRoute', 'ngFileUpload'])
                 return;
             }
 
-            $location.path("/home/root");
+            $location.path("/gallery/root");
             $location.search("path", breadcrumbsService.buildPathUpToIndex(index));
 
         };
@@ -435,129 +435,6 @@ angular.module('myApp.home', ['ngRoute', 'ngFileUpload'])
             $log.info("going to Hierarchical View");            
             $location.url("/home/");
         }
-
-
-    }])
-    .factory('virtualCollectionsService', ['$http', '$log', 'globals', function ($http, $log, globals) {
-        var virtualCollections = [];
-        var virtualCollectionContents = [];
-        var selectedVirtualCollection = {};
-
-        return {
-
-
-            listUserVirtualCollections: function () {
-                $log.info("getting virtual colls");
-                return $http({method: 'GET', url: globals.backendUrl('virtualCollection')}).success(function (data) {
-                    virtualCollections = data;
-                }).error(function () {
-                    virtualCollections = [];
-                });
-            },
-
-            listUserVirtualCollectionData: function (vcName) {
-                $log.info("listing virtual collection data");
-
-                if (!vcName) {
-                    virtualCollectionContents = [];
-                    return;
-                }
-
-                return $http({
-                    method: 'GET',
-                    url: globals.backendUrl('virtualCollection/') + vcName
-                }).success(function (data) {
-                    virtualCollections = data;
-                }).error(function () {
-                    virtualCollections = [];
-                });
-
-            }
-
-        };
-
-
-    }])
-    .factory('downloadService', ['$http', '$log', 'globals', function ($http, $log, $globals) {
-
-        return {
-
-            downloadSingle: function (path) {
-
-                $log.info("dowloading single");
-                if (!path) {
-                    $log.error("no path provided");
-                    throw "no path provided";
-                }
-                var params = {"path":path};
-                window.open($globals.backendUrl('download') + "?path=" + path, '_blank');
-            },
-            downloadBundle: function (pathArray) {
-                $log.info("dowloading bundle");
-                if (!path) {
-                    $log.error("no path provided");
-                    throw "no path provided";
-                }
-
-                window.open($globals.backendUrl('download') + "?path=" + path, '_blank');
-            }
-        };
-
-    }])
-    .factory('collectionsService', ['$http', '$log', 'globals', function ($http, $log, $globals) {
-
-        var pagingAwareCollectionListing = {};
-
-        return {
-
-            selectVirtualCollection: function (vcName) {
-                //alert(vcName);
-            },
-
-            /**
-             * List the contents of a collection, based on the type of virtual collection, and any subpath
-             * @param reqVcName
-             * @param reqParentPath
-             * @param reqOffset
-             * @returns {*|Error}
-             */
-            listCollectionContents: function (reqVcName, reqParentPath, reqOffset) {
-                $log.info("doing get of the contents of a virtual collection");
-
-                if (!reqVcName) {
-                    $log.error("recVcName is missing");
-                    throw "reqMcName is missing";
-                }
-
-                if (!reqParentPath) {
-                    reqParentPath = "";
-                }
-
-                if (!reqOffset) {
-                    reqOffset = 0;
-                }
-
-                $log.info("requesting vc:" + reqVcName + " and path:" + reqParentPath);
-                return $http({
-                    method: 'GET',
-                    url: $globals.backendUrl('collection/') + reqVcName,
-                    params: {path: reqParentPath, offset: reqOffset}
-                }).success(function (response) {
-                    pagingAwareCollectionListing = response.data;
-
-                }).error(function () {
-                    pagingAwareCollectionListing = {};
-
-                });
-
-            },
-            addNewCollection: function (parentPath, childName) {
-                $log.info("addNewCollection()");
-            }
-
-
-        };
-
 
     }])
 ;

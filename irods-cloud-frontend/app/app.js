@@ -6,6 +6,7 @@ angular.module('myApp', [
     'httpInterceptorModule',
      'MessageCenter',
   'myApp.home',
+  'myApp.gallery',
   'myApp.login',
   'myApp.profile',
   'globalsModule',

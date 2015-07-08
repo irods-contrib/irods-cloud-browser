@@ -213,4 +213,70 @@ class MetadataServiceSpec extends Specification {
 		then:
 		true
 	}
+
+	void "should delete avu for a collection"() {
+		given:
+		IRODSAccount irodsAccount = IRODSAccount.instance("host", 1247, "user", "password", "", "zone", "")
+		String absPath = "/an/abs/path"
+		AvuData avuData = AvuData.instance("attr", "value", "unit")
+
+
+		def irodsAccessObjectFactory = mockFor(IRODSAccessObjectFactory)
+
+		def collectionAO = mockFor(CollectionAO)
+		def dataObjectAO = mockFor(DataObjectAO)
+
+		List<MetaDataAndDomainData> avus = new ArrayList<MetaDataAndDomainData>()
+
+		def myObjStat =  Mockito.mock(ObjStat.class)
+		Mockito.when(myObjStat.isSomeTypeOfCollection()).thenReturn(true)
+		dataObjectAO.demand.getObjectStatForAbsolutePath{pth -> return myObjStat}
+		collectionAO.demand.deleteAVUMetadata{pth2, avu2 -> }
+
+		def metadataService = new MetadataService()
+
+		irodsAccessObjectFactory.demand.getDataObjectAO{ia -> return dataObjectAO.createMock()}
+		irodsAccessObjectFactory.demand.getCollectionAO{ia2 -> return collectionAO.createMock()}
+		metadataService.irodsAccessObjectFactory = irodsAccessObjectFactory.createMock()
+
+		when:
+
+		metadataService.deleteAvu(absPath, avuData, irodsAccount)
+
+		then:
+		true
+	}
+
+	void "should delete avu for a data object"() {
+		given:
+		IRODSAccount irodsAccount = IRODSAccount.instance("host", 1247, "user", "password", "", "zone", "")
+		String absPath = "/an/abs/path"
+		AvuData avuData = AvuData.instance("attr", "value", "unit")
+
+
+		def irodsAccessObjectFactory = mockFor(IRODSAccessObjectFactory)
+
+		def collectionAO = mockFor(CollectionAO)
+		def dataObjectAO = mockFor(DataObjectAO)
+
+		List<MetaDataAndDomainData> avus = new ArrayList<MetaDataAndDomainData>()
+
+		def myObjStat =  Mockito.mock(ObjStat.class)
+		Mockito.when(myObjStat.isSomeTypeOfCollection()).thenReturn(false)
+		dataObjectAO.demand.getObjectStatForAbsolutePath{pth -> return myObjStat}
+		dataObjectAO.demand.deleteAVUMetadata{pth2, avu2 -> }
+
+		def metadataService = new MetadataService()
+
+		irodsAccessObjectFactory.demand.getDataObjectAO{ia -> return dataObjectAO.createMock()}
+		irodsAccessObjectFactory.demand.getCollectionAO{ia2 -> return collectionAO.createMock()}
+		metadataService.irodsAccessObjectFactory = irodsAccessObjectFactory.createMock()
+
+		when:
+
+		metadataService.deleteAvu(absPath, avuData, irodsAccount)
+
+		then:
+		true
+	}
 }

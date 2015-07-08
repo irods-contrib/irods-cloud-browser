@@ -126,6 +126,44 @@ class MetadataService {
 			dataObjectAO.modifyAVUMetadata(irodsAbsolutePath, oldAvuData, newAvuData)
 		}
 	}
+
+	/**
+	 * Delete an AVU associated with the given path
+	 * @param irodsAbsolutePath <code>String</code> with irodsAbsolutePath
+	 * @param avuData {@link AvuData} to delete
+	 * @param irodsAccount {@link IRODSAccount} for operation
+	 * @return
+	 */
+	def deleteAvu(String irodsAbsolutePath, AvuData avuData, IRODSAccount irodsAccount) {
+		log.info("deleteAvu")
+		if (!irodsAbsolutePath) {
+			throw new IllegalArgumentException("null or empty irodsAbsolutePath")
+		}
+
+		if (!avuData) {
+			throw new IllegalArgumentException("null or empty avuData")
+		}
+
+		if (!irodsAccount) {
+			throw new IllegalArgumentException("null irodsAccount")
+		}
+
+		log.info("absPath:${irodsAbsolutePath}")
+		log.info("avuData:${avuData}")
+
+		log.info("irodsAccount:${irodsAccount}")
+
+		def dataObjectAO = irodsAccessObjectFactory.getDataObjectAO(irodsAccount)
+		def objStat = dataObjectAO.getObjectStatForAbsolutePath(irodsAbsolutePath)
+		if (objStat.isSomeTypeOfCollection()) {
+			log.info("collection AVUs")
+			def collectionAO = irodsAccessObjectFactory.getCollectionAO(irodsAccount)
+			collectionAO.deleteAVUMetadata(irodsAbsolutePath, avuData)
+		} else {
+			log.info("data object AVUs")
+			dataObjectAO.deleteAVUMetadata(irodsAbsolutePath, avuData)
+		}
+	}
 }
 
 

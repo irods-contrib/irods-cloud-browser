@@ -40,17 +40,17 @@ class MetadataController {
 
 		def attribute = params.attribute
 		if (!attribute) {
-			throw new IllegalArgumentException("null attribute")
+			attribute = ""
 		}
 
 		def value = params.value
 		if (!value) {
-			throw new IllegalArgumentException("null value")
+			value = ""
 		}
 
 		def unit = params.unit
 		if (!unit) {
-			throw new IllegalArgumentException("null unit")
+			unit = ""
 		}
 
 		def avuData = AvuData.instance(attribute, value, unit)
@@ -84,32 +84,32 @@ class MetadataController {
 
 		def attribute = params.attribute
 		if (!attribute) {
-			throw new IllegalArgumentException("null attribute")
+			attribute = ""
 		}
 
 		def value = params.value
 		if (!value) {
-			throw new IllegalArgumentException("null value")
+			value = ""
 		}
 
 		def unit = params.unit
 		if (!unit) {
-			throw new IllegalArgumentException("null unit")
+			unit = ""
 		}
 
 		def newAttribute = params.newAttribute
 		if (!newAttribute) {
-			throw new IllegalArgumentException("null newAttribute")
+			newAttribute = ""
 		}
 
 		def newValue = params.newValue
 		if (!newValue) {
-			throw new IllegalArgumentException("null newValue")
+			newValue = ""
 		}
 
 		def newUnit = params.newUnit
 		if (!newUnit) {
-			throw new IllegalArgumentException("null newUnit")
+			newUnit = ""
 		}
 
 		def avuData = AvuData.instance(attribute, value, unit)
@@ -139,21 +139,22 @@ class MetadataController {
 
 		def attribute = params.attribute
 		if (!attribute) {
-			throw new IllegalArgumentException("null attribute")
+			attribute = ""
 		}
 
 		def value = params.value
 		if (!value) {
-			throw new IllegalArgumentException("null value")
+			value = ""
 		}
 
 		def unit = params.unit
 		if (!unit) {
-			throw new IllegalArgumentException("null unit")
+			unit = ""
 		}
 
 		def avuData = AvuData.instance(attribute, value, unit)
 		metadataService.deleteAvu(irodsAbsolutePath, avuData, irodsAccount)
-		render avuData as JSON
+		log.info("done")
+		render(status:204)
 	}
 }

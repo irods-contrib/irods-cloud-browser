@@ -87,6 +87,7 @@ angular.module('myApp.home', ['ngRoute', 'ngFileUpload'])
                     stop: function (){ 
                         $('.list_content').removeClass("ui-selected");
                         var result = $("#select-result").empty();
+                        var copy_path_display = $("#copy_select_result").empty();
                         // $(".ui-selected", this).each(function () {
                         //     var index = $("#selectable li").index(this);
                         //     if(index == 0 || index == -1 ){
@@ -94,9 +95,18 @@ angular.module('myApp.home', ['ngRoute', 'ngFileUpload'])
                         //         result.append(" #" + ( index + 1 )); 
                         //     }                       
                         // });
+                        if ($(".copy_list_item.ui-selected").length == 1) {
+                            var copy_path = $('.copy_list_item.ui-selected').children('.list_content').children('.collection_object').text();
+                            copy_path_display.append(copy_path);
+                            $scope.copy_target = $('.copy_list_item.ui-selected').attr('id');
+                        } 
                         if ($(".copy_list_item.ui-selected").length > 1) {
                             $('.copy_list_item.ui-selected').not(':first').removeClass('ui-selected');
+                            var copy_path = $('.copy_list_item.ui-selected').children('.list_content').children('.collection_object').text();
+                            copy_path_display.append(copy_path);
+                            $scope.copy_target = $('.copy_list_item.ui-selected').attr('id');
                         } 
+
                         if ($("li.ui-selected").length > 1) {
                             result.append($('.ui-selected').length + " files");
                             $(".download_button").fadeIn();
@@ -230,6 +240,21 @@ angular.module('myApp.home', ['ngRoute', 'ngFileUpload'])
                     location.reload();
                 })
         };
+        $scope.copy_source = "";
+        $scope.copy_target = "";
+
+        $scope.copy_action = function (){
+            $scope.copy_source = $('.general_list_item .ui-selected').attr('id');        
+            $scope.copy_target = $('.copy_list_item.ui-selected').attr('id');
+            $log.info('||||||||||||| copying:'+ $scope.copy_source +' to '+ $scope.copy_target);
+            return $http({
+                    method: 'POST',
+                    url: $globals.backendUrl('copy'),
+                    params: {sourcePath: $scope.copy_source, targetPath: $scope.copy_target, resource:'', overwrite: 'false' }
+                }).success(function () {
+                    location.reload();
+                })
+        };        
 
         $scope.rename_action = function (){
             var rename_path = $('.ui-selected').attr('id');
@@ -315,6 +340,7 @@ angular.module('myApp.home', ['ngRoute', 'ngFileUpload'])
                 params: {path: selectedPath, offset: 0}
             }).success(function (data) {
                 $scope.copy_list = data;
+                $("#copy_select_result").empty();
             }).error(function () {
                 alert("Something went wrong while fetching the contents of the Collection");
                 $scope.copy_list = [];
@@ -376,18 +402,29 @@ angular.module('myApp.home', ['ngRoute', 'ngFileUpload'])
             $location.search("path", breadcrumbsService.buildPathUpToIndex(index));
 
         };
+        $scope.green_action_toggle= function($event){
+          var content = $event.currentTarget.nextElementSibling;
+          var container = $event.currentTarget.parentElement;
+          $(content).toggle('normal');
+          $(container).toggleClass('green_toggle_container_open');
+        };
         var side_nav_toggled = "yes";
         $scope.side_nav_toggle = function () {
+
             if (side_nav_toggled == "no") {
                 side_nav_toggled = "yes";
                 $('.side_nav_options').animate({'opacity': '0'});
-                $('#side_nav').animate({'width': '3%'});
-                $('#main_contents').animate({'width': '96.9%'});
+                $('#side_nav').removeClass('uncollapsed_nav');
+                $('#side_nav').addClass('collapsed_nav');
+                $('#main_contents').removeClass('uncollapsed_main_content');
+                $('#main_contents').addClass('collapsed_main_content');
                 $('.side_nav_toggle_button').text('>>');
             } else if (side_nav_toggled == "yes") {
                 side_nav_toggled = "no";
-                $('#main_contents').animate({'width': '81.9%'});
-                $('#side_nav').animate({'width': '18%'});
+                $('#side_nav').removeClass('collapsed_nav');
+                $('#side_nav').addClass('uncollapsed_nav');
+                $('#main_contents').removeClass('collapsed_main_content');
+                $('#main_contents').addClass('uncollapsed_main_content');
                 $('.side_nav_options').animate({'opacity': '1'});
                 $('.side_nav_toggle_button').text('<<');
             }

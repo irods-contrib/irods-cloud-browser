@@ -36,17 +36,22 @@ angular.module('myApp.profile', ['ngRoute'])
         };
        $scope.listVirtualCollections();
        var side_nav_toggled = "yes";
-        $scope.side_nav_toggle = function () {
+       $scope.side_nav_toggle = function () {
+
             if (side_nav_toggled == "no") {
                 side_nav_toggled = "yes";
                 $('.side_nav_options').animate({'opacity': '0'});
-                $('#side_nav').animate({'width': '3%'});
-                $('#main_contents').animate({'width': '96.9%'});
+                $('#side_nav').removeClass('uncollapsed_nav');
+                $('#side_nav').addClass('collapsed_nav');
+                $('#main_contents').removeClass('uncollapsed_main_content');
+                $('#main_contents').addClass('collapsed_main_content');
                 $('.side_nav_toggle_button').text('>>');
             } else if (side_nav_toggled == "yes") {
                 side_nav_toggled = "no";
-                $('#main_contents').animate({'width': '81.9%'});
-                $('#side_nav').animate({'width': '18%'});
+                $('#side_nav').removeClass('collapsed_nav');
+                $('#side_nav').addClass('uncollapsed_nav');
+                $('#main_contents').removeClass('collapsed_main_content');
+                $('#main_contents').addClass('uncollapsed_main_content');
                 $('.side_nav_options').animate({'opacity': '1'});
                 $('.side_nav_toggle_button').text('<<');
             }

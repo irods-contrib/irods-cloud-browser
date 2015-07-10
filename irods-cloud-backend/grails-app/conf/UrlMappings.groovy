@@ -20,7 +20,10 @@ class UrlMappings {
 
 		"/move"(resource:"move")
 
-		"/$controller/$action?/$id?(.$format)?"{ constraints { // apply constraints here
+		"/metadata"(resource:"metadata")
+
+		"/$controller/$action?/$id?(.$format)?"{ constraints {
+				// apply constraints here
 			} }
 
 		"/"(view:"/index")

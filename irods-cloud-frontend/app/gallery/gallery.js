@@ -133,7 +133,8 @@ angular.module('myApp.gallery', ['ngRoute', 'ngFileUpload'])
 
                     }
                 });
-            }         
+            }  
+  $('.grid').masonry();        
                    
         });
         $scope.$watch('files', function () {

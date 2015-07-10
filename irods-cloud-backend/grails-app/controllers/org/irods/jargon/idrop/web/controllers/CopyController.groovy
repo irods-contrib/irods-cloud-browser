@@ -47,6 +47,8 @@ class CopyController {
 		if (!targetPath) {
 			throw new IllegalArgumentException("null targetPath")
 		}
+		log.info("targetPath:${targetPath}")
+
 
 		def overwrite = params.overwrite
 		if (!overwrite) {
@@ -54,9 +56,9 @@ class CopyController {
 			overwrite = false
 		}
 
-		log.info("targetPath:${targetPath}")
+		log.info("overwrite:${overwrite}")
 
-		def listingEntry = fileService.copy(resource, targetPath, resource, overwrite, irodsAccount)
+		def listingEntry = fileService.copy(sourcePath, targetPath, resource, Boolean.valueOf(overwrite), irodsAccount)
 		log.info("copy completed to ${listingEntry}")
 		render listingEntry as JSON
 	}

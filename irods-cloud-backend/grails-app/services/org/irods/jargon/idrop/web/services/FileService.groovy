@@ -287,7 +287,7 @@ class FileService {
 
 		log.info("starting copy...")
 
-		dataTransferOperations.copy(sourcePath, targetPath, targetResource, null, transferControlBlock)
+		dataTransferOperations.copy(sourcePath, targetResource, targetPath, null, transferControlBlock)
 
 		log.info("copy complete")
 

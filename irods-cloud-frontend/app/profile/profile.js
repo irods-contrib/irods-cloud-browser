@@ -16,16 +16,63 @@ angular.module('myApp.profile', ['ngRoute'])
             }
         });
 }])
-
-    .controller('profileCtrl', ['$scope','$log', 'Upload', '$http', '$location', 'MessageService','globals','breadcrumbsService','virtualCollectionsService','collectionsService','fileService','dataProfile',function ($scope, $log, Upload, $http, $location, MessageService, $globals, breadcrumbsService, $virtualCollectionsService, $collectionsService, fileService, dataProfile) {
+.directive('onLastRepeat', function () {
+        return function (scope, element, attrs) {
+            if (scope.$last) setTimeout(function () {
+                scope.$emit('onRepeatLast', element, attrs);
+            }, 1);
+        };
+    })
+    .controller('profileCtrl', ['$scope','$log', 'Upload', '$http', '$location', 'MessageService','globals','breadcrumbsService','virtualCollectionsService','collectionsService','fileService','metadataService','dataProfile',function ($scope, $log, Upload, $http, $location, MessageService, $globals, breadcrumbsService, $virtualCollectionsService, $collectionsService, fileService, metadataService, dataProfile) {
 
        $scope.dataProfile = dataProfile;
+       $scope.$on('onRepeatLast', function (scope, element, attrs) {
+            if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
+                
+                $(".ui-selectee").on("tap",function(e){
+                  var result = $("#select-result").empty();
+                  e.preventDefault();
+
+                  if($(e.target).hasClass('ui-selected')){
+                      $(e.target).removeClass('ui-selected');
+                  }else{
+                      $(e.target).addClass('ui-selected');
+                  }
+                  if ($(".ui-selected").length > 1) {
+                            result.append($('.ui-selected').length + " files");                            
+                        } else if ($(".ui-selected").length == 1) {
+                            var name_of_selection = $('.ui-selected').text();
+                            result.append(name_of_selection);
+                        } else if ($(".ui-selected").length == 0) {
+
+                        }
+
+                });
+            }else{                
+                $(".selectable").selectable({
+                    stop: function (){ 
+                        $('.q_column , .list_group_header').removeClass("ui-selected");
+                        $('.q_column , .list_group_header').removeClass("ui-selectee");
+                        
+                        if ($("li.ui-selected").length > 1) {
+                            
+                        } else if ($("li.ui-selected").length == 1) {
+                            
+                        } else if ($("li.ui-selected").length == 0) {
+                           
+                        }
+
+
+                    }
+                });
+            }         
+                   
+        });
         /*
          Get a default list of the virtual collections that apply to the logged in user, for side nav
          */
         
-        $scope.listVirtualCollections = function () {
-
+        $scope.listVirtualCollections = function () {            
             $log.info("getting virtual colls");
 
             return $http({method: 'GET', url: $globals.backendUrl('virtualCollection')}).success(function (data) {
@@ -145,6 +192,7 @@ angular.module('myApp.profile', ['ngRoute'])
             $('.pop_up_window').fadeIn(100);
             $('.uploader').fadeIn(100);
         };
+
         $scope.rename_pop_up_open = function(){
             $('.pop_up_window').fadeIn(100);
             $('.renamer').fadeIn(100);
@@ -170,6 +218,73 @@ angular.module('myApp.profile', ['ngRoute'])
             });
 
         };
+        $scope.pop_up_close_asynch = function () {
+
+            $('.pop_up_window').fadeOut(100, function () {
+                $(".upload_container").css('display', 'block');
+                $(".upload_container_result").html('<ul></ul>');
+                $(".upload_container_result").css('display', 'none');
+                $('.metadata_editor').fadeOut(100); 
+                $('.metadata_adder').fadeOut(100);
+            });
+
+        };
+
+
+        /*|||||||||||||||||||||||||||||||
+        |||||||| METADATA ACTIONS ||||||| 
+        |||||||||||||||||||||||||||||||*/
+        $scope.available_metadata = $scope.dataProfile.metadata;
+        $scope.add_metadata_pop_up = function (){
+            $('.pop_up_window').fadeIn(100); 
+            $('.metadata_adder').fadeIn(100); 
+        };
+        $scope.edit_metadata_pop_up = function (){
+            $('.pop_up_window').fadeIn(100); 
+            $('.metadata_editor').fadeIn(100); 
+            $('#edit_metadata_attribute').val($('.metadata_item.ui-selected').children('.metadata_attribute').text());
+            $('#edit_metadata_value').val($('.metadata_item.ui-selected').children('.metadata_value').text());
+            $('#edit_metadata_unit').val($('.metadata_item.ui-selected').children('.metadata_unit').text());
+            $scope.old_metadata_attribute = $('.metadata_item.ui-selected').children('.metadata_attribute').text();
+            $scope.old_metadata_value = $('.metadata_item.ui-selected').children('.metadata_value').text();
+            $scope.old_metadata_unit = $('.metadata_item.ui-selected').children('.metadata_unit').text();
+            alert($scope.old_metadata_attribute+'  '+$scope.old_metadata_value+'  '+$scope.old_metadata_unit);
+        };
+
+        $scope.metadata_add_action = function(){
+            var data_path = $scope.dataProfile.parentPath + "/" + $scope.dataProfile.childName;
+            var new_attribute = $('#new_metadata_attribute').val();
+            var new_value = $('#new_metadata_value').val();
+            var new_unit = $('#new_metadata_unit').val();
+            metadataService.addMetadataForPath(data_path, new_attribute, new_value, new_unit).then(function () {
+               $http({method: 'GET', url: $globals.backendUrl('file') , params: {path: $scope.dataProfile.parentPath + "/" + $scope.dataProfile.childName}}).success(function(data){
+                    $scope.new_meta = data;
+                    $scope.available_metadata = $scope.new_meta.metadata;
+               });
+                $scope.pop_up_close_asynch();
+            });
+
+        };
+        $scope.metadata_edit_action = function(){
+            var data_path = $scope.dataProfile.parentPath + "/" + $scope.dataProfile.childName;
+            var new_attribute = $('#edit_metadata_attribute').val();
+            var new_value = $('#edit_metadata_value').val();
+            var new_unit = $('#edit_metadata_unit').val();
+            alert(data_path +'  '+new_attribute+'  '+new_value+'  '+new_unit+'  '+$scope.old_metadata_attribute+'  '+$scope.old_metadata_value+'  '+$scope.old_metadata_unit);
+            metadataService.updateMetadataForPath(data_path, $scope.old_metadata_attribute, $scope.old_metadata_value, $scope.old_metadata_unit, new_attribute, new_value, new_unit).then(function () {
+               $http({method: 'GET', url: $globals.backendUrl('file') , params: {path: $scope.dataProfile.parentPath + "/" + $scope.dataProfile.childName}}).success(function(data){
+                    $scope.new_meta = data;
+                    $scope.available_metadata = $scope.new_meta.metadata;
+               });
+                $scope.pop_up_close_asynch();
+            });
+
+        };
+
+        /*||||||||||||||||||||||||||||||||||||||
+        |||||||| END OF METADATA ACTIONS ||||||| 
+        ||||||||||||||||||||||||||||||||||||||*/
+
         $scope.green_action_toggle= function($event){
           var content = $event.currentTarget.nextElementSibling;
           var container = $event.currentTarget.parentElement;

@@ -127,6 +127,16 @@ body{
 	position: relative;
 	display: inline-block;
 }
+.metadata_item{
+	padding: 0px;
+}
+.metadata_item .q_column{
+	width:33%;
+	height: 30px;
+	padding: 7px 15px;
+	position: relative;
+	display: inline-block;
+}
 .main_content{
 	border-top:2px solid #F05022;
 	background: #fff;
@@ -202,6 +212,25 @@ body{
 }
 .renamer{
 	display: none;
+}
+.metadata_adder{
+	display: none;
+}
+.metadata_editor{
+	display: none;
+}
+.metadata_actions_container{
+	position: relative;
+  	height: 35px;
+  	margin: 11px;
+  	border: 1px solid #F05022;
+  	border-radius: 4px;
+}
+.metadata_button{
+	padding: 4px 0px 0px 7px;
+}
+.metadata_button img{
+	padding: 0px 7px 0px 0px;
 }
 .small_vertical_divider{
 	background: #fff;
@@ -401,6 +430,9 @@ body{
 	padding: 15px 0px 0px 0px;
 }
 
+.list_group_header{
+	pointer-events: none;
+}
 /* ||||||||||||||||||||||||||||||||||| */
 /* |||||||| POSITIONING STYLES ||||||| */
 /* ||||||||||||||||||||||||||||||||||| */

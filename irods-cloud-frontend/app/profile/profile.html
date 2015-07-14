@@ -44,8 +44,55 @@
 				</div>
 			</div>
 		</div>
+
+		<div class="column_content metadata_adder">
+			<div class="light_header"><img src="images/dark_add_icon.png"><span>&nbsp;Metadata: ADD</span><img class="pop_up_close_button right" title="close window" ng-click="pop_up_close()" src="images/close_icon.png"></div>
+			
+			<div class="metadata_add_container col-xs-10 col-xs-offset-1">
+				<br>
+				<ul>
+					<li ><b>Attribute</b></li>
+					<li ><input type="text" id="new_metadata_attribute" class="col-xs-12" value=""/>
+					<li ><b>Value</b></li>
+					<li ><input type="text" id="new_metadata_value" class="col-xs-12" value=""/>
+					<li ><b>Unit</b></li>
+					<li ><input type="text" id="new_metadata_unit" class="col-xs-12" value=""/>
+				</ul>
+				<div class="container"><hr class="hr_flat"></div>
+				<div class="left">
+					<div class="btn btn-default" ng-click="pop_up_close()">Cancel</div>
+				</div>
+				<div class="right t_right">
+					<div class="btn btn-success" ng-click="metadata_add_action()">Add</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="column_content metadata_editor">
+			<div class="light_header"><img src="images/dark_edit_icon.png"><span>&nbsp;Metadata: Edit</span><img class="pop_up_close_button right" title="close window" ng-click="pop_up_close()" src="images/close_icon.png"></div>
+			
+			<div class="metadata_add_container col-xs-10 col-xs-offset-1">
+				<br>
+				<ul>
+					<li ><b>Attribute</b></li>
+					<li ><input type="text" id="edit_metadata_attribute" class="col-xs-12" value=""/>
+					<li ><b>Value</b></li>
+					<li ><input type="text" id="edit_metadata_value" class="col-xs-12" value=""/>
+					<li ><b>Unit</b></li>
+					<li ><input type="text" id="edit_metadata_unit" class="col-xs-12" value=""/>
+				</ul>
+				<div class="container"><hr class="hr_flat"></div>
+				<div class="left">
+					<div class="btn btn-default" ng-click="pop_up_close()">Cancel</div>
+				</div>
+				<div class="right t_right">
+					<div class="btn btn-success" ng-click="metadata_edit_action()">Edit</div>
+				</div>
+			</div>
+		</div>
+		
 		<div class="column_content deleter">
-			<div class="delete_header"><img src="images/dark_delete_icon.png"><span>&nbsp;Are you sure you want to DELETE the following:</span><img class="pop_up_close_button right" title="close window" ng-click="pop_up_close()" src="images/close_icon.png"></div>
+			<div class="delete_header"><img src="images/dark_delete_icon.png"><span>&nbsp;Are you sure you want to DELETE the following:</span><img class="pop_up_close_button right" title="close window" ng-click="pop_up_close_asynch()" src="images/close_icon.png"></div>
 			
 			<div class="delete_container">
 				<br>
@@ -207,23 +254,32 @@
 					<div class="green_toggle_container" ng-show="{{dataProfile.file}} == true">
 						<div class="green_title" ng-click="green_action_toggle($event)">
 							Metadata
+
 							<div class="dark_toggle_button right" >
 								 <img src="images/arrow_down.png">
 							</div>
+							
 						</div>
 						<div class="green_content">
-							
-							
-								<div class="list-group">
-									<div class="list-group-item list-group-item list_group_header">
-										<div class="q_column"><h2>Attribute</h2></div><div class="q_column"><h2>Value</h2></div><div class="q_column"><h2>Unit</h2></div>
-									</div>
-									<div class="list-group-item" ng-repeat="avu in dataProfile.metadata">
-										<div class="q_column">{{avu.avuAttribute}}</div><div class="q_column">{{avu.avuValue}}</div><div class="q_column">{{avu.avuUnit}}</div>
-									</div>
+							<div class="metadata_actions_container">	
+								<div class="left metadata_button">
+									<a class='btn btn-default btn-xs' ng-click="add_metadata_pop_up()"><img src="images/dark_add_icon.png">Add</a>
 								</div>
-							
-							
+								<div class="left metadata_button">
+									<a class='btn btn-default btn-xs' ng-click="edit_metadata_pop_up()"><img src="images/dark_edit_icon.png">Edit</a>
+								</div>
+								<div class="left metadata_button">
+									<a class='btn btn-danger btn-xs' ng-click="delete_metadata_pop_up()"><img src="images/delete_icon.png">Delete</a>
+								</div>
+							</div>
+							<ul class="selectable list-group">
+								<div class="list-group-item list-group-item list_group_header">
+									<div class="q_column"><h2>Attribute</h2></div><div class="q_column"><h2>Value</h2></div><div class="q_column"><h2>Unit</h2></div>
+								</div>
+								<li class="metadata_item list-group-item ui-widget-content ui-selectee" ng-repeat="avu in available_metadata" on-last-repeat>
+									<span class="q_column metadata_attribute">{{avu.avuAttribute}}</span><span class="q_column metadata_value">{{avu.avuValue}}</span><span class="q_column metadata_unit">{{avu.avuUnit}}</span>
+								</li>
+							</ul>
 						</div>
 					</div>
 				</div>

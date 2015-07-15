@@ -123,43 +123,14 @@ angular.module('myApp.metadata', ['ngRoute'])
                     throw "absolutePath is missing";
                 }
 
-                if (!currentAttribute) {
-                    $log.error("currentAttribute is missing");
-                    throw "currentAttribute is missing";
-                }
-
-                if (!currentValue) {
-                    $log.error("currentValue is missing");
-                    throw "currentValue is missing";
-                }
-
-                if (!currentUnit) {
-                    $log.error("currentUnit is missing");
-                    throw "currentUnit is missing";
-                }
-
-                if (!newAttribute) {
-                    $log.error("newAttribute is missing");
-                    throw "newAttribute is missing";
-                }
-
-                if (!newValue) {
-                    $log.error("newValue is missing");
-                    throw "newValue is missing";
-                }
-
-                if (!newUnit) {
-                    $log.error("newUnit is missing");
-                    throw "newUnit is missing";
-                }
 
                 var promise = $http({
-                    method: 'DELETE',
+                    method: 'POST',
                     url: globals.backendUrl('metadata'),
-                    params: {irodsAbsolutePath: absolutePath, attribute: attribute, value: value, unit: unit}
+                    params: {irodsAbsolutePath: absolutePath,attribute:currentAttribute, value: currentValue, unit: currentUnit,newAttribute:newAttribute, newValue: newValue, newUnit: newUnit}
                 }).then(function (response) {
                     // The then function here is an opportunity to modify the response
-                    $log(response);
+                    $log.info(response);
                     // The return value gets picked up by the then in the controller.
                     return response.data;
                 });

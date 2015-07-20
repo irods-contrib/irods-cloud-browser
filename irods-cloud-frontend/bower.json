@@ -13,6 +13,7 @@
     "angular-translate": "~2.6.0",
     "html5-boilerplate": "~4.3.0",
     "angular-message-center": "~1.0.5",
-    "ng-file-upload": "~4.0.4"
+    "ng-file-upload": "~4.0.4",
+    "jquery":"~1.11.3"
   }
 }

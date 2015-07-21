@@ -14,7 +14,8 @@
     "protractor": "^1.1.1",
     "gulp-concat":"~2.6.0",
     "del":"",
-    "shelljs": "^0.2.6"
+    "shelljs": "^0.2.6",
+    "gulp-flatten":""
   },
   "scripts": {
     "postinstall": "bower install",

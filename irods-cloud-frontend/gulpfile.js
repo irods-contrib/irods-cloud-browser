@@ -5,7 +5,7 @@
 var gulp = require('gulp');
 var concat = require('gulp-concat');
 var del = require('del');
-
+var flatten = require('gulp-flatten');
 
 gulp.task('default', function () {
     // place code for your default task here
@@ -15,13 +15,15 @@ gulp.task('default', function () {
  * Create a dist subdirectory that has the assembled javascript, css, images, html assets
  */
 gulp.task('dist', function () {
-    gulp.start('clean', 'vendor-scripts', 'app-scripts', 'css');
+    gulp.start('clean', 'vendor-scripts', 'app-scripts', 'css', 'images');
 
 });
 
 gulp.task('clean', function () {
     del(['./dist'], function (err, paths) {
-        console.log('Deleted files/folders:\n', paths.join('\n'));
+        if (paths) {
+            console.log('Deleted files/folders:\n', paths.join('\n'));
+        }
     });
 });
 
@@ -68,4 +70,16 @@ gulp.task('css', function () {
             .pipe(concat('app.css'))
             .pipe(gulp.dest('./dist/css'));
 
+});
+
+/**
+ * assemble all images into the images dir in the dist */
+gulp.task('images', function () {
+    // the base option sets the relative root for the set of files,
+    // preserving the folder structure
+    var filesToMove = [
+        './app/images/*.*'
+    ];
+    return gulp.src(filesToMove, { base: './' }).pipe(flatten())
+        .pipe(gulp.dest('./dist/images'));
 });

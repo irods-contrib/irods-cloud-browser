@@ -25,8 +25,8 @@ body{
 	margin:0px;
 	border-top: 1px solid #eee;
 }
-  .selectable .ui-selecting { background: #D69A85; }
-  .selectable .ui-selected { background: #F05022; color: white; }
+  .selectable .ui-selecting { background: #D69A85 !important; }
+  .selectable .ui-selected { background: #F05022 !important; color: white; }
 /* ||||||||||||||||||||||||||||||||||| */
 /* |||||||||||  NAV STYLES ||||||||||| */
 /* ||||||||||||||||||||||||||||||||||| */
@@ -201,6 +201,9 @@ body{
 	display: none;
 	padding: 5px;
 }
+.copier_button{
+	display: none;
+}
 .uploader{
 	display: none;
 }
@@ -214,6 +217,9 @@ body{
 	display: none;
 }
 .metadata_adder{
+	display: none;
+}
+.metadata_deleter{
 	display: none;
 }
 .metadata_editor{
@@ -512,6 +518,11 @@ body{
 	color:#fff;
 	opacity:1;
 	background: rgba(0,0,0,0.3);
+}
+.light_back_option.selected,.light_back_option_even.selected{
+	color:#fff;
+	opacity:1;
+	background: rgba(0,0,0,0.7);
 }
 .light_back_option span, .light_back_option_even span{
 	padding: 2px;

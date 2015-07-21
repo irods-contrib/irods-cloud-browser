@@ -61,28 +61,7 @@ angular.module('myApp.home', ['ngRoute', 'ngFileUpload'])
         $scope.selectedVc = selectedVc;
         $scope.pagingAwareCollectionListing = pagingAwareCollectionListing.data;        
         $scope.$on('onRepeatLast', function (scope, element, attrs) {
-            if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
-                
-                $(".ui-selectee").on("tap",function(e){
-                  var result = $("#select-result").empty();
-                  e.preventDefault();
-
-                  if($(e.target).hasClass('ui-selected')){
-                      $(e.target).removeClass('ui-selected');
-                  }else{
-                      $(e.target).addClass('ui-selected');
-                  }
-                  if ($(".ui-selected").length > 1) {
-                            result.append($('.ui-selected').length + " files");                            
-                        } else if ($(".ui-selected").length == 1) {
-                            var name_of_selection = $('.ui-selected').text();
-                            result.append(name_of_selection);
-                        } else if ($(".ui-selected").length == 0) {
-
-                        }
-
-                });
-            }else{                
+                           
                 $(".selectable").selectable({
                     stop: function (){ 
                         $('.list_content').removeClass("ui-selected");
@@ -142,9 +121,7 @@ angular.module('myApp.home', ['ngRoute', 'ngFileUpload'])
 
 
                     }
-                });
-            }         
-                   
+                });   
         });
         $scope.$watch('files', function () {
             $scope.upload($scope.files);
@@ -177,22 +154,22 @@ angular.module('myApp.home', ['ngRoute', 'ngFileUpload'])
          Get a default list of the virtual collections that apply to the logged in user, for side nav
          */
 
-        $scope.listVirtualCollections = function () {
+        $scope.listVirtualCollections = function () {     
 
             $log.info("getting virtual colls");
-
             return $http({method: 'GET', url: $globals.backendUrl('virtualCollection')}).success(function (data) {
                 $scope.virtualCollections = data;
             }).error(function () {
                 $scope.virtualCollections = [];
             });
+
         };
+        
         /**
          * Handle the selection of a virtual collection from the virtual collection list, by causing a route change and updating the selected virtual collection
          * @param vcName
          */
         $scope.selectVirtualCollection = function (vcName, path) {
-
             $log.info("selectVirtualCollection()");
             if (!vcName) {
                 MessageService.danger("missing vcName");
@@ -312,6 +289,7 @@ angular.module('myApp.home', ['ngRoute', 'ngFileUpload'])
                 };              
             }); 
             $('.copier').fadeIn(100);
+            $('.copier_button').fadeIn(100);
             return $http({
                 method: 'GET', 
                 url: $globals.backendUrl('virtualCollection')
@@ -381,11 +359,11 @@ angular.module('myApp.home', ['ngRoute', 'ngFileUpload'])
                 $('.creater').fadeOut(100);
                 $('.renamer').fadeOut(100);
                 $('.copier').fadeOut(100);
+                $('.copier_button').fadeOut(100);
                 location.reload();
             });
 
-        };
-
+        };   
         /**
          * Upon the selection of an element in a breadrumb link, set that as the location of the browser, triggering
          * a view of that collection

@@ -226,6 +226,7 @@ angular.module('myApp.profile', ['ngRoute'])
                 $(".upload_container_result").css('display', 'none');
                 $('.metadata_editor').fadeOut(100); 
                 $('.metadata_adder').fadeOut(100);
+                $('.metadata_deleter').fadeOut(100);
             });
 
         };
@@ -251,6 +252,21 @@ angular.module('myApp.profile', ['ngRoute'])
             alert($scope.old_metadata_attribute+'  '+$scope.old_metadata_value+'  '+$scope.old_metadata_unit);
         };
 
+        $scope.delete_metadata_pop_up = function(){
+            $('.pop_up_window').fadeIn(100); 
+            $scope.delete_objects = $('.metadata_item.ui-selected');
+            $log.info($scope.delete_objects);
+            $(".metadata_delete_container ul").empty();
+            $(".metadata_delete_container ul").append('<li class="light_back_option_even"><div class="q_column"><b>ATTRIBUTE</b></div><div class="q_column"><b>VALUE</b></div><div class="q_column"><b>UNIT</b></div></li>');
+            $scope.delete_objects.each(function () {
+                
+                    $(".metadata_delete_container ul").append('<li class="light_back_option_even"><div class="q_column">'+$(this).children('.metadata_attribute').text()+'</div><div class="q_column">'+$(this).children('.metadata_value').text()+'</div><div class="q_column">'+$(this).children('.metadata_unit').text()+'</div></li>');
+                
+            }); 
+            $('.metadata_deleter').fadeIn(100); 
+
+        };
+
         $scope.metadata_add_action = function(){
             var data_path = $scope.dataProfile.parentPath + "/" + $scope.dataProfile.childName;
             var new_attribute = $('#new_metadata_attribute').val();
@@ -269,8 +285,7 @@ angular.module('myApp.profile', ['ngRoute'])
             var data_path = $scope.dataProfile.parentPath + "/" + $scope.dataProfile.childName;
             var new_attribute = $('#edit_metadata_attribute').val();
             var new_value = $('#edit_metadata_value').val();
-            var new_unit = $('#edit_metadata_unit').val();
-            alert(data_path +'  '+new_attribute+'  '+new_value+'  '+new_unit+'  '+$scope.old_metadata_attribute+'  '+$scope.old_metadata_value+'  '+$scope.old_metadata_unit);
+            var new_unit = $('#edit_metadata_unit').val();            
             metadataService.updateMetadataForPath(data_path, $scope.old_metadata_attribute, $scope.old_metadata_value, $scope.old_metadata_unit, new_attribute, new_value, new_unit).then(function () {
                $http({method: 'GET', url: $globals.backendUrl('file') , params: {path: $scope.dataProfile.parentPath + "/" + $scope.dataProfile.childName}}).success(function(data){
                     $scope.new_meta = data;

@@ -14,23 +14,29 @@ gulp.task('default', function () {
 /**
  * Create a dist subdirectory that has the assembled javascript, css, images, html assets
  */
-gulp.task('dist', function () {
-    gulp.start('clean', 'vendor-scripts', 'app-scripts', 'css', 'images');
+gulp.task('dist', ['clean', 'vendor-scripts', 'app-scripts', 'css', 'images']);
+
+/**
+ * Package the web artifacts for deployment within the cloud browser backend war file
+ */
+gulp.task('distToWar', ['dist'], function () {
+    /*
+    dist has been created, copy contents of dist up to war file via relative paths
+     */
+
+   return gulp.src(['./dist/**'])//.pipe(flatten({ includeParents: 1} ))
+        .pipe(gulp.dest('./web-apptemp'));
 
 });
 
-gulp.task('clean', function () {
-    del(['./dist'], function (err, paths) {
-        if (paths) {
-            console.log('Deleted files/folders:\n', paths.join('\n'));
-        }
-    });
+gulp.task('clean', function(cb) {
+    del(['./dist'], cb);
 });
 
 /**
  * assemble all vendor javascripts into a 'vendor.js'
  */
-gulp.task('vendor-scripts', function () {
+gulp.task('vendor-scripts',  ['clean'], function () {
     return gulp.src(['./bower_components/angular/angular.min.js', './bower_components/jquery/dist/jquery.min.js',
         './bower_components/angular-route/angular-route.js', './bower_components/masonry/dist/masonry.pkgd.min.js',
         './bower_components/jquery-ui/jquery-ui.min.js',
@@ -47,7 +53,7 @@ gulp.task('vendor-scripts', function () {
 /**
  * assemble all application code javascripts into an 'app.js'
  */
-gulp.task('app-scripts', function () {
+gulp.task('app-scripts', ['clean'], function () {
     return gulp.src(['./app/components/*.js',
         './app/home/*.js', './app/login/*.js', './app/metadata/*.js',
         './app/profile/*.js'])
@@ -59,27 +65,29 @@ gulp.task('app-scripts', function () {
  * assemble and minify all css assets
  */
 
-gulp.task('css', function () {
-        return gulp.src(['./app/app.css',
-            './bower_components/html5-boilerplate/css/*.css',
-            './bower_components/angular-message-center/message-center.css',
-            './bower_components/bootstrap/dist/css/bootstrap.min.css',
-            './app/sb-admin.css',
-            './app/css/main.css'
-        ])
-            .pipe(concat('app.css'))
-            .pipe(gulp.dest('./dist/css'));
+gulp.task('css',  ['clean'], function () {
+    return gulp.src(['./app/app.css',
+        './bower_components/html5-boilerplate/css/*.css',
+        './bower_components/angular-message-center/message-center.css',
+        './bower_components/bootstrap/dist/css/bootstrap.min.css',
+        './app/sb-admin.css',
+        './app/css/main.css'
+    ])
+        .pipe(concat('app.css'))
+        .pipe(gulp.dest('./dist/css'));
 
 });
 
 /**
- * assemble all images into the images dir in the dist */
-gulp.task('images', function () {
+ * assemble all images into the images dir in the dist
+ */
+gulp.task('images',  ['clean'], function () {
     // the base option sets the relative root for the set of files,
     // preserving the folder structure
     var filesToMove = [
         './app/images/*.*'
     ];
-    return gulp.src(filesToMove, { base: './' }).pipe(flatten())
+
+    return gulp.src(filesToMove, {base: './'}).pipe(flatten())
         .pipe(gulp.dest('./dist/images'));
 });

@@ -4,12 +4,30 @@
 
 var gulp = require('gulp');
 var concat = require('gulp-concat');
+var del = require('del');
 
 
 gulp.task('default', function() {
     // place code for your default task here
 });
 
+/**
+ * Create a dist subdirectory that has the assembled javascript, css, images, html assets
+ */
+gulp.task('dist', function() {
+    gulp.start('clean','vendor-scripts', 'app-scripts');
+
+});
+
+gulp.task('clean', function() {
+    del(['./dist'], function (err, paths) {
+        console.log('Deleted files/folders:\n', paths.join('\n'));
+    });
+});
+
+/**
+ * assemble all vendor javascripts into a 'vendor.js'
+ */
 gulp.task('vendor-scripts', function() {
     return gulp.src(['./bower_components/angular/angular.min.js', './bower_components/jquery/dist/jquery.min.js',
     './bower_components/angular-route/angular-route.js', './bower_components/masonry/dist/masonry.pkgd.min.js',
@@ -22,8 +40,28 @@ gulp.task('vendor-scripts', function() {
         .pipe(gulp.dest('./dist/js'));
 });
 
+/**
+ * assemble all application code javascripts into an 'app.js'
+ */
 gulp.task('app-scripts', function() {
-    return gulp.src(['./app/components/*.js'])
+    return gulp.src(['./app/components/*.js',
+    './app/home/*.js', './app/login/*.js', './app/metadata/*.js',
+    './app/profile/*.js'])
         .pipe(concat('app.js'))
         .pipe(gulp.dest('./dist/js'));
+});
+
+/**
+ * assemble and minify all css assets
+ */
+
+gulp.task('css', function() {
+    gulp.task('app-css', function() {
+        return gulp.src(['./app/components/*.js',
+            './app/home/*.js', './app/login/*.js', './app/metadata/*.js',
+            './app/profile/*.js', './app/gallery/*.js'])
+            .pipe(concat('app.js'))
+            .pipe(gulp.dest('./dist/js'));
+    });
+
 });

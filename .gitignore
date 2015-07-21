@@ -18,7 +18,7 @@
 # project release file
 **/*.war
 **/dist
-
+**/npm-debug.log*
 # plugin release files
 /*.zip
 /plugin.xml

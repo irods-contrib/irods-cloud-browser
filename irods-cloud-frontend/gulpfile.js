@@ -11,7 +11,9 @@ gulp.task('default', function() {
 });
 
 gulp.task('vendor-scripts', function() {
-    return gulp.src(['./bower_components/angular/angular.min.js', './bower_components/jquery/dist/jquery.min.js'])
+    return gulp.src(['./bower_components/angular/angular.min.js', './bower_components/jquery/dist/jquery.min.js',
+    './bower_components/angular-route/angular-route.js', './bower_components/masonry/dist/masonry.pkgd.min.js',
+    './bower_components/jquery-ui/jquery-ui.min.js','./bower_components/bootstrap/dist/js/bootstrap.min.js'])
         .pipe(concat('vendor.js'))
         .pipe(gulp.dest('./dist/js'));
 });

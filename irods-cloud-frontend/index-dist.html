@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>CLOUSER</title>
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="../bower_components/html5-boilerplate/css/normalize.css">
+  <link rel="stylesheet" href="../bower_components/html5-boilerplate/css/main.css">
+  <link rel="stylesheet" href="../bower_components/angular-message-center/message-center.css">
+  <link rel="stylesheet" href="app.css">
+  <!-- Bootstrap Core CSS -->
+  <link href="css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Custom CSS -->
+  <link href="css/sb-admin.css" rel="stylesheet">
+  <link href="css/main.css" rel="stylesheet">
+  <script src="js/jquery.mobile-1.4.5.js"></script> 
+<!--  <script src="bower_components/html5-boilerplate/js/vendor/modernizr-2.6.2.min.js"></script> -->
+</head>
+<body>
+  <header class="green_nav col-sm-12">
+      <a class="navbar-brand" href="index.html"><img src="images/your_brand_logo.png" height="18px"></a>
+      <!-- Top Menu Items -->
+      <ul class="nav navbar-right top-nav">    
+          <li>
+              <!--<a href="#"> Log Out </a>-->
+          </li>
+      </ul>
+
+  </header>
+<div mc-messages></div>
+  <!--[if lt IE 7]>
+      <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+  <![endif]-->
+  <div ng-app="myApp" class="app_container">
+     
+          <!-- angular templating -->
+          <!-- this is where content will be injected -->
+          <div ng-view class="main_wrapper"></div>
+      
+
+  </div>
+
+
+  <!-- In production use:
+  <script src="//ajax.googleapis.com/ajax/libs/angularjs/x.x.x/angular.min.js"></script>
+  -->
+  <!-- jQuery -->
+  <!-- Bootstrap Core JavaScript -->
+  <script src="../bower_components/angular-animate/angular-animate.js"></script>
+  <script src="../bower_components/angular-message-center/message-center.js"></script>
+  <script src="../bower_components/angular-message-center/message-center-templates.js"></script>
+  <script src="app.js"></script>
+  <script src="home/home.js"></script>
+  <script src="gallery/gallery.js"></script>
+  <script src="home/fileServices.js"></script>
+  <script src="login/login.js"></script>
+  <script src="metadata/metadata.js"></script>
+  <script src="profile/profile.js"></script>
+  <script src="components/globals.js"></script>
+  <script src="components/version/version.js"></script>
+  <script src="components/httpInterceptors.js"></script>
+  <script src="../bower_components/ng-file-upload/ng-file-upload-shim.min.js"></script> <!-- for no html5 browsers support -->
+  <script src="../bower_components/ng-file-upload/ng-file-upload.min.js"></script> 
+  <script src="components/version/version-directive.js"></script>
+  <script src="components/version/interpolate-filter.js"></script>
+</body>
+</html>

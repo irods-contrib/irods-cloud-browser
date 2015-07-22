@@ -14,10 +14,17 @@ class AuthenticationFilters {
 	AuthenticationService authenticationService
 
 	def filters = {
-		all(controller:'*', action:'*', controllerExclude:"(login|error)") {
+		all(controller:'*', action:'*', controllerExclude:"(login|error|index)") {
 			before = {
 
 				log.info("filter for auth")
+
+				if (request.method == "OPTIONS") {
+					log.info("options request methods are not authenticated")
+					response.writer.print('OK')
+					response.writer.flush()
+					return true
+				}
 
 				if(!session[IdropConstants.AUTH_SESSION]) {
 					log.info("not authorized")

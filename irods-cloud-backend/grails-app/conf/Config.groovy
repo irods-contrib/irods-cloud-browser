@@ -111,6 +111,22 @@ environments {
 	}
 }
 
+// cors plugin config see https://github.com/davidtinker/grails-cors
+
+//cors config.
+cors.enabled=true
+cors.url.pattern = '*'
+cors.headers=[
+
+	//'Access-Control-Allow-Credentials': true,
+	'Access-Control-Allow-Headers': 'origin, authorization, accept, content-type, x-requested-with',
+	'Access-Control-Allow-Methods': 'GET, HEAD, POST, PUT, DELETE, TRACE, OPTIONS',
+	'Access-Control-Max-Age': 3600,
+	//'Access-Control-Allow-Origin': '*'
+
+]
+
+
 // log4j configuration
 log4j.main = {
 	// Example of changing the log pattern for the default console appender:

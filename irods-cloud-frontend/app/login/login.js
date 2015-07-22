@@ -60,9 +60,9 @@ angular.module('myApp.login', ['ngRoute'])
             $log.info("irodsAccount for host:" + actval);
             $http({
                 method: 'POST',
-                url: $globals.backendUrl('login'),
-                data: actval,
-                headers: { 'Content-Type': 'application/json' }  // set the headers so angular passing info as request payload
+                url: $globals.backendUrl('login/'),
+                data: actval
+                //headers: { 'Content-Type': 'application/json' }  // set the headers so angular passing info as request payload
             }).then(function (data) {
                     $log.info("login successful" + data);
                     // userService.setLoggedInIdentity(data);

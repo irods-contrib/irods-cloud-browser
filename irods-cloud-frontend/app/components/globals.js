@@ -6,15 +6,21 @@
 
 angular.module('globalsModule', [])
 
-    .factory('globals', function ($rootScope) {
+    .factory('globals', ['$rootScope','$log',function ($rootScope, $log) {
 
         var f = {};
 
-
-        //var HOST = "https://dfcweb.datafed.org/irods-cloud-backend";
-    var HOST = "http://52.3.58.95:8080/irods-cloud-backend";
+        /*
+        NB put the trailing slash in the HOST variable!
+         */
+        //var HOST = "https://dfcweb.datafed.org/irods-cloud-backend/";
+        var HOST = "http://localhost:8080/irods-cloud-backend/";
+       // var HOST = "/irods-cloud-backend/";
         f.backendUrl = function(relativeUrl) {
-            return HOST + "/" + relativeUrl;
+
+            var myUrl = HOST + relativeUrl;
+            $log.info("computed URL:" + myUrl);
+            return myUrl;
         };
 
 
@@ -62,7 +68,7 @@ angular.module('globalsModule', [])
 
         return f;
 
-})
+}])
     .factory('breadcrumbsService', function ($rootScope, $log) {
 
         var bc = {};

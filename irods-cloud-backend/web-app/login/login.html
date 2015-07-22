@@ -1,0 +1,45 @@
+<!-- <div class="intro_screen" ng-mousemove="animate_ir()">
+    <div class="page_center">    
+        <img class="intro_screen_ir_white " src="images/ir_logo_white.svg" >
+        <img class="intro_screen_ir " src="images/ir_logo.svg" ng-click="close_intro()">
+        <img class="intro_screen_ir_shadow" src="images/ir_logo_shadow.svg" >
+    </div>
+</div> -->
+<div id="main_contents">   
+    <div class="three_column centered phone_full_screen">
+        <div class="column_content">
+            <div class="dark_header">Log In</div>
+            <div class="row">
+                <div class="col-xs-3 col-xs-offset-1 single_top phone_disappear">
+                    <img src="images/secure_lock.png" width="100%">
+                </div>
+                <div class="col-xs-12 col-sm-6 double_top" name="login" ng-controller="loginCtrl">
+                    <div class="col-xs-12">Host:</div>
+                    <div class="col-xs-12 login_input"><input ng-model="login.host" type="text-area" class="col-xs-12" required autofocus></div>
+                    <br>
+                    <div class="col-xs-12">Port:</div>
+                    <div class="col-xs-12 login_input"><input ng-model="login.port" type="text-area" class="col-xs-12" required></div>
+                    <br>
+                    <div class="col-xs-12">Zone Name:</div>
+                    <div class="col-xs-12 login_input"><input ng-model="login.zone" type="text-area" class="col-xs-12" required></div>
+                    <br>
+                    <div class="col-xs-12">User Name:</div>
+                    <div class="col-xs-12 login_input"><input ng-model="login.userName" type="text-area" class="col-xs-12" required></div>
+                    <br>
+                    <div class="col-xs-12">Password:</div>
+                    <div class="col-xs-12 login_input"><input ng-model="login.password" type="password" class="col-xs-12" required></div>
+                    <br>
+                    <div class="col-xs-12">Authentication:</div>
+                    <div class="col-xs-12 login_input">
+                        <select ng-model="login.authType" class="col-xs-12" required >
+                            <option value="STANDARD">Standard</option>
+                            <option value="PAM">PAM</option>
+                        </select>
+                    </div>
+                    <div class="col-xs-12"><button class="single_top btn btn-success pull-right" type="submit" ng-click="submitLogin()" prevent-default>Log In</button></div>
+                </div>
+            </div>
+            <div class="row"></div>
+        </div>
+    </div>
+</div>

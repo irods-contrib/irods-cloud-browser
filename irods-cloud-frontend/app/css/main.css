@@ -292,6 +292,9 @@ body{
 .download_divider{
 	display: none;
 }
+.single_action{
+	display: none;
+}
 .drop_box{
 	position: relative;
 	width: 100%;

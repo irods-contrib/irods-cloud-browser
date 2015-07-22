@@ -55,11 +55,11 @@ angular.module('myApp.profile', ['ngRoute'])
                         $('.q_column , .list_group_header').removeClass("ui-selectee");
                         
                         if ($("li.ui-selected").length > 1) {
-                            
+                            $('.single_action').fadeOut();
                         } else if ($("li.ui-selected").length == 1) {
-                            
+                            $('.single_action').fadeIn();
                         } else if ($("li.ui-selected").length == 0) {
-                           
+                            $('.single_action').fadeOut();
                         }
 
 
@@ -237,6 +237,9 @@ angular.module('myApp.profile', ['ngRoute'])
         |||||||||||||||||||||||||||||||*/
         $scope.available_metadata = $scope.dataProfile.metadata;
         $scope.add_metadata_pop_up = function (){
+            $('#new_metadata_attribute').val('');
+            $('#new_metadata_value').val('');
+            $('#new_metadata_unit').val('');
             $('.pop_up_window').fadeIn(100); 
             $('.metadata_adder').fadeIn(100); 
         };
@@ -304,7 +307,7 @@ angular.module('myApp.profile', ['ngRoute'])
             var new_attribute = $('#edit_metadata_attribute').val();
             var new_value = $('#edit_metadata_value').val();
             var new_unit = $('#edit_metadata_unit').val();            
-            deleteMetadataForPath(data_path, $scope.old_metadata_attribute, $scope.old_metadata_value, $scope.old_metadata_unit).then(function () {
+            metadataService.deleteMetadataForPath(data_path, $scope.old_metadata_attribute, $scope.old_metadata_value, $scope.old_metadata_unit).then(function () {
                $http({method: 'GET', url: $globals.backendUrl('file') , params: {path: $scope.dataProfile.parentPath + "/" + $scope.dataProfile.childName}}).success(function(data){
                     $scope.new_meta = data;
                     $scope.available_metadata = $scope.new_meta.metadata;

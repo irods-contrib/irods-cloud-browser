@@ -255,6 +255,9 @@ angular.module('myApp.profile', ['ngRoute'])
         $scope.delete_metadata_pop_up = function(){
             $('.pop_up_window').fadeIn(100); 
             $scope.delete_objects = $('.metadata_item.ui-selected');
+            $scope.old_metadata_attribute = $('.metadata_item.ui-selected').children('.metadata_attribute').text();
+            $scope.old_metadata_value = $('.metadata_item.ui-selected').children('.metadata_value').text();
+            $scope.old_metadata_unit = $('.metadata_item.ui-selected').children('.metadata_unit').text();
             $log.info($scope.delete_objects);
             $(".metadata_delete_container ul").empty();
             $(".metadata_delete_container ul").append('<li class="light_back_option_even"><div class="q_column"><b>ATTRIBUTE</b></div><div class="q_column"><b>VALUE</b></div><div class="q_column"><b>UNIT</b></div></li>');
@@ -287,6 +290,21 @@ angular.module('myApp.profile', ['ngRoute'])
             var new_value = $('#edit_metadata_value').val();
             var new_unit = $('#edit_metadata_unit').val();            
             metadataService.updateMetadataForPath(data_path, $scope.old_metadata_attribute, $scope.old_metadata_value, $scope.old_metadata_unit, new_attribute, new_value, new_unit).then(function () {
+               $http({method: 'GET', url: $globals.backendUrl('file') , params: {path: $scope.dataProfile.parentPath + "/" + $scope.dataProfile.childName}}).success(function(data){
+                    $scope.new_meta = data;
+                    $scope.available_metadata = $scope.new_meta.metadata;
+               });
+                $scope.pop_up_close_asynch();
+            });
+
+        };
+
+        $scope.metadata_delete_action = function(){
+            var data_path = $scope.dataProfile.parentPath + "/" + $scope.dataProfile.childName;
+            var new_attribute = $('#edit_metadata_attribute').val();
+            var new_value = $('#edit_metadata_value').val();
+            var new_unit = $('#edit_metadata_unit').val();            
+            deleteMetadataForPath(data_path, $scope.old_metadata_attribute, $scope.old_metadata_value, $scope.old_metadata_unit).then(function () {
                $http({method: 'GET', url: $globals.backendUrl('file') , params: {path: $scope.dataProfile.parentPath + "/" + $scope.dataProfile.childName}}).success(function(data){
                     $scope.new_meta = data;
                     $scope.available_metadata = $scope.new_meta.metadata;

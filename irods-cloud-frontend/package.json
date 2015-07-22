@@ -15,7 +15,8 @@
     "gulp-concat":"~2.6.0",
     "del":"",
     "shelljs": "^0.2.6",
-    "gulp-flatten":""
+    "gulp-flatten":"",
+    "gulp-rename":""
   },
   "scripts": {
     "postinstall": "bower install",

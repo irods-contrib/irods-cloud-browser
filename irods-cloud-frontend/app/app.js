@@ -14,9 +14,13 @@ angular.module('myApp', [
     'fileModule',
     'ngFileUpload'
 ]).
+
+
     config(['$routeProvider', function ($routeProvider) {
         $routeProvider.otherwise({redirectTo: '/home'});
     }]).config(['$httpProvider', function ($httpProvider) {
-        $httpProvider.defaults.withCredentials = true;
+       $httpProvider.defaults.withCredentials = true;
+        $httpProvider.defaults.useXDomain = true;
+       // delete $httpProvider.defaults.headers.common['X-Requested-With'];
     }]);
 

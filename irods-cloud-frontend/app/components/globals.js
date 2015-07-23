@@ -6,17 +6,17 @@
 
 angular.module('globalsModule', [])
 
-    .factory('globals', ['$rootScope','$log',function ($rootScope, $log) {
+    .factory('globals', ['$rootScope', '$log', function ($rootScope, $log) {
 
         var f = {};
 
         /*
-        NB put the trailing slash in the HOST variable!
+         NB put the trailing slash in the HOST variable!
          */
-       // var HOST = "/irods-cloud-backend/";
+        // var HOST = "/irods-cloud-backend/";
         var HOST = "http://localhost:8080/irods-cloud-backend/";
         //var HOST = "http://dfc-test-tomcat1.edc.renci.org:8080/irods-cloud-backend/";
-        f.backendUrl = function(relativeUrl) {
+        f.backendUrl = function (relativeUrl) {
 
             var myUrl = HOST + relativeUrl;
             $log.info("computed URL:" + myUrl);
@@ -30,7 +30,6 @@ angular.module('globalsModule', [])
          */
         f.lastPath = null;
         f.loggedInIdentity = null;
-
 
 
         /**
@@ -54,7 +53,7 @@ angular.module('globalsModule', [])
          * Retrieve the user identity, server info, and options for the session
          * @returns {null|*}
          */
-        f.getLoggedInIdentity = function() {
+        f.getLoggedInIdentity = function () {
             return this.loggedInIdentity;
         }
 
@@ -62,13 +61,31 @@ angular.module('globalsModule', [])
          * Set the user identity, server info, and options for the session
          * @param inputIdentity
          */
-        f.setLoggedInIdentity = function(inputIdentity) {
+        f.setLoggedInIdentity = function (inputIdentity) {
             this.loggedInIdentity = inputIdentity;
+        }
+
+        /**
+         * Cause a logout to occur, and reposition at the login screen
+         */
+        f.logout = function () {
+
+            var promise = $http({
+                method: 'DELETE',
+                url: globals.backendUrl('login/')
+            }).then(function (response) {
+                // The then function here is an opportunity to modify the response
+                $log(response);
+                // The return value gets picked up by the then in the controller.
+                return response.data;
+            });
+            // Return the promise to the controller
+            return promise;
         }
 
         return f;
 
-}])
+    }])
     .factory('breadcrumbsService', function ($rootScope, $log) {
 
         var bc = {};

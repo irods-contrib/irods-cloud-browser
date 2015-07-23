@@ -55,21 +55,6 @@ angular.module('myApp.login', ['ngRoute'])
             });
         };
 
-        /**
-         * Cause a logout to occur, and reposition at the login screen
-         */
-        $scope.logout = function() {
-            $http({
-                method: 'DELETE',
-                url: $globals.backendUrl('login/')
-
-            }).then(function (data) {
-                $log.info("logout successful");
-                var path = "/login";
-                MessageService.success("Logout successful");
-            });
-        }
-
 
         $scope.submitLogin = function () {
             var actval = irodsAccount($scope.login.host, $scope.login.port, $scope.login.zone, $scope.login.userName, $scope.login.password, $scope.login.authType, "");

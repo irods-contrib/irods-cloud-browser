@@ -54,7 +54,9 @@ angular.module('myApp.login', ['ngRoute'])
             $('.intro_screen').animate({'opacity': '0'},function(){
                 $('.intro_screen').css('display','none');
             });
-        };        
+        };
+
+
         $scope.submitLogin = function () {
             var actval = irodsAccount($scope.login.host, $scope.login.port, $scope.login.zone, $scope.login.userName, $scope.login.password, $scope.login.authType, "");
             

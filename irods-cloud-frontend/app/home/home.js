@@ -429,10 +429,10 @@ angular.module('myApp.home', ['ngRoute', 'ngFileUpload'])
         $scope.logout_func = function(){
                 var promise = $http({
                     method: 'DELETE',
-                    url: $globals.backendUrl('login/')
+                    url: $globals.backendUrl('login')
                 }).then(function (response) {
                     // The then function here is an opportunity to modify the response
-                    $log(response);
+                    $log.info(response);
                     // The return value gets picked up by the then in the controller.
                     return response.data;
                 });

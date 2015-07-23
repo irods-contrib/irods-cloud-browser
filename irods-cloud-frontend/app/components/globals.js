@@ -13,9 +13,9 @@ angular.module('globalsModule', [])
         /*
         NB put the trailing slash in the HOST variable!
          */
-        //var HOST = "https://dfcweb.datafed.org/irods-cloud-backend/";
-        var HOST = "http://52.3.58.95:8080/irods-cloud-backend/";
        // var HOST = "/irods-cloud-backend/";
+        var HOST = "http://localhost:8080/irods-cloud-backend/";
+        //var HOST = "http://dfc-test-tomcat1.edc.renci.org:8080/irods-cloud-backend/";
         f.backendUrl = function(relativeUrl) {
 
             var myUrl = HOST + relativeUrl;

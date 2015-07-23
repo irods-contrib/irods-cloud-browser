@@ -44,6 +44,18 @@ class LoginController extends RestfulController {
 	}
 
 	/**
+	 * DELETE action will cause a logout
+	 */
+	def delete() {
+		def irodsAccount = request.irodsAccount
+		if (irodsAccount) {
+			session.invalidate()
+		} else {
+			log.info("user already logged out")
+		}
+	}
+
+	/**
 	 * Processing of POST is a login action
 	 * @param command
 	 * @return

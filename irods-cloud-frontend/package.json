@@ -7,16 +7,17 @@
   "license": "MIT",
   "devDependencies": {
     "bower": "^1.4.1",
+    "del": "",
+    "grunt": "^0.4.5",
     "gulp": "^3.9.0",
+    "gulp-concat": "~2.6.0",
+    "gulp-flatten": "",
+    "gulp-rename": "",
     "http-server": "^0.6.1",
     "karma": "~0.10",
     "karma-junit-reporter": "^0.2.2",
     "protractor": "^1.1.1",
-    "gulp-concat":"~2.6.0",
-    "del":"",
-    "shelljs": "^0.2.6",
-    "gulp-flatten":"",
-    "gulp-rename":""
+    "shelljs": "^0.2.6"
   },
   "scripts": {
     "postinstall": "bower install",

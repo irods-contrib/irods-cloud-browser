@@ -49,6 +49,7 @@ angular.module('myApp.login', ['ngRoute'])
             $log.info(icon_y +','+ shadow_distor);
 
         };
+        $('#main_contents').css('width','100%');
         $scope.close_intro = function () {
             $('.intro_screen').animate({'opacity': '0'},function(){
                 $('.intro_screen').css('display','none');

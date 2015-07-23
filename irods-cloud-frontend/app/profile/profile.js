@@ -252,7 +252,6 @@ angular.module('myApp.profile', ['ngRoute'])
             $scope.old_metadata_attribute = $('.metadata_item.ui-selected').children('.metadata_attribute').text();
             $scope.old_metadata_value = $('.metadata_item.ui-selected').children('.metadata_value').text();
             $scope.old_metadata_unit = $('.metadata_item.ui-selected').children('.metadata_unit').text();
-            alert($scope.old_metadata_attribute+'  '+$scope.old_metadata_value+'  '+$scope.old_metadata_unit);
         };
 
         $scope.delete_metadata_pop_up = function(){

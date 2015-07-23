@@ -22,7 +22,21 @@ angular.module('globalsModule', [])
             $log.info("computed URL:" + myUrl);
             return myUrl;
         };
+        
 
+        /* ||||||||||||||||||||||||||||||||||| */
+        /* |||||| BROWSER ACTION TRIGGER ||||| */
+        /* ||||||||||||||||||||||||||||||||||| */
+
+        var userAgent = navigator.userAgent.toLowerCase(); 
+         if (userAgent .indexOf('safari')!=-1){ 
+           if(userAgent .indexOf('chrome')  > -1){
+             //browser is chrome
+           }else{
+            //browser is safari, add css
+           }
+          }
+            
 
         /**
          * Saved path in case an auth exception required a new login

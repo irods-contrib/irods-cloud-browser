@@ -75,19 +75,19 @@ angular.module('myApp.home', ['ngRoute', 'ngFileUpload'])
                         //     }                       
                         // });
                         if ($(".copy_list_item.ui-selected").length == 1) {
-                            var copy_path = $('.copy_list_item.ui-selected').children('.list_content').children('.collection_object').text();
+                            var copy_path = "You've selected: " + $('.copy_list_item.ui-selected').children('.list_content').children('.collection_object').text();
                             copy_path_display.append(copy_path);
                             $scope.copy_target = $('.copy_list_item.ui-selected').attr('id');
                         } 
                         if ($(".copy_list_item.ui-selected").length > 1) {
                             $('.copy_list_item.ui-selected').not(':first').removeClass('ui-selected');
-                            var copy_path = $('.copy_list_item.ui-selected').children('.list_content').children('.collection_object').text();
+                            var copy_path = "You've selected: " + $('.copy_list_item.ui-selected').children('.list_content').children('.collection_object').text();
                             copy_path_display.append(copy_path);
                             $scope.copy_target = $('.copy_list_item.ui-selected').attr('id');
                         } 
 
                         if ($("li.ui-selected").length > 1) {
-                            result.append($('.ui-selected').length + " files");
+                            result.append("You've selected: " + $('.ui-selected').length + " files");
                             $(".download_button").fadeIn();
                             $(".download_divider").fadeIn();
                             $(".rename_button").fadeOut();
@@ -98,7 +98,7 @@ angular.module('myApp.home', ['ngRoute', 'ngFileUpload'])
                             $(".empty_selection").fadeOut();
                             
                         } else if ($("li.ui-selected").length == 1) {
-                            var name_of_selection = $('.ui-selected').children('.list_content').children('.data_object').text();
+                            var name_of_selection = "You've selected: " + $('.ui-selected').children('.list_content').children('.data_object').text();
                             result.append(name_of_selection);
                             $(".download_button").fadeIn();
                             $(".rename_button").fadeIn();

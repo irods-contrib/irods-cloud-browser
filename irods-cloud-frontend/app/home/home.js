@@ -364,6 +364,9 @@ angular.module('myApp.home', ['ngRoute', 'ngFileUpload'])
             });
 
         };   
+        $scope.logout_func = function (){
+            alert('some');
+        };
         /**
          * Upon the selection of an element in a breadrumb link, set that as the location of the browser, triggering
          * a view of that collection
@@ -423,7 +426,20 @@ angular.module('myApp.home', ['ngRoute', 'ngFileUpload'])
          */
 
         $scope.listVirtualCollections();
-
+        $scope.logout_func = function(){
+                var promise = $http({
+                    method: 'DELETE',
+                    url: $globals.backendUrl('login/')
+                }).then(function (response) {
+                    // The then function here is an opportunity to modify the response
+                    $log(response);
+                    // The return value gets picked up by the then in the controller.
+                    return response.data;
+                });
+                // Return the promise to the controller
+                return promise;
+            
+        };
 
         /*
          Retrieve the data profile for the data object at the given absolute path

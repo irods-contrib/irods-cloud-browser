@@ -14,7 +14,7 @@ angular.module('globalsModule', [])
          NB put the trailing slash in the HOST variable!
          */
         // var HOST = "/irods-cloud-backend/";
-        var HOST = "http://localhost:8080/irods-cloud-backend/";
+        var HOST = "http://52.3.58.95:8080/irods-cloud-backend/";
         //var HOST = "http://dfc-test-tomcat1.edc.renci.org:8080/irods-cloud-backend/";
         f.backendUrl = function (relativeUrl) {
 
@@ -44,7 +44,6 @@ angular.module('globalsModule', [])
          */
         f.lastPath = null;
         f.loggedInIdentity = null;
-
 
         /**
          * Saved path when a not authenticated occurred
@@ -81,7 +80,7 @@ angular.module('globalsModule', [])
 
         /**
          * Cause a logout to occur, and reposition at the login screen
-         */
+         
         f.logout = function () {
 
             var promise = $http({
@@ -95,10 +94,9 @@ angular.module('globalsModule', [])
             });
             // Return the promise to the controller
             return promise;
-        }
+        }*/
 
         return f;
-
     }])
     .factory('breadcrumbsService', function ($rootScope, $log) {
 

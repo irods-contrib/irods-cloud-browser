@@ -512,6 +512,22 @@ input.col-xs-12{
 	background: rgba(0,0,0,0.3);
 	cursor: pointer;
 }
+.dark_back_option_double.logout{
+	color:#fff;
+	opacity:0.5;
+	height: 26px;
+    padding: 0px 8px;
+    margin: 12px 0px 0px 0px;
+	white-space: nowrap;
+	cursor: pointer;
+	border: none;
+}
+.dark_back_option_double.logout:hover{
+	color:#fff;
+	opacity:1;
+	background: rgba(0,0,0,0.3);
+	cursor: pointer;
+}
 .light_back_option{
 	color:#000;
 	opacity:0.5;
@@ -537,7 +553,7 @@ input.col-xs-12{
 .light_back_option.selected,.light_back_option_even.selected{
 	color:#fff;
 	opacity:1;
-	background: rgba(0,0,0,0.7);
+	background: #F05022;
 }
 .light_back_option span, .light_back_option_even span{
 	padding: 2px;

@@ -9,12 +9,11 @@ angular.module('globalsModule', [])
     .factory('globals', ['$rootScope', '$log', function ($rootScope, $log) {
 
         var f = {};
-
         /*
          NB put the trailing slash in the HOST variable!
          */
         // var HOST = "/irods-cloud-backend/";
-        var HOST = "http://localhost:8080/irods-cloud-backend/";
+        var HOST = "http://"+location.hostname+"/irods-cloud-backend/";
         //var HOST = "http://dfc-test-tomcat1.edc.renci.org:8080/irods-cloud-backend/";
         f.backendUrl = function (relativeUrl) {
 

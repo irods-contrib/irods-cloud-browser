@@ -314,15 +314,19 @@ class FileService {
 		if (!sourcePath) {
 			throw new IllegalArgumentException("null or empty sourcePath")
 		}
-		if (!targetPath) {
+		if (targetPath == null) {
 			targetPath = ""
 		}
 		if (!irodsAccount) {
 			throw new IllegalArgumentException("irodsAccount is missing")
 		}
+		if (targetResource == null) {
+			targetResource = ""
+		}
 
 		log.info("sourcePath:${sourcePath}")
 		log.info("targetPath:${targetPath}")
+		log.info("targetResource:${targetResource}")
 
 		/*
 		 * Modes

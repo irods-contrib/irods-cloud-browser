@@ -1,9 +1,9 @@
 package org.irods.jargon.idrop.web.controllers
 
-import grails.converters.JSON
-
 import org.irods.jargon.core.pub.IRODSAccessObjectFactory
 import org.irods.jargon.idrop.web.services.FileService
+import grails.converters.JSON
+
 
 /**
  * Controller for move operations
@@ -63,15 +63,16 @@ class MoveController {
 			targetPath = ""
 		}
 
-		def overwrite = params.overwrite
-		if (!overwrite) {
-			log.info("overwrite not specified, assume false")
-			overwrite = false
-		}
+		/*
+		 def overwrite = params.overwrite
+		 if (!overwrite) {
+		 log.info("overwrite not specified, assume false")
+		 overwrite = false
+		 }*/
 
 		log.info("targetPath:${targetPath}")
 
-		def listingEntry = fileService.move(resource, targetPath, overwrite,  irodsAccount)
+		def listingEntry = fileService.move(sourcePath, targetPath, resource,  irodsAccount)
 		log.info("move completed to ${listingEntry}")
 		render listingEntry as JSON
 	}

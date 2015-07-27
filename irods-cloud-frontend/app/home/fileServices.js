@@ -89,7 +89,7 @@ angular.module('fileModule',[])
 
             var promise =  $http({method: 'DELETE', url: globals.backendUrl('star') , params: {path: absolutePath}}).then(function (response) {
                 // The then function here is an opportunity to modify the response
-                $log(response);
+                $log.info(response);
                 // The return value gets picked up by the then in the controller.
                 return response.data;
             });

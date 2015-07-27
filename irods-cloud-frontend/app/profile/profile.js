@@ -27,32 +27,25 @@ angular.module('myApp.profile', ['ngRoute'])
 
        $scope.dataProfile = dataProfile;
        $scope.$on('onRepeatLast', function (scope, element, attrs) {
-            if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
-                
-                $(".ui-selectee").on("tap",function(e){
-                  var result = $("#select-result").empty();
-                  e.preventDefault();
-
-                  if($(e.target).hasClass('ui-selected')){
-                      $(e.target).removeClass('ui-selected');
-                  }else{
-                      $(e.target).addClass('ui-selected');
-                  }
-                  if ($(".ui-selected").length > 1) {
-                            result.append($('.ui-selected').length + " files");                            
-                        } else if ($(".ui-selected").length == 1) {
-                            var name_of_selection = $('.ui-selected').text();
-                            result.append(name_of_selection);
-                        } else if ($(".ui-selected").length == 0) {
-
-                        }
-
-                });
-            }else{                
+                         
                 $(".selectable").selectable({
                     stop: function (){ 
                         $('.q_column , .list_group_header').removeClass("ui-selected");
                         $('.q_column , .list_group_header').removeClass("ui-selectee");
+                        var copy_path_display = $("#copy_select_result").empty();
+                        var move_path_display = $("#move_select_result").empty();
+
+                        if ($(".copy_list_item.ui-selected").length == 1) {
+                            var copy_path = $('.copy_list_item.ui-selected').children('.list_content').children('.collection_object').text();
+                            copy_path_display.append(copy_path);
+                            $scope.copy_target = $('.copy_list_item.ui-selected').attr('id');
+                        } 
+                        if ($(".copy_list_item.ui-selected").length > 1) {
+                            $('.copy_list_item.ui-selected').not(':first').removeClass('ui-selected');
+                            var copy_path =  $('.copy_list_item.ui-selected').children('.list_content').children('.collection_object').text();
+                            copy_path_display.append(copy_path);
+                            $scope.copy_target = $('.copy_list_item.ui-selected').attr('id');
+                        } 
                         
                         if ($("li.ui-selected").length > 1) {
                             $('.single_action').fadeOut();
@@ -65,7 +58,7 @@ angular.module('myApp.profile', ['ngRoute'])
 
                     }
                 });
-            }         
+                   
                    
         });
         /*
@@ -171,6 +164,19 @@ angular.module('myApp.profile', ['ngRoute'])
                 })
         };
 
+        $scope.copy_action = function (){
+            $scope.copy_source = $scope.dataProfile.parentPath + "/" + $scope.dataProfile.childName;        
+            $scope.copy_target = $('.copy_list_item.ui-selected').attr('id');
+            $log.info('||||||||||||| copying:'+ $scope.copy_source +' to '+ $scope.copy_target);
+            return $http({
+                    method: 'POST',
+                    url: $globals.backendUrl('copy'),
+                    params: {sourcePath: $scope.copy_source, targetPath: $scope.copy_target, resource:'', overwrite: 'false' }
+                }).success(function () {
+                    location.reload();
+                })
+        };   
+
         $scope.star_action = function(){
             var star_path = $scope.dataProfile.parentPath + "/" + $scope.dataProfile.childName;
             fileService.starFileOrFolder(star_path).then(function(d) {
@@ -182,10 +188,51 @@ angular.module('myApp.profile', ['ngRoute'])
         $scope.unstar_action = function(){
             var unstar_path = $scope.dataProfile.parentPath + "/" + $scope.dataProfile.childName;
             //fileService.unstarFileOrFolder(unstar_path);
-            fileService.starFileOrFolder(unstar_path).then(function(d) {
+            fileService.unstarFileOrFolder(unstar_path).then(function(d) {
                 $scope.dataProfile.starred = false;
             });
             //location.reload();
+        };
+
+        $scope.copy_pop_up_open = function(){
+            $('.pop_up_window').fadeIn(100);
+            $(".copy_container ul").append('<li class="light_back_option_even"><div class="col-xs-7 list_content"><img src="images/data_object_icon.png">'+$scope.dataProfile.childName+'</div></li>');                    
+            $('.copier').fadeIn(100);
+            $('.copier_button').fadeIn(100);
+            return $http({
+                method: 'GET', 
+                url: $globals.backendUrl('virtualCollection')
+            }).success(function (data) {
+                $scope.copy_vc_list = data;
+            }).error(function () {
+                alert("Something went wrong while fetching the Virtual Collections");
+                $scope.copy_vc_list = [];
+            });
+            return $http({
+                method: 'GET',
+                url: $globals.backendUrl('collection/') + selectedVc.data.uniqueName,
+                params: {path: "", offset: 0}
+            }).success(function (data) {
+                $scope.copy_list = data;
+            }).error(function () {
+                alert("Something went wrong while fetching the contents of the Collection");
+                $scope.copy_list = [];
+            });
+        };
+        $scope.copy_list_refresh = function(VC,selectedPath){
+            $scope.copyVC = VC;
+            return $http({
+                method: 'GET',
+                url: $globals.backendUrl('collection/') + VC,
+                params: {path: selectedPath, offset: 0}
+            }).success(function (data) {
+                $scope.copy_list = data;
+                $("#copy_select_result").empty();
+                $("#move_select_result").empty();
+            }).error(function () {
+                alert("Something went wrong while fetching the contents of the Collection");
+                $scope.copy_list = [];
+            });
         };
 
         $scope.upload_pop_up_open = function(){
@@ -200,10 +247,8 @@ angular.module('myApp.profile', ['ngRoute'])
             $('.selected_object').append(name_of_selection);
         };
         $scope.delete_pop_up_open = function(){
-            $('.pop_up_window').fadeIn(100);            
-                
-                    $(".delete_container ul").append('<li class="light_back_option_even"><div class="col-xs-7 list_content"><img src="images/data_object_icon.png">'+$scope.dataProfile.childName+'</div></li>');
-                         
+            $('.pop_up_window').fadeIn(100);                 
+                    $(".delete_container ul").append('<li class="light_back_option_even"><div class="col-xs-7 list_content"><img src="images/data_object_icon.png">'+$scope.dataProfile.childName+'</div></li>');                         
             $('.deleter').fadeIn(100);
         };
         $scope.pop_up_close = function () {

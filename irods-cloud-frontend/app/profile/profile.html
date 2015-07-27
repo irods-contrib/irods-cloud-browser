@@ -111,7 +111,7 @@
 		</div>
 		
 		<div class="column_content deleter">
-			<div class="delete_header"><img src="images/dark_delete_icon.png"><span>&nbsp;Are you sure you want to DELETE the following:</span><img class="pop_up_close_button right" title="close window" ng-click="pop_up_close_asynch()" src="images/close_icon.png"></div>
+			<div class="delete_header"><img src="images/dark_delete_icon.png"><span>&nbsp;Are you sure you want to DELETE the following:</span><img class="pop_up_close_button right" title="close window" ng-click="pop_up_close()" src="images/close_icon.png"></div>
 			
 			<div class="delete_container">
 				<br>
@@ -125,6 +125,49 @@
 				</div>
 			</div>
 		</div>
+		<div class="column_content copier copier_wrap">
+			<div class="light_header"><img src="images/dark_add_icon.png"><span>&nbsp;Copying</span><img class="pop_up_close_button right" title="close window" ng-click="pop_up_close()" src="images/close_icon.png"></div>
+			
+			<div class="copy_container">
+				<ul></ul>								
+			</div>
+		</div>
+		<div class="slim_column_content themed_header copier">
+			
+			<span>Copy to:</span>
+			<span id="copy_select_result">none</span>
+		</div>
+			<div class="one_column copier">
+				<div class="column_content">
+					<div class="light_header"><img src="images/saved_search_icon_dark.png"><span>Saved Searches</span></div>
+					<ul >
+					    <li ng-class-odd="'light_back_option'" ng-class-even="'light_back_option_even'" ng-repeat="virtualCollection in copy_vc_list" ng-click="copy_list_refresh(virtualCollection.uniqueName,'')">
+					            <img src="images/saved_search_icon.png"><span>{{virtualCollection.uniqueName}}</span>
+					    </li>
+					</ul>
+				</div>
+			</div>
+			<div class="four_column copier">
+				<div class="column_content">
+					<ul class="selectable copy_listing">
+			    			<li class="ui-widget-content data_{{collectionAndDataObject.dataObject}} copy_list_item ui-selectee" ng-class-odd="'light_back_option'" ng-show="{{collectionAndDataObject.dataObject}} == false" ng-class-even="'light_back_option_even'" ng-repeat="collectionAndDataObject in copy_list.collectionAndDataObjectListingEntries" id='{{collectionAndDataObject.formattedAbsolutePath}}' on-last-repeat>
+				            <div class="col-xs-7 list_content">
+					            <img ng-show="{{collectionAndDataObject.dataObject}} == false" src="images/collection_icon.png">
+				            	<span class="collection_object" id='{{collectionAndDataObject.formattedAbsolutePath}}' ng-click="copy_list_refresh(copyVC,collectionAndDataObject.formattedAbsolutePath)">{{collectionAndDataObject.nodeLabelDisplayValue}}</span>
+				            </div>
+				            <div class="col-xs-3 list_content text-right">
+				            	<p>{{collectionAndDataObject.modifiedAt}}</p>
+				            </div>
+				            <div class="col-xs-2 list_content text-right">
+				            	<p ng-show="{{collectionAndDataObject.dataObject}} == true">{{collectionAndDataObject.displayDataSize}}</p>
+				            </div>
+					    </li>
+					</ul>
+				</div>
+			</div>
+			<div class="right t_right">
+				<div class="btn btn-success copier_button" ng-click="copy_action()">Copy</div>
+			</div>
 	</div>
 </div>
 <div ng-include="'side_nav.html'"></div>
@@ -216,7 +259,7 @@
 								<ul class="list-group">
 									<li class="list-group-item list-group-item list_group_header">
 										<h2>System Actions</h2>
-									</li>
+									</li>									
 									<li class="list-group-item">
 										<a class='btn btn-default btn-xs' ng-click='rename_pop_up_open()'>Rename</a>
 									</li>
@@ -249,6 +292,9 @@
 								<ul class="list-group">
 									<li class="list-group-item list-group-item list_group_header">
 										<h2>System Actions</h2>
+									</li>
+									<li class="list-group-item">
+										<a class='btn btn-default btn-xs' ng-click='copy_pop_up_open()'>Copy</a>
 									</li>
 									<li class="list-group-item">
 										<a class='btn btn-default btn-xs' ng-click='rename_pop_up_open()'>Rename</a>

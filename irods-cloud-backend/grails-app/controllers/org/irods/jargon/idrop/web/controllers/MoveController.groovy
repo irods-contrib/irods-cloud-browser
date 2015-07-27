@@ -71,7 +71,7 @@ class MoveController {
 
 		log.info("targetPath:${targetPath}")
 
-		def listingEntry = fileService.move(resource, targetPath, resource,  irodsAccount)
+		def listingEntry = fileService.move(resource, targetPath, overwrite,  irodsAccount)
 		log.info("move completed to ${listingEntry}")
 		render listingEntry as JSON
 	}

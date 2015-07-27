@@ -88,6 +88,53 @@
 				<div class="btn btn-success copier_button" ng-click="copy_action()">Copy</div>
 			</div>
 
+
+
+		<div class="column_content mover mover_wrap">
+			<div class="light_header"><img src="images/dark_add_icon.png"><span>&nbsp;Moving</span><img class="pop_up_close_button right" title="close window" ng-click="pop_up_close()" src="images/close_icon.png"></div>
+			
+			<div class="move_container">
+				<ul></ul>								
+			</div>
+		</div>
+		<div class="slim_column_content themed_header mover">
+			
+			<span>Move to:</span>
+			<span id="move_select_result">none</span>
+		</div>
+			<div class="one_column mover">
+				<div class="column_content">
+					<div class="light_header"><img src="images/saved_search_icon_dark.png"><span>Saved Searches</span></div>
+					<ul >
+					    <li ng-class-odd="'light_back_option'" ng-class-even="'light_back_option_even'" ng-repeat="virtualCollection in copy_vc_list" ng-click="copy_list_refresh(virtualCollection.uniqueName,'')">
+					            <img src="images/saved_search_icon.png"><span>{{virtualCollection.uniqueName}}</span>
+					    </li>
+					</ul>
+				</div>
+			</div>
+			<div class="four_column mover">
+				<div class="column_content">
+					<ul class="selectable move_listing">
+			    			<li class="ui-widget-content data_{{collectionAndDataObject.dataObject}} move_list_item ui-selectee" ng-class-odd="'light_back_option'" ng-show="{{collectionAndDataObject.dataObject}} == false" ng-class-even="'light_back_option_even'" ng-repeat="collectionAndDataObject in copy_list.collectionAndDataObjectListingEntries" id='{{collectionAndDataObject.formattedAbsolutePath}}' on-last-repeat>
+				            <div class="col-xs-7 list_content">
+					            <img ng-show="{{collectionAndDataObject.dataObject}} == false" src="images/collection_icon.png">
+				            	<span class="collection_object" id='{{collectionAndDataObject.formattedAbsolutePath}}' ng-click="copy_list_refresh(copyVC,collectionAndDataObject.formattedAbsolutePath)">{{collectionAndDataObject.nodeLabelDisplayValue}}</span>
+				            </div>
+				            <div class="col-xs-3 list_content text-right">
+				            	<p>{{collectionAndDataObject.modifiedAt}}</p>
+				            </div>
+				            <div class="col-xs-2 list_content text-right">
+				            	<p ng-show="{{collectionAndDataObject.dataObject}} == true">{{collectionAndDataObject.displayDataSize}}</p>
+				            </div>
+					    </li>
+					</ul>
+				</div>
+			</div>
+			<div class="right t_right">
+				<div class="btn btn-success mover_button" ng-click="move_action()">Move</div>
+			</div>
+
+
 		<div class="column_content creater">
 			<div class="light_header"><img src="images/dark_add_icon.png"><span>&nbsp;Adding sub-collection to {{pagingAwareCollectionListing.pagingAwareCollectionListingDescriptor.pathComponents[current_collection_index]}}</span><img class="pop_up_close_button right" title="close window" ng-click="pop_up_close()" src="images/close_icon.png"></div>
 			
@@ -208,8 +255,12 @@
 							<img src="images/edit_icon.png"><span>&nbsp;Rename</span>	
 						</div>
 						<div class="rename_divider small_vertical_divider"></div>
-						<div class="rename_button" title="Copy selected file(s) " ng-click='copy_pop_up_open()' > 
+						<div class="rename_button" title="Copy selected file" ng-click='copy_pop_up_open()' > 
 							<img src="images/add_icon.png"><span>&nbsp;Copy</span>	
+						</div>
+						<div class="rename_divider small_vertical_divider"></div>
+						<div class="rename_button" title="Move selected file" ng-click='move_pop_up_open()' > 
+							<img src="images/move_icon.png"><span>&nbsp;Move</span>	
 						</div>
 						<div class="download_divider small_vertical_divider"></div>
 						<div class="download_button" title="Download selected file(s) " ng-click='getDownloadLink()' > 
@@ -248,8 +299,5 @@
 			    </li>
 			</ul>
 		</div>
-	</div>
-	<div class="powered_by">
-		<img src="images/powered_by_irods.png">
-	</div>
+	</div>	
 </div>

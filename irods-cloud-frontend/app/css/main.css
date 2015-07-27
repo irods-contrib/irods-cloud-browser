@@ -276,6 +276,13 @@ body{
 .copier_button{
 	display: none;
 }
+.mover{
+	display: none;
+	padding: 5px;
+}
+.mover_button{
+	display: none;
+}
 .uploader{
 	display: none;
 }
@@ -620,6 +627,10 @@ input.col-xs-12{
 	padding: 5px 5px 39px 5px;
 }
 .copier_wrap{
+	min-height:100px;
+	height:100px;
+}
+.mover_wrap{
 	min-height:100px;
 	height:100px;
 }

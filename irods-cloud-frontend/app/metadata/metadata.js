@@ -49,14 +49,13 @@ angular.module('myApp.metadata', ['ngRoute'])
                 }
 
                 if (!value) {
-                    Í
+                    
                     $log.error("value is missing");
                     throw "value is missing";
                 }
 
                 if (!unit) {
-                    $log.error("unit is missing");
-                    throw "unit is missing";
+                    unit = "";
                 }
 
                 var promise = $http({

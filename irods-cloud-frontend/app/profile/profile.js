@@ -46,6 +46,18 @@ angular.module('myApp.profile', ['ngRoute'])
                             copy_path_display.append(copy_path);
                             $scope.copy_target = $('.copy_list_item.ui-selected').attr('id');
                         } 
+
+                        if ($(".move_list_item.ui-selected").length == 1) {
+                            var move_path = $('.move_list_item.ui-selected').children('.list_content').children('.collection_object').text();
+                            move_path_display.append(move_path);
+                            $scope.move_target = $('.move_list_item.ui-selected').attr('id');
+                        } 
+                        if ($(".move_list_item.ui-selected").length > 1) {
+                            $('.move_list_item.ui-selected').not(':first').removeClass('ui-selected');
+                            var move_path = $('.move_list_item.ui-selected').children('.list_content').children('.collection_object').text();
+                            move_path_display.append(move_path);
+                            $scope.move_target = $('.move_list_item.ui-selected').attr('id');
+                        } 
                         
                         if ($("li.ui-selected").length > 1) {
                             $('.single_action').fadeOut();
@@ -177,6 +189,20 @@ angular.module('myApp.profile', ['ngRoute'])
                 })
         };   
 
+        $scope.move_action = function (){
+            $scope.copy_source = $scope.dataProfile.parentPath + "/" + $scope.dataProfile.childName;       
+            $scope.copy_target = $('.move_list_item.ui-selected').attr('id');
+            $log.info('||||||||||||| moving:'+ $scope.copy_source +' to '+ $scope.copy_target);
+            return $http({
+                    method: 'POST',
+                    url: $globals.backendUrl('move'),
+                    params: {sourcePath: $scope.copy_source, targetPath: $scope.copy_target, resource:'', overwrite: 'false' }
+                }).success(function () {
+                    window.history.go(-1);
+                    MessageService.success("Move completed!");
+                })
+        };   
+
         $scope.star_action = function(){
             var star_path = $scope.dataProfile.parentPath + "/" + $scope.dataProfile.childName;
             fileService.starFileOrFolder(star_path).then(function(d) {
@@ -193,7 +219,31 @@ angular.module('myApp.profile', ['ngRoute'])
             });
             //location.reload();
         };
-
+        $scope.move_pop_up_open = function(){
+            $('.pop_up_window').fadeIn(100);
+            $(".move_container ul").append('<li class="light_back_option_even"><div class="col-xs-7 list_content"><img src="images/data_object_icon.png">'+$scope.dataProfile.childName+'</div></li>'); 
+            $('.mover').fadeIn(100);
+            $('.mover_button').fadeIn(100);
+            return $http({
+                method: 'GET', 
+                url: $globals.backendUrl('virtualCollection')
+            }).success(function (data) {
+                $scope.copy_vc_list = data;
+            }).error(function () {
+                alert("Something went wrong while fetching the Virtual Collections");
+                $scope.copy_vc_list = [];
+            });
+            return $http({
+                method: 'GET',
+                url: $globals.backendUrl('collection/') + selectedVc.data.uniqueName,
+                params: {path: "", offset: 0}
+            }).success(function (data) {
+                $scope.copy_list = data;
+            }).error(function () {
+                alert("Something went wrong while fetching the contents of the Collection");
+                $scope.copy_list = [];
+            });
+        };
         $scope.copy_pop_up_open = function(){
             $('.pop_up_window').fadeIn(100);
             $(".copy_container ul").append('<li class="light_back_option_even"><div class="col-xs-7 list_content"><img src="images/data_object_icon.png">'+$scope.dataProfile.childName+'</div></li>');                    

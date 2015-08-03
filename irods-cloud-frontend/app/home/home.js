@@ -31,14 +31,22 @@ angular.module('myApp.home', ['ngRoute', 'ngFileUpload'])
             templateUrl: 'home/home.html',
             controller: 'homeCtrl',
             resolve: {
-                // set vc name as selected
-                selectedVc: function ($route) {
+               // set vc name as selected
+                selectedVc: function ($route, virtualCollectionsService) {
 
-                    return null;
+                    var vcData = virtualCollectionsService.listUserVirtualCollectionData("home");
+                    return vcData;
                 },
                 // do a listing
                 pagingAwareCollectionListing: function ($route, collectionsService) {
-                    return {};
+                    var vcName = "home";
+
+                    var path = $route.current.params.path;
+                    if (path == null) {
+                        path = "";
+                    }
+
+                    return collectionsService.listCollectionContents(vcName, path, 0);
                 }
 
             }
@@ -114,6 +122,10 @@ angular.module('myApp.home', ['ngRoute', 'ngFileUpload'])
                             
                         } else if ($("li.ui-selected").length == 1) {
                             var name_of_selection = "You've selected: " + $('.ui-selected').children('.list_content').children('.data_object').text();
+                            if (name_of_selection == "You've selected: "){
+                                var name_of_selection = "You've selected: " + $('.ui-selected').children('.list_content').children('.collection_object').text();
+                            }
+
                             result.append(name_of_selection);
                             $(".download_button").fadeIn();
                             $(".rename_button").fadeIn();
@@ -542,7 +554,7 @@ angular.module('myApp.home', ['ngRoute', 'ngFileUpload'])
         }
         $scope.selectHierView = function () {
             $log.info("going to Hierarchical View");            
-            $location.url("/home/");
+            $location.url("/home/home");
         }
 
 

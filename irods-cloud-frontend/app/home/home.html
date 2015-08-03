@@ -282,22 +282,54 @@
 				</div>
 			</div>
 			<ul class="selectable general_list_item">
-			    <li class="ui-widget-content data_{{collectionAndDataObject.dataObject}} ui-selectee" ng-class-odd="'light_back_option'" ng-class-even="'light_back_option_even'" ng-repeat="collectionAndDataObject in pagingAwareCollectionListing.collectionAndDataObjectListingEntries" id='{{collectionAndDataObject.formattedAbsolutePath}}' on-last-repeat>
+			    
+			    <li class="ui-widget-content data_{{collectionAndDataObject.dataObject}} ui-selectee" ng-dblclick="selectVirtualCollection(selectedVc.data.uniqueName,collectionAndDataObject.formattedAbsolutePath)" ng-show="{{collectionAndDataObject.dataObject}} == false" ng-class-odd="'light_back_option'" ng-class-even="'light_back_option_even'" ng-repeat="collectionAndDataObject in pagingAwareCollectionListing.collectionAndDataObjectListingEntries" id='{{collectionAndDataObject.formattedAbsolutePath}}' on-last-repeat>
 		            <div class="col-xs-10 col-sm-10 col-md-7 col-lg-7 list_content">
-			            <img ng-show="{{collectionAndDataObject.dataObject}} == false" src="images/collection_icon.png">
-			            <img ng-show="{{collectionAndDataObject.dataObject}} == true" src="images/data_object_icon.png">	          
-		            	<span class="collection_object" ng-show="{{collectionAndDataObject.dataObject}} == false" ng-click="selectVirtualCollection(selectedVc.data.uniqueName,collectionAndDataObject.formattedAbsolutePath)">{{collectionAndDataObject.nodeLabelDisplayValue}}</span>
-		            	<span class="data_object" ng-show="{{collectionAndDataObject.dataObject}} == true" ng-click="selectProfile(collectionAndDataObject.formattedAbsolutePath)">{{collectionAndDataObject.nodeLabelDisplayValue}}</span>
-		            	
+			            <img src="images/collection_icon.png">          
+		            	<span class="collection_object">{{collectionAndDataObject.nodeLabelDisplayValue}}</span>
+		            </div>
+		            <div class="col-xs-3 list_content text-right tablet_disappear">
+		            	<p>{{collectionAndDataObject.modifiedAt}}</p>
+		            </div>
+			    </li>
+
+			    <li class="ui-widget-content data_{{collectionAndDataObject.dataObject}} ui-selectee" ng-dblclick="selectProfile(collectionAndDataObject.formattedAbsolutePath)" ng-show="{{collectionAndDataObject.dataObject}} == true" ng-class-odd="'light_back_option'" ng-class-even="'light_back_option_even'" ng-repeat="collectionAndDataObject in pagingAwareCollectionListing.collectionAndDataObjectListingEntries" id='{{collectionAndDataObject.formattedAbsolutePath}}' on-last-repeat>
+		            <div class="col-xs-10 col-sm-10 col-md-7 col-lg-7 list_content">
+			            <img src="images/data_object_icon.png">	          
+		            	<span class="data_object">{{collectionAndDataObject.nodeLabelDisplayValue}}</span>
 		            </div>
 		            <div class="col-xs-3 list_content text-right tablet_disappear">
 		            	<p>{{collectionAndDataObject.modifiedAt}}</p>
 		            </div>
 		            <div class="col-xs-2 list_content text-right">
-		            	<p ng-show="{{collectionAndDataObject.dataObject}} == true">{{collectionAndDataObject.displayDataSize}}</p>
+		            	<p >{{collectionAndDataObject.displayDataSize}}</p>
 		            </div>
 			    </li>
+
 			</ul>
 		</div>
 	</div>	
 </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

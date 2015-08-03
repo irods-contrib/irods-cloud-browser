@@ -158,6 +158,27 @@ body{
 .green_toggle_container_open .green_title{
 	color:#08889B;
 }
+select{
+	border:1px 
+	solid #ccc;
+	background:#fff;
+	border-radius:1px;
+}
+/* ||||||| BOOTSTRAP RE-THEMING |||||| */
+.btn-success{
+	background-color: #009550;
+    border-color: #4cae4c;
+}
+.btn-success:hover{
+	background-color: #33B44A;
+}
+.btn-danger{
+	background-color: #C25555;
+    border-color: #A14645;
+}
+.btn-danger:hover{
+	background-color: #F15D56;
+}
 /* ||||||||||||||||||||||||||||||||||| */
 /* |||||| MAIN CONTAINERS STYLES ||||| */
 /* ||||||||||||||||||||||||||||||||||| */
@@ -587,7 +608,9 @@ input.col-xs-12{
 .light_back_option span, .light_back_option_even span{
 	padding: 2px;
 	position: absolute;
-	cursor: pointer;
+}
+.ui-widget-content.light_back_option, .ui-widget-content.light_back_option_even{
+	cursor:pointer;
 }
 .dark_toggle_button{
 	opacity:0.5;

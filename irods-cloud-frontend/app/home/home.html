@@ -205,7 +205,7 @@
 		</div>
 		<div class="column_content">
 			<div class="dark_header"> 
-				<div id="breadcrumbs_container" class="col-xs-8 col-sm-9 col-md-9 col-lg-7">
+				<div id="breadcrumbs_container" class="col-xs-8 col-sm-9 col-md-9 col-lg-7"  ng-show="selectedVc.data.type == 'COLLECTION'">
 					<div class="breadcrumbs_sub_container" >
 						<span class="dark_back_option_double" ng-click="goToBreadcrumb($index)" ng-repeat="breadcrumb in getBreadcrumbPaths() track by $id(breadcrumb + $index)">
 							 /{{breadcrumb}} 				
@@ -213,11 +213,11 @@
 					</div>			
 				</div>		
 				<div class="right border_left col-xs-2 col-sm-3 col-md-3 col-lg-5 collection_actions_container">
-					<div class="desktop_collection_actions">
+					<div class="desktop_collection_actions" ng-show="selectedVc.data.type == 'COLLECTION'">
 						<div class="upload_button" title="Upload files to this collection" ng-click="upload_pop_up_open()"> 
 							<img src="images/upload_icon.png"><span>&nbsp;Upload</span>	
 						</div>
-						<div class="small_vertical_divider"></div>
+						<div class="small_vertical_divider" ></div>
 						<div class="upload_button" title="Go to Profile page of this collection" ng-click="selectProfile(pagingAwareCollectionListing.pagingAwareCollectionListingDescriptor.parentAbsolutePath)"> 
 							<img src="images/collection_light_icon.png"><span>&nbsp;Profile</span>	
 						</div>

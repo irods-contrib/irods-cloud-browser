@@ -121,7 +121,7 @@
 				            	<span class="collection_object" id='{{collectionAndDataObject.formattedAbsolutePath}}' ng-click="copy_list_refresh(copyVC,collectionAndDataObject.formattedAbsolutePath)">{{collectionAndDataObject.nodeLabelDisplayValue}}</span>
 				            </div>
 				            <div class="col-xs-3 list_content text-right">
-				            	<p>{{collectionAndDataObject.modifiedAt}}</p>
+				            	<p>{{collectionAndDataObject.modifiedAt | date:'short'}}</p>
 				            </div>
 				            <div class="col-xs-2 list_content text-right">
 				            	<p ng-show="{{collectionAndDataObject.dataObject}} == true">{{collectionAndDataObject.displayDataSize}}</p>
@@ -289,7 +289,7 @@
 		            	<span class="collection_object">{{collectionAndDataObject.nodeLabelDisplayValue}}</span>
 		            </div>
 		            <div class="col-xs-3 list_content text-right tablet_disappear">
-		            	<p>{{collectionAndDataObject.modifiedAt}}</p>
+		            	<p>{{collectionAndDataObject.modifiedAt | date:"short"}}</p>
 		            </div>
 			    </li>
 
@@ -299,7 +299,7 @@
 		            	<span class="data_object">{{collectionAndDataObject.nodeLabelDisplayValue}}</span>
 		            </div>
 		            <div class="col-xs-3 list_content text-right tablet_disappear">
-		            	<p>{{collectionAndDataObject.modifiedAt}}</p>
+		            	<p>{{collectionAndDataObject.modifiedAt | date:"short"}}</p>
 		            </div>
 		            <div class="col-xs-2 list_content text-right">
 		            	<p >{{collectionAndDataObject.displayDataSize}}</p>

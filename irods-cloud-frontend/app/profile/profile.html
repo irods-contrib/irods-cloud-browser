@@ -252,7 +252,7 @@
 								<b>Name:&nbsp;</b>{{dataProfile.childName}}
 							</li>
 							<li>
-								<b>Created:&nbsp;</b>{{dataProfile.domainObject.createdAt}}
+								<b>Created:&nbsp;</b>{{dataProfile.domainObject.createdAt  | date:"short"}}
 							</li>
 							<li>
 								<b>Shared:&nbsp;</b>{{dataProfile.shared}}
@@ -271,10 +271,10 @@
 								<b>Name:&nbsp;</b>{{dataProfile.childName}}
 							</li>
 							<li>
-								<b>Created:&nbsp;</b>{{dataProfile.domainObject.createdAt}}
+								<b>Created:&nbsp;</b>{{dataProfile.domainObject.createdAt | date:"short"}}
 							</li>
 							<li>
-								<b>Last Updated:&nbsp;</b>{{dataProfile.domainObject.updatedAt}}
+								<b>Last Updated:&nbsp;</b>{{dataProfile.domainObject.updatedAt  | date:"short"}}
 							</li>
 							<li>
 								<b>Size:&nbsp;</b>{{dataProfile.domainObject.displayDataSize}}
@@ -302,7 +302,7 @@
 						</div>
 						<div class="green_content" >
 							<div class="col-xs-4 ">								
-								<ul class="list-group">
+ 								<ul class="list-group">
 									<li class="list-group-item list-group-item list_group_header">
 										<h2>System Actions</h2>
 									</li>	

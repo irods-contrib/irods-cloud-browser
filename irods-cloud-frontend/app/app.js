@@ -17,7 +17,7 @@ angular.module('myApp', [
 
 
     config(['$routeProvider', function ($routeProvider) {
-        $routeProvider.otherwise({redirectTo: '/home/home'});
+        $routeProvider.otherwise({redirectTo: '/home/My Home'});
     }]).config(['$httpProvider', function ($httpProvider) {
        $httpProvider.defaults.withCredentials = true;
         $httpProvider.defaults.useXDomain = true;

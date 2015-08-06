@@ -73,6 +73,8 @@ angular.module('myApp.home', ['ngRoute', 'ngFileUpload'])
                 $(".selectable").selectable({
                     stop: function (){ 
                         $('.list_content').removeClass("ui-selected");
+                        $('span').removeClass("ui-selected");
+                        $('img').removeClass("ui-selected");
                         var result = $("#select-result").empty();
                         var copy_path_display = $("#copy_select_result").empty();
                         var move_path_display = $("#move_select_result").empty();

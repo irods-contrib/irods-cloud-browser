@@ -591,6 +591,11 @@ input.col-xs-12{
 	font-size: 12px;
 	list-style: none;
 }
+.list_header{
+	height: 25px;
+    border-bottom: 1px solid #ddd;
+    pointer-events: none;
+}
 .light_back_option_even{
 	color:#000;
 	background: rgba(0,0,0,0.1);

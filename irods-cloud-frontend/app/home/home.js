@@ -39,7 +39,7 @@ angular.module('myApp.home', ['ngRoute', 'ngFileUpload'])
                 },
                 // do a listing
                 pagingAwareCollectionListing: function ($route, collectionsService) {
-                    var vcName = "home";
+                    var vcName = "My Home";
 
                     var path = $route.current.params.path;
                     if (path == null) {

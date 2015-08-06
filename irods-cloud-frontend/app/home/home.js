@@ -34,7 +34,7 @@ angular.module('myApp.home', ['ngRoute', 'ngFileUpload'])
                // set vc name as selected
                 selectedVc: function ($route, virtualCollectionsService) {
 
-                    var vcData = virtualCollectionsService.listUserVirtualCollectionData("home");
+                    var vcData = virtualCollectionsService.listUserVirtualCollectionData("My Home");
                     return vcData;
                 },
                 // do a listing

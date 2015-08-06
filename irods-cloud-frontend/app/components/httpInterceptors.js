@@ -36,7 +36,7 @@ angular.module('httpInterceptorModule', []).factory('myHttpResponseInterceptor',
             return response || $q.when(response);
         },
 
-        // On response failture
+        // On response failure
         responseError: function (rejection) {
             // console.log(rejection); // Contains the data about the error.
             $log.error(rejection);
@@ -64,9 +64,9 @@ angular.module('httpInterceptorModule', []).factory('myHttpResponseInterceptor',
                 return $q.reject(rejection);
             } else {
                 // otherwise reject other status codes
-                if (rejection && rejection.data) {
+                if (rejection && rejection.data.error) {
 
-                    var msg = rejection.data.error;
+                    var msg = rejection.data.error.localizedMessage;
                     if (!msg || msg == null) {
                         msg = "unknown exception occurred";  //FIXME: i18n
                     }

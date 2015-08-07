@@ -189,10 +189,10 @@
 	
 	<div class="one_column tablet_disappear">
 		<div class="column_content">
-			<div class="light_header"><img src="images/saved_search_icon_dark.png"><span>Saved Searches</span></div>
+			<div class="light_header"><span>Virtual Collections</span></div>
 			<ul >
 			    <li ng-class-odd="'light_back_option'" ng-class-even="'light_back_option_even'" ng-repeat="virtualCollection in virtualCollections" ng-click="selectVirtualCollection(virtualCollection.uniqueName, '')" ng-class="selectedVc.data.uniqueName == virtualCollection.uniqueName ? 'selected' : ''">
-			            <img src="images/saved_search_icon.png"><span>{{virtualCollection.uniqueName}}</span>
+			            <img src="images/collection_icon.png" ng-show="virtualCollection.type == 'COLLECTION'"><img src="images/star_icon.png" ng-show="virtualCollection.type == 'STARRED'"><span>{{virtualCollection.uniqueName}}</span>
 			    </li>
 			</ul>
 		</div>
@@ -200,7 +200,7 @@
 	<div class="four_column main_list">
 		<div class="green_toggle_container tablet_appear">
 			<div class="green_title" ng-click="green_action_toggle($event)">
-				Saved Searches
+				Virtual Collections
 				<div class="dark_toggle_button right">
 					 <img src="images/arrow_down.png">
 				</div>
@@ -218,12 +218,12 @@
 				<div id="breadcrumbs_container" class="col-xs-8 col-sm-9 col-md-9 col-lg-7"  ng-show="selectedVc.data.type == 'COLLECTION'">
 					<div class="breadcrumbs_sub_container" >
 						<span class="dark_back_option_double" ng-click="goToBreadcrumb($index)" ng-repeat="breadcrumb in getBreadcrumbPaths() track by $id(breadcrumb + $index)">
-							 /{{breadcrumb}} 				
+							 >&nbsp;{{breadcrumb}} 				
 						</span>		
 					</div>			
 				</div>		
-				<div class="right border_left col-xs-2 col-sm-3 col-md-3 col-lg-5 collection_actions_container">
-					<div class="desktop_collection_actions" ng-show="selectedVc.data.type == 'COLLECTION'">
+				<div class="right border_left col-xs-2 col-sm-3 col-md-3 col-lg-5 collection_actions_container" ng-show="selectedVc.data.type == 'COLLECTION'">
+					<div class="desktop_collection_actions" >
 						<div class="upload_button" title="Upload files to this collection" ng-click="upload_pop_up_open()"> 
 							<img src="images/upload_icon.png"><span>&nbsp;Upload</span>	
 						</div>
@@ -236,7 +236,7 @@
 							<img src="images/add_icon.png"><span>&nbsp;Add sub-collection</span>	
 						</div>
 					</div>
-					<div class="right btn-group tablet_collection_actions">
+					<div class="right btn-group tablet_collection_actions" >
 					  <button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 					    Collection Actions <span class="caret"></span>
 					  </button>
@@ -284,7 +284,8 @@
 					  <ul class="dropdown-menu dropdown-menu-right">
 					  	<li class="empty_selection">Nothing is selected</li>
 					    <li class="tablet_download_button"><a title="Download selected file(s) " ng-click='getDownloadLink()'><img src="images/dark_download_icon.png"><span>&nbsp;Download</span></a></li>
-					    <li class="tablet_download_button"><a title="Copy selected file(s) " ng-click='copy_pop_up_open()'><img src="images/dark_add_icon.png"><span>&nbsp;Copy</span></a></li>
+					    <li class="tablet_rename_button"><a title="Copy selected file" ng-click='copy_pop_up_open()'><img src="images/dark_copy_icon.png"><span>&nbsp;Copy</span></a></li>
+					    <li class="tablet_rename_button"><a title="Move selected file" ng-click='move_pop_up_open()'><img src="images/dark_move_icon.png"><span>&nbsp;Move</span></a></li>
 					  	<li class="tablet_rename_button"><a title="Rename selected file/collection" ng-click='rename_pop_up_open()'><img src="images/dark_edit_icon.png"><span>&nbsp;Rename</span></a></li>
 					    <li class="tablet_download_button"><a title="Delete selected file(s) " ng-click='delete_pop_up_open()'><img src="images/dark_delete_icon.png"><span>&nbsp;Delete</span></a></li>
 					  </ul>

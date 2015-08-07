@@ -242,7 +242,7 @@ angular.module('myApp.home', ['ngRoute', 'ngFileUpload'])
                     method: 'DELETE',
                     url: $globals.backendUrl('file') + '?' + delete_paths 
                 }).success(function (data) {
-                    alert('Deletion completed');
+                    MessageService.success("Deletion completed!");
                     location.reload();
                 })
         };
@@ -518,20 +518,7 @@ angular.module('myApp.home', ['ngRoute', 'ngFileUpload'])
          */
 
         $scope.listVirtualCollections();
-        $scope.logout_func = function(){
-                var promise = $http({
-                    method: 'DELETE',
-                    url: $globals.backendUrl('login/')
-                }).then(function (response) {
-                    // The then function here is an opportunity to modify the response
-                    // The return value gets picked up by the then in the controller.
-            $location.path("/login");
-                    return response.data;
-                });
-                // Return the promise to the controller
-                return promise;
-            
-        };
+        
 
         /*
          Retrieve the data profile for the data object at the given absolute path

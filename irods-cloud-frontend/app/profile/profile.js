@@ -155,7 +155,7 @@ angular.module('myApp.profile', ['ngRoute'])
                     method: 'DELETE',
                     url: $globals.backendUrl('file') + '?' + delete_paths 
                 }).success(function (data) {
-                    alert('Deletion completed');
+                    MessageService.success("Deletion completed!");
                     window.history.go(-1);
                 })
         };

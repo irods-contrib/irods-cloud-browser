@@ -182,6 +182,27 @@ select{
 /* ||||||||||||||||||||||||||||||||||| */
 /* |||||| MAIN CONTAINERS STYLES ||||| */
 /* ||||||||||||||||||||||||||||||||||| */
+.upload_container_result ul,.delete_container ul{
+	height: 300px;
+	overflow-y: scroll;
+}
+.spinning_wheel{
+	display: none;
+    position: absolute;
+    color: #777;
+    top: 10%;
+    text-align: center;
+    border-radius: 7px;
+    border: 2px solid #999;
+    background: #fff;
+    width: 150px;
+    height: 135px;
+    padding: 35px 20px;
+    z-index: 25;
+    box-shadow: rgba(0,0,0,0.5) 0px 0px 15px;
+    margin-left: 50%;
+    left: -75px;
+}
 .beta_label{
 	position: absolute;
 	width: 100%;
@@ -372,9 +393,8 @@ select{
 }
 .download_button,.rename_button{
 	position:relative;
-	display:none;
 	float: right;
-	opacity: 0.8;
+	opacity: 0.1;
 	width: 85px;
 	font-size: 12px;
 	font-weight: lighter;
@@ -382,16 +402,18 @@ select{
 	height: 21px;
 	float:right;
 	margin: 0px 5px;
+	cursor: pointer;
+	pointer-events:none;
 }
 .download_button:hover,.rename_button:hover{
 	background: rgba(0,0,0,0.4);
 	opacity:1;
 }
 .rename_divider{
-	display: none;
+	opacity: 0.1;
 }
 .download_divider{
-	display: none;
+	opacity: 0.1;
 }
 .single_action{
 	display: none;
@@ -454,6 +476,7 @@ select{
 	position:absolute;
 	margin: 0 auto;
 	width: 100%;
+	height: 100%;
 	min-height: 100vh;
 	display: none;
 	background: rgba(0,0,0,0.8);

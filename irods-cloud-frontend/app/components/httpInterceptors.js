@@ -11,7 +11,7 @@ angular.module('httpInterceptorModule', []).factory('myHttpResponseInterceptor',
         // On request success
         request: function (config) {
             // console.log(config); // Contains the data about the request before it is sent.
-
+            $('.spinning_wheel').fadeIn();
             // Return the config or wrap it in a promise if blank.
             return config || $q.when(config);
         },
@@ -27,6 +27,7 @@ angular.module('httpInterceptorModule', []).factory('myHttpResponseInterceptor',
         // On response success
         response: function (response) {
             // console.log(response); // Contains the data from the response.
+            $('.spinning_wheel').fadeOut();
             $log.info(response);
             /* if (response.config.method.toUpperCase() != 'GET') {
              messageCenterService.add('success', 'Success');
@@ -41,7 +42,7 @@ angular.module('httpInterceptorModule', []).factory('myHttpResponseInterceptor',
             // console.log(rejection); // Contains the data about the error.
             $log.error(rejection);
             var status = rejection.status;
-
+            $('.spinning_wheel').fadeOut();
             if (status == 401) { // unauthorized - redirect to login again
                 //save last path for subsequent re-login
                 if ($location.path() != "/login") {

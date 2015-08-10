@@ -113,10 +113,12 @@ angular.module('myApp.home', ['ngRoute', 'ngFileUpload'])
 
                         if ($("li.ui-selected").length > 1) {
                             result.append("You've selected: " + $('.ui-selected').length + " files");
-                            $(".download_button").fadeIn();
-                            $(".download_divider").fadeIn();
-                            $(".rename_button").fadeOut();
-                            $(".rename_divider").fadeOut();
+                            $(".download_button").animate({'opacity' : '0.8'});
+                            $(".download_button").css('pointer-events','auto');
+                            $(".rename_button").animate({'opacity' : '0.1'});
+                            $(".rename_button").css('pointer-events','none');
+                            $(".rename_divider").animate({'opacity' : '0.8'});
+                            $(".download_divider").animate({'opacity' : '0.8'});
 
                             $(".tablet_download_button").fadeIn();
                             $(".tablet_rename_button").fadeOut();
@@ -129,19 +131,23 @@ angular.module('myApp.home', ['ngRoute', 'ngFileUpload'])
                             }
 
                             result.append(name_of_selection);
-                            $(".download_button").fadeIn();
-                            $(".rename_button").fadeIn();
-                            $(".rename_divider").fadeIn();
-                            $(".download_divider").fadeIn();
+                            $(".download_button").animate({'opacity' : '0.8'});
+                            $(".download_button").css('pointer-events','auto');
+                            $(".rename_button").animate({'opacity' : '0.8'});
+                            $(".rename_button").css('pointer-events','auto');
+                            $(".rename_divider").animate({'opacity' : '0.8'});
+                            $(".download_divider").animate({'opacity' : '0.8'});
 
                             $(".tablet_download_button").fadeIn();
                             $(".tablet_rename_button").fadeIn();
                             $(".empty_selection").fadeOut();
                         } else if ($("li.ui-selected").length == 0) {
-                            $(".download_button").fadeOut();
-                            $(".rename_button").fadeOut();
-                            $(".rename_divider").fadeOut();
-                            $(".download_divider").fadeOut();
+                            $(".download_button").animate({'opacity' : '0.1'});
+                            $(".download_button").css('pointer-events','none');
+                            $(".rename_button").animate({'opacity' : '0.1'});
+                            $(".rename_button").css('pointer-events','none');
+                            $(".rename_divider").animate({'opacity' : '0.1'});
+                            $(".download_divider").animate({'opacity' : '0.1'});
 
                             $(".tablet_download_button").fadeOut();
                             $(".tablet_rename_button").fadeOut();

@@ -125,6 +125,7 @@ angular.module('myApp.profile', ['ngRoute'])
                 $scope.upload($scope.files);
             });
         $scope.multiple = true;
+        $scope.current_page = 'info_view';
         $scope.upload = function (files) {
                 if (files && files.length) {
                     $(".upload_container").css('display','none');
@@ -148,6 +149,7 @@ angular.module('myApp.profile', ['ngRoute'])
                     }
                 }
             };
+
         $scope.delete_action = function (){
             var delete_paths = 'path='+ $scope.dataProfile.parentPath + "/" +$scope.dataProfile.childName;
             $log.info('Deleting:'+delete_paths);
@@ -159,6 +161,7 @@ angular.module('myApp.profile', ['ngRoute'])
                     window.history.go(-1);
                 })
         };
+
         $scope.rename_action = function (){
             var rename_path = $scope.dataProfile.parentPath + "/" + $scope.dataProfile.childName;
             var new_name = $('#new_renaming_name').val();
@@ -172,6 +175,7 @@ angular.module('myApp.profile', ['ngRoute'])
                     url: $globals.backendUrl('rename'),
                     params: {path: rename_path, newName: new_name}
                 }).success(function (data) {
+                    MessageService.success("Deletion completed!");
                     location.assign(new_url);       
                 })
         };
@@ -293,12 +297,16 @@ angular.module('myApp.profile', ['ngRoute'])
         $scope.rename_pop_up_open = function(){
             $('.pop_up_window').fadeIn(100);
             $('.renamer').fadeIn(100);
-            var name_of_selection = $('.ui-selected').children('.list_content').children('.data_object').text();
+            var name_of_selection = $scope.dataProfile.childName;
             $('.selected_object').append(name_of_selection);
         };
         $scope.delete_pop_up_open = function(){
             $('.pop_up_window').fadeIn(100);                 
-                    $(".delete_container ul").append('<li class="light_back_option_even"><div class="col-xs-7 list_content"><img src="images/data_object_icon.png">'+$scope.dataProfile.childName+'</div></li>');                         
+                 if($scope.dataProfile.file == true){
+                        $(".delete_container ul").append('<li class="light_back_option_even"><div class="col-xs-7 list_content"><img src="images/data_object_icon.png">&nbsp;'+$scope.dataProfile.parentPath + "/" +$scope.dataProfile.childName+'</div></li>');
+                    }else{
+                        $(".delete_container ul").append('<li class="light_back_option_even"><div class="col-xs-7 list_content"><img src="images/collection_icon.png">&nbsp;'+$scope.dataProfile.parentPath + "/" +$scope.dataProfile.childName+'</div></li>');
+                    }                        
             $('.deleter').fadeIn(100);
         };
         $scope.pop_up_close = function () {

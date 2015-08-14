@@ -56,7 +56,7 @@ angular.module('myApp.login', ['ngRoute'])
             });
         };
 
-        $scope.at_login = true;
+        $scope.current_page = 'login';
         $scope.submitLogin = function () {
             var actval = irodsAccount($scope.login.host, $scope.login.port, $scope.login.zone, $scope.login.userName, $scope.login.password, $scope.login.authType, "");
             

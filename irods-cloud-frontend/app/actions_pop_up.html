@@ -1,0 +1,196 @@
+<div class="pop_up_window">
+  <div class="three_column centered">
+    <div class="column_content uploader pop_up_content">
+      <div class="light_header"><img src="images/upload_icon_dark.png"><span>Uploading files to {{pagingAwareCollectionListing.pagingAwareCollectionListingDescriptor.pathComponents[current_collection_index]}}</span><img class="pop_up_close_button right" title="close window" ng-click="pop_up_close()" src="images/close_icon.png"></div>
+      
+      <div class="upload_container">
+        <br>
+        Choose the file(s) you wish to upload to <b>THIS</b> collection.<br>
+        <div class="btn btn-default btn-xs" ngf-select ngf-change="upload($files)" ngf-multiple="multiple">Browse Files</div> or Drag & Drop the file(s) into the green window <b>BELOW</b>.<br>
+        <div ngf-drop ngf-select ng-model="files" class="drop_box" 
+            ngf-drag-over-class="dragover" ngf-multiple="true" ngf-allow-dir="true"
+            accept="image/*,application/pdf"><br>Drag and drop files here.</div>
+      </div>
+      <div class="upload_container_result">
+        <ul></ul>
+        <div class="container"><hr class="hr_flat"></div>
+        <div class="right container t_right">
+          <div class="btn btn-success" ng-click="pop_up_close()">Done</div>
+        </div>
+        <div class="container"><hr class="hr_flat"></div>
+        <div class="container">You can also&nbsp;<div class="btn btn-default btn-xs" ngf-select ngf-change="upload($files)" ngf-multiple="multiple">Browse More Files</div> or Drag & Drop the file(s) into the window <b>BELOW</b>.<br>
+        <div ngf-drop ngf-select ng-model="files" class="drop_box" 
+            ngf-drag-over-class="dragover" ngf-multiple="true" ngf-allow-dir="true"
+            accept="image/*,application/pdf"><br>Drag and drop files here.</div>
+        </div>
+      </div>
+      
+      
+    </div>
+    <div class="column_content deleter pop_up_content">
+      <div class="delete_header"><img src="images/dark_delete_icon.png"><span>&nbsp;Are you sure you want to DELETE the following:</span><img class="pop_up_close_button right" title="close window" ng-click="pop_up_close()" src="images/close_icon.png"></div>
+      
+      <div class="delete_container">
+        <br>
+        <ul></ul>
+        <div class="container"><hr class="hr_flat"></div>
+        <div class="left">
+          <div class="btn btn-default" ng-click="pop_up_close()">Cancel</div>
+        </div>
+        <div class="right t_right">
+          Yes, I'm sure.&nbsp;<div class="btn btn-danger" ng-click="delete_action()">Delete</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="column_content copier copier_wrap">
+      <div class="light_header"><img src="images/dark_copy_icon.png"><span>&nbsp;Copying</span><img class="pop_up_close_button right" title="close window" ng-click="pop_up_close()" src="images/close_icon.png"></div>
+      
+      <div class="copy_container">
+        <ul></ul>               
+      </div>
+    </div>
+    <div class="slim_column_content themed_header copier">
+      
+      <span>Copy to:</span>
+      <span id="copy_select_result">none</span>
+    </div>
+      <div class="one_column copier">
+        <div class="column_content pop_up_content">
+          <div class="light_header"><img src="images/saved_search_icon_dark.png"><span>Saved Searches</span></div>
+          <ul >
+              <li ng-class-odd="'light_back_option'" ng-class-even="'light_back_option_even'" ng-repeat="virtualCollection in copy_vc_list" ng-click="copy_list_refresh(virtualCollection.uniqueName,'')">
+                      <img src="images/saved_search_icon.png"><span>{{virtualCollection.uniqueName}}</span>
+              </li>
+          </ul>
+        </div>
+      </div>
+      <div class="four_column copier">
+        <div class="column_content pop_up_content">
+          <ul class="selectable copy_listing">
+              <div class="list_header">
+                <div class="col-xs-10 col-sm-10 col-md-9 col-lg-9 list_content">        
+                      <span><b>Name</b></span>
+                    </div>
+                    <div class="col-xs-3 list_content text-right tablet_disappear">
+                      <b>Last Modified</b>
+                    </div>
+              </div>
+                <li class="ui-widget-content data_{{collectionAndDataObject.dataObject}} copy_list_item ui-selectee" ng-show="{{collectionAndDataObject.dataObject}} == false" ng-dblclick="copy_list_refresh(copyVC,collectionAndDataObject.formattedAbsolutePath)" ng-class-odd="'light_back_option'" ng-class-even="'light_back_option_even'" ng-repeat="collectionAndDataObject in copy_list.collectionAndDataObjectListingEntries" id='{{collectionAndDataObject.formattedAbsolutePath}}' on-last-repeat>
+                      <div class="col-xs-10 col-sm-10 col-md-7 col-lg-7 list_content">
+                        <img src="images/collection_icon.png">          
+                        <span class="collection_object">{{collectionAndDataObject.nodeLabelDisplayValue}}</span>
+                      </div>
+                      <div class="col-xs-3 list_content text-right">
+                        <p>{{collectionAndDataObject.modifiedAt | date:"short"}}</p>
+                      </div>
+                </li>
+          </ul>
+        </div>
+      </div>
+      <div class="right t_right">
+        <div class="btn btn-success copier_button" ng-click="copy_action()">Copy</div>
+      </div>
+
+
+
+    <div class="column_content mover mover_wrap">
+      <div class="light_header"><img src="images/dark_move_icon.png"><span>&nbsp;Moving</span><img class="pop_up_close_button right" title="close window" ng-click="pop_up_close()" src="images/close_icon.png"></div>
+      
+      <div class="move_container">
+        <ul></ul>               
+      </div>
+    </div>
+    <div class="slim_column_content themed_header mover">
+      
+      <span>Please select the collection where you want to move your data object.</span>
+      <hr class='light_hr'>
+      <span>You've selected:&nbsp;</span>
+      <span id="move_select_result"></span>
+    </div>
+      <div class="one_column mover">
+        <div class="column_content pop_up_content">
+          <div class="light_header"><img src="images/saved_search_icon_dark.png"><span>Saved Searches</span></div>
+          <ul >
+              <li ng-class-odd="'light_back_option'" ng-class-even="'light_back_option_even'" ng-repeat="virtualCollection in copy_vc_list" ng-click="copy_list_refresh(virtualCollection.uniqueName,'')">
+                      <img src="images/saved_search_icon.png"><span>{{virtualCollection.uniqueName}}</span>
+              </li>
+          </ul>
+        </div>
+      </div>
+      <div class="four_column mover">
+        <div class="column_content pop_up_content">
+          <div class='dark_header'>
+            <div id="breadcrumbs_container" class="col-xs-8 col-sm-9 col-md-9 col-lg-7"  ng-show="selectedVc.data.type == 'COLLECTION'">
+              <div class="breadcrumbs_sub_container" >
+                <span class="dark_back_option_double" ng-click="copy_list_refresh(copyVC,'',$index)" ng-repeat="breadcrumb in getCopyBreadcrumbPaths() track by $id(breadcrumb + $index)">
+                   >&nbsp;{{breadcrumb}}        
+                </span>   
+              </div>      
+            </div>  
+          </div>          
+          <ul class="selectable move_listing">
+              <div class="list_header">
+                <div class="col-xs-10 col-sm-10 col-md-9 col-lg-9 list_content">        
+                      <span><b>Name</b></span>
+                    </div>
+                    <div class="col-xs-3 list_content text-right tablet_disappear">
+                      <b>Last Modified</b>
+                    </div>
+              </div>
+              <li class="ui-widget-content data_{{collectionAndDataObject.dataObject}} move_list_item ui-selectee" ng-show="{{collectionAndDataObject.dataObject}} == false" ng-dblclick="copy_list_refresh(copyVC,collectionAndDataObject.formattedAbsolutePath)" ng-class-odd="'light_back_option'" ng-class-even="'light_back_option_even'" ng-repeat="collectionAndDataObject in copy_list.collectionAndDataObjectListingEntries" id='{{collectionAndDataObject.formattedAbsolutePath}}' on-last-repeat>
+                      <div class="col-xs-10 col-sm-10 col-md-7 col-lg-7 list_content">
+                        <img src="images/collection_icon.png">          
+                        <span class="collection_object">{{collectionAndDataObject.nodeLabelDisplayValue}}</span>
+                      </div>
+                      <div class="col-xs-3 list_content text-right">
+                        <p>{{collectionAndDataObject.modifiedAt | date:"short"}}</p>
+                      </div>
+                </li>             
+          </ul>
+        </div>
+      </div>
+      <div class="right t_right">
+        <div class="btn btn-success mover_button" ng-click="move_action()">Move</div>
+      </div>
+
+
+    <div class="column_content creater pop_up_content">
+      <div class="light_header"><img src="images/dark_add_icon.png"><span>&nbsp;Adding sub-collection to {{pagingAwareCollectionListing.pagingAwareCollectionListingDescriptor.pathComponents[current_collection_index]}}</span><img class="pop_up_close_button right" title="close window" ng-click="pop_up_close()" src="images/close_icon.png"></div>
+      
+      <div class="add_container">
+        <br>
+        <ul>
+          <li><b>New collection name</b></li>
+          <li><input type="text" id="new_collection_name" value=""/>
+        </ul>
+        <div class="container"><hr class="hr_flat"></div>
+        <div class="left">
+          <div class="btn btn-default" ng-click="pop_up_close()">Cancel</div>
+        </div>
+        <div class="right t_right">
+          <div class="btn btn-success" ng-click="create_collection_action()">Create</div>
+        </div>
+      </div>
+    </div>
+    <div class="column_content renamer pop_up_content">
+      <div class="light_header"><img src="images/dark_edit_icon.png"><span>&nbsp;Renaming</span><img class="pop_up_close_button right" title="close window" ng-click="pop_up_close()" src="images/close_icon.png"></div>
+      
+      <div class="rename_container">
+        <br>
+        <ul>
+          <li >You are renaming <b><span class="selected_object"></span></b> to:</li>
+          <li ><input type="text" id="new_renaming_name" value=""/>
+          <li><span class="disc_text">*If you are renaming a DATA OBJECT please make sure to include the DATA OBJECT extension (i.e. sample<b>.txt</b>)</em></li>
+        </ul>
+        <div class="container"><hr class="hr_flat"></div>
+        <div class="left">
+          <div class="btn btn-default" ng-click="pop_up_close()">Cancel</div>
+        </div>
+        <div class="right t_right">
+          <div class="btn btn-success" ng-click="rename_action()">Rename</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

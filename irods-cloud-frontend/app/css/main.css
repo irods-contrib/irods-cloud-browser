@@ -85,6 +85,9 @@ body{
 	height: 100%;
 	width:100%;
 }
+.pop_up_content{
+	min-height:336px;
+}
 .slim_column_content{
 	border-top:2px solid #00A9C2;
 	background: #fff;
@@ -111,6 +114,16 @@ body{
 	color:#dddddd;
 	font-size: 30px;
 }
+.color_header{
+	color: #fff;
+	background: #00A9C2;
+	text-align: left;
+	padding: 7px 0px 0px 15px;
+	font-size: 16px;
+	font-weight: bold;
+	height:35px;
+	z-index: 10;
+}
 .green_toggle_container{
 	background: #00A9C2;
 	padding: 5px 10px 0px;
@@ -127,6 +140,16 @@ body{
 	color: #fff;
 	background: #00A9C2;
 	border-top: 0px;
+	text-align: left;
+	padding: 7px 0px 0px 15px;
+	font-size: 16px;
+	font-weight: bold;
+	height:55px;
+	z-index: 10;
+}
+.collection_header{
+	background: #046775;
+	color: #fff;
 	text-align: left;
 	padding: 7px 0px 0px 15px;
 	font-size: 16px;
@@ -256,6 +279,18 @@ select{
 	position: relative;
 	float: left;
 	width: 20%;
+}
+.one_column.mover{
+	padding: 5px 0px 0px 0px;
+}
+.four_column.mover{
+	padding: 5px 0px 5px 5px;
+}
+.one_column.copier{
+	padding: 5px 0px 0px 0px;
+}
+.four_column.copier{
+	padding: 5px 0px 5px 5px;
 }
 .q_column{
 	width:33%;
@@ -712,8 +747,12 @@ input.col-xs-12{
 .uncollapsed_nav{
 	width:18%;
 }
+/* TO BE USED WHEN THE SIDE NAV BECOMES AVAILABLE
 .collapsed_main_content{
 	width:96.9%;
+}*/
+.collapsed_main_content{
+	width:100%;
 }
 .uncollapsed_main_content{
 	width:81.9%;
@@ -788,8 +827,11 @@ input.col-xs-12{
 .uncollapsed_nav{
 	width:18%;
 }
-.collapsed_main_content{
+/*.collapsed_main_content{
 	width:95.5%;
+}*/
+.collapsed_main_content{
+	width:100%;
 }
 .uncollapsed_main_content{
 	width:81.9%;
@@ -812,8 +854,11 @@ input.col-xs-12{
 .uncollapsed_nav{
 	width:23%;
 }
-.collapsed_main_content{
+/*.collapsed_main_content{
 	width:94.5%;
+}*/
+.collapsed_main_content{
+	width:100%;
 }
 .uncollapsed_main_content{
 	width:76.9%;
@@ -839,8 +884,11 @@ input.col-xs-12{
 .uncollapsed_nav{
 	width:27%;
 }
-.collapsed_main_content{
+/*.collapsed_main_content{
 	width:92.5%;
+}*/
+.collapsed_main_content{
+	width:100%;
 }
 .uncollapsed_main_content{
 	width:72.9%;
@@ -861,8 +909,11 @@ input.col-xs-12{
 .uncollapsed_nav{
 	width:18%;
 }
-.collapsed_main_content{
+/*.collapsed_main_content{
 	width:96.9%;
+}*/
+.collapsed_main_content{
+	width:100%;
 }
 .uncollapsed_main_content{
 	width:81.9%;

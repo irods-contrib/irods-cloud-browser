@@ -140,7 +140,7 @@ log4j.main = {
 			'org.irods',
 			'org.irods.jargon.idrop.web.controllers'
 
-	info "grails.app"
+	debug "org.irods.jargon"
 
 	error  'org.codehaus.groovy.grails.web.servlet',        // controllers
 			'org.codehaus.groovy.grails.web.pages',          // GSP

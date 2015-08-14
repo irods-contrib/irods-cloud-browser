@@ -15,6 +15,7 @@ angular.module('globalsModule', [])
         // var HOST = "/irods-cloud-backend/";
         var HOST = "http://"+location.hostname+":8080/irods-cloud-backend/";
         //var HOST = "http://dfc-test-tomcat1.edc.renci.org:8080/irods-cloud-backend/";
+        //var HOST = "http://dfc-ui-test.renci.org:8080/irods-cloud-backend/";
         f.backendUrl = function (relativeUrl) {
 
             var myUrl = HOST + relativeUrl;

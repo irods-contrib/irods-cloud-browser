@@ -549,7 +549,7 @@ angular.module('myApp.home', ['ngRoute', 'ngFileUpload'])
         }
         $scope.selectHierView = function () {
             $log.info("going to Hierarchical View");            
-            $location.url("/home/home");
+            $location.url("/home");
         }
 
 

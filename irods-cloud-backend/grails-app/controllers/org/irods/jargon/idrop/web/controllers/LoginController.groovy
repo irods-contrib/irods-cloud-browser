@@ -49,6 +49,8 @@ class LoginController extends RestfulController {
 	def delete() {
 
 		session.invalidate()
+		session.virtualCollections = null
+		session.authenticationSession = null
 
 		log.info("done")
 		render(status:204)
@@ -92,6 +94,8 @@ class LoginController extends RestfulController {
 		UserSessionContext userSessionContext = new UserSessionContext()
 		userSessionContext.userName = authResponse.authenticatedIRODSAccount.userName
 		userSessionContext.zone = authResponse.authenticatedIRODSAccount.zone
+		session.virtualCollections = null
+
 		authenticationService.generateXSRFToken()
 		log.info("getting irodsServerProperties")
 		session.userSessionContext = userSessionContext

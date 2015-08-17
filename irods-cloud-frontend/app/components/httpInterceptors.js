@@ -42,8 +42,12 @@ angular.module('httpInterceptorModule', []).factory('myHttpResponseInterceptor',
             // console.log(rejection); // Contains the data about the error.
             $log.error(rejection);
             var status = rejection.status;
+            $log.info("status for rejection:" + status);
+
             $('.spinning_wheel').fadeOut();
-            if (status == 401) { // unauthorized - redirect to login again
+            if (status == 0) { 0
+
+            } else if (status == 401) { // unauthorized - redirect to login again
                 //save last path for subsequent re-login
                 if ($location.path() != "/login") {
                     $log.info("intercepted unauthorized, save the last path");
@@ -63,11 +67,15 @@ angular.module('httpInterceptorModule', []).factory('myHttpResponseInterceptor',
                 }
 
                 return $q.reject(rejection);
+
             } else {
                 // otherwise reject other status codes
-                if (rejection && rejection.data.error) {
+                if (rejection && rejection.data) {
 
-                    var msg = rejection.data.error.localizedMessage;
+                    if (rejection.data.error) {
+                        var msg = rejection.data.error.localizedMessage;
+                    }
+
                     if (!msg || msg == null) {
                         msg = "unknown exception occurred";  //FIXME: i18n
                     }

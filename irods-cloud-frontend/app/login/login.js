@@ -83,9 +83,9 @@ angular.module('myApp.login', ['ngRoute'])
                         $log.info("setting location to last path:" + path);
                     }
 
-                    $timeout(function () {
+                   // $timeout(function () {
                         $location.path(path);
-                    });
+                   // });
 
                     $log.info("end login success processing");
 

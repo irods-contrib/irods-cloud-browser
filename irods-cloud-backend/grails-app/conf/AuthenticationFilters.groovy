@@ -14,7 +14,7 @@ class AuthenticationFilters {
 	AuthenticationService authenticationService
 
 	def filters = {
-		all(controller:'*', action:'*', controllerExclude:"(login|error|index)") {
+		auth(controller:'*', action:'*', controllerExclude:"(login|error|index)") {
 			before = {
 
 				log.info("filter for auth")
@@ -70,6 +70,22 @@ class AuthenticationFilters {
 				IRODSAccount irodsAccount = session.authenticationSession.authenticatedIRODSAccount
 				request.irodsAccount = irodsAccount
 				return true
+			}
+			after = { Map model ->
+			}
+			afterView = { Exception e ->
+			}
+		}
+
+		sessionInval(controller:'*', action:'*', controllerExclude:"(login|error|index)") {
+			before = {
+
+				log.info("filter for session ivalidation")
+
+				if(session==null || !request.isRequestedSessionIdValid() ) {
+					log.info("invalidate session stuff")
+					SessionUtils.clearState(session)
+				}
 			}
 			after = { Map model ->
 			}

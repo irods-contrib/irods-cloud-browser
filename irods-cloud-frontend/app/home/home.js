@@ -522,7 +522,8 @@ angular.module('myApp.home', ['ngRoute', 'ngFileUpload'])
                 return response.data;
             });
             // Return the promise to the controller
-            $location.path("/login");
+            //$location.path("/login").search({});
+            setTimeout(function() { $location.path("/login").search({}); },0);
             return promise;
         };
         /**

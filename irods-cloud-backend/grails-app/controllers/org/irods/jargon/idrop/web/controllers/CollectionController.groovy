@@ -49,6 +49,7 @@ class CollectionController extends RestfulController {
 			throw new IllegalArgumentException("no virtualCollection provided")
 		}
 
+
 		//offset = (int) offset
 
 		log.info("path:${path}")

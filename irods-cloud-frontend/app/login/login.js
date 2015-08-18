@@ -22,33 +22,7 @@ angular.module('myApp.login', ['ngRoute'])
 
 		    };
 		};
-
-        $scope.animate_ir = function () {            
-            var mouse_x = event.pageX;
-            var mouse_y = event.pageY;
-            var elem = $('.page_center');
-            var shadow_distor = Math.floor(Math.sqrt(Math.pow(mouse_x - (elem.offset().left+(elem.width()/2)), 2) + Math.pow(mouse_y - (elem.offset().top+(elem.height()/2)), 2)));
-            $('.intro_screen_ir_shadow').css('width',(shadow_distor/8)+ 100 + 'px');
-            $('.intro_screen_ir_shadow').css('opacity',1-(shadow_distor/700));
-            $('.intro_screen_ir').css('opacity',0.3+(shadow_distor/700));
-            var shadow_width = $('.intro_screen_ir_shadow').width();
-            
-
-            var icon_y = ((elem.offset().top - mouse_y)/2) - 50;
-            $('.intro_screen_ir').css('top',icon_y + 'px');
-            $('.intro_screen_ir_white').css('top',icon_y + 'px');
-            var icon_x = ((elem.offset().left - mouse_x)/2) - 50;
-            $('.intro_screen_ir').css('left',icon_x + 'px');
-            $('.intro_screen_ir_white').css('left',icon_x + 'px');
-
-            var shadow_y = (((elem.offset().top - mouse_y)*1.5)/2) - (shadow_width/2);
-            $('.intro_screen_ir_shadow').css('top',shadow_y + 'px');
-            var shadow_x = (((elem.offset().left - mouse_x)*1.5)/2) - (shadow_width/2);
-            $('.intro_screen_ir_shadow').css('left',shadow_x + 'px');
-
-            $log.info(icon_y +','+ shadow_distor);
-
-        };
+        
         $('#main_contents').css('width','100%');
         $scope.close_intro = function () {
             $('.intro_screen').animate({'opacity': '0'},function(){

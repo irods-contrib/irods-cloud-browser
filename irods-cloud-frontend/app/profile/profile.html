@@ -9,10 +9,9 @@
 					<div class="breadcrumbs_sub_container" >
 
 						<span class="dark_back_option_double" ng-click="goToBreadcrumb($index)" ng-repeat="breadcrumb in getBreadcrumbPaths() track by $id(breadcrumb + $index)">
-							 /{{breadcrumb}}
+							 /&nbsp;{{breadcrumb}}
 						</span>
-						/{{dataProfile.childName}}
-
+						/&nbsp;<span ng-show="{{dataProfile.file}} == false" class="dark_back_option_double" ng-click="go_back()">{{dataProfile.childName}}</span><span ng-show="{{dataProfile.file}} == true" >{{dataProfile.childName}}</span>
 					</div>
 				</div>
 				<div class="right col-xs-3 ">

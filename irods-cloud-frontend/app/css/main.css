@@ -318,9 +318,11 @@ select{
 }
 .breadcrumbs_sub_container{
 	position:relative;
-	min-width:100%;
+	width:100%;
 	float:right;
 	white-space: nowrap;
+	overflow: hidden;
+	text-overflow:ellipsis;
 }
 .upload_button{
 	position:relative;
@@ -468,6 +470,8 @@ select{
 	overflow: hidden;
 	padding: 0px;
 	height:20px;
+	white-space: nowrap;
+	text-overflow:ellipsis;
 }
 .list_content p {
 	padding: 2px 5px;

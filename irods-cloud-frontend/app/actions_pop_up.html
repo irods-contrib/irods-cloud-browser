@@ -6,22 +6,16 @@
       <div class="upload_container">
         <br>
         Choose the file(s) you wish to upload to <b>THIS</b> collection.<br>
-        <div class="btn btn-default btn-xs" ngf-select ngf-change="upload($files)" ngf-multiple="multiple">Browse Files</div> or Drag & Drop the file(s) into the green window <b>BELOW</b>.<br>
-        <div ngf-drop ngf-select ng-model="files" class="drop_box" 
-            ngf-drag-over-class="dragover" ngf-multiple="true" ngf-allow-dir="true"
-            accept="image/*,application/pdf"><br>Drag and drop files here.</div>
+        <div class="btn btn-default btn-xs" ngf-select ngf-change="stage_files($files)" ngf-multiple="multiple">Browse Files</div>
       </div>
       <div class="upload_container_result">
         <ul></ul>
         <div class="container"><hr class="hr_flat"></div>
         <div class="right container t_right">
-          <div class="btn btn-success" ng-click="pop_up_close()">Done</div>
+          <div class="btn btn-success" ng-click="upload($files)">Done</div>
         </div>
         <div class="container"><hr class="hr_flat"></div>
-        <div class="container">You can also&nbsp;<div class="btn btn-default btn-xs" ngf-select ngf-change="upload($files)" ngf-multiple="multiple">Browse More Files</div> or Drag & Drop the file(s) into the window <b>BELOW</b>.<br>
-        <div ngf-drop ngf-select ng-model="files" class="drop_box" 
-            ngf-drag-over-class="dragover" ngf-multiple="true" ngf-allow-dir="true"
-            accept="image/*,application/pdf"><br>Drag and drop files here.</div>
+        <div class="container">You can also&nbsp;<div class="btn btn-default btn-xs" ngf-select ngf-change="stage_files($files)" ngf-multiple="multiple">Browse More Files</div>
         </div>
       </div>
       

@@ -76,7 +76,9 @@ angular.module('myApp.profile', ['ngRoute'])
         /*
          Get a default list of the virtual collections that apply to the logged in user, for side nav
          */
-        
+        $scope.go_back = function(){
+            window.history.go(-1);
+        };
         $scope.listVirtualCollections = function () {            
             $log.info("getting virtual colls");
 

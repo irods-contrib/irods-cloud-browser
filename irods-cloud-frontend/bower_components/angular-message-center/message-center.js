@@ -15,7 +15,7 @@ factory('MessageService', ['$rootScope', function ($rootScope) {
   MessageService.config = {
     disabled: false,
     max: 7,
-    timeout: 3000
+    timeout: 4500
   };
 
   var history = [];

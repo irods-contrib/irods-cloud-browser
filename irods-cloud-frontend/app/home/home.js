@@ -112,7 +112,7 @@ angular.module('myApp.home', ['ngRoute', 'ngFileUpload'])
 
 
                         if ($("li.ui-selected").length > 1) {
-                            result.append("You've selected: " + $('.ui-selected').length + " files");
+                            result.append("You've selected: " + $('.ui-selected').length + " items");
                             $(".download_button").animate({'opacity' : '0.8'});
                             $(".download_button").css('pointer-events','auto');
                             $(".rename_button").animate({'opacity' : '0.1'});
@@ -163,16 +163,33 @@ angular.module('myApp.home', ['ngRoute', 'ngFileUpload'])
         });
         $scope.multiple = true;
         $scope.current_page = 'browsing';
-        $scope.upload = function (files) {
-                if (files && files.length) {
+        $scope.files_to_upload = [];
+        $scope.files_name = [];
+
+        $scope.stage_files = function (files) {
+            if (files && files.length) {
                     $(".upload_container").css('display','none');
                     $(".upload_container_result").css('display','block');
 
-                    for (var i = 0; i < files.length; i++) {                                                                
-                        var file = files[i];
-                        
-                            $(".upload_container_result ul").append('<li id="uploading_item_'+i+'" class="light_back_option_even"><div class="col-xs-7 list_content"><img src="images/data_object_icon.png">'+file.name+'</div></li>');
-                                                 
+                    for (var i = 0; i < files.length; i++) {                                                                      
+                        var file = files[i];   
+                        var pre_existing = $.inArray(file.name, $scope.files_name);
+                        if(pre_existing === 0){
+                            MessageService.danger('There is already a file named "'+file.name+'" on your list');
+                        }else{
+                        $scope.files_to_upload.push(file);
+                        $scope.files_name.push(file.name);                        
+                        $(".upload_container_result ul").append('<li id="uploading_item_'+i+'" class="light_back_option_even"><div class="col-xs-10 list_content"><img src="images/data_object_icon.png">'+file.name+'</div></li>');        
+                        }                       
+                }
+            }
+
+        }
+        $scope.upload = function () {
+
+                if ($scope.files_to_upload && $scope.files_to_upload.length) {
+                    for (var i = 0; i < $scope.files_to_upload.length; i++) {                                                                
+                        var file = $scope.files_to_upload[i];  
                         Upload.upload({
                             url: $globals.backendUrl('file') ,
                             fields:{collectionParentName: $scope.pagingAwareCollectionListing.pagingAwareCollectionListingDescriptor.parentAbsolutePath},
@@ -182,6 +199,7 @@ angular.module('myApp.home', ['ngRoute', 'ngFileUpload'])
                             $log.info(progressPercentage);                           
                 }).success(function (data, status, headers, config) {
                             console.log('file ' + config.file.name + 'uploaded. Response: ' + data);
+                            $scope.pop_up_close();
                         });
                 }
             }
@@ -339,6 +357,7 @@ angular.module('myApp.home', ['ngRoute', 'ngFileUpload'])
         };
 
         $scope.move_pop_up_open = function(){
+            $scope.copyVC = $scope.selectedVc.data.uniqueName;
             $('.pop_up_window').fadeIn(100);
             $scope.name_of_selection = $('.ui-selected');
             $scope.name_of_selection.each(function() {
@@ -352,66 +371,35 @@ angular.module('myApp.home', ['ngRoute', 'ngFileUpload'])
             }); 
             $('.mover').fadeIn(100);
             $('.mover_button').fadeIn(100);
-            return $http({
-                method: 'GET', 
-                url: $globals.backendUrl('virtualCollection')
-            }).success(function (data) {
-                $scope.copy_vc_list = data;
-            }).error(function () {
-                alert("Something went wrong while fetching the Virtual Collections");
-                $scope.copy_vc_list = [];
-            });
-            return $http({
-                method: 'GET',
-                url: $globals.backendUrl('collection/') + selectedVc.data.uniqueName,
-                params: {path: "", offset: 0}
-            }).success(function (data) {
-                $scope.copy_list = data;
-            }).error(function () {
-                alert("Something went wrong while fetching the contents of the Collection");
-                $scope.copy_list = [];
-            });
-        };
+                       
 
-        $scope.copy_pop_up_open = function(){
-            $('.pop_up_window').fadeIn(100);
-            $scope.name_of_selection = $('.ui-selected');
-            $scope.name_of_selection.each(function() {
-                if ($(this).attr('id') != undefined) {
-                    if($(this).hasClass("data_true")){
-                        $(".copy_container ul").append('<li class="light_back_option_even"><div class="col-xs-7 list_content"><img src="images/data_object_icon.png">'+$(this).attr('id')+'</div></li>'); 
-                    }else{
-                        $(".copy_container ul").append('<li class="light_back_option_even"><div class="col-xs-7 list_content"><img src="images/collection_icon.png">'+$(this).attr('id')+'</div></li>');
-                    };
-                };              
-            }); 
-            $('.copier').fadeIn(100);
-            $('.copier_button').fadeIn(100);
             return $http({
                 method: 'GET', 
                 url: $globals.backendUrl('virtualCollection')
             }).success(function (data) {
                 $scope.copy_vc_list = data;
+                return $http({
+                    method: 'GET',
+                    url: $globals.backendUrl('collection/') + $scope.copyVC,
+                    params: {path: $scope.pagingAwareCollectionListing.pagingAwareCollectionListingDescriptor.parentAbsolutePath, offset: 0}
+                }).success(function (data) {
+                    $scope.copy_list = data;
+                }).error(function () {
+                    alert("Something went wrong while fetching the contents of the Collection");
+                    $scope.copy_list = [];
+                });
             }).error(function () {
                 alert("Something went wrong while fetching the Virtual Collections");
                 $scope.copy_vc_list = [];
-            });
-            return $http({
-                method: 'GET',
-                url: $globals.backendUrl('collection/') + selectedVc.data.uniqueName,
-                params: {path: "", offset: 0}
-            }).success(function (data) {
-                $scope.copy_list = data;
-            }).error(function () {
-                alert("Something went wrong while fetching the contents of the Collection");
-                $scope.copy_list = [];
             });
         };
         $scope.copy_list_refresh = function(VC,selectedPath,breadcrumb_index){
             $scope.copyVC = VC;
             $scope.copy_breadcrumb = breadcrumbsService.buildPathUpToIndex(breadcrumb_index);
-            alert(breadcrumb_index);
+            /*alert(breadcrumb_index);
             alert($scope.copy_breadcrumb);
+            alert(selectedPath);*/
+            alert($scope.copyVC);
             alert(selectedPath);
             if(breadcrumb_index == undefined){
                 return $http({
@@ -441,6 +429,42 @@ angular.module('myApp.home', ['ngRoute', 'ngFileUpload'])
                 }); 
             }
         };
+
+
+        $scope.copy_pop_up_open = function(){
+            $('.pop_up_window').fadeIn(100);
+            $scope.name_of_selection = $('.ui-selected');
+            $scope.name_of_selection.each(function() {
+                if ($(this).attr('id') != undefined) {
+                    if($(this).hasClass("data_true")){
+                        $(".copy_container ul").append('<li class="light_back_option_even"><div class="col-xs-7 list_content"><img src="images/data_object_icon.png">'+$(this).attr('id')+'</div></li>'); 
+                    }else{
+                        $(".copy_container ul").append('<li class="light_back_option_even"><div class="col-xs-7 list_content"><img src="images/collection_icon.png">'+$(this).attr('id')+'</div></li>');
+                    };
+                };              
+            }); 
+            $('.copier').fadeIn(100);
+            $('.copier_button').fadeIn(100);
+            return $http({
+                method: 'GET', 
+                url: $globals.backendUrl('virtualCollection')
+            }).success(function (data) {
+                $scope.copy_vc_list = data;
+            }).error(function () {
+                alert("Something went wrong while fetching the Virtual Collections");
+                $scope.copy_vc_list = [];
+            });
+            return $http({
+                method: 'GET',
+                url: $globals.backendUrl('collection/') + selectedVc.data.uniqueName,
+                params: {path: $scope.pagingAwareCollectionListing.pagingAwareCollectionListingDescriptor.parentAbsolutePath, offset: 0}
+            }).success(function (data) {
+                $scope.copy_list = data;
+            }).error(function () {
+                alert("Something went wrong while fetching the contents of the Collection");
+                $scope.copy_list = [];
+            });
+        };        
         $scope.create_pop_up_open = function(){
             $('.pop_up_window').fadeIn(100);
             $('.creater').fadeIn(100);
@@ -461,9 +485,9 @@ angular.module('myApp.home', ['ngRoute', 'ngFileUpload'])
             delete_objects.each(function () {
                 if ($(this).attr('id') != undefined) {
                     if($(this).hasClass("data_true")){
-                        $(".delete_container ul").append('<li class="light_back_option_even"><div class="col-xs-7 list_content"><img src="images/data_object_icon.png">'+$(this).attr('id')+'</div></li>'); 
+                        $(".delete_container ul").append('<li class="light_back_option_even"><div class="col-xs-12 list_content"><img src="images/data_object_icon.png">'+$(this).attr('id')+'</div></li>'); 
                     }else{
-                        $(".delete_container ul").append('<li class="light_back_option_even"><div class="col-xs-7 list_content"><img src="images/collection_icon.png">'+$(this).attr('id')+'</div></li>');
+                        $(".delete_container ul").append('<li class="light_back_option_even"><div class="col-xs-12 list_content"><img src="images/collection_icon.png">'+$(this).attr('id')+'</div></li>');
                     };                    
                 };
             });            

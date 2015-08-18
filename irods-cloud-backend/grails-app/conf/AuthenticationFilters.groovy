@@ -84,8 +84,7 @@ class AuthenticationFilters {
 
 				if(session==null || !request.isRequestedSessionIdValid() ) {
 					log.info("invalidate session stuff")
-					session.virtualCollections = null
-					session.authenticationSession = null
+					SessionUtils.clearState(session)
 				}
 			}
 			after = { Map model ->

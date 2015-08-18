@@ -15,7 +15,7 @@ import org.irods.jargon.core.pub.IRODSAccessObjectFactory
 import org.irods.jargon.idrop.web.authsession.UserSessionContext
 import org.irods.jargon.idrop.web.services.AuthenticationService
 import org.irods.jargon.idrop.web.services.EnvironmentServicesService
-
+import org.irods.jargon.idrop.web.utils.SessionUtils
 /**
  * Handle login management
  */
@@ -47,11 +47,8 @@ class LoginController extends RestfulController {
 	 * DELETE action will cause a logout
 	 */
 	def delete() {
-
+		SessionUtils.clearState(session)
 		session.invalidate()
-		session.virtualCollections = null
-		session.authenticationSession = null
-
 		log.info("done")
 		render(status:204)
 	}
@@ -90,11 +87,11 @@ class LoginController extends RestfulController {
 		}
 
 		log.info("auth successful, saving response in session and returning")
+		SessionUtils.clearState(session)
 		session.authenticationSession = authResponse
 		UserSessionContext userSessionContext = new UserSessionContext()
 		userSessionContext.userName = authResponse.authenticatedIRODSAccount.userName
 		userSessionContext.zone = authResponse.authenticatedIRODSAccount.zone
-		session.virtualCollections = null
 
 		authenticationService.generateXSRFToken()
 		log.info("getting irodsServerProperties")

@@ -43,10 +43,14 @@ angular.module('httpInterceptorModule', []).factory('myHttpResponseInterceptor',
             $log.error(rejection);
             var status = rejection.status;
             $log.info("status for rejection:" + status);
-
             $('.spinning_wheel').fadeOut();
             if (status == 0) { 0
 
+            } else if (status == 500) {                 
+                    $log.info("internal server error");
+                    globals.setLastPath($location.path());                
+                $location.path("/index");
+                MessageService.error("File not found");
             } else if (status == 401) { // unauthorized - redirect to login again
                 //save last path for subsequent re-login
                 if ($location.path() != "/login") {

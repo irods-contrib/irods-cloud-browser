@@ -60,6 +60,17 @@ angular.module('myApp.home', ['ngRoute', 'ngFileUpload'])
             }, 1);
         };
     })
+    .filter('iconic', function() {
+      return function(input,optional) {
+        var out = "";
+        if (input == "virtual.collection.default.icon"){
+                var out = "default_icon";
+            }else if (input == "virtual.collection.icon.starred"){
+                var out = "star_icon";
+            }
+            return out;
+        };               
+    })
     .controller('homeCtrl', ['$scope', 'Upload', '$log', '$http', '$location', 'MessageService', 'globals', 'breadcrumbsService', 'downloadService', 'virtualCollectionsService', 'collectionsService', 'fileService','metadataService','selectedVc', 'pagingAwareCollectionListing', function ($scope, Upload, $log, $http, $location, MessageService, $globals, breadcrumbsService, downloadService, $virtualCollectionsService, $collectionsService, fileService, metadataService,selectedVc, pagingAwareCollectionListing) {
 
         /*
@@ -67,7 +78,8 @@ angular.module('myApp.home', ['ngRoute', 'ngFileUpload'])
          */
 
         $scope.selectedVc = selectedVc;
-        $scope.pagingAwareCollectionListing = pagingAwareCollectionListing.data;        
+        $scope.pagingAwareCollectionListing = pagingAwareCollectionListing.data;     
+        $scope.selected_target = "";   
         $scope.$on('onRepeatLast', function (scope, element, attrs) {
                            
                 $(".selectable").selectable({
@@ -101,7 +113,7 @@ angular.module('myApp.home', ['ngRoute', 'ngFileUpload'])
                         if ($(".move_list_item.ui-selected").length == 1) {
                             var move_path = $('.move_list_item.ui-selected').children('.list_content').children('.collection_object').text();
                             move_path_display.append(move_path);
-                            $scope.move_target = $('.move_list_item.ui-selected').attr('id');
+                            $scope.copy_target = $('.move_list_item.ui-selected').attr('id');
                         } 
                         if ($(".move_list_item.ui-selected").length > 1) {
                             $('.move_list_item.ui-selected').not(':first').removeClass('ui-selected');
@@ -125,6 +137,7 @@ angular.module('myApp.home', ['ngRoute', 'ngFileUpload'])
                             $(".empty_selection").fadeOut();
                             
                         } else if ($("li.ui-selected").length == 1) {
+                            $scope.selected_target = $('.ui-selected').attr("id");
                             var name_of_selection = "You've selected: " + $('.ui-selected').children('.list_content').children('.data_object').text();
                             if (name_of_selection == "You've selected: "){
                                 var name_of_selection = "You've selected: " + $('.ui-selected').children('.list_content').children('.collection_object').text();
@@ -298,8 +311,7 @@ angular.module('myApp.home', ['ngRoute', 'ngFileUpload'])
         };   
 
         $scope.move_action = function (){
-            $scope.copy_source = $('.general_list_item .ui-selected').attr('id');        
-            $scope.copy_target = $('.move_list_item.ui-selected').attr('id');
+            $scope.copy_source = $('.general_list_item .ui-selected').attr('id');  
             $log.info('||||||||||||| moving:'+ $scope.copy_source +' to '+ $scope.copy_target);
             return $http({
                     method: 'POST',
@@ -356,10 +368,16 @@ angular.module('myApp.home', ['ngRoute', 'ngFileUpload'])
             }
         };
 
-        $scope.move_pop_up_open = function(){
+        $scope.move_pop_up_open = function(){            
             $scope.copyVC = $scope.selectedVc.data.uniqueName;
             $('.pop_up_window').fadeIn(100);
             $scope.name_of_selection = $('.ui-selected');
+            var move_path_display = $("#move_select_result").empty();
+            var path_array = $scope.pagingAwareCollectionListing.pagingAwareCollectionListingDescriptor.pathComponents;
+            var current_collection = path_array[path_array.length - 1];
+            $scope.copy_source = $('.general_list_item .ui-selected').attr('id');
+            $scope.copy_target = $scope.pagingAwareCollectionListing.pagingAwareCollectionListingDescriptor.parentAbsolutePath;
+            move_path_display.append(current_collection);
             $scope.name_of_selection.each(function() {
                 if ($(this).attr('id') != undefined) {
                     if($(this).hasClass("data_true")){
@@ -396,11 +414,6 @@ angular.module('myApp.home', ['ngRoute', 'ngFileUpload'])
         $scope.copy_list_refresh = function(VC,selectedPath,breadcrumb_index){
             $scope.copyVC = VC;
             $scope.copy_breadcrumb = breadcrumbsService.buildPathUpToIndex(breadcrumb_index);
-            /*alert(breadcrumb_index);
-            alert($scope.copy_breadcrumb);
-            alert(selectedPath);*/
-            alert($scope.copyVC);
-            alert(selectedPath);
             if(breadcrumb_index == undefined){
                 return $http({
                     method: 'GET',
@@ -408,8 +421,6 @@ angular.module('myApp.home', ['ngRoute', 'ngFileUpload'])
                     params: {path: selectedPath, offset: 0}
                 }).success(function (data) {
                     $scope.copy_list = data;
-                    $("#copy_select_result").empty();
-                    $("#move_select_result").empty();
                 }).error(function () {
                     alert("Something went wrong while fetching the contents of the Collection");
                     $scope.copy_list = [];
@@ -421,8 +432,6 @@ angular.module('myApp.home', ['ngRoute', 'ngFileUpload'])
                     params: {path: $scope.copy_breadcrumb, offset: 0}
                 }).success(function (data) {
                     $scope.copy_list = data;
-                    $("#copy_select_result").empty();
-                    $("#move_select_result").empty();
                 }).error(function () {
                     alert("Something went wrong while fetching the contents of the Collection");
                     $scope.copy_list = [];

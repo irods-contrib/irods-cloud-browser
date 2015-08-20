@@ -7,8 +7,8 @@
 		<div class="column_content">
 			<div class="light_header"><span>Virtual Collections</span></div>
 			<ul >
-			    <li ng-class-odd="'light_back_option'" ng-class-even="'light_back_option_even'" ng-repeat="virtualCollection in virtualCollections" ng-click="selectVirtualCollection(virtualCollection.uniqueName, '')" ng-class="selectedVc.data.uniqueName == virtualCollection.uniqueName ? 'selected' : ''">
-			            <img src="images/collection_icon.png" ng-show="virtualCollection.type == 'COLLECTION'"><img src="images/star_icon.png" ng-show="virtualCollection.type == 'STARRED'"><span>{{virtualCollection.uniqueName}}</span>
+			    <li class="light_back_option" ng-repeat="virtualCollection in virtualCollections" ng-click="selectVirtualCollection(virtualCollection.uniqueName, '')">
+			            <span><span class="{{virtualCollection.i18icon|iconic}}"></span><span>{{virtualCollection.uniqueName}}</span></span>
 			    </li>
 			</ul>
 		</div>
@@ -30,22 +30,15 @@
 			</div>
 		</div>
 		<div class="column_content">
-			<div class="collection_header"> 
-				<div id="breadcrumbs_container" class="col-xs-8 col-sm-9 col-md-9 col-lg-7"  ng-show="selectedVc.data.type == 'COLLECTION'">
-					<div class="breadcrumbs_sub_container" >
-						<span class="dark_back_option_double" ng-click="goToBreadcrumb($index)" ng-repeat="breadcrumb in getBreadcrumbPaths() track by $id(breadcrumb + $index)">
-							 >&nbsp;{{breadcrumb}} 				
-						</span>		
-					</div>			
-				</div>		
-				<div class="right border_left col-xs-2 col-sm-3 col-md-3 col-lg-5 collection_actions_container" ng-show="selectedVc.data.type == 'COLLECTION'">
+			<div class="collection_header"> 					
+				<div class="collection_actions_container" ng-show="selectedVc.data.type == 'COLLECTION'">
 					<div class="desktop_collection_actions" >
 						<div class="upload_button" title="Upload files to this collection" ng-click="upload_pop_up_open()"> 
 							<img src="images/upload_icon.png"><span>&nbsp;Upload</span>	
 						</div>
 						<div class="small_vertical_divider" ></div>
-						<div class="upload_button" title="Go to Profile page of this collection" ng-click="selectProfile(pagingAwareCollectionListing.pagingAwareCollectionListingDescriptor.parentAbsolutePath)"> 
-							<img src="images/collection_light_icon.png"><span>&nbsp;Profile</span>	
+						<div class="create_subcollection_button" title="Go to Profile page of this collection" ng-click="selectProfile(pagingAwareCollectionListing.pagingAwareCollectionListingDescriptor.parentAbsolutePath)"> 
+							<img src="images/info_icon.png"><span>&nbsp;Collection Info</span>	
 						</div>
 						<div class="small_vertical_divider"></div>
 						<div class="create_subcollection_button" title="Create a new sub-collection inside this collection" ng-click="create_pop_up_open()">
@@ -58,20 +51,22 @@
 					  </button>
 					  <ul class="dropdown-menu dropdown-menu-right">
 					    <li><a title="Upload files to this collection" ng-click="upload_pop_up_open()"><img src="images/upload_icon_dark.png"><span>&nbsp;Upload</span></a></li>
-					    <li><a title="Go to Profile page of this collection" ng-click="selectProfile(pagingAwareCollectionListing.pagingAwareCollectionListingDescriptor.parentAbsolutePath)"><img src="images/dark_collection_icon.png"><span>&nbsp;Profile</span></a></li>
+					    <li><a title="Go to Profile page of this collection" ng-click="selectProfile(pagingAwareCollectionListing.pagingAwareCollectionListingDescriptor.parentAbsolutePath)"><img src="images/dark_info_icon.png"><span>&nbsp;Collection Info</span></a></li>
 					    <li><a title="Create a new sub-collection inside this collection" ng-click="create_pop_up_open()"><img src="images/dark_add_icon.png"><span>&nbsp;Add sub-collection</span></a></li>
 					  </ul>
 					</div>
+				</div>	
+				<div class="breadcrumbs_container" ng-show="selectedVc.data.type == 'COLLECTION'">
+					<div class="breadcrumbs_sub_container" >
+						<span class="dark_back_option_double" ng-click="goToBreadcrumb($index)" ng-repeat="breadcrumb in getBreadcrumbPaths() track by $id(breadcrumb + $index)">
+							 >&nbsp;{{breadcrumb}} 				
+						</span>		
+					</div>			
 				</div>		
 			</div>
 			<hr class="light_hr">
-			<div class="dark_header">
-				<div id="breadcrumbs_container" class="col-xs-8 col-sm-9 col-md-9 col-lg-5">
-					<div class="breadcrumbs_sub_container" >
-						<span id="select-result">Nothing has been selected</span>
-					</div>
-				</div>
-				<div class="right border_left col-xs-2 col-sm-3 col-md-3 col-lg-7">
+			<div class="dark_header">				
+				<div class="selection_actions_container">
 					<div class="desktop_collection_actions">
 						<div class="download_button" title="Delete selected file(s) " ng-click='delete_pop_up_open()' > 
 							<img src="images/dark_delete_icon.png"><span>&nbsp;Delete</span>	
@@ -92,6 +87,10 @@
 						<div class="download_button" title="Download selected file(s) " ng-click='getDownloadLink()' > 
 							<img src="images/download_icon.png"><span>&nbsp;Download</span>	
 						</div>
+						<div class="rename_divider small_vertical_divider"></div>
+						<div class="rename_button" title="Info" ng-click='selectProfile(selected_target)'> 
+							<img src="images/info_icon.png"><span>&nbsp;Info</span>	
+						</div>
 					</div>
 					<div class="right btn-group tablet_collection_actions">
 					  <button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -105,6 +104,11 @@
 					  	<li class="tablet_rename_button"><a title="Rename selected file/collection" ng-click='rename_pop_up_open()'><img src="images/dark_edit_icon.png"><span>&nbsp;Rename</span></a></li>
 					    <li class="tablet_download_button"><a title="Delete selected file(s) " ng-click='delete_pop_up_open()'><img src="images/dark_delete_icon.png"><span>&nbsp;Delete</span></a></li>
 					  </ul>
+					</div>
+				</div>
+				<div class="breadcrumbs_container">
+					<div class="breadcrumbs_sub_container" >
+						<span id="select-result">Nothing has been selected</span>
 					</div>
 				</div>
 			</div>

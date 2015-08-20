@@ -14,7 +14,7 @@ time, mark, audio, video {
   margin: 0;
   padding: 0;
   border: 0;
-  font-size: 100%;
+  font-size: 14px;
   font: sans-serif;
   list-style: none;
 }
@@ -309,17 +309,12 @@ select{
 	display: inline-block;
 }
 
-#breadcrumbs_container{
+.breadcrumbs_container{
 	position:relative;
-	display:inline-block;
-	float: left;
 	padding: 0px;
-	overflow: hidden;
+	width:100%;
 }
 .breadcrumbs_sub_container{
-	position:relative;
-	width:100%;
-	float:right;
 	white-space: nowrap;
 	overflow: hidden;
 	text-overflow:ellipsis;
@@ -472,6 +467,7 @@ select{
 	height:20px;
 	white-space: nowrap;
 	text-overflow:ellipsis;
+	display: inline-flex;
 }
 .list_content p {
 	padding: 2px 5px;
@@ -557,6 +553,18 @@ select{
 	font-size: 11px;
 	color: #888;
 }
+.default_icon{
+	background: url("../images/collection_icon.png");
+	width: 20px;
+	height: 20px;
+	display: inline-flex;
+}
+.star_icon{
+	background: url("../images/star_icon.png");
+	width: 20px;
+	height: 20px;
+	display: inline-flex;
+}
 /* ||||||||||||||||||||||||||||||||||| */
 /* ||||||| BOOTSTRAP RE-STYLING |||||| */
 /* ||||||||||||||||||||||||||||||||||| */
@@ -618,7 +626,7 @@ input.col-xs-12{
 	color:#fff;
 	opacity:0.7;
 	height:40px;
-	padding: 7px 2px;
+	padding: 7px 0px 7px 2px;
 	border-bottom: 1px solid rgba(255,255,255,0.2);
 	white-space: nowrap;
 	cursor: pointer;
@@ -674,8 +682,8 @@ input.col-xs-12{
 	list-style: none;
 }
 .light_back_option span, .light_back_option_even span{
-	padding: 2px;
-	position: absolute;
+	padding: 0px 0px 0px 2px;
+	display: inline-flex;
 }
 .ui-widget-content.light_back_option, .ui-widget-content.light_back_option_even{
 	cursor:pointer;
@@ -734,8 +742,20 @@ input.col-xs-12{
 	padding: 0px 3px;
 }
 .collection_actions_container{
+	float:right;
 	overflow: hidden;
 	height: 22px;
+	width:410px;
+	z-index: 10;
+    position: relative;
+}
+.selection_actions_container{
+	float:right;
+	overflow: hidden;
+	height: 22px;
+	width:580px;
+	z-index: 10;
+    position: relative;
 }
 .grid-item { 
 	float: left;

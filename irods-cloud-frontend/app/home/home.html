@@ -58,9 +58,21 @@
 				</div>	
 				<div class="breadcrumbs_container" ng-show="selectedVc.data.type == 'COLLECTION'">
 					<div class="breadcrumbs_sub_container" >
-						<span class="dark_back_option_double" ng-click="goToBreadcrumb($index)" ng-repeat="breadcrumb in getBreadcrumbPaths() track by $id(breadcrumb + $index)">
-							 >&nbsp;{{breadcrumb}} 				
-						</span>		
+						 <div ng-show=" breadcrumb_compressed_array.length > 0 " class="dark_back_option_double">
+							   <button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+							     ... 
+							   </button>
+							   <ul class="dropdown-menu" ng-mouseleave="hide_breadcrumbs()">
+								   	<li ng-repeat="breadcrumb in breadcrumb_compressed_array">
+								   		<a ng-click="goToBreadcrumb(breadcrumb.path)">
+								   			>&nbsp;{{breadcrumb.b}}
+								   		</a>
+								   	</li>							     
+							   </ul>
+							 </div>
+						<div class="dark_back_option_double" title="{{breadcrumb}}" ng-click="goToBreadcrumb(breadcrumb.path)" ng-repeat="breadcrumb in breadcrumb_full_array_paths | limitTo:-5">							
+							 >&nbsp;{{breadcrumb.b}}				
+						</div>		
 					</div>			
 				</div>		
 			</div>

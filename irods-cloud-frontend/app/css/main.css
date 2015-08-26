@@ -549,6 +549,7 @@ select{
 .border_left{
 	border-left: 1px solid #999;
 }
+.
 .disc_text{
 	font-size: 11px;
 	color: #888;
@@ -564,6 +565,14 @@ select{
 	width: 20px;
 	height: 20px;
 	display: inline-flex;
+}
+.breadcrumbs_sub_container div{
+	max-width: 100px;
+	overflow: hidden;
+	text-overflow:ellipsis;
+	white-space: nowrap;
+	display: inline-block;
+	
 }
 /* ||||||||||||||||||||||||||||||||||| */
 /* ||||||| BOOTSTRAP RE-STYLING |||||| */
@@ -625,16 +634,20 @@ input.col-xs-12{
 .dark_back_option_double{
 	color:#fff;
 	opacity:0.7;
-	height:40px;
-	padding: 7px 0px 7px 2px;
-	border-bottom: 1px solid rgba(255,255,255,0.2);
+	height:22px;
 	white-space: nowrap;
 	cursor: pointer;
+	padding: 0px 4px 0px 0px;
 }
 .dark_back_option_double span{
 	padding: 2px 7px;
 	font-size: 14px;
 	position: absolute;
+}
+.dark_back_option_double .dropdown-menu{
+	margin: 0px;
+	top:22px;
+	left: -1px;
 }
 .dark_back_option_double img{
 	padding: 0px 0px 0px 7px;

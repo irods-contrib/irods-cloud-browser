@@ -177,7 +177,7 @@ angular.module('myApp.profile', ['ngRoute'])
                     url: $globals.backendUrl('rename'),
                     params: {path: rename_path, newName: new_name}
                 }).success(function (data) {
-                    MessageService.success("Deletion completed!");
+                    MessageService.success("Renaming completed!");
                     location.assign(new_url);       
                 })
         };
@@ -198,14 +198,20 @@ angular.module('myApp.profile', ['ngRoute'])
         $scope.move_action = function (){
             $scope.copy_source = $scope.dataProfile.parentPath + "/" + $scope.dataProfile.childName;       
             $scope.copy_target = $('.move_list_item.ui-selected').attr('id');
+            var new_name = $scope.dataProfile.childName;
+            var old_url = window.location;
+            var n = String(old_url).lastIndexOf("=");
+            var new_url = String(old_url).substr(0,n);
+            var new_url = new_url + "=" + $scope.copy_target + "%2F" + new_name;
+            $log.info('||||||||||||| URL moving:'+ new_url);
             $log.info('||||||||||||| moving:'+ $scope.copy_source +' to '+ $scope.copy_target);
             return $http({
                     method: 'POST',
                     url: $globals.backendUrl('move'),
                     params: {sourcePath: $scope.copy_source, targetPath: $scope.copy_target, resource:'', overwrite: 'false' }
                 }).success(function () {
-                    window.history.go(-1);
-                    MessageService.success("Move completed!");
+                    MessageService.success("Move completed!");    
+                    location.assign(new_url);  
                 })
         };   
 

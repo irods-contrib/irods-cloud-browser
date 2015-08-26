@@ -178,6 +178,7 @@ angular.module('myApp.home', ['ngRoute', 'ngFileUpload'])
         $scope.current_page = 'browsing';
         $scope.files_to_upload = [];
         $scope.files_name = [];
+        $scope.breadrumb_compressed_array = [];        
 
         $scope.stage_files = function (files) {
             if (files && files.length) {
@@ -253,12 +254,17 @@ angular.module('myApp.home', ['ngRoute', 'ngFileUpload'])
          */
         $scope.getBreadcrumbPaths = function () {
 
-            if (!$scope.pagingAwareCollectionListing) {
-                return [];
-            }
-
             breadcrumbsService.setCurrentAbsolutePath($scope.pagingAwareCollectionListing.pagingAwareCollectionListingDescriptor.parentAbsolutePath);
-            return breadcrumbsService.getWholePathComponents();
+            $scope.breadcrumb_full_array = breadcrumbsService.getWholePathComponents();
+            $scope.breadcrumb_full_array_paths = [];
+            var totalPath = "";
+            for (var i = 0; i < $scope.breadcrumb_full_array.length; i++) {   
+                    totalPath = totalPath + "/" + $scope.breadcrumb_full_array[i];
+                    $scope.breadcrumb_full_array_paths.push({b:$scope.breadcrumb_full_array[i],path:totalPath});                                                                   
+                }                
+            if($scope.breadcrumb_full_array_paths.length > 5){
+                $scope.breadcrumb_compressed_array = $scope.breadcrumb_full_array_paths.splice(0,($scope.breadcrumb_full_array_paths.length)-5);
+            }
         };
         // var download_path
         if ($scope.pagingAwareCollectionListing && $scope.pagingAwareCollectionListing.pagingAwareCollectionListingDescriptor.pathComponents) {
@@ -298,8 +304,7 @@ angular.module('myApp.home', ['ngRoute', 'ngFileUpload'])
         $scope.copy_target = "";
 
         $scope.copy_action = function (){
-            $scope.copy_source = $('.general_list_item .ui-selected').attr('id');        
-            $scope.copy_target = $('.copy_list_item.ui-selected').attr('id');
+            $scope.copy_source = $('.general_list_item .ui-selected').attr('id');   
             $log.info('||||||||||||| copying:'+ $scope.copy_source +' to '+ $scope.copy_target);
             return $http({
                     method: 'POST',
@@ -323,7 +328,7 @@ angular.module('myApp.home', ['ngRoute', 'ngFileUpload'])
         };    
 
         $scope.rename_action = function (){
-            var rename_path = $('.ui-selected').attr('id');
+            var rename_path = $('li.ui-selected').attr('id');
             var new_name = $('#new_renaming_name').val();
             var url = window.location;
             $log.info('Renaming:'+rename_path);
@@ -333,7 +338,7 @@ angular.module('myApp.home', ['ngRoute', 'ngFileUpload'])
                     params: {path: rename_path, newName: new_name}
                 }).success(function (data) {
                     MessageService.success("Renaming completed!");
-                    location.assign(url);
+                    location.reload();
                 })
         };
 
@@ -365,6 +370,34 @@ angular.module('myApp.home', ['ngRoute', 'ngFileUpload'])
                 });
                 multiple_paths = multiple_paths.substring(0, multiple_paths.length - 1);
                 window.open($globals.backendUrl('download') + "?" + multiple_paths , '_blank');
+            }
+        };
+        
+        $scope.copy_list_refresh = function(VC,selectedPath,breadcrumb_index){
+            $scope.copyVC = VC;
+            $scope.copy_breadcrumb = breadcrumbsService.buildPathUpToIndex(breadcrumb_index);
+            if(breadcrumb_index == undefined){
+                return $http({
+                    method: 'GET',
+                    url: $globals.backendUrl('collection/') + VC,
+                    params: {path: selectedPath, offset: 0}
+                }).success(function (data) {
+                    $scope.copy_list = data;
+                }).error(function () {
+                    alert("Something went wrong while fetching the contents of the Collection");
+                    $scope.copy_list = [];
+                });
+            }else{
+               return $http({
+                    method: 'GET',
+                    url: $globals.backendUrl('collection/') + VC,
+                    params: {path: $scope.copy_breadcrumb, offset: 0}
+                }).success(function (data) {
+                    $scope.copy_list = data;
+                }).error(function () {
+                    alert("Something went wrong while fetching the contents of the Collection");
+                    $scope.copy_list = [];
+                }); 
             }
         };
 
@@ -411,38 +444,17 @@ angular.module('myApp.home', ['ngRoute', 'ngFileUpload'])
                 $scope.copy_vc_list = [];
             });
         };
-        $scope.copy_list_refresh = function(VC,selectedPath,breadcrumb_index){
-            $scope.copyVC = VC;
-            $scope.copy_breadcrumb = breadcrumbsService.buildPathUpToIndex(breadcrumb_index);
-            if(breadcrumb_index == undefined){
-                return $http({
-                    method: 'GET',
-                    url: $globals.backendUrl('collection/') + VC,
-                    params: {path: selectedPath, offset: 0}
-                }).success(function (data) {
-                    $scope.copy_list = data;
-                }).error(function () {
-                    alert("Something went wrong while fetching the contents of the Collection");
-                    $scope.copy_list = [];
-                });
-            }else{
-               return $http({
-                    method: 'GET',
-                    url: $globals.backendUrl('collection/') + VC,
-                    params: {path: $scope.copy_breadcrumb, offset: 0}
-                }).success(function (data) {
-                    $scope.copy_list = data;
-                }).error(function () {
-                    alert("Something went wrong while fetching the contents of the Collection");
-                    $scope.copy_list = [];
-                }); 
-            }
-        };
-
 
         $scope.copy_pop_up_open = function(){
+            $scope.copyVC = $scope.selectedVc.data.uniqueName;
             $('.pop_up_window').fadeIn(100);
             $scope.name_of_selection = $('.ui-selected');
+            var move_path_display = $("#copy_select_result").empty();
+            var path_array = $scope.pagingAwareCollectionListing.pagingAwareCollectionListingDescriptor.pathComponents;
+            var current_collection = path_array[path_array.length - 1];
+            $scope.copy_source = $('.general_list_item .ui-selected').attr('id');
+            $scope.copy_target = $scope.pagingAwareCollectionListing.pagingAwareCollectionListingDescriptor.parentAbsolutePath;
+            move_path_display.append(current_collection);
             $scope.name_of_selection.each(function() {
                 if ($(this).attr('id') != undefined) {
                     if($(this).hasClass("data_true")){
@@ -459,19 +471,19 @@ angular.module('myApp.home', ['ngRoute', 'ngFileUpload'])
                 url: $globals.backendUrl('virtualCollection')
             }).success(function (data) {
                 $scope.copy_vc_list = data;
+                return $http({
+                    method: 'GET',
+                    url: $globals.backendUrl('collection/') + $scope.copyVC,
+                    params: {path: $scope.pagingAwareCollectionListing.pagingAwareCollectionListingDescriptor.parentAbsolutePath, offset: 0}
+                }).success(function (data) {
+                    $scope.copy_list = data;
+                }).error(function () {
+                    alert("Something went wrong while fetching the contents of the Collection");
+                    $scope.copy_list = [];
+                });
             }).error(function () {
                 alert("Something went wrong while fetching the Virtual Collections");
                 $scope.copy_vc_list = [];
-            });
-            return $http({
-                method: 'GET',
-                url: $globals.backendUrl('collection/') + selectedVc.data.uniqueName,
-                params: {path: $scope.pagingAwareCollectionListing.pagingAwareCollectionListingDescriptor.parentAbsolutePath, offset: 0}
-            }).success(function (data) {
-                $scope.copy_list = data;
-            }).error(function () {
-                alert("Something went wrong while fetching the contents of the Collection");
-                $scope.copy_list = [];
             });
         };        
         $scope.create_pop_up_open = function(){
@@ -481,7 +493,7 @@ angular.module('myApp.home', ['ngRoute', 'ngFileUpload'])
         $scope.rename_pop_up_open = function(){
             $('.pop_up_window').fadeIn(100);
             $('.renamer').fadeIn(100);
-            var name_of_selection = $('.ui-selected').children('.list_content').children('.data_object').text();
+            var name_of_selection = $('li.ui-selected').children('.list_content').children('span').text();
             $('.selected_object').append(name_of_selection);
         };
         $scope.upload_pop_up_open = function(){
@@ -540,15 +552,14 @@ angular.module('myApp.home', ['ngRoute', 'ngFileUpload'])
          * a view of that collection
          * @param index
          */
-        $scope.goToBreadcrumb = function (index) {
+        $scope.goToBreadcrumb = function (path) {
 
-            if (!index) {
-                $log.error("cannot go to breadcrumb, no index");
+            if (!path) {
+                $log.error("cannot go to breadcrumb, no path");
                 return;
             }
-
             $location.path("/home/root");
-            $location.search("path", breadcrumbsService.buildPathUpToIndex(index));
+            $location.search("path", path);
 
         };
         $scope.green_action_toggle= function($event){
@@ -594,6 +605,7 @@ angular.module('myApp.home', ['ngRoute', 'ngFileUpload'])
          */
 
         $scope.listVirtualCollections();
+        $scope.getBreadcrumbPaths();
         
 
         /*
@@ -612,6 +624,9 @@ angular.module('myApp.home', ['ngRoute', 'ngFileUpload'])
             $location.search("path", irodsAbsolutePath);
 
         }
+        $scope.hide_breadcrumbs = function(){
+          $(".dark_back_option_double").removeClass("open");
+        };
 
         $scope.selectGalleryView = function () {
             $log.info("going to Gallery View");            

@@ -25,6 +25,21 @@ assume web context = irods-cloud-backend, this can vary based on the war file yo
     "defaultStorageResource" : "",
     "serverVersion" : "rods4.0.3"
   }
+
+
+# Config Actions
+
+## Get initial config (basic properties of back end server config)
+**URL** irods-cloud-backend/initialConfig
+**Method** GET
+
+### Parameters
+n/a
+
+### Response (JSON)
+
+{"loginPresetEnabled":true,"presetAuthScheme":"STANDARD","presetHost":"localhost","presetPort":1247,"presetZone":"tempZone"}
+
   
 # Virtual Collections
   

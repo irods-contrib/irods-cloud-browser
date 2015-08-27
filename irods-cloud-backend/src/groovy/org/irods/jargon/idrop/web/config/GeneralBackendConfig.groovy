@@ -10,7 +10,7 @@ package org.irods.jargon.idrop.web.config
  *
  */
 class GeneralBackendConfig {
-	boolean loginPreset = false
+	boolean loginPresetEnabled = false
 	String presetHost = ""
 	int presetPort = 1247
 	String presetZone = ""

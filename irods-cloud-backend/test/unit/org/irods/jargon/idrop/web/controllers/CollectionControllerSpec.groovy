@@ -23,7 +23,9 @@ class CollectionControllerSpec extends Specification {
 
 		def collectionService = mockFor(IrodsCollectionService)
 		PagingAwareCollectionListing listing = new PagingAwareCollectionListing()
-		collectionService.demand.collectionListing{path, listingType, offset, irodsAccount -> return listing}
+		collectionService.demand.collectionListing{ path, listingType, offset, irodsAccount ->
+			return listing
+		}
 		controller.irodsCollectionService = collectionService.createMock()
 
 		def vcServiceMock = mockFor(VirtualCollectionService)
@@ -33,7 +35,9 @@ class CollectionControllerSpec extends Specification {
 		virtualCollections.add(rootColl)
 		virtualCollections.add(homeColl)
 		def mockSession = new GrailsMockHttpSession()
-		vcServiceMock.demand.virtualCollectionListing { vcName, path, listingTYpe, offset, irodsAccount, sess -> return listing }
+		vcServiceMock.demand.virtualCollectionListing { vcName, path, listingTYpe, offset, irodsAccount, sess ->
+			return listing
+		}
 		controller.virtualCollectionService = vcServiceMock.createMock()
 
 		IRODSAccount testAccount = IRODSAccount.instance("host", 1247, "user", "password", "","zone", "")
@@ -62,7 +66,7 @@ class CollectionControllerSpec extends Specification {
 		request.irodsAccount = testAccount
 		params.path = "/a/path"
 
-		collectionService.demand.newFolder{path, irodsAccount -> return }
+		collectionService.demand.newFolder{ path, irodsAccount -> return }
 		controller.irodsCollectionService = collectionService.createMock()
 
 		when:

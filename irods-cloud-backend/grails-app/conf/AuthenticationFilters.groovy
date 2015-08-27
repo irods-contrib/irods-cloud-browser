@@ -5,6 +5,7 @@ import javax.servlet.http.HttpServletResponse
 import org.irods.jargon.core.connection.*
 import org.irods.jargon.idrop.web.services.AuthenticationService
 import org.irods.jargon.idrop.web.utils.IdropConstants
+import org.irods.jargon.idrop.web.utils.*
 
 class AuthenticationFilters {
 
@@ -14,7 +15,7 @@ class AuthenticationFilters {
 	AuthenticationService authenticationService
 
 	def filters = {
-		auth(controller:'*', action:'*', controllerExclude:"(login|error|index)") {
+		auth(controller:'*', action:'*', controllerExclude:"(login|error|index|initialConf)") {
 			before = {
 
 				log.info("filter for auth")
@@ -77,7 +78,7 @@ class AuthenticationFilters {
 			}
 		}
 
-		sessionInval(controller:'*', action:'*', controllerExclude:"(login|error|index)") {
+		sessionInval(controller:'*', action:'*', controllerExclude:"(login|error|index|initialConf)") {
 			before = {
 
 				log.info("filter for session ivalidation")

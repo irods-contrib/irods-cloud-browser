@@ -31,6 +31,7 @@ angular.module('myApp.login', ['ngRoute'])
         };
 
         $scope.current_page = 'login';
+        $scope.login.authType="STANDARD";
         $scope.submitLogin = function () {
             var actval = irodsAccount($scope.login.host, $scope.login.port, $scope.login.zone, $scope.login.userName, $scope.login.password, $scope.login.authType, "");
             

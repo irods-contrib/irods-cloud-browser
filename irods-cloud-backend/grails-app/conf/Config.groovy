@@ -1,15 +1,19 @@
-// locations to search for config files that get merged into the main config;
-// config files can be ConfigSlurper scripts, Java properties files, or classes
-// in the classpath in ConfigSlurper format
+/* locations to search for config files that get merged into the main config;
+ config files can be ConfigSlurper scripts, Java properties files, or classes
+ in the classpath in ConfigSlurper format
+ By default, we want to look in /etc/{appName}-config.groovy, but other locations are possible
+ */
+grails.config.locations = [
+	"classpath:${appName}-config.properties",
+	"classpath:${appName}-config.groovy",
+	"file:${userHome}/.grails/${appName}-config.properties",
+	"file:${userHome}/.grails/${appName}-config.groovy",
+	"file:/etc/${appName}-config.groovy"
+]
 
-// grails.config.locations = [ "classpath:${appName}-config.properties",
-//                             "classpath:${appName}-config.groovy",
-//                             "file:${userHome}/.grails/${appName}-config.properties",
-//                             "file:${userHome}/.grails/${appName}-config.groovy"]
-
-// if (System.properties["${appName}.config.location"]) {
-//    grails.config.locations << "file:" + System.properties["${appName}.config.location"]
-// }
+if (System.properties["${appName}.config.location"]) {
+	grails.config.locations << "file:" + System.properties["${appName}.config.location"]
+}
 
 grails.project.groupId = appName // change this to alter the default package name and Maven publishing destination
 
@@ -111,6 +115,18 @@ environments {
 	}
 }
 
+/*
+ *Backend app configuration
+ *For app specific configs, prefix with beconf. for consistency 
+ */
+
+
+// use login preset
+beconf.login.preset.host='localhost'
+beconf.login.preset.port=1247
+beconf.login.preset.zone='tempZone'
+beconf.login.preset.auth.type='STANDARD'
+beconf.login.preset.enabled=true
 // cors plugin config see https://github.com/davidtinker/grails-cors
 
 //cors config.

@@ -5,11 +5,21 @@ angular.module('myApp.login', ['ngRoute'])
 .config(['$routeProvider', function($routeProvider) {
   $routeProvider.when('/login', {
     templateUrl: 'login/login.html',
-    controller: 'loginCtrl'
+    controller: 'loginCtrl',
+      resolve: {
+
+          // set vc name as selected
+          initialConfig: function ( configService) {
+
+              var initialConfig = configService.retrieveInitialConfig();
+              return initialConfig;
+          }
+
+      }
   });
 }])
 
-.controller('loginCtrl', ['$scope', '$log', '$http', '$location', 'MessageService','globals','$q','$timeout',function ($scope, $log, $http, $location, MessageService, $globals, $q, $timeout) {
+.controller('loginCtrl', ['$scope', '$log', '$http', '$location', 'MessageService','globals','$q','$timeout','initialConfig',function ($scope, $log, $http, $location, MessageService, $globals, $q, $timeout, initialConfig) {
 		var irodsAccount = function (host, port, zone, userName, password, authType, resource) {
 		    return {
 		        host: host,
@@ -22,6 +32,8 @@ angular.module('myApp.login', ['ngRoute'])
 
 		    };
 		};
+
+        $scope.initialConfig = initialConfig;
         
         $('#main_contents').css('width','100%');
         $scope.close_intro = function () {
@@ -31,6 +43,8 @@ angular.module('myApp.login', ['ngRoute'])
         };
 
         $scope.current_page = 'login';
+        $scope.login = {};
+        $scope.login.authType="STANDARD";
         $scope.submitLogin = function () {
             var actval = irodsAccount($scope.login.host, $scope.login.port, $scope.login.zone, $scope.login.userName, $scope.login.password, $scope.login.authType, "");
             

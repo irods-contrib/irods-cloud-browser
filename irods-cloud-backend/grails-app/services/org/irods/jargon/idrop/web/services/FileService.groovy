@@ -105,6 +105,15 @@ class FileService {
 		log.info("path:${path}")
 		log.info("irodsAccount:${irodsAccount}")
 
+		log.info("check to see if this is a collection first")
+		def objStat = irodsAccessObjectFactory.getCollectionAndDataObjectListAndSearchAO(irodsAccount).retrieveObjectStatForPath(path)
+		if (objStat.isSomeTypeOfCollection()) {
+			log.info("is a collection, treat as a bulk download")
+			def fileList = new ArrayList<String>()
+			fileList.add(path)
+			return obtainInputStreamForDownloadMultipleFiles(fileList,irodsAccount)
+		}
+
 		def irodsFileInputStream = irodsAccessObjectFactory.getIRODSFileFactory(irodsAccount).instanceIRODSFileInputStream(path)
 		IRODSFile irodsFile = irodsAccessObjectFactory.getIRODSFileFactory(irodsAccount).instanceIRODSFile(path)
 		if (!irodsFile.exists()) {

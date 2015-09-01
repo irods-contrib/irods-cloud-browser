@@ -177,8 +177,9 @@ angular.module('myApp.home', ['ngRoute', 'ngFileUpload'])
         $scope.multiple = true;
         $scope.current_page = 'browsing';
         $scope.files_to_upload = [];
-        $scope.files_name = [];
-        $scope.breadrumb_compressed_array = [];        
+        $scope.files_name = [];  
+        $scope.copy_source = "";
+        $scope.copy_target = "";  
 
         $scope.stage_files = function (files) {
             if (files && files.length) {
@@ -271,16 +272,22 @@ angular.module('myApp.home', ['ngRoute', 'ngFileUpload'])
 
             $scope.current_collection_index = $scope.pagingAwareCollectionListing.pagingAwareCollectionListingDescriptor.pathComponents.length - 1;
         }
-        $scope.getCopyBreadcrumbPaths = function () {
 
-            if (!$scope.copy_list) {
-                return [];
+        /**
+         * Upon the selection of an element in a breadrumb link, set that as the location of the browser, triggering
+         * a view of that collection
+         * @param index
+         */
+        $scope.goToBreadcrumb = function (path) {
+
+            if (!path) {
+                $log.error("cannot go to breadcrumb, no path");
+                return;
             }
+            $location.path("/home/root");
+            $location.search("path", path);
 
-            breadcrumbsService.setCurrentAbsolutePath($scope.copy_list.pagingAwareCollectionListingDescriptor.parentAbsolutePath);
-            return breadcrumbsService.getWholePathComponents();
         };
-
         $scope.delete_action = function (){
             var delete_objects = $('.ui-selected');
             var delete_paths = '';
@@ -300,8 +307,6 @@ angular.module('myApp.home', ['ngRoute', 'ngFileUpload'])
                 })
         };
 
-        $scope.copy_source = "";
-        $scope.copy_target = "";
 
         $scope.copy_action = function (){
             $scope.copy_source = $('.general_list_item .ui-selected').attr('id');   
@@ -330,7 +335,6 @@ angular.module('myApp.home', ['ngRoute', 'ngFileUpload'])
         $scope.rename_action = function (){
             var rename_path = $('li.ui-selected').attr('id');
             var new_name = $('#new_renaming_name').val();
-            var url = window.location;
             $log.info('Renaming:'+rename_path);
             return $http({
                     method: 'PUT',
@@ -338,7 +342,8 @@ angular.module('myApp.home', ['ngRoute', 'ngFileUpload'])
                     params: {path: rename_path, newName: new_name}
                 }).success(function (data) {
                     MessageService.success("Renaming completed!");
-                    location.reload();
+                    $scope.pagingAwareCollectionListing = $collectionsService.listCollectionContents($scope.selectedVc.data.uniqueName, $scope.pagingAwareCollectionListing.pagingAwareCollectionListingDescriptor.parentAbsolutePath, 0);
+                    $scope.pop_up_close();
                 })
         };
 
@@ -373,165 +378,7 @@ angular.module('myApp.home', ['ngRoute', 'ngFileUpload'])
             }
         };
         
-        $scope.copy_list_refresh = function(VC,selectedPath,breadcrumb_index){
-            $scope.copyVC = VC;
-            $scope.copy_breadcrumb = breadcrumbsService.buildPathUpToIndex(breadcrumb_index);
-            if(breadcrumb_index == undefined){
-                return $http({
-                    method: 'GET',
-                    url: $globals.backendUrl('collection/') + VC,
-                    params: {path: selectedPath, offset: 0}
-                }).success(function (data) {
-                    $scope.copy_list = data;
-                }).error(function () {
-                    alert("Something went wrong while fetching the contents of the Collection");
-                    $scope.copy_list = [];
-                });
-            }else{
-               return $http({
-                    method: 'GET',
-                    url: $globals.backendUrl('collection/') + VC,
-                    params: {path: $scope.copy_breadcrumb, offset: 0}
-                }).success(function (data) {
-                    $scope.copy_list = data;
-                }).error(function () {
-                    alert("Something went wrong while fetching the contents of the Collection");
-                    $scope.copy_list = [];
-                }); 
-            }
-        };
-
-        $scope.move_pop_up_open = function(){            
-            $scope.copyVC = $scope.selectedVc.data.uniqueName;
-            $('.pop_up_window').fadeIn(100);
-            $scope.name_of_selection = $('.ui-selected');
-            var move_path_display = $("#move_select_result").empty();
-            var path_array = $scope.pagingAwareCollectionListing.pagingAwareCollectionListingDescriptor.pathComponents;
-            var current_collection = path_array[path_array.length - 1];
-            $scope.copy_source = $('.general_list_item .ui-selected').attr('id');
-            $scope.copy_target = $scope.pagingAwareCollectionListing.pagingAwareCollectionListingDescriptor.parentAbsolutePath;
-            move_path_display.append(current_collection);
-            $scope.name_of_selection.each(function() {
-                if ($(this).attr('id') != undefined) {
-                    if($(this).hasClass("data_true")){
-                        $(".move_container ul").append('<li class="light_back_option_even"><div class="col-xs-7 list_content"><img src="images/data_object_icon.png">'+$(this).attr('id')+'</div></li>'); 
-                    }else{
-                        $(".move_container ul").append('<li class="light_back_option_even"><div class="col-xs-7 list_content"><img src="images/collection_icon.png">'+$(this).attr('id')+'</div></li>');
-                    };
-                };              
-            }); 
-            $('.mover').fadeIn(100);
-            $('.mover_button').fadeIn(100);
-                       
-
-            return $http({
-                method: 'GET', 
-                url: $globals.backendUrl('virtualCollection')
-            }).success(function (data) {
-                $scope.copy_vc_list = data;
-                return $http({
-                    method: 'GET',
-                    url: $globals.backendUrl('collection/') + $scope.copyVC,
-                    params: {path: $scope.pagingAwareCollectionListing.pagingAwareCollectionListingDescriptor.parentAbsolutePath, offset: 0}
-                }).success(function (data) {
-                    $scope.copy_list = data;
-                }).error(function () {
-                    alert("Something went wrong while fetching the contents of the Collection");
-                    $scope.copy_list = [];
-                });
-            }).error(function () {
-                alert("Something went wrong while fetching the Virtual Collections");
-                $scope.copy_vc_list = [];
-            });
-        };
-
-        $scope.copy_pop_up_open = function(){
-            $scope.copyVC = $scope.selectedVc.data.uniqueName;
-            $('.pop_up_window').fadeIn(100);
-            $scope.name_of_selection = $('.ui-selected');
-            var move_path_display = $("#copy_select_result").empty();
-            var path_array = $scope.pagingAwareCollectionListing.pagingAwareCollectionListingDescriptor.pathComponents;
-            var current_collection = path_array[path_array.length - 1];
-            $scope.copy_source = $('.general_list_item .ui-selected').attr('id');
-            $scope.copy_target = $scope.pagingAwareCollectionListing.pagingAwareCollectionListingDescriptor.parentAbsolutePath;
-            move_path_display.append(current_collection);
-            $scope.name_of_selection.each(function() {
-                if ($(this).attr('id') != undefined) {
-                    if($(this).hasClass("data_true")){
-                        $(".copy_container ul").append('<li class="light_back_option_even"><div class="col-xs-7 list_content"><img src="images/data_object_icon.png">'+$(this).attr('id')+'</div></li>'); 
-                    }else{
-                        $(".copy_container ul").append('<li class="light_back_option_even"><div class="col-xs-7 list_content"><img src="images/collection_icon.png">'+$(this).attr('id')+'</div></li>');
-                    };
-                };              
-            }); 
-            $('.copier').fadeIn(100);
-            $('.copier_button').fadeIn(100);
-            return $http({
-                method: 'GET', 
-                url: $globals.backendUrl('virtualCollection')
-            }).success(function (data) {
-                $scope.copy_vc_list = data;
-                return $http({
-                    method: 'GET',
-                    url: $globals.backendUrl('collection/') + $scope.copyVC,
-                    params: {path: $scope.pagingAwareCollectionListing.pagingAwareCollectionListingDescriptor.parentAbsolutePath, offset: 0}
-                }).success(function (data) {
-                    $scope.copy_list = data;
-                }).error(function () {
-                    alert("Something went wrong while fetching the contents of the Collection");
-                    $scope.copy_list = [];
-                });
-            }).error(function () {
-                alert("Something went wrong while fetching the Virtual Collections");
-                $scope.copy_vc_list = [];
-            });
-        };        
-        $scope.create_pop_up_open = function(){
-            $('.pop_up_window').fadeIn(100);
-            $('.creater').fadeIn(100);
-        };
-        $scope.rename_pop_up_open = function(){
-            $('.pop_up_window').fadeIn(100);
-            $('.renamer').fadeIn(100);
-            var name_of_selection = $('li.ui-selected').children('.list_content').children('span').text();
-            $('.selected_object').append(name_of_selection);
-        };
-        $scope.upload_pop_up_open = function(){
-            $('.pop_up_window').fadeIn(100);
-            $('.uploader').fadeIn(100);
-        };
-        $scope.delete_pop_up_open = function(){
-            $('.pop_up_window').fadeIn(100);
-            var delete_objects = $('.ui-selected');
-            delete_objects.each(function () {
-                if ($(this).attr('id') != undefined) {
-                    if($(this).hasClass("data_true")){
-                        $(".delete_container ul").append('<li class="light_back_option_even"><div class="col-xs-12 list_content"><img src="images/data_object_icon.png">'+$(this).attr('id')+'</div></li>'); 
-                    }else{
-                        $(".delete_container ul").append('<li class="light_back_option_even"><div class="col-xs-12 list_content"><img src="images/collection_icon.png">'+$(this).attr('id')+'</div></li>');
-                    };                    
-                };
-            });            
-            $('.deleter').fadeIn(100);
-        };
-        $scope.pop_up_close = function () {
-
-            $('.pop_up_window').fadeOut(100, function () {
-                $(".upload_container").css('display', 'block');
-                $(".upload_container_result").html('<ul></ul>');
-                $(".upload_container_result").css('display', 'none');
-                $('.uploader').fadeOut(100);
-                $('.deleter').fadeOut(100);
-                $('.creater').fadeOut(100);
-                $('.renamer').fadeOut(100);
-                $('.copier').fadeOut(100);
-                $('.mover').fadeOut(100);
-                $('.copier_button').fadeOut(100);
-                $('.mover_button').fadeOut(100);
-                location.reload();
-            });
-
-        };   
+          
         $scope.logout_func = function (){
             var promise = $http({
                 method: 'DELETE',
@@ -547,27 +394,13 @@ angular.module('myApp.home', ['ngRoute', 'ngFileUpload'])
             setTimeout(function() { $location.path("/login").search({}); },0);
             return promise;
         };
-        /**
-         * Upon the selection of an element in a breadrumb link, set that as the location of the browser, triggering
-         * a view of that collection
-         * @param index
-         */
-        $scope.goToBreadcrumb = function (path) {
-
-            if (!path) {
-                $log.error("cannot go to breadcrumb, no path");
-                return;
-            }
-            $location.path("/home/root");
-            $location.search("path", path);
-
-        };
         $scope.green_action_toggle= function($event){
           var content = $event.currentTarget.nextElementSibling;
           var container = $event.currentTarget.parentElement;
           $(content).toggle('normal');
           $(container).toggleClass('green_toggle_container_open');
         };
+
         var side_nav_toggled = "yes";
         $scope.side_nav_toggle = function () {
 
@@ -600,13 +433,201 @@ angular.module('myApp.home', ['ngRoute', 'ngFileUpload'])
                 clearTimeout(toggle_on);
             }
         };
-        /**
-         * INIT
+            
+        /*
+         * POP UP ACTIONS AND FUNCTIONS 
          */
+         $scope.getCopyBreadcrumbPaths = function () {
+             if (!$scope.copy_list) {
+                 return [];
+             }
 
-        $scope.listVirtualCollections();
-        $scope.getBreadcrumbPaths();
-        
+             breadcrumbsService.setCurrentAbsolutePath($scope.copy_list.pagingAwareCollectionListingDescriptor.parentAbsolutePath);
+             return breadcrumbsService.getWholePathComponents();
+             // $scope.breadcrumb_copy_full_array = $scope.breadcrumb_full_array;
+             // $scope.breadcrumb_copy_full_array_paths = [];
+             // var copy_totalPath = "";
+             // for (var i = 0; i < $scope.breadcrumb_copy_full_array.length; i++) {   
+             //         copy_totalPath = copy_totalPath + "/" + $scope.breadcrumb_copy_full_array[i];
+             //         $scope.breadcrumb_copy_full_array_paths.push({b:$scope.breadcrumb_copy_full_array[i],path:copy_totalPath});                                                                   
+             //     }                
+             // if($scope.breadcrumb_copy_full_array_paths.length > 5){
+             //     $scope.breadcrumb_copy_compressed_array = $scope.breadcrumb_copy_full_array_paths.splice(0,($scope.breadcrumb_copy_full_array_paths.length)-5);
+             // }
+         };
+         $scope.copy_list_refresh = function(VC,selectedPath,breadcrumb_index){
+             $scope.getCopyBreadcrumbPaths();
+             $scope.copyVC = VC;
+             $scope.copy_breadcrumb = breadcrumbsService.buildPathUpToIndex(breadcrumb_index);
+             if(breadcrumb_index == undefined){
+                 return $http({
+                     method: 'GET',
+                     url: $globals.backendUrl('collection/') + VC,
+                     params: {path: selectedPath, offset: 0}
+                 }).success(function (data) {
+                     $scope.copy_list = data;
+                 }).error(function () {
+                     alert("Something went wrong while fetching the contents of the Collection");
+                     $scope.copy_list = [];
+                 });
+             }else{
+                return $http({
+                     method: 'GET',
+                     url: $globals.backendUrl('collection/') + VC,
+                     params: {path: $scope.copy_breadcrumb, offset: 0}
+                 }).success(function (data) {
+                     $scope.copy_list = data;
+                 }).error(function () {
+                     alert("Something went wrong while fetching the contents of the Collection");
+                     $scope.copy_list = [];
+                 }); 
+             }
+         };
+
+         $scope.move_pop_up_open = function(){            
+             $scope.copyVC = $scope.selectedVc.data.uniqueName;
+             $('.pop_up_window').fadeIn(100);
+             $scope.name_of_selection = $('.ui-selected');
+             var move_path_display = $("#move_select_result").empty();
+             var path_array = $scope.pagingAwareCollectionListing.pagingAwareCollectionListingDescriptor.pathComponents;
+             var current_collection = path_array[path_array.length - 1];
+             $scope.copy_source = $('.general_list_item .ui-selected').attr('id');
+             $scope.copy_target = $scope.pagingAwareCollectionListing.pagingAwareCollectionListingDescriptor.parentAbsolutePath;
+             move_path_display.append(current_collection);
+             $scope.name_of_selection.each(function() {
+                 if ($(this).attr('id') != undefined) {
+                     if($(this).hasClass("data_true")){
+                         $(".move_container ul").append('<li class="light_back_option_even"><div class="col-xs-7 list_content"><img src="images/data_object_icon.png">'+$(this).attr('id')+'</div></li>'); 
+                     }else{
+                         $(".move_container ul").append('<li class="light_back_option_even"><div class="col-xs-7 list_content"><img src="images/collection_icon.png">'+$(this).attr('id')+'</div></li>');
+                     };
+                 };              
+             }); 
+             $('.mover').fadeIn(100);
+             $('.mover_button').fadeIn(100);
+                        
+
+             return $http({
+                 method: 'GET', 
+                 url: $globals.backendUrl('virtualCollection')
+             }).success(function (data) {
+                 $scope.copy_vc_list = data;
+                 return $http({
+                     method: 'GET',
+                     url: $globals.backendUrl('collection/') + $scope.copyVC,
+                     params: {path: $scope.pagingAwareCollectionListing.pagingAwareCollectionListingDescriptor.parentAbsolutePath, offset: 0}
+                 }).success(function (data) {
+                     $scope.copy_list = data;
+                 }).error(function () {
+                     alert("Something went wrong while fetching the contents of the Collection");
+                     $scope.copy_list = [];
+                 });
+             }).error(function () {
+                 alert("Something went wrong while fetching the Virtual Collections");
+                 $scope.copy_vc_list = [];
+             });
+         };
+
+         $scope.copy_pop_up_open = function(){
+             $scope.getCopyBreadcrumbPaths();
+             $scope.copyVC = $scope.selectedVc.data.uniqueName;
+             $('.pop_up_window').fadeIn(100);
+             $scope.name_of_selection = $('.ui-selected');
+             var move_path_display = $("#copy_select_result").empty();
+             var path_array = $scope.pagingAwareCollectionListing.pagingAwareCollectionListingDescriptor.pathComponents;
+             var current_collection = path_array[path_array.length - 1];
+             $scope.copy_source = $('.general_list_item .ui-selected').attr('id');
+             $scope.copy_target = $scope.pagingAwareCollectionListing.pagingAwareCollectionListingDescriptor.parentAbsolutePath;
+             move_path_display.append(current_collection);
+             $scope.name_of_selection.each(function() {
+                 if ($(this).attr('id') != undefined) {
+                     if($(this).hasClass("data_true")){
+                         $(".copy_container ul").append('<li class="light_back_option_even"><div class="col-xs-7 list_content"><img src="images/data_object_icon.png">'+$(this).attr('id')+'</div></li>'); 
+                     }else{
+                         $(".copy_container ul").append('<li class="light_back_option_even"><div class="col-xs-7 list_content"><img src="images/collection_icon.png">'+$(this).attr('id')+'</div></li>');
+                     };
+                 };              
+             }); 
+             $('.copier').fadeIn(100);
+             $('.copier_button').fadeIn(100);
+             return $http({
+                 method: 'GET', 
+                 url: $globals.backendUrl('virtualCollection')
+             }).success(function (data) {
+                 $scope.copy_vc_list = data;
+                 return $http({
+                     method: 'GET',
+                     url: $globals.backendUrl('collection/') + $scope.copyVC,
+                     params: {path: $scope.pagingAwareCollectionListing.pagingAwareCollectionListingDescriptor.parentAbsolutePath, offset: 0}
+                 }).success(function (data) {
+                     $scope.copy_list = data;
+                 }).error(function () {
+                     alert("Something went wrong while fetching the contents of the Collection");
+                     $scope.copy_list = [];
+                 });
+             }).error(function () {
+                 alert("Something went wrong while fetching the Virtual Collections");
+                 $scope.copy_vc_list = [];
+             });
+         };        
+         $scope.create_pop_up_open = function(){
+             $('.pop_up_window').fadeIn(100);
+             $('.creater').fadeIn(100);
+         };
+         $scope.rename_pop_up_open = function(){
+             $('.pop_up_window').fadeIn(100);
+             $('.renamer').fadeIn(100);
+             var name_of_selection = $('li.ui-selected').children('.list_content').children('span').text();
+             $('.selected_object').append(name_of_selection);
+         };
+         $scope.upload_pop_up_open = function(){
+             $('.pop_up_window').fadeIn(100);
+             $('.uploader').fadeIn(100);
+         };
+         $scope.delete_pop_up_open = function(){
+             $('.pop_up_window').fadeIn(100);
+             var delete_objects = $('.ui-selected');
+             delete_objects.each(function () {
+                 if ($(this).attr('id') != undefined) {
+                     if($(this).hasClass("data_true")){
+                         $(".delete_container ul").append('<li class="light_back_option_even"><div class="col-xs-12 list_content"><img src="images/data_object_icon.png">'+$(this).attr('id')+'</div></li>'); 
+                     }else{
+                         $(".delete_container ul").append('<li class="light_back_option_even"><div class="col-xs-12 list_content"><img src="images/collection_icon.png">'+$(this).attr('id')+'</div></li>');
+                     };                    
+                 };
+             });            
+             $('.deleter').fadeIn(100);
+         };
+         $scope.pop_up_close = function () {
+
+             $('.pop_up_window').fadeOut(100, function () {
+                 $(".upload_container").css('display', 'block');
+                 $(".upload_container_result").html('<ul></ul>');
+                 $(".upload_container_result").css('display', 'none');
+                 $('.uploader').fadeOut(100);
+                 $('.deleter').fadeOut(100);
+                 $('.creater').fadeOut(100);
+                 $('.renamer').fadeOut(100);
+                 $('.copier').fadeOut(100);
+                 $('.mover').fadeOut(100);
+                 $('.copier_button').fadeOut(100);
+                 $('.mover_button').fadeOut(100);
+             });
+
+         }; 
+
+
+         /**
+          * INITIAL CALLS 
+          */
+
+         $scope.listVirtualCollections();
+         $scope.getBreadcrumbPaths();
+
+
+
+
+
 
         /*
          Retrieve the data profile for the data object at the given absolute path

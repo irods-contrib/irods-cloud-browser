@@ -63,14 +63,14 @@
 							     ... 
 							   </button>
 							   <ul class="dropdown-menu" ng-mouseleave="hide_breadcrumbs()">
-								   	<li ng-repeat="breadcrumb in breadcrumb_compressed_array">
+								   	<li title="{{breadcrumb.b}}" ng-repeat="breadcrumb in breadcrumb_compressed_array">
 								   		<a ng-click="goToBreadcrumb(breadcrumb.path)">
 								   			>&nbsp;{{breadcrumb.b}}
 								   		</a>
 								   	</li>							     
 							   </ul>
 							 </div>
-						<div class="dark_back_option_double" title="{{breadcrumb}}" ng-click="goToBreadcrumb(breadcrumb.path)" ng-repeat="breadcrumb in breadcrumb_full_array_paths | limitTo:-5">							
+						<div class="dark_back_option_double" title="{{breadcrumb.b}}" ng-click="goToBreadcrumb(breadcrumb.path)" ng-repeat="breadcrumb in breadcrumb_full_array_paths | limitTo:-5">							
 							 >&nbsp;{{breadcrumb.b}}				
 						</div>		
 					</div>			

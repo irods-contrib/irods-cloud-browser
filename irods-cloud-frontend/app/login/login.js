@@ -2,82 +2,102 @@
 
 angular.module('myApp.login', ['ngRoute'])
 
-.config(['$routeProvider', function($routeProvider) {
-  $routeProvider.when('/login', {
-    templateUrl: 'login/login.html',
-    controller: 'loginCtrl',
-      resolve: {
+    .config(['$routeProvider', function ($routeProvider) {
+        $routeProvider.when('/login', {
+            templateUrl: 'login/login.html',
+            controller: 'loginCtrl',
+            resolve: {
 
-          // set vc name as selected
-          initialConfig: function ( configService) {
+                // set vc name as selected
+                configData: function (configService) {
+                    var configSettings = configService.retrieveInitialConfig();
+                    return configSettings;
+                }
+            }
+        });
+    }])
 
-              var initialConfig = configService.retrieveInitialConfig();
-              return initialConfig;
-          }
+    .controller('loginCtrl', ['$scope', '$log', '$http', '$location', 'MessageService', 'globals', '$q', '$timeout','configData', function ($scope, $log, $http, $location, MessageService, $globals, $q, $timeout, configData) {
 
-      }
-  });
-}])
+        var irodsAccount = function (host, port, zone, userName, password, authType, resource) {
+            return {
+                host: host,
+                port: port,
+                zone: zone,
+                userName: userName,
+                password: password,
+                authType: authType,
+                resource: resource
+            };
+        };
 
-.controller('loginCtrl', ['$scope', '$log', '$http', '$location', 'MessageService','globals','$q','$timeout','initialConfig',function ($scope, $log, $http, $location, MessageService, $globals, $q, $timeout, initialConfig) {
-		var irodsAccount = function (host, port, zone, userName, password, authType, resource) {
-		    return {
-		        host: host,
-		        port: port,
-		        zone: zone,
-		        userName: userName,
-		        password: password,
-		        authType: authType,
-		        resource: resource
+        $scope.initialConfig = configData;
 
-		    };
-		};
-
-        $scope.initialConfig = initialConfig;
-        
-        $('#main_contents').css('width','100%');
+        $('#main_contents').css('width', '100%');
         $scope.close_intro = function () {
-            $('.intro_screen').animate({'opacity': '0'},function(){
-                $('.intro_screen').css('display','none');
+            $('.intro_screen').animate({'opacity': '0'}, function () {
+                $('.intro_screen').css('display', 'none');
             });
         };
 
         $scope.current_page = 'login';
         $scope.login = {};
-        $scope.login.authType="STANDARD";
+        $scope.login.authType = "STANDARD";
         $scope.submitLogin = function () {
             var actval = irodsAccount($scope.login.host, $scope.login.port, $scope.login.zone, $scope.login.userName, $scope.login.password, $scope.login.authType, "");
-            
-            $log.info("irodsAccount for host:" + actval);
             $http({
                 method: 'POST',
                 url: $globals.backendUrl('login/'),
                 data: actval
-                //headers: { 'Content-Type': 'application/json' }  // set the headers so angular passing info as request payload
             }).then(function (data) {
-                    $log.info("login successful" + data);
-                    // userService.setLoggedInIdentity(data);
+                $log.info("login successful" + data);
 
-                    var path = $globals.getLastPath();
-                    return $q.when(path);
+                var path = $globals.getLastPath();
+                return $q.when(path);
 
-                }).then(function(path) {
+            }).then(function (path) {
 
-                    if (!path) {
-                        $log.info("hard code to go home");
-                       path="/home/My Home";
-                    } else {
-                        // setpath
-                        $log.info("setting location to last path:" + path);
-                    }
+                if (!path) {
+                    $log.info("hard code to go home");
+                    path = "/home/My Home";
+                } else {
+                    // setpath
+                    $log.info("setting location to last path:" + path);
+                }
 
-                   // $timeout(function () {
-                        $location.path(path);
-                   // });
+                // $timeout(function () {
+                $location.path(path);
+                // });
 
-                    $log.info("end login success processing");
+                $log.info("end login success processing");
 
-                });
+            });
         };
 
-}]);
+    }]).factory('configService', ['$http', '$log', '$q', 'globals', function ($http, $log, $q, globals) {
+
+        /**
+         * Service to handle configuration information
+         */
+        return {
+
+            retrieveInitialConfig: function() {
+                $log.info("retrieveInitialConfig()");
+
+                var promise = $http({
+                    method: 'GET',
+                    url: globals.backendUrl('initialConf'),
+                    params: {}
+                }).then(function (response) {
+                    // The then function here is an opportunity to modify the response
+                    $log.info(response);
+                    // The return value gets picked up by the then in the controller.
+                    return response.data;
+                });
+                // Return the promise to the controller
+                return promise;
+            }
+
+
+        }
+    }]);

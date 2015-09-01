@@ -164,7 +164,7 @@ angular.module('fileModule',[])
 
             var promise =  $http({method: 'POST', url: globals.backendUrl('copy') , params: {sourcePath: sourcePath, targetPath: targetPath, resource: targetResource, overwrite:overwrite}}).then(function (response) {
                 // The then function here is an opportunity to modify the response
-                $log(response);
+                $log.info(response);
                 // The return value gets picked up by the then in the controller.
                 return response.data; // return CollectionAndDataObjectListingEntry as JSON
             });

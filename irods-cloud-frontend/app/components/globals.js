@@ -208,31 +208,5 @@ angular.module('globalsModule', [])
 
         return bc;
 
-    }).factory('configService', ['$http', '$log', '$q', 'globals', function ($http, $log, $q, globals) {
-
-        /**
-         * Service to handle configuration information
-         */
-        return {
-
-            retrieveInitialConfig: function() {
-                $log.info("retrieveInitialConfig()");
-
-                var promise = $http({
-                    method: 'GET',
-                    url: globals.backendUrl('initialConf'),
-                    params: {}
-                }).then(function (response) {
-                    // The then function here is an opportunity to modify the response
-                    $log.info(response);
-                    // The return value gets picked up by the then in the controller.
-                    return response.data;
-                });
-                // Return the promise to the controller
-                return promise;
-            }
-
-
-        }
-    }]);
+    });
 

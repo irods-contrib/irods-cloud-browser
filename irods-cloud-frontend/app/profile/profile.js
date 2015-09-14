@@ -284,6 +284,9 @@ angular.module('myApp.profile', ['ngRoute'])
             move_path_display.append(move_path);
             $scope.copy_target = path;  
         };
+        $scope.hide_breadcrumbs = function () {
+            $(".dark_back_option_double").removeClass("open");
+        };
         $scope.copy_list_refresh = function (VC, selectedPath) {                     
             if(VC == ""){
                 var pop_up_vc = 'root';               

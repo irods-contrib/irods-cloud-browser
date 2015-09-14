@@ -44,7 +44,35 @@ angular.module('myApp.login', ['ngRoute'])
         $scope.login = {};
         $scope.login.authType = "STANDARD";
         $scope.submitLogin = function () {
-            var actval = irodsAccount($scope.login.host, $scope.login.port, $scope.login.zone, $scope.login.userName, $scope.login.password, $scope.login.authType, "");
+            
+            if($scope.initialConfig.loginPresetEnabled === true){
+                if($scope.initialConfig.presetPort == ''){
+                    var port = $scope.login.port;
+                }else{
+                    var port = $scope.initialConfig.presetPort;
+                }
+
+                if($scope.initialConfig.presetZone == ''){
+                    var zone = $scope.login.zone;
+                }else{
+                    var zone = $scope.initialConfig.presetZone;
+                }
+
+                if($scope.initialConfig.presetHost == ''){
+                    var host = $scope.login.host;
+                }else{
+                    var host = $scope.initialConfig.presetHost;
+                }
+
+                if($scope.initialConfig.presetAuthScheme == ''){
+                    var AuthScheme = $scope.login.authType;
+                }else{
+                    var AuthScheme = $scope.initialConfig.presetAuthScheme;
+                }
+                var actval = irodsAccount(host, port, zone, $scope.login.userName, $scope.login.password, AuthScheme, "");
+            }else{
+                var actval = irodsAccount($scope.login.host, $scope.login.port, $scope.login.zone, $scope.login.userName, $scope.login.password, $scope.login.authType, "");
+            }
             $http({
                 method: 'POST',
                 url: $globals.backendUrl('login/'),

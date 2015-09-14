@@ -43,3 +43,5 @@ irods-cloud-frontend/node_modules/
 **/*.log
 **/*.iml
 **/target-eclipse
+**/.metadata
+**/.Servers

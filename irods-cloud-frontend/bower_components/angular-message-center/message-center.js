@@ -84,6 +84,12 @@ factory('MessageService', ['$rootScope', function ($rootScope) {
     opts.color = 'success';
     this.broadcast(msg, opts);
   };
+  MessageService.sticky_success = function(msg, opts) {
+    opts = opts || {};
+    opts.color = 'success';
+    opts.timeout = 500000;
+    this.broadcast(msg, opts);
+  };
 
   MessageService.warn = function(msg, opts) {
     opts = opts || {};

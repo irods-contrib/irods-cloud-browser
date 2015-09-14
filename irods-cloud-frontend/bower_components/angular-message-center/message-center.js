@@ -61,7 +61,12 @@ factory('MessageService', ['$rootScope', function ($rootScope) {
     opts.color = 'info';
     this.broadcast(msg, opts);
   };
-
+  MessageService.sticky_info = function(msg, opts) {
+    opts = opts || {};
+    opts.color = 'info';
+    opts.timeout = 500000;
+    this.broadcast(msg, opts);
+  };
   MessageService.danger = function(msg, opts) {
     opts = opts || {};
     opts.color = 'danger';
@@ -89,6 +94,12 @@ factory('MessageService', ['$rootScope', function ($rootScope) {
   MessageService.warning = function(msg, opts) {
     opts = opts || {};
     opts.color = 'warning';
+    this.broadcast(msg, opts);
+  };
+  MessageService.sticky_warning = function(msg, opts) {
+    opts = opts || {};
+    opts.color = 'warning';
+    opts.timeout = 500000;
     this.broadcast(msg, opts);
   };
 

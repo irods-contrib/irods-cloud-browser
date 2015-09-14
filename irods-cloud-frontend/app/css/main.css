@@ -205,6 +205,9 @@ select{
 /* ||||||||||||||||||||||||||||||||||| */
 /* |||||| MAIN CONTAINERS STYLES ||||| */
 /* ||||||||||||||||||||||||||||||||||| */
+.has_error{
+	outline: 1px solid red;
+}
 .upload_container_result ul,.delete_container ul{
 	height: 300px;
 	overflow-y: scroll;
@@ -587,7 +590,7 @@ input.col-xs-12{
 	padding:0px;
 }
 .navbar-brand{
-	padding: 15px 0px 0px 0px;
+	padding: 10px 0px 0px 0px;
 }
 
 .list_group_header{

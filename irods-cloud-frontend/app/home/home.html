@@ -58,18 +58,18 @@
 				</div>	
 				<div class="breadcrumbs_container" ng-show="selectedVc.data.type == 'COLLECTION'">
 					<div class="breadcrumbs_sub_container" >
-						 <div ng-show=" breadcrumb_compressed_array.length > 0 " class="dark_back_option_double">
-							   <button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-							     ... 
-							   </button>
-							   <ul class="dropdown-menu" ng-mouseleave="hide_breadcrumbs()">
-								   	<li title="{{breadcrumb.b}}" ng-repeat="breadcrumb in breadcrumb_compressed_array">
-								   		<a ng-click="goToBreadcrumb(breadcrumb.path)">
-								   			>&nbsp;{{breadcrumb.b}}
-								   		</a>
-								   	</li>							     
-							   </ul>
-							 </div>
+						 <div ng-mouseleave="hide_breadcrumbs()" ng-show=" breadcrumb_compressed_array.length > 0 " class="dark_back_option_double">
+						   <button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+						     ... 
+						   </button>
+						   <ul class="dropdown-menu">
+							   	<li title="{{breadcrumb.b}}" ng-repeat="breadcrumb in breadcrumb_compressed_array">
+							   		<a ng-click="goToBreadcrumb(breadcrumb.path)">
+							   			>&nbsp;{{breadcrumb.b}}
+							   		</a>
+							   	</li>							     
+						   </ul>
+						 </div>
 						<div class="dark_back_option_double" title="{{breadcrumb.b}}" ng-click="goToBreadcrumb(breadcrumb.path)" ng-repeat="breadcrumb in breadcrumb_full_array_paths | limitTo:-5">							
 							 >&nbsp;{{breadcrumb.b}}				
 						</div>		
@@ -81,7 +81,7 @@
 				<div class="selection_actions_container">
 					<div class="desktop_collection_actions">
 						<div class="download_button" title="Delete selected file(s) " ng-click='delete_pop_up_open()' > 
-							<img src="images/dark_delete_icon.png"><span>&nbsp;Delete</span>	
+							<img src="images/delete_icon.png"><span>&nbsp;Delete</span>	
 						</div>
 						<div class="rename_divider small_vertical_divider"></div>
 						<div class="rename_button" title="Rename selected file/collection" ng-click='rename_pop_up_open()' > 

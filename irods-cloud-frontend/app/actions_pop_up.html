@@ -1,5 +1,10 @@
 <div class="pop_up_window">
   <div class="three_column centered">
+
+    <!--********************************
+    **********    UPLOADER    **********
+    *********************************-->
+
     <div class="column_content uploader pop_up_content">
       <div class="light_header"><img src="images/upload_icon_dark.png"><span>Uploading files to {{pagingAwareCollectionListing.pagingAwareCollectionListingDescriptor.pathComponents[current_collection_index]}}</span><img class="pop_up_close_button right" title="close window" ng-click="pop_up_close()" src="images/close_icon.png"></div>
       
@@ -17,10 +22,13 @@
         <div class="container"><hr class="hr_flat"></div>
         <div class="container">You can also&nbsp;<div class="btn btn-default btn-xs" ngf-select ngf-change="stage_files($files)" ngf-multiple="multiple">Browse More Files</div>
         </div>
-      </div>
-      
-      
+      </div>   
     </div>
+
+    <!--********************************
+    **********    DELETER    ***********
+    *********************************-->
+
     <div class="column_content deleter pop_up_content">
       <div class="delete_header"><img src="images/dark_delete_icon.png"><span>&nbsp;Are you sure you want to DELETE the following:</span><img class="pop_up_close_button right" title="close window" ng-click="pop_up_close()" src="images/close_icon.png"></div>
       
@@ -36,6 +44,10 @@
         </div>
       </div>
     </div>
+
+    <!--********************************
+    ***********    COPIER    ***********
+    *********************************-->
 
     <div class="column_content copier copier_wrap">
       <div class="light_header"><img src="images/dark_copy_icon.png"><span>&nbsp;Copying</span><img class="pop_up_close_button right" title="close window" ng-click="pop_up_close()" src="images/close_icon.png"></div>
@@ -55,7 +67,7 @@
         <div class="column_content pop_up_content">
           <div class="light_header"><span>Virtual Collections</span></div>
           <ul >
-              <li class="light_back_option" ng-repeat="virtualCollection in copy_vc_list" ng-click="copy_list_refresh(virtualCollection.uniqueName,'')">
+              <li class="light_back_option" ng-repeat="virtualCollection in copy_vc_list.data" ng-click="copy_list_refresh(virtualCollection.uniqueName,'')">
                       <span><span class="{{virtualCollection.i18icon|iconic}}"></span><span>{{virtualCollection.uniqueName}}</span></span>
               </li>
           </ul>
@@ -64,14 +76,29 @@
       <div class="four_column copier">
         <div class="column_content pop_up_content">
           <div class='dark_header'>
-            <div id="breadcrumbs_container" ng-show="selectedVc.data.type == 'COLLECTION'">
-              <div class="breadcrumbs_sub_container" >
-                <span class="dark_back_option_double" ng-click="copy_list_refresh(copyVC,'',$index)" ng-repeat="breadcrumb in getCopyBreadcrumbPaths() track by $id(breadcrumb + $index)">
-                   >&nbsp;{{breadcrumb}}       
-                </span>   
-              </div>      
-            </div>  
-          </div>          
+
+            <div class="breadcrumbs_container">
+              <div class="breadcrumbs_container" ng-show="copyVC.data.type == 'COLLECTION'">
+                <div class="breadcrumbs_sub_container">
+                   <div ng-mouseleave="hide_breadcrumbs()" ng-show="breadcrumb_popup_compressed_array.length > 0 " class="dark_back_option_double">
+                     <button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                       ... 
+                     </button>
+                     <ul class="dropdown-menu" >
+                        <li title="{{breadcrumb.b}}" ng-repeat="breadcrumb in breadcrumb_popup_compressed_array">
+                          <a ng-click="copy_list_refresh(copyVC.data.uniqueName,breadcrumb.path);set_path(breadcrumb.b,breadcrumb.path)">
+                            >&nbsp;{{breadcrumb.b}}
+                          </a>
+                        </li>                  
+                     </ul>
+                   </div>
+                  <div class="dark_back_option_double" title="{{breadcrumb.b}}" ng-click="copy_list_refresh(copyVC.data.uniqueName,breadcrumb.path);set_path(breadcrumb.b,breadcrumb.path)" ng-repeat="breadcrumb in breadcrumb_popup_full_array_paths | limitTo:-5">
+                     >&nbsp;{{breadcrumb.b}}        
+                  </div>    
+                </div>      
+              </div>                    
+            </div> 
+          </div>        
           <ul class="selectable copy_listing">
               <div class="list_header">
                 <div class="col-xs-10 col-sm-10 col-md-9 col-lg-9 list_content">        
@@ -81,7 +108,7 @@
                       <b>Last Modified</b>
                     </div>
               </div>
-              <li class="ui-widget-content data_{{collectionAndDataObject.dataObject}} copy_list_item ui-selectee" ng-show="{{collectionAndDataObject.dataObject}} == false" ng-dblclick="copy_list_refresh(copyVC,collectionAndDataObject.formattedAbsolutePath)" ng-class-odd="'light_back_option'" ng-class-even="'light_back_option_even'" ng-repeat="collectionAndDataObject in copy_list.collectionAndDataObjectListingEntries" id='{{collectionAndDataObject.formattedAbsolutePath}}' on-last-repeat>
+              <li class="ui-widget-content data_{{collectionAndDataObject.dataObject}} copy_list_item ui-selectee" ng-show="{{collectionAndDataObject.dataObject}} == false" ng-dblclick="copy_list_refresh(copyVC.data.uniqueName,collectionAndDataObject.formattedAbsolutePath)" ng-class-odd="'light_back_option'" ng-class-even="'light_back_option_even'" ng-repeat="collectionAndDataObject in copy_list.data.collectionAndDataObjectListingEntries" id='{{collectionAndDataObject.formattedAbsolutePath}}' on-last-repeat>
                       <div class="col-xs-10 col-sm-10 col-md-7 col-lg-7 list_content">
                         <img src="images/collection_icon.png">          
                         <span class="collection_object">{{collectionAndDataObject.nodeLabelDisplayValue}}</span>
@@ -97,7 +124,9 @@
         <div class="btn btn-success copier_button" ng-click="copy_action()">Copy</div>
       </div>
 
-
+      <!--********************************
+      ***********    MOVER    ************
+      *********************************-->
 
     <div class="column_content mover mover_wrap">
       <div class="light_header"><img src="images/dark_move_icon.png"><span>&nbsp;Moving</span><img class="pop_up_close_button right" title="close window" ng-click="pop_up_close()" src="images/close_icon.png"></div>
@@ -117,7 +146,7 @@
         <div class="column_content pop_up_content">
           <div class="light_header"><span>Virtual Collections</span></div>
           <ul >
-              <li class="light_back_option" ng-repeat="virtualCollection in copy_vc_list" ng-click="copy_list_refresh(virtualCollection.uniqueName,'')">
+              <li class="light_back_option" ng-repeat="virtualCollection in copy_vc_list.data" ng-click="copy_list_refresh(virtualCollection.uniqueName,'')">
                       <span><span class="{{virtualCollection.i18icon|iconic}}"></span><span>{{virtualCollection.uniqueName}}</span></span>
               </li>
           </ul>
@@ -126,11 +155,23 @@
       <div class="four_column mover">
         <div class="column_content pop_up_content">
           <div class='dark_header'>
-            <div id="breadcrumbs_container" ng-show="selectedVc.data.type == 'COLLECTION'">
-              <div class="breadcrumbs_sub_container" >
-                <span class="dark_back_option_double" ng-click="copy_list_refresh(copyVC,'',$index)" ng-repeat="breadcrumb in getCopyBreadcrumbPaths() track by $id(breadcrumb + $index)">
-                   >&nbsp;{{breadcrumb}}        
-                </span>   
+            <div class="breadcrumbs_container" ng-show="copyVC.data.type == 'COLLECTION'">
+              <div class="breadcrumbs_sub_container">
+                 <div ng-mouseleave="hide_breadcrumbs()" ng-show="breadcrumb_popup_compressed_array.length > 0 " class="dark_back_option_double">
+                   <button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                     ... 
+                   </button>
+                   <ul class="dropdown-menu" >
+                      <li title="{{breadcrumb.b}}" ng-repeat="breadcrumb in breadcrumb_popup_compressed_array">
+                        <a ng-click="copy_list_refresh(copyVC.data.uniqueName,breadcrumb.path);set_path(breadcrumb.b,breadcrumb.path)">
+                          >&nbsp;{{breadcrumb.b}}
+                        </a>
+                      </li>                  
+                   </ul>
+                 </div>
+                <div class="dark_back_option_double" title="{{breadcrumb.b}}" ng-click="copy_list_refresh(copyVC.data.uniqueName,breadcrumb.path);set_path(breadcrumb.b,breadcrumb.path)" ng-repeat="breadcrumb in breadcrumb_popup_full_array_paths | limitTo:-5">
+                   >&nbsp;{{breadcrumb.b}}        
+                </div>    
               </div>      
             </div>  
           </div>          
@@ -143,7 +184,7 @@
                       <b>Last Modified</b>
                     </div>
               </div>
-              <li class="ui-widget-content data_{{collectionAndDataObject.dataObject}} move_list_item ui-selectee" ng-show="{{collectionAndDataObject.dataObject}} == false" ng-dblclick="copy_list_refresh(copyVC,collectionAndDataObject.formattedAbsolutePath)" ng-class-odd="'light_back_option'" ng-class-even="'light_back_option_even'" ng-repeat="collectionAndDataObject in copy_list.collectionAndDataObjectListingEntries" id='{{collectionAndDataObject.formattedAbsolutePath}}' on-last-repeat>
+              <li class="ui-widget-content data_{{collectionAndDataObject.dataObject}} move_list_item ui-selectee" ng-show="{{collectionAndDataObject.dataObject}} == false" ng-dblclick="copy_list_refresh(copyVC.data.uniqueName,collectionAndDataObject.formattedAbsolutePath)" ng-class-odd="'light_back_option'" ng-class-even="'light_back_option_even'" ng-repeat="collectionAndDataObject in copy_list.data.collectionAndDataObjectListingEntries" id='{{collectionAndDataObject.formattedAbsolutePath}}' on-last-repeat>
                       <div class="col-xs-10 col-sm-10 col-md-7 col-lg-7 list_content">
                         <img src="images/collection_icon.png">          
                         <span class="collection_object">{{collectionAndDataObject.nodeLabelDisplayValue}}</span>
@@ -159,6 +200,9 @@
         <div class="btn btn-success mover_button" ng-click="move_action()">Move</div>
       </div>
 
+      <!--********************************
+      ***********    CREATER    **********
+      *********************************-->
 
     <div class="column_content creater pop_up_content">
       <div class="light_header"><img src="images/dark_add_icon.png"><span>&nbsp;Adding sub-collection to {{pagingAwareCollectionListing.pagingAwareCollectionListingDescriptor.pathComponents[current_collection_index]}}</span><img class="pop_up_close_button right" title="close window" ng-click="pop_up_close()" src="images/close_icon.png"></div>
@@ -198,6 +242,11 @@
       </div>
     </div>
 
+    <!--********************************
+    **********    METADATA    **********
+    ***********    ADDER    ************
+    *********************************-->
+
     <div class="column_content metadata_adder">
       <div class="light_header"><img src="images/dark_add_icon.png"><span>&nbsp;Metadata: ADD</span><img class="pop_up_close_button right" title="close window" ng-click="pop_up_close()" src="images/close_icon.png"></div>
       
@@ -221,6 +270,11 @@
       </div>
     </div>
 
+    <!--********************************
+    **********    METADATA    **********
+    **********    DELETER    ***********
+    *********************************-->
+
     <div class="column_content metadata_deleter">
       <div class="delete_header"><img src="images/dark_delete_icon.png"><span>&nbsp;Metadata: DELETE</span><img class="pop_up_close_button right" title="close window" ng-click="pop_up_close()" src="images/close_icon.png"></div>
       
@@ -238,6 +292,11 @@
         </div>
       </div>
     </div>
+
+    <!--********************************
+    **********    METADATA    **********
+    ***********    EDITOR    ***********
+    *********************************-->
 
     <div class="column_content metadata_editor">
       <div class="light_header"><img src="images/dark_edit_icon.png"><span>&nbsp;Metadata: Edit</span><img class="pop_up_close_button right" title="close window" ng-click="pop_up_close()" src="images/close_icon.png"></div>

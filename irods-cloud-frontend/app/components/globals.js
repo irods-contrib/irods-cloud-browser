@@ -8,6 +8,7 @@ angular.module('globalsModule', [])
 
     .factory('globals', ['$rootScope', '$log', function ($rootScope, $log) {
 
+        
         var f = {};
         /*
          NB put the trailing slash in the HOST variable!
@@ -22,7 +23,6 @@ angular.module('globalsModule', [])
             $log.info("computed URL:" + myUrl);
             return myUrl;
         };
-        
 
         /* ||||||||||||||||||||||||||||||||||| */
         /* |||||| BROWSER ACTION TRIGGER ||||| */
@@ -36,7 +36,6 @@ angular.module('globalsModule', [])
             //browser is safari, add css
            }
           }
-            
 
         /**
          * Saved path in case an auth exception required a new login

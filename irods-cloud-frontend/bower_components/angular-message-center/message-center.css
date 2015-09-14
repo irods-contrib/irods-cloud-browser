@@ -78,8 +78,8 @@
 }
 
 .message-box.info {
-	background-color: #5bc0de;
-	border-color: #46b8da;
+	background-color: #999;
+	border-color: #333;
 }
 
 button.close {

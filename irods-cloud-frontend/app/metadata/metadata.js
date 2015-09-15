@@ -92,11 +92,6 @@ angular.module('myApp.metadata', ['ngRoute'])
                     throw "value is missing";
                 }
 
-                if (!unit) {
-                    $log.error("unit is missing");
-                    throw "unit is missing";
-                }
-
                 var promise = $http({
                     method: 'DELETE',
                     url: globals.backendUrl('metadata'),

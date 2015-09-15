@@ -245,24 +245,7 @@ angular.module('myApp.profile', ['ngRoute'])
                 MessageService.success("Move completed!");    
                 location.assign(new_url);  
             })
-        };   
-
-        $scope.star_action = function(){
-            var star_path = $scope.dataProfile.parentPath + "/" + $scope.dataProfile.childName;
-            fileService.starFileOrFolder(star_path).then(function(d) {
-                $scope.dataProfile.starred = true;
-            });
-            //location.reload();
-
-        };
-        $scope.unstar_action = function(){
-            var unstar_path = $scope.dataProfile.parentPath + "/" + $scope.dataProfile.childName;
-            //fileService.unstarFileOrFolder(unstar_path);
-            fileService.unstarFileOrFolder(unstar_path).then(function(d) {
-                $scope.dataProfile.starred = false;
-            });
-            //location.reload();
-        };
+        };           
         $scope.getCopyBreadcrumbPaths = function () {      
             $scope.breadcrumb_popup_full_array = $scope.copy_list.data.pagingAwareCollectionListingDescriptor.parentAbsolutePath.split("/");
             $scope.breadcrumb_popup_full_array.shift();
@@ -420,6 +403,32 @@ angular.module('myApp.profile', ['ngRoute'])
         |||||||| METADATA ACTIONS ||||||| 
         |||||||||||||||||||||||||||||||*/
         $scope.available_metadata = $scope.dataProfile.metadata;
+        $scope.star_action = function(){
+            var star_path = $scope.dataProfile.parentPath + "/" + $scope.dataProfile.childName;
+            fileService.starFileOrFolder(star_path).then(function() {
+                $http({method: 'GET', url: $globals.backendUrl('file') , params: {path: $scope.dataProfile.parentPath + "/" + $scope.dataProfile.childName}}).success(function(data){
+                    $scope.new_meta = data;
+                    $scope.available_metadata = $scope.new_meta.metadata;
+                });
+                $scope.pop_up_close_asynch();
+                $scope.dataProfile.starred = true;
+            });
+            //location.reload();
+
+        };
+        $scope.unstar_action = function(){
+            var unstar_path = $scope.dataProfile.parentPath + "/" + $scope.dataProfile.childName;
+            //fileService.unstarFileOrFolder(unstar_path);
+            fileService.unstarFileOrFolder(unstar_path).then(function() {
+                $http({method: 'GET', url: $globals.backendUrl('file') , params: {path: $scope.dataProfile.parentPath + "/" + $scope.dataProfile.childName}}).success(function(data){
+                    $scope.new_meta = data;
+                    $scope.available_metadata = $scope.new_meta.metadata;
+                });
+                $scope.pop_up_close_asynch();
+                $scope.dataProfile.starred = false;
+            });
+            //location.reload();
+        };
         $scope.add_metadata_pop_up = function (){
             $('#new_metadata_attribute').val('');
             $('#new_metadata_value').val('');

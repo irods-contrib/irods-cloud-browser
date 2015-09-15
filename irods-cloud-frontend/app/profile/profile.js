@@ -179,7 +179,11 @@ angular.module('myApp.profile', ['ngRoute'])
                     url: $globals.backendUrl('file') + '?' + delete_paths 
                 }).success(function (data) {
                     MessageService.success("Deletion completed!");
-                    window.history.go(-1);
+                window.setTimeout(function() {
+                    $location.url("/home/root");
+                    $location.search("path", $scope.dataProfile.parentPath);
+                }, 2000);
+
                 })
         };
 

@@ -15,8 +15,8 @@
                     <img src="images/secure_lock.png" width="100%">
                 </div>
                 <div class="col-xs-12 col-sm-6 double_top" name="login" >
-                    <div class="col-xs-12" data-toggle="tooltip" data-placement="top" title="i.e: SampleHost.com">Host:</div>
-                    <div class="col-xs-12 login_input"><input ng-model="login.host" type="text-area" class="col-xs-12" data-toggle="tooltip" data-placement="top" title="i.e: SampleHost.com" required autofocus></div>
+                    <div ng-show=" initialConfig.loginPresetEnabled == false " class="col-xs-12" data-toggle="tooltip" data-placement="top" title="i.e: SampleHost.com">Host:</div>
+                    <div ng-show=" initialConfig.loginPresetEnabled == false " class="col-xs-12 login_input"><input ng-model="login.host" type="text-area" class="col-xs-12" data-toggle="tooltip" data-placement="top" title="i.e: SampleHost.com" required autofocus></div>
                     <br>
                     <div ng-show=" initialConfig.loginPresetEnabled == false " class="col-xs-12">Port:</div>
                     <div ng-show=" initialConfig.loginPresetEnabled == false " class="col-xs-12 login_input"><input ng-model="login.port" type="text-area" class="col-xs-12" required></div>

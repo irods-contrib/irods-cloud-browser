@@ -251,7 +251,7 @@ class FileService {
 		def sourceFile = irodsFileFactory.instanceIRODSFile(path)
 		def targetFile = irodsFileFactory.instanceIRODSFile(sourceFile.parent, newName)
 		log.info("target is:${targetFile}...doing move...")
-		dataTransferOperations.move(sourceFile, targetFile)
+		dataTransferOperations.rename(path, targetFile.absolutePath)
 		log.info("move completed")
 		def collectionAO = irodsAccessObjectFactory.getCollectionAO(irodsAccount)
 		def listingEntry = collectionAO.getListingEntryForAbsolutePath(targetFile.absolutePath)

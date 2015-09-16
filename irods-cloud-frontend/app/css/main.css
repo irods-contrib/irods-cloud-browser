@@ -700,6 +700,7 @@ input.col-xs-12{
 .light_back_option span, .light_back_option_even span{
 	padding: 0px 0px 0px 2px;
 	display: inline-flex;
+	cursor: pointer;
 }
 .ui-widget-content.light_back_option, .ui-widget-content.light_back_option_even{
 	cursor:pointer;

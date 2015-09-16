@@ -43,7 +43,33 @@ angular.module('myApp.profile', ['ngRoute'])
             })   
         }).then(function (data) {
             $scope.copyVC = data;
+            $scope.getBreadcrumbPaths();
         });
+        $scope.getBreadcrumbPaths = function () {      
+            $scope.breadcrumb_full_array = $scope.copy_list.data.pagingAwareCollectionListingDescriptor.parentAbsolutePath.split("/");
+            $scope.breadcrumb_full_array.shift();
+            $scope.breadcrumb_full_array_paths = [];
+            var totalPath = "";
+            for (var i = 0; i < $scope.breadcrumb_full_array.length; i++) {
+                    totalPath = totalPath + "/" + $scope.breadcrumb_full_array[i];
+                    $scope.breadcrumb_full_array_paths.push({b:$scope.breadcrumb_full_array[i],path:totalPath});
+                }
+            if($scope.breadcrumb_full_array.length > 5){
+                $scope.breadcrumb_compressed_array = $scope.breadcrumb_full_array_paths.splice(0,($scope.breadcrumb_full_array_paths.length)-5);                
+            }else{
+                $scope.breadcrumb_compressed_array = [];
+            }
+        }
+        $scope.goToBreadcrumb = function (path) {
+
+            if (!path) {
+                $log.error("cannot go to breadcrumb, no path");
+                return;
+            }
+            $location.path("/home/root");
+            $location.search("path", path);
+
+        };
         $scope.$on('onRepeatLast', function (scope, element, attrs) {
                          
                 $(".selectable").selectable({
@@ -524,41 +550,17 @@ angular.module('myApp.profile', ['ngRoute'])
           $(container).toggleClass('green_toggle_container_open');
         };
 
-        /**
-         *
-         */
-        $scope.getBreadcrumbPaths = function () {
-
-            if (!$scope.dataProfile) {
-                return [];
-            }
-
-            breadcrumbsService.setCurrentAbsolutePath($scope.dataProfile.parentPath);
-            return breadcrumbsService.getWholePathComponents();
-        };
-
         $scope.getDownloadLink = function() {
             return  $globals.backendUrl('download') + "?path=" + $scope.dataProfile.domainObject.absolutePath;
 
         };
-
 
         /**
          * Upon the selection of an element in a breadrumb link, set that as the location of the browser, triggering
          * a view of that collection
          * @param index
          */
-        $scope.goToBreadcrumb = function (index) {
-
-            if (!index) {
-                $log.error("cannot go to breadcrumb, no index");
-                return;
-            }
-
-            $location.path("/home/root");
-            $location.search("path", breadcrumbsService.buildPathUpToIndex(index));
-
-        };
+        
 
     }]);
    

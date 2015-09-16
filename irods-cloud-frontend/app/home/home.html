@@ -56,7 +56,7 @@
 					  </ul>
 					</div>
 				</div>	
-				<div class="breadcrumbs_container" ng-show="selectedVc.data.type == 'COLLECTION'">
+				<div class="breadcrumbs_container" ng-hide="pagingAwareCollectionListing.pagingAwareCollectionListingDescriptor.pathComponents.lengh == 0">
 					<div class="breadcrumbs_sub_container" >
 						 <div ng-mouseleave="hide_breadcrumbs()" ng-show=" breadcrumb_compressed_array.length > 0 " class="dark_back_option_double">
 						   <button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

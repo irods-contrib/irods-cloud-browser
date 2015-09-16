@@ -3,8 +3,8 @@ import javax.servlet.http.Cookie
 import javax.servlet.http.HttpServletResponse
 
 import org.irods.jargon.core.connection.*
+import org.irods.jargon.core.pub.IRODSAccessObjectFactory
 import org.irods.jargon.idrop.web.services.AuthenticationService
-import org.irods.jargon.idrop.web.utils.IdropConstants
 import org.irods.jargon.idrop.web.utils.*
 
 class AuthenticationFilters {
@@ -13,6 +13,7 @@ class AuthenticationFilters {
 	 * Injected authentication service
 	 */
 	AuthenticationService authenticationService
+	IRODSAccessObjectFactory irodsAccessObjectFactory
 
 	def filters = {
 		auth(controller:'*', action:'*', controllerExclude:"(login|error|index|initialConf)") {
@@ -73,6 +74,10 @@ class AuthenticationFilters {
 				return true
 			}
 			after = { Map model ->
+				log.info("closing conn in filter!")
+
+				irodsAccessObjectFactory.closeSessionAndEatExceptions()
+				return true
 			}
 			afterView = { Exception e ->
 			}

@@ -276,8 +276,8 @@ angular.module('myApp.profile', ['ngRoute'])
         };
         $scope.copy_list_refresh = function (VC, selectedPath) {                     
             if(VC == ""){
-                var pop_up_vc = 'root';               
-            }else{
+                var pop_up_vc = 'root';
+
                 var pop_up_vc = VC;              
             }
             $http({

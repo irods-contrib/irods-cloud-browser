@@ -391,7 +391,7 @@ angular.module('myApp.home', ['ngRoute', 'ngFileUpload'])
                 $log.info('Adding:' + collections_new_name);
                     return $http({
                         method: 'PUT',
-                        url: $globals.backendUrl('file') + '?path=' + $scope.pagingAwareCollectionListing.pagingAwareCollectionListingDescriptor.parentAbsolutePath + '/' + collections_new_name
+                        url: $globals.backendUrl('file') + '?path=' + $globals.sanitizeCollName($scope.pagingAwareCollectionListing.pagingAwareCollectionListingDescriptor.parentAbsolutePath + '/' + collections_new_name)
                     }).then(function (data) {
                         return $collectionsService.listCollectionContents($scope.selectedVc.data.uniqueName, $scope.pagingAwareCollectionListing.pagingAwareCollectionListingDescriptor.parentAbsolutePath, 0);
                     }).then(function (data) {

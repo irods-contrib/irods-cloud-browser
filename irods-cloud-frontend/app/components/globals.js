@@ -78,6 +78,22 @@ angular.module('globalsModule', [])
         }
 
         /**
+         * Method to URL encode column names
+         * @param collName
+         * @returns {url encoded collName}
+         */
+        f.sanitizeCollName = function (collName) {
+
+            if (!collName) {
+                throw "no collName provided";
+            }
+
+            return encodeURIComponent(collName);
+
+        }
+
+
+        /**
          * Cause a logout to occur, and reposition at the login screen
          
         f.logout = function () {

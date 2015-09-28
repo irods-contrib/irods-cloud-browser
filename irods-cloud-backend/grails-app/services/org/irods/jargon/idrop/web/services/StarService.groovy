@@ -30,7 +30,7 @@ class StarService {
 
 
 		def irodsStarringService = jargonServiceFactoryService.instanceStarringService(irodsAccount)
-		irodsStarringService.starFileOrCollection(irodsAbsolutePath, "Starred from iDROP Web")
+		irodsStarringService.starFileOrCollection(irodsAbsolutePath, "Starred from Cloud Browser")
 	}
 
 	def removeStar(String irodsAbsolutePath, irodsAccount) {

@@ -101,6 +101,7 @@ body{
   	height: 35px;
   	margin: 11px;
   	border: 1px solid #00A9C2;
+  	background: #f0f0f0;
   	border-radius: 4px;
 }
 .drop_box{
@@ -250,6 +251,9 @@ select{
     -o-transition: all 0.5s ease;
     transition: all 0.5s ease;
 }
+.message_link{
+	cursor: pointer;
+}
 .main_wrapper{
 	background: #384B50;
 	padding:0px;
@@ -391,6 +395,7 @@ select{
 }
 .metadata_button{
 	padding: 4px 0px 0px 7px;
+	border: 
 }
 .metadata_button img{
 	padding: 0px 7px 0px 0px;
@@ -451,7 +456,9 @@ select{
 	opacity: 0.1;
 }
 .single_action{
-	display: none;
+	opacity: 0.2;
+	cursor: pointer;
+	pointer-events:none;
 }
 .pop_up_close_button{
 	opacity: 0.5;
@@ -595,6 +602,9 @@ input.col-xs-12{
 
 .list_group_header{
 	pointer-events: none;
+}
+.btn-default{
+	border-color: #888;
 }
 /* ||||||||||||||||||||||||||||||||||| */
 /* |||||||| POSITIONING STYLES ||||||| */

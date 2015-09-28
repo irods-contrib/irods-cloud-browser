@@ -216,6 +216,8 @@ angular.module('myApp.home', ['ngRoute', 'ngFileUpload'])
                         MessageService.success("Upload completed!");
                         $scope.pagingAwareCollectionListing = data;
                         $scope.pop_up_close();
+                        $scope.files_to_upload = [];
+                        $scope.files_name = [];
                     });
                 }
             }
@@ -294,7 +296,7 @@ angular.module('myApp.home', ['ngRoute', 'ngFileUpload'])
             var delete_paths = '';
             delete_objects.each(function () {
                 if ($(this).attr('id') != undefined) {
-                    delete_paths += 'path=' + $(this).attr('id') + '&';
+                    delete_paths += $(this).attr('id') + '&';
                 }
                 ;
             });
@@ -302,7 +304,10 @@ angular.module('myApp.home', ['ngRoute', 'ngFileUpload'])
             $log.info('Deleting:' + delete_paths);
             return $http({
                 method: 'DELETE',
-                url: $globals.backendUrl('file') + '?' + delete_paths
+                url: $globals.backendUrl('file'),
+                params: {
+                    path : delete_paths
+                }
             }).then(function (data) {
                 return $collectionsService.listCollectionContents($scope.selectedVc.data.uniqueName, $scope.pagingAwareCollectionListing.pagingAwareCollectionListingDescriptor.parentAbsolutePath, 0);
             }).then(function (data) {
@@ -338,10 +343,12 @@ angular.module('myApp.home', ['ngRoute', 'ngFileUpload'])
                 params: {sourcePath: $scope.copy_source, targetPath: $scope.copy_target, resource:'', overwrite: 'false' }
             }).then(function (data) {
                 return $collectionsService.listCollectionContents($scope.selectedVc.data.uniqueName, $scope.pagingAwareCollectionListing.pagingAwareCollectionListingDescriptor.parentAbsolutePath, 0);
-            }).then(function (data) {
-                MessageService.success("Move completed!");
+            }).then(function (data) {                
+                MessageService.sticky_success("File Successfully moved to:");                
                 $scope.pagingAwareCollectionListing = data;
                 $scope.pop_up_close();
+            }).then(function () {  
+                $(".message-center-regular").append('<div class="message-animation message-box success" ng-class="message.classes"><span><a class="message ng-binding message_link" ng-click="selectVirtualCollection(selectedVc.data.uniqueName,'+$scope.copy_target+')">'+ $scope.copy_target +'</a></span><button type="button" class="close" aria-hidden="true" ng-click="removeItem(message)">×</button></div>');
             })
         };
 
@@ -669,6 +676,9 @@ angular.module('myApp.home', ['ngRoute', 'ngFileUpload'])
                 $('.mover').fadeOut(100);
                 $('.copier_button').fadeOut(100);
                 $('.mover_button').fadeOut(100);
+                $scope.files_to_upload = [];
+                $scope.files_name = [];
+                $("#select-result").empty();
             });
 
         };

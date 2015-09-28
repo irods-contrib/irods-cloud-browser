@@ -105,11 +105,14 @@ angular.module('myApp.profile', ['ngRoute'])
                         }
                         
                         if ($("li.ui-selected").length > 1) {
-                            $('.single_action').fadeOut();
+                            $(".single_action").animate({'opacity': '0.1'});
+                            $(".single_action").css('pointer-events', 'none');
                         } else if ($("li.ui-selected").length == 1) {
-                            $('.single_action').fadeIn();
+                            $(".single_action").animate({'opacity': '1'});
+                            $(".single_action").css('pointer-events', 'auto');
                         } else if ($("li.ui-selected").length == 0) {
-                            $('.single_action').fadeOut();
+                            $(".single_action").animate({'opacity': '0.1'});
+                            $(".single_action").css('pointer-events', 'none');
                         }
 
 
@@ -198,19 +201,18 @@ angular.module('myApp.profile', ['ngRoute'])
             };
 
         $scope.delete_action = function (){
-            var delete_paths = 'path='+ $scope.dataProfile.parentPath + "/" +$scope.dataProfile.childName;
+            var delete_paths = $scope.dataProfile.parentPath + "/" +$scope.dataProfile.childName;
             $log.info('Deleting:'+delete_paths);
             return $http({
                     method: 'DELETE',
-                    url: $globals.backendUrl('file') + '?' + delete_paths 
-                }).success(function (data) {
-                    MessageService.success("Deletion completed!");
-                window.setTimeout(function() {
-                    $location.url("/home/root");
-                    $location.search("path", $scope.dataProfile.parentPath);
-                }, 2000);
-
-                })
+                    url: $globals.backendUrl('file'),
+                    params: {
+                        path : delete_paths
+                    }
+                }).then(function (data) {
+                MessageService.info("Deletion completed!");
+                window.history.back();
+            })
         };
 
 
@@ -303,7 +305,7 @@ angular.module('myApp.profile', ['ngRoute'])
         $scope.copy_list_refresh = function (VC, selectedPath) {                     
             if(VC == ""){
                 var pop_up_vc = 'root';
-
+            }else{
                 var pop_up_vc = VC;              
             }
             $http({
@@ -413,11 +415,6 @@ angular.module('myApp.profile', ['ngRoute'])
                 $('.mover').fadeOut(100);
                 $('.copier_button').fadeOut(100);
                 $('.mover_button').fadeOut(100);
-            });
-        };
-        $scope.pop_up_close_asynch = function () {
-
-            $('.pop_up_window').fadeOut(100, function () {
                 $(".upload_container").css('display', 'block');
                 $(".upload_container_result").html('<ul></ul>');
                 $(".upload_container_result").css('display', 'none');
@@ -425,7 +422,6 @@ angular.module('myApp.profile', ['ngRoute'])
                 $('.metadata_adder').fadeOut(100);
                 $('.metadata_deleter').fadeOut(100);
             });
-
         };
 
 
@@ -440,7 +436,7 @@ angular.module('myApp.profile', ['ngRoute'])
                     $scope.new_meta = data;
                     $scope.available_metadata = $scope.new_meta.metadata;
                 });
-                $scope.pop_up_close_asynch();
+                $scope.pop_up_close();
                 $scope.dataProfile.starred = true;
             });
             //location.reload();
@@ -454,7 +450,7 @@ angular.module('myApp.profile', ['ngRoute'])
                     $scope.new_meta = data;
                     $scope.available_metadata = $scope.new_meta.metadata;
                 });
-                $scope.pop_up_close_asynch();
+                $scope.pop_up_close();
                 $scope.dataProfile.starred = false;
             });
             //location.reload();
@@ -500,14 +496,31 @@ angular.module('myApp.profile', ['ngRoute'])
             var new_attribute = $('#new_metadata_attribute').val();
             var new_value = $('#new_metadata_value').val();
             var new_unit = $('#new_metadata_unit').val();
-            metadataService.addMetadataForPath(data_path, new_attribute, new_value, new_unit).then(function () {
-               $http({method: 'GET', url: $globals.backendUrl('file') , params: {path: $scope.dataProfile.parentPath + "/" + $scope.dataProfile.childName}}).success(function(data){
-                    $scope.new_meta = data;
-                    $scope.available_metadata = $scope.new_meta.metadata;
-               });
-                $scope.pop_up_close_asynch();
-            });
-
+            var att_unique = 'yes';
+            var value_unique = 'yes';
+            for (var i = 0; i < $scope.available_metadata.length; i++) {
+                var avu = $scope.available_metadata[i];
+                if (new_attribute === avu.avuAttribute) {
+                    att_unique = "no";
+                }
+                if (new_value === avu.avuValue) {
+                    value_unique = "no";
+                }
+            }
+            if(value_unique == "no" && att_unique == "no"){
+                MessageService.sticky_danger('There is already an AVU with Attribute: "' + new_attribute + '" and Value: "' + new_value + '". Please choose a different Attribute or Value');                    
+                    $('#new_metadata_attribute').addClass('has_error');
+                    $('#new_metadata_value').addClass('has_error');
+                    $('#new_metadata_attribute').focus();
+            }else{
+                metadataService.addMetadataForPath(data_path, new_attribute, new_value, new_unit).then(function () {
+                   $http({method: 'GET', url: $globals.backendUrl('file') , params: {path: $scope.dataProfile.parentPath + "/" + $scope.dataProfile.childName}}).success(function(data){
+                        $scope.new_meta = data;
+                        $scope.available_metadata = $scope.new_meta.metadata;
+                   });
+                    $scope.pop_up_close();
+                });
+            }
         };
         $scope.metadata_edit_action = function(){
             var data_path = $scope.dataProfile.parentPath + "/" + $scope.dataProfile.childName;
@@ -519,7 +532,7 @@ angular.module('myApp.profile', ['ngRoute'])
                     $scope.new_meta = data;
                     $scope.available_metadata = $scope.new_meta.metadata;
                });
-                $scope.pop_up_close_asynch();
+                $scope.pop_up_close();
             });
 
         };
@@ -534,7 +547,7 @@ angular.module('myApp.profile', ['ngRoute'])
                     $scope.new_meta = data;
                     $scope.available_metadata = $scope.new_meta.metadata;
                });
-                $scope.pop_up_close_asynch();
+                $scope.pop_up_close();
             });
 
         };

@@ -32,7 +32,7 @@ angular.module('myApp.home', ['ngRoute', 'ngFileUpload'])
             resolve: {
                 // set vc name as selected
                 selectedVc: function ($route, virtualCollectionsService) {
-                    current_vc = "My Home";
+                    var current_vc = "My Home";
                     var vcData = virtualCollectionsService.listUserVirtualCollectionData("My Home");
                     return vcData;
                 },

@@ -209,6 +209,10 @@ select{
 .has_error{
 	outline: 1px solid red;
 }
+.foot_note{
+	font-size: 11px;
+	color:#777;
+}
 .upload_container_result ul,.delete_container ul{
 	height: 300px;
 	overflow-y: scroll;
@@ -558,11 +562,6 @@ select{
 }
 .border_left{
 	border-left: 1px solid #999;
-}
-.
-.disc_text{
-	font-size: 11px;
-	color: #888;
 }
 .default_icon{
 	background: url("../images/collection_icon.png");

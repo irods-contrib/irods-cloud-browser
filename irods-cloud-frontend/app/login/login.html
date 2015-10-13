@@ -14,7 +14,7 @@
                 <div class="col-xs-3 col-xs-offset-1 single_top phone_disappear">
                     <img src="images/secure_lock.png" width="100%">
                 </div>
-                <div class="col-xs-12 col-sm-6 double_top" name="login" >
+                <form ng-submit="submitLogin()" class="col-xs-12 col-sm-6 double_top" name="login" >
                     <div ng-show=" initialConfig.loginPresetEnabled == false " class="col-xs-12" data-toggle="tooltip" data-placement="top" title="i.e: SampleHost.com">Host:</div>
                     <div ng-show=" initialConfig.loginPresetEnabled == false " class="col-xs-12 login_input"><input ng-model="login.host" type="text-area" class="col-xs-12" data-toggle="tooltip" data-placement="top" title="i.e: SampleHost.com" required autofocus></div>
                     <br>
@@ -38,7 +38,7 @@
                         </select>
                     </div>
                     <div class="col-xs-12"><button class="single_top btn btn-success pull-right" type="submit" ng-click="submitLogin()" prevent-default>Log In</button></div>
-                </div>
+                </form>
             </div>
             <div class="row"></div>
         </div>

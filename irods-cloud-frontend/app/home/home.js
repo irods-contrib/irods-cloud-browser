@@ -148,7 +148,6 @@ angular.module('myApp.home', ['ngRoute', 'ngFileUpload'])
                         $(".rename_button").css('pointer-events', 'auto');
                         $(".rename_divider").animate({'opacity': '0.8'});
                         $(".download_divider").animate({'opacity': '0.8'});
-
                         $(".tablet_download_button").fadeIn();
                         $(".tablet_rename_button").fadeIn();
                         $(".empty_selection").fadeOut();
@@ -159,7 +158,6 @@ angular.module('myApp.home', ['ngRoute', 'ngFileUpload'])
                         $(".rename_button").css('pointer-events', 'none');
                         $(".rename_divider").animate({'opacity': '0.1'});
                         $(".download_divider").animate({'opacity': '0.1'});
-
                         $(".tablet_download_button").fadeOut();
                         $(".tablet_rename_button").fadeOut();
                         $(".empty_selection").fadeIn();
@@ -178,7 +176,21 @@ angular.module('myApp.home', ['ngRoute', 'ngFileUpload'])
         $scope.files_name = [];
         $scope.copy_source = "";
         $scope.copy_target = "";
-
+        $(window).click(function(e){
+            if($(e.target).is("div")){
+                $(".general_list_item .ui-selected").removeClass("ui-selected");
+                $(".download_button").animate({'opacity': '0.1'});
+                $(".download_button").css('pointer-events', 'none');
+                $(".rename_button").animate({'opacity': '0.1'});
+                $(".rename_button").css('pointer-events', 'none');
+                $(".rename_divider").animate({'opacity': '0.1'});
+                $(".download_divider").animate({'opacity': '0.1'});
+                $(".tablet_download_button").fadeOut();
+                $(".tablet_rename_button").fadeOut();
+                $(".empty_selection").fadeIn();
+                $("#select-result").empty();
+            }
+        });
         $scope.stage_files = function (files) {
             if (files && files.length) {
                 $(".upload_container").css('display', 'none');
@@ -293,14 +305,14 @@ angular.module('myApp.home', ['ngRoute', 'ngFileUpload'])
         };
         $scope.delete_action = function () {
             var delete_objects = $('.ui-selected');
-            var delete_paths = '';
+            var delete_paths = [];
             delete_objects.each(function () {
                 if ($(this).attr('id') != undefined) {
-                    delete_paths += $(this).attr('id') + '&';
+                    delete_paths.push($(this).attr('id'));
                 }
                 ;
             });
-            delete_paths = delete_paths.substring(0, delete_paths.length - 1);
+            //delete_paths = delete_paths.substring(0, delete_paths.length - 1);
             $log.info('Deleting:' + delete_paths);
             return $http({
                 method: 'DELETE',
@@ -343,12 +355,10 @@ angular.module('myApp.home', ['ngRoute', 'ngFileUpload'])
                 params: {sourcePath: $scope.copy_source, targetPath: $scope.copy_target, resource:'', overwrite: 'false' }
             }).then(function (data) {
                 return $collectionsService.listCollectionContents($scope.selectedVc.data.uniqueName, $scope.pagingAwareCollectionListing.pagingAwareCollectionListingDescriptor.parentAbsolutePath, 0);
-            }).then(function (data) {                
-                MessageService.sticky_success("File Successfully moved to:");                
+            }).then(function (data) {
+                MessageService.sticky_success("File Successfully moved");                
                 $scope.pagingAwareCollectionListing = data;
                 $scope.pop_up_close();
-            }).then(function () {  
-                $(".message-center-regular").append('<div class="message-animation message-box success" ng-class="message.classes"><span><a class="message ng-binding message_link" ng-click="selectVirtualCollection(selectedVc.data.uniqueName,'+$scope.copy_target+')">'+ $scope.copy_target +'</a></span><button type="button" class="close" aria-hidden="true" ng-click="removeItem(message)">×</button></div>');
             })
         };
 
@@ -679,6 +689,15 @@ angular.module('myApp.home', ['ngRoute', 'ngFileUpload'])
                 $scope.files_to_upload = [];
                 $scope.files_name = [];
                 $("#select-result").empty();
+                $(".download_button").animate({'opacity': '0.1'});
+                $(".download_button").css('pointer-events', 'none');
+                $(".rename_button").animate({'opacity': '0.1'});
+                $(".rename_button").css('pointer-events', 'none');
+                $(".rename_divider").animate({'opacity': '0.1'});
+                $(".download_divider").animate({'opacity': '0.1'});
+                $(".tablet_download_button").fadeOut();
+                $(".tablet_rename_button").fadeOut();
+                $(".empty_selection").fadeIn();
             });
 
         };

@@ -112,7 +112,7 @@ angular.module('myApp.login', ['ngRoute'])
             retrieveInitialConfig: function() {
                 $log.info("retrieveInitialConfig()");
 
-                var promise = $http({
+               var promise = $http({
                     method: 'GET',
                     url: globals.backendUrl('initialConf'),
                     params: {}

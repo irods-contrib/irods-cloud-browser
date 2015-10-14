@@ -44,13 +44,22 @@ angular.module('httpInterceptorModule', []).factory('myHttpResponseInterceptor',
             var status = rejection.status;
             $log.info("status for rejection:" + status);
             $('.spinning_wheel').fadeOut();
-            if (status == 0) { 0
+            if (status == 0) {
 
-            } else if (status == 500) {                 
-                    $log.info("internal server error");
-                    globals.setLastPath($location.path());                
-                $location.path("/index");
-                MessageService.error("File not found");
+            } else if (status == 500) {
+                $log.info("internal server error");
+                globals.setLastPath($location.path());
+                //$location.path("/index");
+                //if (globals.loggedInIdentity != null) {
+
+                var message = rejection.data.error.localizedMessage;
+                if (!message) {
+                    message = "An error occurred";
+                }
+
+                MessageService.error(message);
+
+                return $q.reject(rejection);
             } else if (status == 401) { // unauthorized - redirect to login again
                 //save last path for subsequent re-login
                 if ($location.path() != "/login") {
@@ -100,13 +109,13 @@ angular.module('httpInterceptorModule', []).factory('myHttpResponseInterceptor',
     }
 
 }])//Http Intercpetor to check auth failures for xhr requests
-.
-config(['$httpProvider', function ($httpProvider) {
-    $httpProvider.interceptors.push('myHttpResponseInterceptor');
+    .
+    config(['$httpProvider', function ($httpProvider) {
+        $httpProvider.interceptors.push('myHttpResponseInterceptor');
 
-    /* configure xsrf token
-     see: http://stackoverflow.com/questions/14734243/rails-csrf-protection-angular-js-protect-from-forgery-makes-me-to-log-out-on
-     */
+        /* configure xsrf token
+         see: http://stackoverflow.com/questions/14734243/rails-csrf-protection-angular-js-protect-from-forgery-makes-me-to-log-out-on
+         */
 
 
-}]);
+    }]);

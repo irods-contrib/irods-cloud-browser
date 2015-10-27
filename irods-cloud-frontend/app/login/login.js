@@ -84,8 +84,10 @@ angular.module('myApp.login', ['ngRoute'])
                 return $q.when(path);
 
             }).then(function (path) {
-
                 if (!path) {
+                    $log.info("hard code to go home");
+                    path = "/home/My Home";
+                } else if (path == "/login") {
                     $log.info("hard code to go home");
                     path = "/home/My Home";
                 } else {
@@ -112,7 +114,7 @@ angular.module('myApp.login', ['ngRoute'])
             retrieveInitialConfig: function() {
                 $log.info("retrieveInitialConfig()");
 
-                var promise = $http({
+               var promise = $http({
                     method: 'GET',
                     url: globals.backendUrl('initialConf'),
                     params: {}

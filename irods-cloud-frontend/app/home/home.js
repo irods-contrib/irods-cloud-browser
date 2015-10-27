@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('myApp.home', ['ngRoute', 'ngFileUpload'])
+angular.module('myApp.home', ['ngRoute', 'ngFileUpload', 'ng-context-menu'])
 
     .config(['$routeProvider', function ($routeProvider) {
         $routeProvider.when('/home/:vcName', {
@@ -75,6 +75,7 @@ angular.module('myApp.home', ['ngRoute', 'ngFileUpload'])
         /*
          basic scope data for collections and views
          */
+        $scope.pop_up_form = "";
         $scope.selectedVc = selectedVc;
         $scope.pagingAwareCollectionListing = pagingAwareCollectionListing;
         $scope.selected_target = "";
@@ -86,6 +87,7 @@ angular.module('myApp.home', ['ngRoute', 'ngFileUpload'])
                     $('span').removeClass("ui-selected");
                     $('img').removeClass("ui-selected");
                     var result = $("#select-result").empty();
+                    $(".dropdown").removeClass("open");
                     var copy_path_display = $("#copy_select_result").empty();
                     var move_path_display = $("#move_select_result").empty();
                     // $(".ui-selected", this).each(function () {
@@ -501,6 +503,84 @@ angular.module('myApp.home', ['ngRoute', 'ngFileUpload'])
         /****************************************
          ****  POP UP ACTIONS AND FUNCTIONS  ****
          ****************************************/
+
+        $(window).keyup(function($event){   
+            if($event.keyCode == "13"){         
+                if($scope.pop_up_form == "delete"){
+                    $scope.delete_action();
+                }
+                if($scope.pop_up_form == "upload"){
+                    $scope.upload();
+                }
+                if($scope.pop_up_form == "copy"){
+                    $scope.copy_action();
+                }
+                if($scope.pop_up_form == "move"){
+                    $scope.move_action();
+                }
+                if($scope.pop_up_form == "create"){
+                    $scope.create_collection_action();
+                }
+                if($scope.pop_up_form == "rename"){
+                    $scope.rename_action();
+                }
+            }
+        });
+        $scope.event_z = "";
+        $(window).mousedown(function(event) {
+            switch (event.which) {
+                case 3:
+                    if ($(".general_list_item .ui-selected").length == 0 || $(".general_list_item .ui-selected").length == 1) {
+                        $(".general_list_item .ui-selected").removeClass("ui-selected");
+                        $(event.target).parents("li").addClass("ui-selected","fast",function(){
+                            var result = $("#select-result").empty();
+                            $scope.selected_target = $('.general_list_item .ui-selected').attr("id");
+                            var name_of_selection = "You've selected: " + $('.ui-selected').children('.list_content').children('.data_object').text();
+                            if (name_of_selection == "You've selected: ") {
+                                var name_of_selection = "You've selected: " + $('.ui-selected').children('.list_content').children('.collection_object').text();
+                            }
+
+                            result.append(name_of_selection);
+                            $(".download_button").animate({'opacity': '0.8'});
+                            $(".download_button").css('pointer-events', 'auto');
+                            $(".rename_button").animate({'opacity': '0.8'});
+                            $(".rename_button").css('pointer-events', 'auto');
+                            $(".rename_divider").animate({'opacity': '0.8'});
+                            $(".download_divider").animate({'opacity': '0.8'});
+                            $(".tablet_download_button").fadeIn();
+                            $(".tablet_rename_button").fadeIn();
+                            $(".empty_selection").fadeOut();
+                        });
+                    }
+                    if ($(".general_list_item .ui-selected").length > 1) {
+                        if(!$(event.target).parents("li").hasClass("ui-selected")){
+                            $(".general_list_item .ui-selected").removeClass("ui-selected");
+                            $(event.target).parents("li").addClass("ui-selected","fast",function(){
+                                var result = $("#select-result").empty();
+                                $scope.selected_target = $('.general_list_item .ui-selected').attr("id");
+                                var name_of_selection = "You've selected: " + $('.ui-selected').children('.list_content').children('.data_object').text();
+                                if (name_of_selection == "You've selected: ") {
+                                    var name_of_selection = "You've selected: " + $('.ui-selected').children('.list_content').children('.collection_object').text();
+                                }
+
+                                result.append(name_of_selection);
+                                $(".download_button").animate({'opacity': '0.8'});
+                                $(".download_button").css('pointer-events', 'auto');
+                                $(".rename_button").animate({'opacity': '0.8'});
+                                $(".rename_button").css('pointer-events', 'auto');
+                                $(".rename_divider").animate({'opacity': '0.8'});
+                                $(".download_divider").animate({'opacity': '0.8'});
+                                $(".tablet_download_button").fadeIn();
+                                $(".tablet_rename_button").fadeIn();
+                                $(".empty_selection").fadeOut();
+                            });
+                        }
+                    }
+
+            }
+        });
+
+
         $scope.getCopyBreadcrumbPaths = function () {      
             $scope.breadcrumb_popup_full_array = $scope.copy_list.data.pagingAwareCollectionListingDescriptor.parentAbsolutePath.split("/");
             $scope.breadcrumb_popup_full_array.shift();
@@ -548,7 +628,8 @@ angular.module('myApp.home', ['ngRoute', 'ngFileUpload'])
             
         };
 
-        $scope.move_pop_up_open = function () {            
+        $scope.move_pop_up_open = function () {     
+            $scope.pop_up_form = "move";       
             $scope.copyVC = $scope.selectedVc;
             $('.pop_up_window').fadeIn(100);
             $scope.name_of_selection = $('.ui-selected');
@@ -592,6 +673,7 @@ angular.module('myApp.home', ['ngRoute', 'ngFileUpload'])
         };
 
         $scope.copy_pop_up_open = function () {
+            $scope.pop_up_form = "copy";  
             $scope.copyVC = $scope.selectedVc;
             $('.pop_up_window').fadeIn(100);
             $scope.name_of_selection = $('.ui-selected');
@@ -634,11 +716,13 @@ angular.module('myApp.home', ['ngRoute', 'ngFileUpload'])
             });
         };
         $scope.create_pop_up_open = function () {
+            $scope.pop_up_form = "create";
             $('.pop_up_window').fadeIn(100);
             $('.creater').fadeIn(100);
             $('#new_collection_name').focus();
         };
         $scope.rename_pop_up_open = function () {
+            $scope.pop_up_form = "rename";
             $('.pop_up_window').fadeIn(100);
             $('.renamer').fadeIn(100);
             $('#new_renaming_name').focus();
@@ -646,10 +730,12 @@ angular.module('myApp.home', ['ngRoute', 'ngFileUpload'])
             $('.selected_object').append(name_of_selection);
         };
         $scope.upload_pop_up_open = function () {
+            $scope.pop_up_form = "upload";
             $('.pop_up_window').fadeIn(100);
             $('.uploader').fadeIn(100);
         };
         $scope.delete_pop_up_open = function () {
+            $scope.pop_up_form = "delete";
             $('.pop_up_window').fadeIn(100);            
             var delete_objects = $('.ui-selected');
             delete_objects.each(function () {
@@ -686,6 +772,7 @@ angular.module('myApp.home', ['ngRoute', 'ngFileUpload'])
                 $('.mover').fadeOut(100);
                 $('.copier_button').fadeOut(100);
                 $('.mover_button').fadeOut(100);
+                $scope.pop_up_form = "";
                 $scope.files_to_upload = [];
                 $scope.files_name = [];
                 $("#select-result").empty();

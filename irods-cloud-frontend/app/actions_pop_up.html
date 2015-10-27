@@ -17,7 +17,7 @@
         <ul></ul>
         <div class="container"><hr class="hr_flat"></div>
         <div class="right container t_right">
-          <div class="btn btn-success" ng-click="upload($files)">Done</div>
+          <div class="btn btn-success" ng-click="upload()">Done</div>
         </div>
         <div class="container"><hr class="hr_flat"></div>
         <div class="container">You can also&nbsp;<div class="btn btn-default btn-xs" ngf-select ngf-change="stage_files($files)" ngf-multiple="multiple">Browse More Files</div>
@@ -30,11 +30,12 @@
     *********************************-->
 
     <div class="column_content deleter pop_up_content">
-      <div class="delete_header"><img src="images/dark_delete_icon.png"><span>&nbsp;Are you sure you want to DELETE the following:</span><img class="pop_up_close_button right" title="close window" ng-click="pop_up_close()" src="images/close_icon.png"></div>
+      <div class="delete_header"><img src="images/red_delete_icon.png"><span>&nbsp;Are you sure you want to DELETE the following:</span><img class="pop_up_close_button right" title="close window" ng-click="pop_up_close()" src="images/close_icon.png"></div>
       
       <div class="delete_container">
         <br>
         <ul></ul>
+
         <div class="container"><hr class="hr_flat"></div>
         <div class="left">
           <div class="btn btn-default" ng-click="pop_up_close()">Cancel</div>

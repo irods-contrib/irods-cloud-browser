@@ -110,11 +110,11 @@
 					  </button>
 					  <ul class="dropdown-menu dropdown-menu-right">
 					  	<li class="empty_selection">Nothing is selected</li>
-					    <li class="tablet_download_button"><a title="Download selected file(s) " ng-click='getDownloadLink()'><img src="images/dark_download_icon.png"><span>&nbsp;Download</span></a></li>
-					    <li class="tablet_rename_button"><a title="Copy selected file" ng-click='copy_pop_up_open()'><img src="images/dark_copy_icon.png"><span>&nbsp;Copy</span></a></li>
-					    <li class="tablet_rename_button"><a title="Move selected file" ng-click='move_pop_up_open()'><img src="images/dark_move_icon.png"><span>&nbsp;Move</span></a></li>
-					  	<li class="tablet_rename_button"><a title="Rename selected file/collection" ng-click='rename_pop_up_open()'><img src="images/dark_edit_icon.png"><span>&nbsp;Rename</span></a></li>
-					    <li class="tablet_download_button"><a title="Delete selected file(s) " ng-click='delete_pop_up_open()'><img src="images/dark_delete_icon.png"><span>&nbsp;Delete</span></a></li>
+					    <li class="tablet_download_button"><div title="Download selected file(s) " ng-click='getDownloadLink()'><img src="images/dark_download_icon.png"><span>&nbsp;Download</span></div></li>
+					    <li class="tablet_rename_button"><div title="Copy selected file" ng-click='copy_pop_up_open()'><img src="images/dark_copy_icon.png"><span>&nbsp;Copy</span></div></li>
+					    <li class="tablet_rename_button"><div title="Move selected file" ng-click='move_pop_up_open()'><img src="images/dark_move_icon.png"><span>&nbsp;Move</span></div></li>
+					  	<li class="tablet_rename_button"><div title="Rename selected file/collection" ng-click='rename_pop_up_open()'><img src="images/dark_edit_icon.png"><span>&nbsp;Rename</span></div></li>
+					    <li class="tablet_download_button"><div title="Delete selected file(s) " ng-click='delete_pop_up_open()'><img src="images/dark_delete_icon.png"><span>&nbsp;Delete</span></div></li>
 					  </ul>
 					</div>
 				</div>
@@ -124,7 +124,7 @@
 					</div>
 				</div>
 			</div>
-			<ul class="selectable general_list_item">
+			<ul context-menu data-target="main_list_menu" ng-class="{ 'highlight': highlight, 'expanded' : expanded }" class="selectable general_list_item">
 			    <div class="list_header">
 			    	<div class="col-xs-10 col-sm-10 col-md-7 col-lg-7 list_content">        
 		            	<span><b>Name</b></span>
@@ -136,26 +136,21 @@
 		            	<b>Size</b>
 		            </div>
 			    </div>
-			    <li class="ui-widget-content data_{{collectionAndDataObject.dataObject}} ui-selectee" ng-dblclick="selectVirtualCollection(selectedVc.data.uniqueName,collectionAndDataObject.formattedAbsolutePath)" ng-show="{{collectionAndDataObject.dataObject}} == false" ng-class-odd="'light_back_option'" ng-class-even="'light_back_option_even'" ng-repeat="collectionAndDataObject in pagingAwareCollectionListing.collectionAndDataObjectListingEntries" id='{{collectionAndDataObject.formattedAbsolutePath}}' on-last-repeat>
-		            <div class="col-xs-10 col-sm-10 col-md-7 col-lg-7 list_content">
-			            <img src="images/collection_icon.png">          
-		            	<span class="collection_object">{{collectionAndDataObject.nodeLabelDisplayValue}}</span>
-		            </div>
-		            <div class="col-xs-3 list_content text-right tablet_disappear">
-		            	<p>{{collectionAndDataObject.modifiedAt | date:"short"}}</p>
-		            </div>
-			    </li>
 
-			    <li class="ui-widget-content data_{{collectionAndDataObject.dataObject}} ui-selectee" ng-dblclick="selectProfile(collectionAndDataObject.formattedAbsolutePath)" ng-show="{{collectionAndDataObject.dataObject}} == true" ng-class-odd="'light_back_option'" ng-class-even="'light_back_option_even'" ng-repeat="collectionAndDataObject in pagingAwareCollectionListing.collectionAndDataObjectListingEntries" id='{{collectionAndDataObject.formattedAbsolutePath}}' on-last-repeat>
+			    <li class="ui-widget-content data_{{collectionAndDataObject.dataObject}} ui-selectee " ng-dblclick="selectVirtualCollection(selectedVc.data.uniqueName,collectionAndDataObject.formattedAbsolutePath)" ng-class-odd="'light_back_option'" ng-class-even="'light_back_option_even'" ng-repeat="collectionAndDataObject in pagingAwareCollectionListing.collectionAndDataObjectListingEntries" id='{{collectionAndDataObject.formattedAbsolutePath}}' on-last-repeat>
 		            <div class="col-xs-10 col-sm-10 col-md-7 col-lg-7 list_content">
-			            <img src="images/data_object_icon.png">	          
+			            <img ng-show="{{collectionAndDataObject.dataObject}} == true" src="images/data_object_icon.png">
+			            <img ng-show="{{collectionAndDataObject.dataObject}} == false" src="images/collection_icon.png">        
 		            	<span class="data_object">{{collectionAndDataObject.nodeLabelDisplayValue}}</span>
 		            </div>
 		            <div class="col-xs-3 list_content text-right tablet_disappear">
 		            	<p>{{collectionAndDataObject.modifiedAt | date:"short"}}</p>
 		            </div>
-		            <div class="col-xs-2 list_content text-right">
+		            <div ng-show="{{collectionAndDataObject.dataObject}} == true" class="col-xs-2 list_content text-right">
 		            	<p >{{collectionAndDataObject.displayDataSize}}</p>
+		            </div>
+		            <div ng-show="{{collectionAndDataObject.dataObject}} == false" class="col-xs-2 list_content text-right">
+		            	<p >--</p>
 		            </div>
 			    </li>
 
@@ -164,7 +159,46 @@
 	</div>	
 </div>
 
+<div context-menu class="panel panel-default position-fixed"
+     data-target="menu-{{ $index }}"
+     ng-class="{ 'highlight': highlight, 'expanded' : expanded }">
+  ...
+</div>
 
+<div class="dropdown position-fixed" id="main_list_menu">
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <div class="rename_button context_button" title="Info" ng-click='selectProfile(selected_target)'> 
+      	<img src="images/dark_info_icon.png"><span>&nbsp;Info</span>	
+      </div>
+    </li>
+    <li>
+      <div class="download_button context_button" title="Download selected file(s) " ng-click='getDownloadLink()' > 
+      	<img src="images/dark_download_icon.png"><span>&nbsp;Download</span>	
+      </div>
+    </li>
+    <li>
+      <div class="rename_button context_button" title="Move selected file" ng-click='move_pop_up_open()' > 
+      	<img src="images/dark_move_icon.png"><span>&nbsp;Move</span>	
+      </div>
+    </li>
+    <li>
+      <div class="rename_button context_button" title="Copy selected file" ng-click='copy_pop_up_open()' > 
+		<img src="images/dark_copy_icon.png"><span>&nbsp;Copy</span>	
+	</div>
+    </li>
+    <li>
+      <div class="rename_button context_button" title="Rename selected file/collection" ng-click='rename_pop_up_open()' > 
+      	<img src="images/dark_edit_icon.png"><span>&nbsp;Rename</span>	
+      </div>
+    </li>
+    <li>
+      <div class="download_button context_button" title="Delete selected file(s) " ng-click='delete_pop_up_open()' > 
+      	<img src="images/dark_delete_icon.png"><span>&nbsp;Delete</span>	
+      </div>
+    </li>
+  </ul>
+</div>
 
 
 

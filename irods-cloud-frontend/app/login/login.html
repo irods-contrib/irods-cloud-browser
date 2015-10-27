@@ -15,6 +15,11 @@
                     <img src="images/secure_lock.png" width="100%">
                 </div>
                 <form ng-submit="submitLogin()" class="col-xs-12 col-sm-6 double_top" name="login" >
+                    <div class="col-xs-12">
+                        <h1 class="dark_header">Welcome</h1>
+                        <em>Please log in with your Username and Password:</em>
+                    </div>
+                    <br />
                     <div ng-show=" initialConfig.loginPresetEnabled == false " class="col-xs-12" data-toggle="tooltip" data-placement="top" title="i.e: SampleHost.com">Host:</div>
                     <div ng-show=" initialConfig.loginPresetEnabled == false " class="col-xs-12 login_input"><input ng-model="login.host" type="text-area" class="col-xs-12" data-toggle="tooltip" data-placement="top" title="i.e: SampleHost.com" required autofocus></div>
                     <br>

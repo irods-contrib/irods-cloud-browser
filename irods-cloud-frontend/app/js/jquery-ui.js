@@ -4306,7 +4306,7 @@ var selectable = $.widget("ui.selectable", $.ui.mouse, {
 		this.selectees.filter(".ui-selected").each(function() {
 			var selectee = $.data(this, "selectable-item");
 			selectee.startselected = true;
-			if (!event.metaKey && !event.ctrlKey) {
+			if (!event.metaKey && !event.shiftKey) {
 				selectee.$element.removeClass("ui-selected");
 				selectee.selected = false;
 				selectee.$element.addClass("ui-unselecting");
@@ -4322,7 +4322,7 @@ var selectable = $.widget("ui.selectable", $.ui.mouse, {
 			var doSelect,
 				selectee = $.data(this, "selectable-item");
 			if (selectee) {
-				doSelect = (!event.metaKey && !event.ctrlKey) || !selectee.$element.hasClass("ui-selected");
+				doSelect = (!event.metaKey && !event.shiftKey) || !selectee.$element.hasClass("ui-selected");
 				selectee.$element
 					.removeClass(doSelect ? "ui-unselecting" : "ui-selected")
 					.addClass(doSelect ? "ui-selecting" : "ui-unselecting");
@@ -4401,7 +4401,7 @@ var selectable = $.widget("ui.selectable", $.ui.mouse, {
 			} else {
 				// UNSELECT
 				if (selectee.selecting) {
-					if ((event.metaKey || event.ctrlKey) && selectee.startselected) {
+					if ((event.metaKey || event.shiftKey) && selectee.startselected) {
 						selectee.$element.removeClass("ui-selecting");
 						selectee.selecting = false;
 						selectee.$element.addClass("ui-selected");
@@ -4420,7 +4420,7 @@ var selectable = $.widget("ui.selectable", $.ui.mouse, {
 					}
 				}
 				if (selectee.selected) {
-					if (!event.metaKey && !event.ctrlKey && !selectee.startselected) {
+					if (!event.metaKey && !event.shiftKey && !selectee.startselected) {
 						selectee.$element.removeClass("ui-selected");
 						selectee.selected = false;
 
@@ -5942,7 +5942,7 @@ var accordion = $.widget( "ui.accordion", {
 	},
 
 	_keydown: function( event ) {
-		if ( event.altKey || event.ctrlKey ) {
+		if ( event.altKey || event.shiftKey ) {
 			return;
 		}
 
@@ -5981,7 +5981,7 @@ var accordion = $.widget( "ui.accordion", {
 	},
 
 	_panelKeyDown: function( event ) {
-		if ( event.keyCode === $.ui.keyCode.UP && event.ctrlKey ) {
+		if ( event.keyCode === $.ui.keyCode.UP && event.shiftKey ) {
 			$( event.currentTarget ).prev().focus();
 		}
 	},
@@ -7365,7 +7365,7 @@ $.widget( "ui.autocomplete", {
 			// Search if the value has changed, or if the user retypes the same value (see #7434)
 			var equalValues = this.term === this._value(),
 				menuVisible = this.menu.element.is( ":visible" ),
-				modifierKey = event.altKey || event.ctrlKey || event.metaKey || event.shiftKey;
+				modifierKey = event.altKey || event.shiftKey || event.metaKey || event.shiftKey;
 
 			if ( !equalValues || ( equalValues && !menuVisible && !modifierKey ) ) {
 				this.selectedItem = null;
@@ -8588,61 +8588,61 @@ $.extend(Datepicker.prototype, {
 						return false; // don't submit the form
 				case 27: $.datepicker._hideDatepicker();
 						break; // hide on escape
-				case 33: $.datepicker._adjustDate(event.target, (event.ctrlKey ?
+				case 33: $.datepicker._adjustDate(event.target, (event.shiftKey ?
 							-$.datepicker._get(inst, "stepBigMonths") :
 							-$.datepicker._get(inst, "stepMonths")), "M");
 						break; // previous month/year on page up/+ ctrl
-				case 34: $.datepicker._adjustDate(event.target, (event.ctrlKey ?
+				case 34: $.datepicker._adjustDate(event.target, (event.shiftKey ?
 							+$.datepicker._get(inst, "stepBigMonths") :
 							+$.datepicker._get(inst, "stepMonths")), "M");
 						break; // next month/year on page down/+ ctrl
-				case 35: if (event.ctrlKey || event.metaKey) {
+				case 35: if (event.shiftKey || event.metaKey) {
 							$.datepicker._clearDate(event.target);
 						}
-						handled = event.ctrlKey || event.metaKey;
+						handled = event.shiftKey || event.metaKey;
 						break; // clear on ctrl or command +end
-				case 36: if (event.ctrlKey || event.metaKey) {
+				case 36: if (event.shiftKey || event.metaKey) {
 							$.datepicker._gotoToday(event.target);
 						}
-						handled = event.ctrlKey || event.metaKey;
+						handled = event.shiftKey || event.metaKey;
 						break; // current on ctrl or command +home
-				case 37: if (event.ctrlKey || event.metaKey) {
+				case 37: if (event.shiftKey || event.metaKey) {
 							$.datepicker._adjustDate(event.target, (isRTL ? +1 : -1), "D");
 						}
-						handled = event.ctrlKey || event.metaKey;
+						handled = event.shiftKey || event.metaKey;
 						// -1 day on ctrl or command +left
 						if (event.originalEvent.altKey) {
-							$.datepicker._adjustDate(event.target, (event.ctrlKey ?
+							$.datepicker._adjustDate(event.target, (event.shiftKey ?
 								-$.datepicker._get(inst, "stepBigMonths") :
 								-$.datepicker._get(inst, "stepMonths")), "M");
 						}
 						// next month/year on alt +left on Mac
 						break;
-				case 38: if (event.ctrlKey || event.metaKey) {
+				case 38: if (event.shiftKey || event.metaKey) {
 							$.datepicker._adjustDate(event.target, -7, "D");
 						}
-						handled = event.ctrlKey || event.metaKey;
+						handled = event.shiftKey || event.metaKey;
 						break; // -1 week on ctrl or command +up
-				case 39: if (event.ctrlKey || event.metaKey) {
+				case 39: if (event.shiftKey || event.metaKey) {
 							$.datepicker._adjustDate(event.target, (isRTL ? -1 : +1), "D");
 						}
-						handled = event.ctrlKey || event.metaKey;
+						handled = event.shiftKey || event.metaKey;
 						// +1 day on ctrl or command +right
 						if (event.originalEvent.altKey) {
-							$.datepicker._adjustDate(event.target, (event.ctrlKey ?
+							$.datepicker._adjustDate(event.target, (event.shiftKey ?
 								+$.datepicker._get(inst, "stepBigMonths") :
 								+$.datepicker._get(inst, "stepMonths")), "M");
 						}
 						// next month/year on alt +right
 						break;
-				case 40: if (event.ctrlKey || event.metaKey) {
+				case 40: if (event.shiftKey || event.metaKey) {
 							$.datepicker._adjustDate(event.target, +7, "D");
 						}
-						handled = event.ctrlKey || event.metaKey;
+						handled = event.shiftKey || event.metaKey;
 						break; // +1 week on ctrl or command +down
 				default: handled = false;
 			}
-		} else if (event.keyCode === 36 && event.ctrlKey) { // display the date picker on ctrl+home
+		} else if (event.keyCode === 36 && event.shiftKey) { // display the date picker on ctrl+home
 			$.datepicker._showDatepicker(this);
 		} else {
 			handled = false;
@@ -8662,7 +8662,7 @@ $.extend(Datepicker.prototype, {
 		if ($.datepicker._get(inst, "constrainInput")) {
 			chars = $.datepicker._possibleChars($.datepicker._get(inst, "dateFormat"));
 			chr = String.fromCharCode(event.charCode == null ? event.keyCode : event.charCode);
-			return event.ctrlKey || event.metaKey || (chr < " " || !chars || chars.indexOf(chr) > -1);
+			return event.shiftKey || event.metaKey || (chr < " " || !chars || chars.indexOf(chr) > -1);
 		}
 	},
 
@@ -13051,7 +13051,7 @@ var tabs = $.widget( "ui.tabs", {
 		selectedIndex = this._focusNextTab( selectedIndex, goingForward );
 
 		// Navigating with control/command key will prevent automatic activation
-		if ( !event.ctrlKey && !event.metaKey ) {
+		if ( !event.shiftKey && !event.metaKey ) {
 
 			// Update aria-selected immediately so that AT think the tab is already selected.
 			// Otherwise AT may confuse the user by stating that they need to activate the tab,
@@ -13071,7 +13071,7 @@ var tabs = $.widget( "ui.tabs", {
 		}
 
 		// Ctrl+up moves focus to the current tab
-		if ( event.ctrlKey && event.keyCode === $.ui.keyCode.UP ) {
+		if ( event.shiftKey && event.keyCode === $.ui.keyCode.UP ) {
 			event.preventDefault();
 			this.active.focus();
 		}

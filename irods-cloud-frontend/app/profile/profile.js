@@ -27,6 +27,7 @@ angular.module('myApp.profile', ['ngRoute'])
     .controller('profileCtrl', ['$scope','$log', 'Upload', '$http', '$location', 'MessageService','globals','breadcrumbsService','virtualCollectionsService','collectionsService','fileService','metadataService','dataProfile',function ($scope, $log, Upload, $http, $location, MessageService, $globals, breadcrumbsService, $virtualCollectionsService, $collectionsService, fileService, metadataService, dataProfile) {
 
         $scope.dataProfile = dataProfile;
+        $scope.pop_up_form = "";
         $http({
             method: 'GET',
             url: $globals.backendUrl('collection/') + 'root',
@@ -327,7 +328,35 @@ angular.module('myApp.profile', ['ngRoute'])
             });
             
         };
+        $(window).keyup(function($event){   
+            if($event.keyCode == "13"){         
+                if($scope.pop_up_form === "delete"){
+                    $scope.pop_up_form = "";
+                    $scope.delete_action();
+                }
+                if($scope.pop_up_form === "upload"){
+                    $scope.upload();
+                }
+                if($scope.pop_up_form === "copy"){
+                    $scope.pop_up_form = "";
+                    $scope.copy_action();
+                }
+                if($scope.pop_up_form === "move"){
+                    $scope.pop_up_form = "";
+                    $scope.move_action();
+                }
+                if($scope.pop_up_form === "create"){
+                    $scope.pop_up_form = "";
+                    $scope.create_collection_action();
+                }
+                if($scope.pop_up_form === "rename"){
+                    $scope.pop_up_form = "";
+                    $scope.rename_action();
+                }
+            }
+        });
         $scope.move_pop_up_open = function(){
+            $scope.pop_up_form = "move";
             $('.pop_up_window').fadeIn(100);
             var move_path_display = $("#move_select_result").empty();
             var path_array = $scope.copy_list.data.pagingAwareCollectionListingDescriptor.pathComponents;
@@ -351,6 +380,7 @@ angular.module('myApp.profile', ['ngRoute'])
             });
         };
         $scope.copy_pop_up_open = function(){
+            $scope.pop_up_form = "copy";
             $('.pop_up_window').fadeIn(100);
             var copy_path_display = $("#copy_select_result").empty();
             var path_array = $scope.copy_list.data.pagingAwareCollectionListingDescriptor.pathComponents;
@@ -374,11 +404,13 @@ angular.module('myApp.profile', ['ngRoute'])
             });
         };
         $scope.upload_pop_up_open = function(){
+            $scope.pop_up_form = "upload";
             $('.pop_up_window').fadeIn(100);
             $('.uploader').fadeIn(100);
         };
 
         $scope.rename_pop_up_open = function(){
+            $scope.pop_up_form = "rename";
             $('.pop_up_window').fadeIn(100);
             $('.renamer').fadeIn(100);
             $('#new_renaming_name').focus();
@@ -387,6 +419,7 @@ angular.module('myApp.profile', ['ngRoute'])
         };
 
         $scope.delete_pop_up_open = function(){
+            $scope.pop_up_form = "delete";
             $('.pop_up_window').fadeIn(100);                 
                  if($scope.dataProfile.file == true){
                         $(".delete_container ul").append('<li class="light_back_option_even"><div class="col-xs-7 list_content"><img src="images/data_object_icon.png">&nbsp;'+$scope.dataProfile.parentPath + "/" +$scope.dataProfile.childName+'</div></li>');
@@ -421,6 +454,7 @@ angular.module('myApp.profile', ['ngRoute'])
                 $('.metadata_editor').fadeOut(100); 
                 $('.metadata_adder').fadeOut(100);
                 $('.metadata_deleter').fadeOut(100);
+                $scope.pop_up_form = "";
             });
         };
 

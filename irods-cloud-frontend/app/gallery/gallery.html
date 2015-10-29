@@ -1,7 +1,7 @@
 <div class="pop_up_window">
 	<div class="three_column centered">
 		<div class="column_content uploader">
-			<div class="light_header"><img src="images/upload_icon_dark.png"><span>Uploading files to {{pagingAwareCollectionListing.pagingAwareCollectionListingDescriptor.pathComponents[current_collection_index]}}</span><img class="pop_up_close_button right" title="close window" ng-click="pop_up_close()" src="images/close_icon.png"></div>
+			<div class="light_header"><img src="images/upload_icon_dark.png"><span>Uploading files to {{pagingAwareCollectionListing.pagingAwareCollectionListingDescriptor.pathComponents[current_collection_index]}}</span><img class="pop_up_close_clear_button right" title="close window" ng-click="pop_up_close_clear()" src="images/close_icon.png"></div>
 			
 			<div class="upload_container">
 				<br>
@@ -15,7 +15,7 @@
 				<ul></ul>
 				<div class="container"><hr class="hr_flat"></div>
 				<div class="right container t_right">
-					<div class="btn btn-success" ng-click="pop_up_close()">Done</div>
+					<div class="btn btn-success" ng-click="pop_up_close_clear()">Done</div>
 				</div>
 				<div class="container"><hr class="hr_flat"></div>
 				<div class="container">You can also&nbsp;<div class="btn btn-default btn-xs" ngf-select ngf-change="upload($files)" ngf-multiple="multiple">Browse More Files</div> or Drag & Drop the file(s) into the window <b>BELOW</b>.<br>
@@ -28,14 +28,14 @@
 			
 		</div>
 		<div class="column_content deleter">
-			<div class="delete_header"><img src="images/dark_delete_icon.png"><span>&nbsp;Are you sure you want to DELETE the following:</span><img class="pop_up_close_button right" title="close window" ng-click="pop_up_close()" src="images/close_icon.png"></div>
+			<div class="delete_header"><img src="images/dark_delete_icon.png"><span>&nbsp;Are you sure you want to DELETE the following:</span><img class="pop_up_close_clear_button right" title="close window" ng-click="pop_up_close_clear()" src="images/close_icon.png"></div>
 			
 			<div class="delete_container">
 				<br>
 				<ul></ul>
 				<div class="container"><hr class="hr_flat"></div>
 				<div class="left">
-					<div class="btn btn-default" ng-click="pop_up_close()">Cancel</div>
+					<div class="btn btn-default" ng-click="pop_up_close_clear()">Cancel</div>
 				</div>
 				<div class="right t_right">
 					Yes, I'm sure.&nbsp;<div class="btn btn-danger" ng-click="delete_action()">Delete</div>
@@ -44,7 +44,7 @@
 		</div>
 
 		<div class="column_content copier">
-			<div class="light_header"><img src="images/dark_add_icon.png"><span>&nbsp;Copying</span><img class="pop_up_close_button right" title="close window" ng-click="pop_up_close()" src="images/close_icon.png"></div>
+			<div class="light_header"><img src="images/dark_add_icon.png"><span>&nbsp;Copying</span><img class="pop_up_close_clear_button right" title="close window" ng-click="pop_up_close_clear()" src="images/close_icon.png"></div>
 			
 			<div class="copy_container">
 				<ul></ul>								
@@ -83,7 +83,7 @@
 			</div>
 
 		<div class="column_content creater">
-			<div class="light_header"><img src="images/dark_add_icon.png"><span>&nbsp;Adding sub-collection to {{pagingAwareCollectionListing.pagingAwareCollectionListingDescriptor.pathComponents[current_collection_index]}}</span><img class="pop_up_close_button right" title="close window" ng-click="pop_up_close()" src="images/close_icon.png"></div>
+			<div class="light_header"><img src="images/dark_add_icon.png"><span>&nbsp;Adding sub-collection to {{pagingAwareCollectionListing.pagingAwareCollectionListingDescriptor.pathComponents[current_collection_index]}}</span><img class="pop_up_close_clear_button right" title="close window" ng-click="pop_up_close_clear()" src="images/close_icon.png"></div>
 			
 			<div class="add_container">
 				<br>
@@ -93,7 +93,7 @@
 				</ul>
 				<div class="container"><hr class="hr_flat"></div>
 				<div class="left">
-					<div class="btn btn-default" ng-click="pop_up_close()">Cancel</div>
+					<div class="btn btn-default" ng-click="pop_up_close_clear()">Cancel</div>
 				</div>
 				<div class="right t_right">
 					<div class="btn btn-success" ng-click="create_collection_action()">Create</div>
@@ -101,7 +101,7 @@
 			</div>
 		</div>
 		<div class="column_content renamer">
-			<div class="light_header"><img src="images/dark_edit_icon.png"><span>&nbsp;Renaming</span><img class="pop_up_close_button right" title="close window" ng-click="pop_up_close()" src="images/close_icon.png"></div>
+			<div class="light_header"><img src="images/dark_edit_icon.png"><span>&nbsp;Renaming</span><img class="pop_up_close_clear_button right" title="close window" ng-click="pop_up_close_clear()" src="images/close_icon.png"></div>
 			
 			<div class="rename_container">
 				<br>
@@ -112,7 +112,7 @@
 				</ul>
 				<div class="container"><hr class="hr_flat"></div>
 				<div class="left">
-					<div class="btn btn-default" ng-click="pop_up_close()">Cancel</div>
+					<div class="btn btn-default" ng-click="pop_up_close_clear()">Cancel</div>
 				</div>
 				<div class="right t_right">
 					<div class="btn btn-success" ng-click="rename_action()">Rename</div>

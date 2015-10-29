@@ -345,7 +345,7 @@ angular.module('myApp.gallery', ['ngRoute', 'ngFileUpload'])
             });            
             $('.deleter').fadeIn(100);
         };
-        $scope.pop_up_close = function () {
+        $scope.pop_up_close_clear = function () {
 
             $('.pop_up_window').fadeOut(100, function () {
                 $(".upload_container").css('display', 'block');

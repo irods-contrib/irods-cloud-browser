@@ -258,7 +258,7 @@ angular.module('myApp.profile', ['ngRoute'])
                 params: {sourcePath: $scope.copy_source, targetPath: $scope.copy_target, resource:'', overwrite: 'false' }
             }).then(function () {
                 MessageService.success("Copy completed!"); 
-                $scope.pop_up_close();
+                $scope.pop_up_close_clear();
             })
         };   
 
@@ -278,7 +278,26 @@ angular.module('myApp.profile', ['ngRoute'])
                 MessageService.success("Move completed!");    
                 location.assign(new_url);  
             })
-        };           
+        };  
+
+        $scope.logout_func = function () {
+            var promise = $http({
+                method: 'DELETE',
+                url: $globals.backendUrl('login')
+            }).then(function (response) {
+                // The then function here is an opportunity to modify the response
+                // The return value gets picked up by the then in the controller.
+
+                return response.data;
+            });
+            // Return the promise to the controller
+            //$location.path("/login").search({});
+            setTimeout(function () {
+                $location.path("/login").search({});
+            }, 0);
+            return promise;
+        };
+                 
         $scope.getCopyBreadcrumbPaths = function () {      
             $scope.breadcrumb_popup_full_array = $scope.copy_list.data.pagingAwareCollectionListingDescriptor.parentAbsolutePath.split("/");
             $scope.breadcrumb_popup_full_array.shift();
@@ -428,7 +447,7 @@ angular.module('myApp.profile', ['ngRoute'])
                     }                        
             $('.deleter').fadeIn(100);
         };
-        $scope.pop_up_close = function () {
+        $scope.pop_up_close_clear = function () {
             $('.pop_up_window').fadeOut(200, function () {
                 $(".move_container ul").empty();  
                 $(".delete_container ul").empty();   
@@ -470,7 +489,7 @@ angular.module('myApp.profile', ['ngRoute'])
                     $scope.new_meta = data;
                     $scope.available_metadata = $scope.new_meta.metadata;
                 });
-                $scope.pop_up_close();
+                $scope.pop_up_close_clear();
                 $scope.dataProfile.starred = true;
             });
             //location.reload();
@@ -484,7 +503,7 @@ angular.module('myApp.profile', ['ngRoute'])
                     $scope.new_meta = data;
                     $scope.available_metadata = $scope.new_meta.metadata;
                 });
-                $scope.pop_up_close();
+                $scope.pop_up_close_clear();
                 $scope.dataProfile.starred = false;
             });
             //location.reload();
@@ -552,7 +571,7 @@ angular.module('myApp.profile', ['ngRoute'])
                         $scope.new_meta = data;
                         $scope.available_metadata = $scope.new_meta.metadata;
                    });
-                    $scope.pop_up_close();
+                    $scope.pop_up_close_clear();
                 });
             }
         };
@@ -566,7 +585,7 @@ angular.module('myApp.profile', ['ngRoute'])
                     $scope.new_meta = data;
                     $scope.available_metadata = $scope.new_meta.metadata;
                });
-                $scope.pop_up_close();
+                $scope.pop_up_close_clear();
             });
 
         };
@@ -581,7 +600,7 @@ angular.module('myApp.profile', ['ngRoute'])
                     $scope.new_meta = data;
                     $scope.available_metadata = $scope.new_meta.metadata;
                });
-                $scope.pop_up_close();
+                $scope.pop_up_close_clear();
             });
 
         };

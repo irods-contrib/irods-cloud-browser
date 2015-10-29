@@ -12,12 +12,17 @@ angular.module('myApp.login', ['ngRoute'])
                 configData: function (configService) {
                     var configSettings = configService.retrieveInitialConfig();
                     return configSettings;
+                },
+                login: function() {
+                    var login = {};
+                    login.authType = "STANDARD";
+                    return login;
                 }
             }
         });
     }])
 
-    .controller('loginCtrl', ['$scope', '$log', '$http', '$location', 'MessageService', 'globals', '$q', '$timeout','configData', function ($scope, $log, $http, $location, MessageService, $globals, $q, $timeout, configData) {
+    .controller('loginCtrl', ['$scope', '$log', '$http', '$location', 'MessageService', 'globals', '$q', '$timeout','configData','loginData', function ($scope, $log, $http, $location, MessageService, $globals, $q, $timeout, configData, loginData) {
 
         var irodsAccount = function (host, port, zone, userName, password, authType, resource) {
             return {
@@ -31,6 +36,7 @@ angular.module('myApp.login', ['ngRoute'])
             };
         };
 
+        $scope.login = loginData;
         $scope.initialConfig = configData;
 
         $('#main_contents').css('width', '100%');
@@ -41,8 +47,7 @@ angular.module('myApp.login', ['ngRoute'])
         };
 
         $scope.current_page = 'login';
-        $scope.login = {};
-        $scope.login.authType = "STANDARD";
+
         $scope.submitLogin = function () {
             
             if($scope.initialConfig.loginPresetEnabled === true){
@@ -64,12 +69,13 @@ angular.module('myApp.login', ['ngRoute'])
                     var host = $scope.initialConfig.presetHost;
                 }
 
-                if($scope.initialConfig.presetAuthScheme == ''){
-                    var AuthScheme = $scope.login.authType;
+                var authScheme;
+                if($scope.initialConfig.presetAuthScheme == '' || $scope.initialConfig.presetAuthScheme == null){
+                    authScheme = $scope.login.authType;
                 }else{
-                    var AuthScheme = $scope.initialConfig.presetAuthScheme;
+                    authScheme = $scope.initialConfig.presetAuthScheme;
                 }
-                var actval = irodsAccount(host, port, zone, $scope.login.userName, $scope.login.password, AuthScheme, "");
+                var actval = irodsAccount(host, port, zone, $scope.login.userName, $scope.login.password, authScheme, "");
             }else{
                 var actval = irodsAccount($scope.login.host, $scope.login.port, $scope.login.zone, $scope.login.userName, $scope.login.password, $scope.login.authType, "");
             }

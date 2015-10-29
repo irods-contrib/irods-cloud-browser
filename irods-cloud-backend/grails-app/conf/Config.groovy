@@ -122,9 +122,9 @@ environments {
 
 
 // use login preset
-beconf.login.preset.host='localhost'
+beconf.login.preset.host=''
 beconf.login.preset.port=1247
-beconf.login.preset.zone='tempZone'
+beconf.login.preset.zone=''
 beconf.login.preset.auth.type='STANDARD'
 beconf.login.preset.enabled=false
 // cors plugin config see https://github.com/davidtinker/grails-cors

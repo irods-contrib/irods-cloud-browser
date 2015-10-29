@@ -145,7 +145,7 @@ body{
 	padding: 7px 0px 0px 15px;
 	font-size: 16px;
 	font-weight: bold;
-	height:55px;
+	height:35px;
 	z-index: 10;
 }
 .collection_header{
@@ -488,10 +488,10 @@ select{
 	cursor: pointer;
 	pointer-events:none;
 }
-.pop_up_close_button{
+.pop_up_close_clear_button{
 	opacity: 0.5;
 }
-.pop_up_close_button:hover{
+.pop_up_close_clear_button:hover{
 	opacity: 1;
 }
 #profile_title_container{
@@ -765,6 +765,15 @@ input.col-xs-12{
 	font-size: 14px;
 	font-weight: bold;
 	height:27px;
+	border-bottom:1px solid #C7C9C7; 
+}
+.light_big_header{
+	color: #384B50;
+	text-align: left;
+	font-size: 14px;
+	font-weight: bold;
+	height:32px;
+	background: #fff;
 	border-bottom:1px solid #C7C9C7; 
 }
 .delete_header{

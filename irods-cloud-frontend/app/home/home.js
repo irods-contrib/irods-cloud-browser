@@ -233,7 +233,7 @@ angular.module('myApp.home', ['ngRoute', 'ngFileUpload', 'ng-context-menu'])
                     }).then(function (data) {
                         MessageService.success("Upload completed!");
                         $scope.pagingAwareCollectionListing = data;
-                        $scope.pop_up_close();
+                        $scope.pop_up_close_clear();
                         $scope.files_to_upload = [];
                         $scope.files_name = [];
                     });
@@ -335,7 +335,7 @@ angular.module('myApp.home', ['ngRoute', 'ngFileUpload', 'ng-context-menu'])
             }).then(function (data) {
                 MessageService.info("Deletion completed!");
                 $scope.pagingAwareCollectionListing = data;
-                $scope.pop_up_close();
+                $scope.pop_up_close_clear();
             })
         };
 
@@ -356,7 +356,7 @@ angular.module('myApp.home', ['ngRoute', 'ngFileUpload', 'ng-context-menu'])
             }).then(function (data) {
                 MessageService.success("Copy completed!");
                 $scope.pagingAwareCollectionListing = data;
-                $scope.pop_up_close();
+                $scope.pop_up_close_clear();
             })
         };
 
@@ -378,7 +378,7 @@ angular.module('myApp.home', ['ngRoute', 'ngFileUpload', 'ng-context-menu'])
             }).then(function (data) {
                 MessageService.sticky_success("File Successfully moved");
                 $scope.pagingAwareCollectionListing = data;
-                $scope.pop_up_close();
+                $scope.pop_up_close_clear();
             })
         };
 
@@ -407,7 +407,7 @@ angular.module('myApp.home', ['ngRoute', 'ngFileUpload', 'ng-context-menu'])
                 }).then(function (data) {
                     MessageService.success("Renaming completed!");
                     $scope.pagingAwareCollectionListing = data;
-                    $scope.pop_up_close();
+                    $scope.pop_up_close_clear();
                 })
             }
         };
@@ -434,7 +434,7 @@ angular.module('myApp.home', ['ngRoute', 'ngFileUpload', 'ng-context-menu'])
                 }).then(function (data) {
                     MessageService.success("Collection Added!");
                     $scope.pagingAwareCollectionListing = data;
-                    $scope.pop_up_close();
+                    $scope.pop_up_close_clear();
                 })
             }
         };
@@ -478,6 +478,7 @@ angular.module('myApp.home', ['ngRoute', 'ngFileUpload', 'ng-context-menu'])
             }, 0);
             return promise;
         };
+        
         $scope.green_action_toggle = function ($event) {
             var content = $event.currentTarget.nextElementSibling;
             var container = $event.currentTarget.parentElement;
@@ -772,7 +773,7 @@ angular.module('myApp.home', ['ngRoute', 'ngFileUpload', 'ng-context-menu'])
             });
             $('.deleter').fadeIn(100);
         };
-        $scope.pop_up_close = function () {
+        $scope.pop_up_close_clear = function () {
 
             $('.pop_up_window').fadeOut(200, function () {
                 $(".move_container ul").empty();
@@ -806,6 +807,33 @@ angular.module('myApp.home', ['ngRoute', 'ngFileUpload', 'ng-context-menu'])
                 $(".tablet_download_button").fadeOut();
                 $(".tablet_rename_button").fadeOut();
                 $(".empty_selection").fadeIn();
+            });
+
+        };
+        $scope.pop_up_close = function () {
+
+            $('.pop_up_window').fadeOut(200, function () {
+                $(".move_container ul").empty();
+                $(".delete_container ul").empty();
+                $('#new_collection_name').val('');
+                $('.selected_object').empty();
+                $('#new_renaming_name').val('');
+                $('#new_renaming_name').removeClass('has_error');
+                $('#new_collection_name').removeClass('has_error');
+                $(".upload_container").css('display', 'block');
+                $(".upload_container_result ul").empty();
+                $(".upload_container_result").css('display', 'none');
+                $('.uploader').fadeOut(100);
+                $('.deleter').fadeOut(100);
+                $('.creater').fadeOut(100);
+                $('.renamer').fadeOut(100);
+                $('.copier').fadeOut(100);
+                $('.mover').fadeOut(100);
+                $('.copier_button').fadeOut(100);
+                $('.mover_button').fadeOut(100);
+                $scope.pop_up_form = "";
+                $scope.files_to_upload = [];
+                $scope.files_name = [];
             });
 
         };

@@ -463,19 +463,16 @@ angular.module('myApp.home', ['ngRoute', 'ngFileUpload', 'ng-context-menu'])
 
         $scope.logout_func = function () {
             var promise = $http({
-                method: 'DELETE',
-                url: $globals.backendUrl('login')
-            }).then(function (response) {
+                method: 'POST',
+                url: $globals.backendUrl('logout')
+            }).then(function () {
                 // The then function here is an opportunity to modify the response
                 // The return value gets picked up by the then in the controller.
-
-                return response.data;
+                //setTimeout(function () {
+                    $location.path("/login").search({});
+                //}, 0);
             });
-            // Return the promise to the controller
-            //$location.path("/login").search({});
-            setTimeout(function () {
-                $location.path("/login").search({});
-            }, 0);
+
             return promise;
         };
 
@@ -862,7 +859,7 @@ angular.module('myApp.home', ['ngRoute', 'ngFileUpload', 'ng-context-menu'])
             $location.url("/profile/");
             $location.search("path", irodsAbsolutePath);
 
-        }
+        };
         $scope.hide_breadcrumbs = function () {
             $(".dark_back_option_double").removeClass("open");
         };
@@ -870,11 +867,11 @@ angular.module('myApp.home', ['ngRoute', 'ngFileUpload', 'ng-context-menu'])
         $scope.selectGalleryView = function () {
             $log.info("going to Gallery View");
             $location.url("/gallery/");
-        }
+        };
         $scope.selectHierView = function () {
             $log.info("going to Hierarchical View");
             $location.url("/home");
-        }
+        };
 
 
     }])

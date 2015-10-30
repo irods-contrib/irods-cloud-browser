@@ -18,7 +18,7 @@ angular.module('httpInterceptorModule', []).factory('myHttpResponseInterceptor',
 
         // On request failure
         requestError: function (rejection) {
-            // console.log(rejection); // Contains the data about the error on the request.
+            console.log(rejection); // Contains the data about the error on the request.
 
             // Return the promise rejection.
             return $q.reject(rejection);
@@ -39,7 +39,7 @@ angular.module('httpInterceptorModule', []).factory('myHttpResponseInterceptor',
 
         // On response failure
         responseError: function (rejection) {
-            // console.log(rejection); // Contains the data about the error.
+            console.log(rejection); // Contains the data about the error.
             $log.error(rejection);
             var status = rejection.status;
             $log.info("status for rejection:" + status);

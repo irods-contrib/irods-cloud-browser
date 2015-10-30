@@ -12,12 +12,17 @@ angular.module('myApp.login', ['ngRoute'])
                 configData: function (configService) {
                     var configSettings = configService.retrieveInitialConfig();
                     return configSettings;
+                },
+                loginData: function() {
+                    var login = {};
+                    login.authType = "STANDARD";
+                    return login;
                 }
             }
         });
     }])
 
-    .controller('loginCtrl', ['$scope', '$log', '$http', '$location', 'MessageService', 'globals', '$q', '$timeout','configData', function ($scope, $log, $http, $location, MessageService, $globals, $q, $timeout, configData) {
+    .controller('loginCtrl', ['$scope', '$log', '$http', '$location', 'MessageService', 'globals', '$q', '$timeout','configData','loginData', function ($scope, $log, $http, $location, MessageService, $globals, $q, $timeout, configData, loginData) {
 
         var irodsAccount = function (host, port, zone, userName, password, authType, resource) {
             return {
@@ -31,6 +36,7 @@ angular.module('myApp.login', ['ngRoute'])
             };
         };
 
+        $scope.loginVal = loginData;
         $scope.initialConfig = configData;
 
         $('#main_contents').css('width', '100%');
@@ -41,37 +47,37 @@ angular.module('myApp.login', ['ngRoute'])
         };
 
         $scope.current_page = 'login';
-        $scope.login = {};
-        $scope.login.authType = "STANDARD";
+
         $scope.submitLogin = function () {
             
             if($scope.initialConfig.loginPresetEnabled === true){
                 if($scope.initialConfig.presetPort == ''){
-                    var port = $scope.login.port;
+                    var port = $scope.loginVal.port;
                 }else{
                     var port = $scope.initialConfig.presetPort;
                 }
 
                 if($scope.initialConfig.presetZone == ''){
-                    var zone = $scope.login.zone;
+                    var zone = $scope.loginVal.zone;
                 }else{
                     var zone = $scope.initialConfig.presetZone;
                 }
 
                 if($scope.initialConfig.presetHost == ''){
-                    var host = $scope.login.host;
+                    var host = $scope.loginVal.host;
                 }else{
                     var host = $scope.initialConfig.presetHost;
                 }
 
-                if($scope.initialConfig.presetAuthScheme == ''){
-                    var AuthScheme = $scope.login.authType;
+                var authScheme;
+                if($scope.initialConfig.presetAuthScheme == '' || $scope.initialConfig.presetAuthScheme == null){
+                    authScheme = $scope.loginVal.authType;
                 }else{
-                    var AuthScheme = $scope.initialConfig.presetAuthScheme;
+                    authScheme = $scope.initialConfig.presetAuthScheme;
                 }
-                var actval = irodsAccount(host, port, zone, $scope.login.userName, $scope.login.password, AuthScheme, "");
+                var actval = irodsAccount(host, port, zone, $scope.loginVal.userName, $scope.loginVal.password, authScheme, "");
             }else{
-                var actval = irodsAccount($scope.login.host, $scope.login.port, $scope.login.zone, $scope.login.userName, $scope.login.password, $scope.login.authType, "");
+                var actval = irodsAccount($scope.loginVal.host, $scope.loginVal.port, $scope.loginVal.zone, $scope.loginVal.userName, $scope.loginVal.password, $scope.loginVal.authType, "");
             }
             $http({
                 method: 'POST',

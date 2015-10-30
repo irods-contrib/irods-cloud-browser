@@ -4,6 +4,8 @@ class UrlMappings {
 
 		"/login"(resource:"login")
 
+		"/logout"(resource:"logout")
+
 		"/virtualCollection/$name"(resource:"virtualCollection")
 
 		"/collection/$virtualCollection"(resource:"collection")
@@ -25,8 +27,7 @@ class UrlMappings {
 		"/initialConf"(resource:"initialConf")
 
 
-		"/$controller/$action?/$id?(.$format)?"{ constraints {
-				// apply constraints here
+		"/$controller/$action?/$id?(.$format)?"{ constraints { // apply constraints here
 			} }
 
 		"500"(controller: "error")

@@ -182,21 +182,21 @@ angular.module('myApp.home', ['ngRoute', 'ngFileUpload', 'ng-context-menu'])
         $scope.files_name = [];
         $scope.copy_source = "";
         $scope.copy_target = "";
-        $(window).click(function (e) {
-            if ($(e.target).is("div")) {
-                $(".general_list_item .ui-selected").removeClass("ui-selected");
-                $(".download_button").animate({'opacity': '0.1'});
-                $(".download_button").css('pointer-events', 'none');
-                $(".rename_button").animate({'opacity': '0.1'});
-                $(".rename_button").css('pointer-events', 'none');
-                $(".rename_divider").animate({'opacity': '0.1'});
-                $(".download_divider").animate({'opacity': '0.1'});
-                $(".tablet_download_button").fadeOut();
-                $(".tablet_rename_button").fadeOut();
-                $(".empty_selection").fadeIn();
-                $("#select-result").empty();
-            }
-        });
+        // $(window).click(function (e) {
+        //     if ($(e.target).is("div")) {
+        //         $(".general_list_item .ui-selected").removeClass("ui-selected");
+        //         $(".download_button").animate({'opacity': '0.1'});
+        //         $(".download_button").css('pointer-events', 'none');
+        //         $(".rename_button").animate({'opacity': '0.1'});
+        //         $(".rename_button").css('pointer-events', 'none');
+        //         $(".rename_divider").animate({'opacity': '0.1'});
+        //         $(".download_divider").animate({'opacity': '0.1'});
+        //         $(".tablet_download_button").fadeOut();
+        //         $(".tablet_rename_button").fadeOut();
+        //         $(".empty_selection").fadeIn();
+        //         $("#select-result").empty();
+        //     }
+        // });
         $scope.stage_files = function (files) {
             if (files && files.length) {
                 $(".upload_container").css('display', 'none');
@@ -478,7 +478,7 @@ angular.module('myApp.home', ['ngRoute', 'ngFileUpload', 'ng-context-menu'])
             }, 0);
             return promise;
         };
-        
+
         $scope.green_action_toggle = function ($event) {
             var content = $event.currentTarget.nextElementSibling;
             var container = $event.currentTarget.parentElement;
@@ -560,12 +560,12 @@ angular.module('myApp.home', ['ngRoute', 'ngFileUpload', 'ng-context-menu'])
                             }
 
                             result.append(name_of_selection);
-                            $(".download_button").animate({'opacity': '0.8'});
+                            $(".download_button").css('opacity','0.8');
                             $(".download_button").css('pointer-events', 'auto');
-                            $(".rename_button").animate({'opacity': '0.8'});
+                            $(".rename_button").css('opacity','0.8');
                             $(".rename_button").css('pointer-events', 'auto');
-                            $(".rename_divider").animate({'opacity': '0.8'});
-                            $(".download_divider").animate({'opacity': '0.8'});
+                            $(".rename_divider").css('opacity','0.8');
+                            $(".download_divider").css('opacity','0.8');
                             $(".tablet_download_button").fadeIn();
                             $(".tablet_rename_button").fadeIn();
                             $(".empty_selection").fadeOut();
@@ -583,12 +583,12 @@ angular.module('myApp.home', ['ngRoute', 'ngFileUpload', 'ng-context-menu'])
                                 }
 
                                 result.append(name_of_selection);
-                                $(".download_button").animate({'opacity': '0.8'});
+                                $(".download_button").css('opacity','0.8');
                                 $(".download_button").css('pointer-events', 'auto');
-                                $(".rename_button").animate({'opacity': '0.8'});
+                                $(".rename_button").css('opacity','0.8');
                                 $(".rename_button").css('pointer-events', 'auto');
-                                $(".rename_divider").animate({'opacity': '0.8'});
-                                $(".download_divider").animate({'opacity': '0.8'});
+                                $(".rename_divider").css('opacity','0.8');
+                                $(".download_divider").css('opacity','0.8');
                                 $(".tablet_download_button").fadeIn();
                                 $(".tablet_rename_button").fadeIn();
                                 $(".empty_selection").fadeOut();

@@ -13,7 +13,7 @@ angular.module('myApp.login', ['ngRoute'])
                     var configSettings = configService.retrieveInitialConfig();
                     return configSettings;
                 },
-                login: function() {
+                loginData: function() {
                     var login = {};
                     login.authType = "STANDARD";
                     return login;
@@ -36,7 +36,7 @@ angular.module('myApp.login', ['ngRoute'])
             };
         };
 
-        $scope.login = loginData;
+        $scope.loginVal = loginData;
         $scope.initialConfig = configData;
 
         $('#main_contents').css('width', '100%');
@@ -52,32 +52,32 @@ angular.module('myApp.login', ['ngRoute'])
             
             if($scope.initialConfig.loginPresetEnabled === true){
                 if($scope.initialConfig.presetPort == ''){
-                    var port = $scope.login.port;
+                    var port = $scope.loginVal.port;
                 }else{
                     var port = $scope.initialConfig.presetPort;
                 }
 
                 if($scope.initialConfig.presetZone == ''){
-                    var zone = $scope.login.zone;
+                    var zone = $scope.loginVal.zone;
                 }else{
                     var zone = $scope.initialConfig.presetZone;
                 }
 
                 if($scope.initialConfig.presetHost == ''){
-                    var host = $scope.login.host;
+                    var host = $scope.loginVal.host;
                 }else{
                     var host = $scope.initialConfig.presetHost;
                 }
 
                 var authScheme;
                 if($scope.initialConfig.presetAuthScheme == '' || $scope.initialConfig.presetAuthScheme == null){
-                    authScheme = $scope.login.authType;
+                    authScheme = $scope.loginVal.authType;
                 }else{
                     authScheme = $scope.initialConfig.presetAuthScheme;
                 }
-                var actval = irodsAccount(host, port, zone, $scope.login.userName, $scope.login.password, authScheme, "");
+                var actval = irodsAccount(host, port, zone, $scope.loginVal.userName, $scope.loginVal.password, authScheme, "");
             }else{
-                var actval = irodsAccount($scope.login.host, $scope.login.port, $scope.login.zone, $scope.login.userName, $scope.login.password, $scope.login.authType, "");
+                var actval = irodsAccount($scope.loginVal.host, $scope.loginVal.port, $scope.loginVal.zone, $scope.loginVal.userName, $scope.loginVal.password, $scope.loginVal.authType, "");
             }
             $http({
                 method: 'POST',

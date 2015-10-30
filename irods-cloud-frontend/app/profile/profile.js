@@ -278,23 +278,20 @@ angular.module('myApp.profile', ['ngRoute'])
                 MessageService.success("Move completed!");    
                 location.assign(new_url);  
             })
-        };  
+        };
 
         $scope.logout_func = function () {
             var promise = $http({
-                method: 'DELETE',
-                url: $globals.backendUrl('login')
-            }).then(function (response) {
+                method: 'POST',
+                url: $globals.backendUrl('logout')
+            }).then(function () {
                 // The then function here is an opportunity to modify the response
                 // The return value gets picked up by the then in the controller.
-
-                return response.data;
-            });
-            // Return the promise to the controller
-            //$location.path("/login").search({});
-            setTimeout(function () {
+                //setTimeout(function () {
                 $location.path("/login").search({});
-            }, 0);
+                //}, 0);
+            });
+
             return promise;
         };
                  

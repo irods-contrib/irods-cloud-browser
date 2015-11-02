@@ -84,7 +84,7 @@ body{
 }
 .column_content{
 	border-top:2px solid #00A9C2;
-	background: #EFEFF0;
+	background: #fff;
 	padding: 5px;
 	min-height:100vh;
 	height: 100%;
@@ -209,6 +209,18 @@ select{
 /* ||||||||||||||||||||||||||||||||||| */
 /* |||||| MAIN CONTAINERS STYLES ||||| */
 /* ||||||||||||||||||||||||||||||||||| */
+.logout{
+	color: #777;
+	display: inline-block;
+    padding: 5px;
+    margin: 9px 0px 0px 0px;
+    background: #fff;
+    cursor: pointer;
+    border: 1px solid #AEAEB0;
+}
+.logout:hover{
+	background: #efefef;
+}
 .has_error{
 	outline: 1px solid red;
 }
@@ -667,12 +679,26 @@ input.col-xs-12{
 .tablet_collection_actions{
 	display: none;
 }
+.last_breadcrumb{
+	display: inline-block;
+}
 .active_breadcrumb{
-    background: #fff !important;
-    color:#555 !important;
+    color: #777;
+    background: #fff;
+    font-weight: normal;
+    white-space: nowrap;
+    cursor: pointer;
+    border: 1px solid #AEAEB0;
+    padding: 6px 5px;
+    margin: 0px 6px 0px 0px;
+    height: 34px;
+	max-width: 100px;
+	overflow: hidden;
+	text-overflow:ellipsis;
+	display: inline-block;
 }
 .active_breadcrumb:hover{
-    background: #efefef !important;
+    background: #efefef;
 }
 .dark_back_option_double{
 	color: #777;
@@ -797,6 +823,14 @@ input.col-xs-12{
 	font-weight: bold;
 	height:27px;
 	border-bottom:1px solid #C7C9C7; 
+}
+#select-result{
+	overflow: hidden;
+    display: inherit;
+    height: 35px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    padding: 3px;
 }
 .deleter{
 	padding: 5px 5px 39px 5px;

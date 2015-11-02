@@ -31,36 +31,12 @@
 		</div>
 		<div class="column_content">
 			<div class="collection_header"> 					
-				<div class="collection_actions_container" ng-show="selectedVc.data.type == 'COLLECTION'">
-					<div class="desktop_collection_actions" >
-						<div class="upload_button" title="Upload files to this collection" ng-click="upload_pop_up_open()"> 
-							<img src="images/upload_icon.png"><span>&nbsp;Upload</span>	
-						</div>
-						<div class="small_vertical_divider" ></div>
-						<div class="create_subcollection_button" title="Go to Profile page of this collection" ng-click="selectProfile(pagingAwareCollectionListing.pagingAwareCollectionListingDescriptor.parentAbsolutePath)"> 
-							<img src="images/info_icon.png"><span>&nbsp;Collection Info</span>	
-						</div>
-						<div class="small_vertical_divider"></div>
-						<div class="create_subcollection_button" title="Create a new sub-collection inside this collection" ng-click="create_pop_up_open()">
-							<img src="images/add_icon.png"><span>&nbsp;Add sub-collection</span>	
-						</div>
-					</div>
-					<div class="right btn-group tablet_collection_actions" >
-					  <button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-					    Collection Actions <span class="caret"></span>
-					  </button>
-					  <ul class="dropdown-menu dropdown-menu-right">
-					    <li><a title="Upload files to this collection" ng-click="upload_pop_up_open()"><img src="images/upload_icon_dark.png"><span>&nbsp;Upload</span></a></li>
-					    <li><a title="Go to Profile page of this collection" ng-click="selectProfile(pagingAwareCollectionListing.pagingAwareCollectionListingDescriptor.parentAbsolutePath)"><img src="images/dark_info_icon.png"><span>&nbsp;Collection Info</span></a></li>
-					    <li><a title="Create a new sub-collection inside this collection" ng-click="create_pop_up_open()"><img src="images/dark_add_icon.png"><span>&nbsp;Add sub-collection</span></a></li>
-					  </ul>
-					</div>
-				</div>	
+				
 				<div class="breadcrumbs_container" ng-hide="pagingAwareCollectionListing.pagingAwareCollectionListingDescriptor.pathComponents.lengh == 0">
 					<div class="breadcrumbs_sub_container" >
 						 
-						   <div class="dropdown">
-							   	<div ng-mouseleave="hide_breadcrumbs()" ng-show=" breadcrumb_compressed_array.length > 0 " type="button" class="dark_back_option_double dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+						   <div class="dropdown" ng-show=" breadcrumb_compressed_array.length > 0 ">
+							   	<div ng-mouseleave="hide_breadcrumbs()" type="button" class="dark_back_option_double dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 							     ... 
 							   </div>
 							   <ul class="dropdown-menu">
@@ -72,14 +48,25 @@
 							   </ul>
 							</div>
 						 
-							<div ng-repeat="breadcrumb in breadcrumb_full_array_paths | limitTo:-5" ng-class="{'active_breadcrumb':$last}" class="dark_back_option_double" title="{{breadcrumb.b}}" ng-click="$last == true ? '' : goToBreadcrumb(breadcrumb.path) " >
-								 {{breadcrumb.b}}&nbsp;<a ng-show="$last == true" class="caret"></a>
+							<div ng-repeat="breadcrumb in breadcrumb_full_array_paths | limitTo:-5" ng-class="{'dark_back_option_double':!$last,'last_breadcrumb':$last}" title="{{breadcrumb.b}}" ng-click="$last == true ? '' : goToBreadcrumb(breadcrumb.path) " >
+								 <div ng-hide="$last == true">{{breadcrumb.b}}</div>
+								 <div ng-show="$last == true" class="dropdown">
+								 	<div class="active_breadcrumb dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+								 		{{breadcrumb.b}}
+								 		<div class="caret"></div>
+								 	</div>
+								 	<ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+								   	<li><a title="Upload files to this collection" ng-click="upload_pop_up_open()"><img src="images/upload_icon_dark.png"><span>&nbsp;Upload</span></a></li>
+								   	<li><a title="Go to Profile page of this collection" ng-click="selectProfile(pagingAwareCollectionListing.pagingAwareCollectionListingDescriptor.parentAbsolutePath)"><img src="images/dark_info_icon.png"><span>&nbsp;Collection Info</span></a></li>
+								   	<li><a title="Create a new sub-collection inside this collection" ng-click="create_pop_up_open()"><img src="images/dark_add_icon.png"><span>&nbsp;Add sub-collection</span></a></li>
+							   </ul>
+								 </div>
 							</div>
 					</div>			
 				</div>		
 			</div>
 			<div class="listing">
-				<div class="light_header">				
+				<div class="light_big_header">				
 					<div class="selection_actions_container">
 						<div class="desktop_collection_actions">
 							<div class="download_button" title="Delete selected file(s) " ng-click='delete_pop_up_open()' > 
@@ -120,11 +107,8 @@
 						  </ul>
 						</div>
 					</div>
-					<div class="breadcrumbs_container">
-						<div class="breadcrumbs_sub_container" >
 							<span id="select-result">Nothing has been selected</span>
-						</div>
-					</div>
+					
 				</div>
 			
 				<ul context-menu data-target="main_list_menu" ng-class="{ 'highlight': highlight, 'expanded' : expanded }" class="selectable general_list_item">
@@ -140,7 +124,7 @@
 			            </div>
 				    </div>
 
-				    <li class="ui-widget-content data_{{collectionAndDataObject.dataObject}} ui-selectee " ng-dblclick="selectVirtualCollection(selectedVc.data.uniqueName,collectionAndDataObject.formattedAbsolutePath)" ng-class-odd="'light_back_option'" ng-class-even="'light_back_option_even'" ng-repeat="collectionAndDataObject in pagingAwareCollectionListing.collectionAndDataObjectListingEntries" id='{{collectionAndDataObject.formattedAbsolutePath}}' on-last-repeat>
+				    <li class="ui-widget-content data_{{collectionAndDataObject.dataObject}} ui-selectee " ng-dblclick="collectionAndDataObject.dataObject == true ? selectProfile(collectionAndDataObject.formattedAbsolutePath) : selectVirtualCollection(selectedVc.data.uniqueName,collectionAndDataObject.formattedAbsolutePath)" ng-class-odd="'light_back_option'" ng-class-even="'light_back_option_even'" ng-repeat="collectionAndDataObject in pagingAwareCollectionListing.collectionAndDataObjectListingEntries" id='{{collectionAndDataObject.formattedAbsolutePath}}' on-last-repeat>
 			            <div class="col-xs-10 col-sm-10 col-md-7 col-lg-7 list_content">
 				            <img ng-show="{{collectionAndDataObject.dataObject}} == true" src="images/data_object_icon.png">
 				            <img ng-show="{{collectionAndDataObject.dataObject}} == false" src="images/collection_icon.png">        

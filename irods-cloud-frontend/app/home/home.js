@@ -470,6 +470,7 @@ angular.module('myApp.home', ['ngRoute', 'ngFileUpload', 'ng-context-menu'])
                 // The return value gets picked up by the then in the controller.
                 //setTimeout(function () {
                     $location.path("/login").search({});
+                $globals.setLastPath("/home");
                 //}, 0);
             });
 

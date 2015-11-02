@@ -376,7 +376,7 @@ angular.module('myApp.home', ['ngRoute', 'ngFileUpload', 'ng-context-menu'])
             }).then(function (data) {
                 return $collectionsService.listCollectionContents($scope.selectedVc.data.uniqueName, $scope.pagingAwareCollectionListing.pagingAwareCollectionListingDescriptor.parentAbsolutePath, 0);
             }).then(function (data) {
-                MessageService.sticky_success("File Successfully moved");
+                MessageService.success("File Successfully moved");
                 $scope.pagingAwareCollectionListing = data;
                 $scope.pop_up_close_clear();
             })
@@ -742,6 +742,11 @@ angular.module('myApp.home', ['ngRoute', 'ngFileUpload', 'ng-context-menu'])
             $('#new_collection_name').focus();
         };
         $scope.rename_pop_up_open = function () {
+            if($('li.ui-selected').hasClass("data_true")){
+                $scope.renaming_item = "file";
+            }else{
+                $scope.renaming_item = "folder";
+            }
             $scope.pop_up_form = "rename";
             $('.pop_up_window').fadeIn(100);
             $('.renamer').fadeIn(100);

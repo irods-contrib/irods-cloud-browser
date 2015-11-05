@@ -8,7 +8,7 @@ Deploy the irods-cloud-backend.war file to your web container, typically Tomcat.
 
 ## 2 Deploy the front-end code
 
-The html, javascript, and image assets are available in the released irods-cloud-frontend.zip file.  These files should be deployed to Apache HTTP or similar web server.  
+The html, javascript, and image assets are available in the released irods-cloud-frontend.zip file.  These files should be deployed to the ROOT folder of the Apache HTTP or a similar web server.  
 
 
 ## 3 (optional) proxy the back end via Apache HTTP or other server

@@ -1,5 +1,7 @@
 # .gitignore for cloud browser
 
+**/*.*~
+
 # web application files
 /web-app/WEB-INF/classes
 

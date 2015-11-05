@@ -9,4 +9,4 @@ beconf.login.preset.host='localhost'
 beconf.login.preset.port=1247
 beconf.login.preset.zone='tempZone'
 beconf.login.preset.auth.type='STANDARD'
-beconf.login.preset.enabled=false
+beconf.login.preset.enabled=true

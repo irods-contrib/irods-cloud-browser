@@ -1,6 +1,9 @@
 # Installation of the iRODS Cloud Browser
 
-For version 1.0.0, a formal package is not yet supported (this is in the next milestone).  The install is manual, but fairly straight-forward.
+For version 1.0.0, a formal package is not yet supported (this is in the next milestone).  The install is manual, but fairly straight-forward.  The
+various files referred to (.war, .zip) can be found on the appropriate release here:
+
+https://github.com/DICE-UNC/irods-cloud-browser/releases
 
 ## 1 Deploy the .war file
 

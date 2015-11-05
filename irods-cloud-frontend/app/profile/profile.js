@@ -72,55 +72,86 @@ angular.module('myApp.profile', ['ngRoute'])
 
         };
         $scope.$on('onRepeatLast', function (scope, element, attrs) {
-                         
-                $(".selectable").selectable({
-                    stop: function (){ 
-                        $('.q_column , .list_group_header').removeClass("ui-selected");
-                        $('.q_column , .list_group_header').removeClass("ui-selectee");
-                        var copy_path_display = $("#copy_select_result").empty();
-                        var move_path_display = $("#move_select_result").empty();
 
-                        if ($(".copy_list_item.ui-selected").length == 1) {
-                            var copy_path = $('.copy_list_item.ui-selected').children('.list_content').children('.collection_object').text();
-                            copy_path_display.append(copy_path);
-                            $scope.copy_target = $('.copy_list_item.ui-selected').attr('id');
-                        }
-                        if ($(".copy_list_item.ui-selected").length > 1) {
-                            $('.copy_list_item.ui-selected').not(':first').removeClass('ui-selected');
-                            var copy_path = $('.copy_list_item.ui-selected').children('.list_content').children('.collection_object').text();
-                            copy_path_display.append(copy_path);
-                            $scope.copy_target = $('.copy_list_item.ui-selected').attr('id');
-                        }
-
-
-                        if ($(".move_list_item.ui-selected").length == 1) {
-                            var move_path = $('.move_list_item.ui-selected').children('.list_content').children('.collection_object').text();
-                            move_path_display.append(move_path);
-                            $scope.copy_target = $('.move_list_item.ui-selected').attr('id');
-                        }
-                        if ($(".move_list_item.ui-selected").length > 1) {
-                            $('.move_list_item.ui-selected').not(':first').removeClass('ui-selected');
-                            var move_path = $('.move_list_item.ui-selected').children('.list_content').children('.collection_object').text();
-                            move_path_display.append(move_path);
-                            $scope.move_target = $('.move_list_item.ui-selected').attr('id');
-                        }
-                        
-                        if ($("li.ui-selected").length > 1) {
-                            $(".single_action").animate({'opacity': '0.1'});
-                            $(".single_action").css('pointer-events', 'none');
-                        } else if ($("li.ui-selected").length == 1) {
-                            $(".single_action").animate({'opacity': '1'});
-                            $(".single_action").css('pointer-events', 'auto');
-                        } else if ($("li.ui-selected").length == 0) {
-                            $(".single_action").animate({'opacity': '0.1'});
-                            $(".single_action").css('pointer-events', 'none');
-                        }
-
-
+            $(".selectable").selectable({
+                stop: function () {
+                    $('.list_content').removeClass("ui-selected");
+                    $('span').removeClass("ui-selected");
+                    $('img').removeClass("ui-selected");
+                    var result = $("#select-result").empty();
+                    $(".dropdown").removeClass("open");
+                    var copy_path_display = $(".copy_select_result").empty();
+                    
+                    if ($(".copy_list_item.ui-selected").length == 1) {
+                        var copy_path = $('.copy_list_item.ui-selected').children('.list_content').children('.collection_object').text();
+                        copy_path_display.append(copy_path);
+                        $scope.copy_target = $('.copy_list_item.ui-selected').attr('id');
                     }
-                });
-                   
-                   
+                    if ($(".copy_list_item.ui-selected").length > 1) {
+                        $('.copy_list_item.ui-selected').not(':first').removeClass('ui-selected');
+                        var copy_path = $('.copy_list_item.ui-selected').children('.list_content').children('.collection_object').text();
+                        copy_path_display.append(copy_path);
+                        $scope.copy_target = $('.copy_list_item.ui-selected').attr('id');
+                    }
+
+                    if ($(".move_list_item.ui-selected").length == 1) {
+                        var move_path = $('.move_list_item.ui-selected').children('.list_content').children('.collection_object').text();
+                        copy_path_display.append(move_path);
+                        $scope.copy_target = $('.move_list_item.ui-selected').attr('id');
+                    }
+                    if ($(".move_list_item.ui-selected").length > 1) {
+                        $('.move_list_item.ui-selected').not(':first').removeClass('ui-selected');
+                        var move_path = $('.move_list_item.ui-selected').children('.list_content').children('.collection_object').text();
+                        copy_path_display.append(move_path);
+                        $scope.move_target = $('.move_list_item.ui-selected').attr('id');
+                    }
+
+
+                    if ($(".general_list_item .ui-selected").length > 1) {
+                        result.append("You've selected: " + $('.general_list_item .ui-selected').length + " items");
+                        $(".download_button").css('opacity', '0.8');
+                        $(".download_button").css('pointer-events', 'auto');
+                        $(".rename_button").css('opacity', '0.1');
+                        $(".rename_button").css('pointer-events', 'none');
+                        $(".rename_divider").css('opacity', '0.8');
+                        $(".download_divider").css('opacity', '0.8');
+
+                        $(".tablet_download_button").fadeIn();
+                        $(".tablet_rename_button").fadeOut();
+                        $(".empty_selection").fadeOut();
+
+                    } else if ($(".general_list_item .ui-selected").length == 1) {
+                        $scope.selected_target = $('.general_list_item .ui-selected').attr("id");
+                        var name_of_selection = "You've selected: " + $('.ui-selected').children('.list_content').children('.data_object').text();
+                        if (name_of_selection == "You've selected: ") {
+                            var name_of_selection = "You've selected: " + $('.ui-selected').children('.list_content').children('.collection_object').text();
+                        }
+
+                        result.append(name_of_selection);
+                        $(".download_button").css('opacity', '0.8');
+                        $(".download_button").css('pointer-events', 'auto');
+                        $(".rename_button").css('opacity', '0.8');
+                        $(".rename_button").css('pointer-events', 'auto');
+                        $(".rename_divider").css('opacity', '0.8');
+                        $(".download_divider").css('opacity', '0.8');
+                        $(".tablet_download_button").fadeIn();
+                        $(".tablet_rename_button").fadeIn();
+                        $(".empty_selection").fadeOut();
+                    } else if ($(".general_list_item .ui-selected").length == 0) {
+                        $(".download_button").css('opacity', '0.1');
+                        $(".download_button").css('pointer-events', 'none');
+                        $(".rename_button").css('opacity', '0.1');
+                        $(".rename_button").css('pointer-events', 'none');
+                        $(".rename_divider").css('opacity', '0.1');
+                        $(".download_divider").css('opacity', '0.1');
+                        $(".tablet_download_button").fadeOut();
+                        $(".tablet_rename_button").fadeOut();
+                        $(".empty_selection").fadeIn();
+                    }
+
+
+                }
+            });
         });
         /*
          Get a default list of the virtual collections that apply to the logged in user, for side nav
@@ -311,9 +342,9 @@ angular.module('myApp.profile', ['ngRoute'])
             }
         }
         $scope.set_path = function (path_name,path) {  
-            var move_path_display = $("#move_select_result").empty(); 
+            var copy_path_display = $(".copy_select_result").empty(); 
             var move_path = path_name;
-            move_path_display.append(move_path);
+            copy_path_display.append(move_path);
             $scope.copy_target = path;  
         };
         $scope.hide_breadcrumbs = function () {
@@ -373,13 +404,14 @@ angular.module('myApp.profile', ['ngRoute'])
         });
         $scope.move_pop_up_open = function(){
             $scope.pop_up_form = "move";
+            $scope.copy_source = $('.general_list_item .ui-selected').attr('id');
             $('.pop_up_window').fadeIn(100);
-            var move_path_display = $("#move_select_result").empty();
+            var copy_path_display = $(".copy_select_result").empty();
             var path_array = $scope.copy_list.data.pagingAwareCollectionListingDescriptor.pathComponents;
             var current_collection = path_array[path_array.length - 1];
             $scope.copy_source = $scope.dataProfile.parentPath + "/" + $scope.dataProfile.childName;
             $scope.copy_target = $scope.dataProfile.parentPath;
-            move_path_display.append(current_collection);
+            copy_path_display.append(current_collection);
             if ($scope.dataProfile.file == true) {
                 $(".move_container ul").append('<li class="light_back_option_even"><div class="col-xs-12 list_content"><img src="images/data_object_icon.png">' + $scope.dataProfile.childName + '</div></li>');
             } else {
@@ -397,8 +429,9 @@ angular.module('myApp.profile', ['ngRoute'])
         };
         $scope.copy_pop_up_open = function(){
             $scope.pop_up_form = "copy";
+            $scope.copy_source = $('.general_list_item .ui-selected').attr('id');
             $('.pop_up_window').fadeIn(100);
-            var copy_path_display = $("#copy_select_result").empty();
+            var copy_path_display = $(".copy_select_result").empty();
             var path_array = $scope.copy_list.data.pagingAwareCollectionListingDescriptor.pathComponents;
             var current_collection = path_array[path_array.length - 1];
             $scope.copy_source = $scope.dataProfile.parentPath + "/" + $scope.dataProfile.childName;
@@ -445,11 +478,12 @@ angular.module('myApp.profile', ['ngRoute'])
             $('.deleter').fadeIn(100);
         };
         $scope.pop_up_close_clear = function () {
+
             $('.pop_up_window').fadeOut(200, function () {
-                $(".move_container ul").empty();  
-                $(".delete_container ul").empty();   
+                $(".move_container ul").empty();
+                $(".delete_container ul").empty();
                 $('#new_collection_name').val('');
-                $('.selected_object').empty();                
+                $('.selected_object').empty();
                 $('#new_renaming_name').val('');
                 $('#new_renaming_name').removeClass('has_error');
                 $('#new_collection_name').removeClass('has_error');
@@ -462,18 +496,114 @@ angular.module('myApp.profile', ['ngRoute'])
                 $('.renamer').fadeOut(100);
                 $('.copier').fadeOut(100);
                 $('.mover').fadeOut(100);
+                $('.metadata_adder').fadeOut(100);
+                $('.metadata_editor').fadeOut(100);
+                $('.metadata_deleter').fadeOut(100);
                 $('.copier_button').fadeOut(100);
                 $('.mover_button').fadeOut(100);
-                $(".upload_container").css('display', 'block');
-                $(".upload_container_result").html('<ul></ul>');
-                $(".upload_container_result").css('display', 'none');
-                $('.metadata_editor').fadeOut(100); 
-                $('.metadata_adder').fadeOut(100);
-                $('.metadata_deleter').fadeOut(100);
                 $scope.pop_up_form = "";
+                $scope.files_to_upload = [];
+                $scope.files_name = [];
+                $("#select-result").empty();
+                $(".download_button").animate({'opacity': '0.1'});
+                $(".download_button").css('pointer-events', 'none');
+                $(".rename_button").animate({'opacity': '0.1'});
+                $(".rename_button").css('pointer-events', 'none');
+                $(".rename_divider").animate({'opacity': '0.1'});
+                $(".download_divider").animate({'opacity': '0.1'});
+                $(".tablet_download_button").fadeOut();
+                $(".tablet_rename_button").fadeOut();
+                $(".empty_selection").fadeIn();
             });
-        };
 
+        };
+        $scope.pop_up_close = function () {
+
+            $('.pop_up_window').fadeOut(200, function () {
+                $(".move_container ul").empty();
+                $(".delete_container ul").empty();
+                $('#new_collection_name').val('');
+                $('.selected_object').empty();
+                $('#new_renaming_name').val('');
+                $('#new_renaming_name').removeClass('has_error');
+                $('#new_collection_name').removeClass('has_error');
+                $(".upload_container").css('display', 'block');
+                $(".upload_container_result ul").empty();
+                $(".upload_container_result").css('display', 'none');
+                $('.metadata_adder').fadeOut(100);
+                $('.metadata_editor').fadeOut(100);
+                $('.metadata_deleter').fadeOut(100);
+                $('.uploader').fadeOut(100);
+                $('.deleter').fadeOut(100);
+                $('.creater').fadeOut(100);
+                $('.renamer').fadeOut(100);
+                $('.copier').fadeOut(100);
+                $('.mover').fadeOut(100);
+                $('.copier_button').fadeOut(100);
+                $('.mover_button').fadeOut(100);
+                $('#new_metadata_attribute').removeClass('has_error');
+                $('#new_metadata_value').removeClass('has_error');
+                $scope.pop_up_form = "";
+                $scope.files_to_upload = [];
+                $scope.files_name = [];
+            });
+
+        };
+        $(window).mousedown(function(event) {
+            switch (event.which) {
+                case 1:
+                    if($(event.target).is("div")){
+                        if ($(event.target).parents().hasClass("ui-selectee") || $(event.target).parents().hasClass("selection_actions_container") || $(event.target).parents().hasClass("pop_up_window")) {
+                            
+                        }else{
+                            $(".general_list_item .ui-selected").removeClass("ui-selected");
+                            $(".download_button").css('opacity', '0.1');
+                            $(".download_button").css('pointer-events', 'none');
+                            $(".rename_button").css('opacity', '0.1');
+                            $(".rename_button").css('pointer-events', 'none');
+                            $(".rename_divider").css('opacity', '0.1');
+                            $(".download_divider").css('opacity', '0.1');
+                            $(".tablet_download_button").fadeOut();
+                            $(".tablet_rename_button").fadeOut();
+                            $(".empty_selection").fadeIn();
+                            $("#select-result").empty();
+                        }
+                    }
+                    break;
+                case 3:
+                    if ($(".general_list_item .ui-selected").length == 0 || $(".general_list_item .ui-selected").length == 1) {
+                        $(".general_list_item .ui-selected").removeClass("ui-selected");
+                        $(event.target).parents("li").addClass("ui-selected","fast",function(){
+                            $(".download_button").css('opacity','0.8');
+                            $(".download_button").css('pointer-events', 'auto');
+                            $(".rename_button").css('opacity','0.8');
+                            $(".rename_button").css('pointer-events', 'auto');
+                            $(".rename_divider").css('opacity','0.8');
+                            $(".download_divider").css('opacity','0.8');
+                            $(".tablet_download_button").fadeIn();
+                            $(".tablet_rename_button").fadeIn();
+                            $(".empty_selection").fadeOut();
+                        });
+                    }
+                    if ($(".general_list_item .ui-selected").length > 1) {
+                        if(!$(event.target).parents("li").hasClass("ui-selected")){
+                            $(".general_list_item .ui-selected").removeClass("ui-selected");
+                            $(event.target).parents("li").addClass("ui-selected","fast",function(){
+                                $(".download_button").css('opacity','0.8');
+                                $(".download_button").css('pointer-events', 'auto');
+                                $(".rename_button").css('opacity','0.8');
+                                $(".rename_button").css('pointer-events', 'auto');
+                                $(".rename_divider").css('opacity','0.8');
+                                $(".download_divider").css('opacity','0.8');
+                                $(".tablet_download_button").fadeIn();
+                                $(".tablet_rename_button").fadeIn();
+                                $(".empty_selection").fadeOut();
+                            });
+                        }
+                    }
+                    break;
+            }
+        });
 
         /*|||||||||||||||||||||||||||||||
         |||||||| METADATA ACTIONS ||||||| 

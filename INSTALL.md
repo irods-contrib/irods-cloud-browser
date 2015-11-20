@@ -59,7 +59,8 @@ grid.
 Place that file in the /etc directory, ensuring that the Tomcat service can read it, and fill in the preset data, setting beconf.login.preset.enabled-true
 
 ```
-*Backend app configuration
+/*
+ *Backend app configuration
  *For app specific configs, prefix with beconf. for consistency 
  */
 

@@ -20,11 +20,32 @@ It is recommended that Tomcat or other web container be firewalled and proxied b
 
 http://httpd.apache.org/docs/2.2/mod/mod_proxy_ajp.html
 
+### Additional Detail
+Setting up Apache to proxy the connection to Tomcat via AJP involves the following steps:
+
+1. Modify Tomcat's `server.xml` configuration file by adding/uncommenting the following line:
+```
+<Connector port="8009" protocol="AJP/1.3" />
+```
+2. Install and enable the Apache `proxy_ajp` and `proxy` modules.
+
+3. Create an appropriate Apache configuration file. Here is an example:
+
+```
+<VirtualHost *:80>
+  <Proxy *>
+     Order deny,allow
+     Allow from all
+  </Proxy>
+
+  ProxyPassMatch               /irods-cloud-backend/(.*)       ajp://localhost:8009/irods-cloud-backend/$1
+</VirtualHost>
+```
 
 ## 4 Configure the front end to your deployed back-end container
 
 The front end javascript code makes ajax calls to the back end that is configured in irods-cloud-frontend/app/components/globals.js on 
-line 17
+line 17.
 
 ```Javascript
 
@@ -46,7 +67,7 @@ line 17
 ```
 
 The HOST variable needs to be set to the http address of the back end. In step 3, a proxy pass was configured, in this step
- set the HOST variable to the irods-cloud-backend context as it is exposed on your HTTP server, with a trailing slash.
+ set the HOST variable to the irods-cloud-backend context as it is exposed on your HTTP server (e.g., without :8080), with a trailing slash.
  
  
 ## 5 Optionally configure browser presets

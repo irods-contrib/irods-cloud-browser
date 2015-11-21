@@ -24,23 +24,24 @@ http://httpd.apache.org/docs/2.2/mod/mod_proxy_ajp.html
 Setting up Apache to proxy the connection to Tomcat via AJP involves the following steps:
 
 1. Modify Tomcat's `server.xml` configuration file by adding/uncommenting the following line:
-```
-<Connector port="8009" protocol="AJP/1.3" />
-```
+   ```
+   <Connector port="8009" protocol="AJP/1.3" />
+   ```
+
 2. Install and enable the Apache `proxy_ajp` and `proxy` modules.
 
 3. Create an appropriate Apache configuration file. Here is an example:
 
-```
-<VirtualHost *:80>
-  <Proxy *>
-     Order deny,allow
-     Allow from all
-  </Proxy>
+   ```
+   <VirtualHost *:80>
+     <Proxy *>
+        Order deny,allow
+        Allow from all
+     </Proxy>
 
-  ProxyPassMatch               /irods-cloud-backend/(.*)       ajp://localhost:8009/irods-cloud-backend/$1
-</VirtualHost>
-```
+     ProxyPassMatch               /irods-cloud-backend/(.*)       ajp://localhost:8009/irods-cloud-backend/$1
+   </VirtualHost>
+  ```
 
 ## 4 Configure the front end to your deployed back-end container
 

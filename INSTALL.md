@@ -43,6 +43,8 @@ Setting up Apache to proxy the connection to Tomcat via AJP involves the followi
    </VirtualHost>
   ```
 
+4. Enable the new Apache configuration.
+
 ## 4 Configure the front end to your deployed back-end container
 
 The front end javascript code makes ajax calls to the back end that is configured in irods-cloud-frontend/app/components/globals.js on 

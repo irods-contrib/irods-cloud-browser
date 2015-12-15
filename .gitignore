@@ -31,7 +31,7 @@
 
 # "temporary" build files
 **/target
-
+**/bin
 # node modules
 #irods-cloud-frontend/node_modules/
 

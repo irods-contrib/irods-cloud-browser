@@ -1,5 +1,7 @@
 # .gitignore for cloud browser
 
+**/*.*~
+
 # web application files
 /web-app/WEB-INF/classes
 
@@ -29,9 +31,9 @@
 
 # "temporary" build files
 **/target
-
+**/bin
 # node modules
-irods-cloud-frontend/node_modules/
+#irods-cloud-frontend/node_modules/
 
 # other ide and cruft ignores
 **/.DS_Store

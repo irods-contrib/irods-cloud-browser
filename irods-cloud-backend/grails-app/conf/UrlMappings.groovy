@@ -24,10 +24,12 @@ class UrlMappings {
 
 		"/metadata"(resource:"metadata")
 
+		"/fileCreatorTemplate"(resource:"fileCreatorTemplate")
+
 		"/initialConf"(resource:"initialConf")
 
-
-		"/$controller/$action?/$id?(.$format)?"{ constraints { // apply constraints here
+		"/$controller/$action?/$id?(.$format)?"{ constraints {
+				// apply constraints here
 			} }
 
 		"500"(controller: "error")

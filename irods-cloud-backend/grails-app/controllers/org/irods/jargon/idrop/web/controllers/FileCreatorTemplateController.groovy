@@ -1,6 +1,7 @@
 package org.irods.jargon.idrop.web.controllers
 
 import grails.converters.JSON
+import grails.rest.RestfulController
 
 import org.irods.jargon.core.pub.IRODSAccessObjectFactory
 import org.irods.jargon.idrop.web.services.FileCreatorTemplateService
@@ -11,7 +12,7 @@ import org.irods.jargon.idrop.web.services.FileCreatorTemplateService
  * @author Mike Conway - DICE
  *
  */
-class FileCreatorTemplateController {
+class FileCreatorTemplateController extends RestfulController {
 	static responseFormats = ['json']
 	IRODSAccessObjectFactory irodsAccessObjectFactory
 	FileCreatorTemplateService fileCreatorTemplateService

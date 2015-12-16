@@ -1,64 +1,95 @@
 var lang = require('mout/lang');
 var object = require('mout/object');
 var rc = require('./util/rc');
-var defaults = require('./util/defaults');
 var expand = require('./util/expand');
+var EnvProxy = require('./util/proxy');
 var path = require('path');
+var fs = require('fs');
 
 function Config(cwd) {
-    this._cwd = cwd || process.cwd();
+    this._cwd = cwd;
+    this._proxy = new EnvProxy();
     this._config = {};
 }
 
-Config.prototype.load = function () {
-    this._config = rc('bower', defaults, this._cwd);
-    return this;
-};
-/* jshint ignore:start */
-Config.prototype.get = function (key) {
-    // TODO
-};
+Config.prototype.load = function (overwrites) {
+    this._config = rc('bower', this._cwd);
 
-Config.prototype.set = function (key, value) {
-    // TODO
-    return this;
-};
+    this._config = object.merge(
+      expand(this._config || {}),
+      expand(overwrites || {})
+    );
 
-Config.prototype.del = function (key, value) {
-    // TODO
+    this._config = normalise(this._config);
+
+    this._proxy.set(this._config);
+
     return this;
 };
 
-Config.prototype.save = function (where, callback) {
-    // TODO
+Config.prototype.restore = function () {
+  this._proxy.restore();
 };
-/* jshint ignore:end */
+
+function readCertFile(path) {
+    path = path || '';
+
+    var sep = '-----END CERTIFICATE-----';
+
+    var certificates;
+
+    if (path.indexOf(sep) === -1) {
+        certificates = fs.readFileSync(path, { encoding: 'utf8' });
+    } else {
+        certificates = path;
+    }
+
+    return certificates.
+      split(sep).
+      filter(function(s) { return !s.match(/^\s*$/); }).
+      map(function(s) { return s + sep; });
+}
+
+function loadCAs(caConfig) {
+    // If a ca file path has been specified, expand that here to the file's
+    // contents. As a user can specify these individually, we must load them
+    // one by one.
+    for (var p in caConfig) {
+        if (caConfig.hasOwnProperty(p)) {
+            var prop = caConfig[p];
+            if (Array.isArray(prop)) {
+                caConfig[p] = prop.map(function(s) {
+                    return readCertFile(s);
+                });
+            } else if (prop) {
+                caConfig[p] = readCertFile(prop);
+            }
+        }
+    }
+}
+
 Config.prototype.toObject = function () {
-    var config = lang.deepClone(this._config);
-
-    config = Config.normalise(config);
-    return config;
+    return lang.deepClone(this._config);
 };
 
 Config.create = function (cwd) {
     return new Config(cwd);
 };
 
-Config.read = function (cwd) {
-    var config = new Config(cwd);
-    return config.load().toObject();
+Config.read = function (cwd, overrides) {
+    var config = Config.create(cwd);
+    return config.load(overrides).toObject();
 };
 
-Config.normalise = function (rawConfig) {
-    var config = {};
-
-    // Mix in defaults and raw config
-    object.deepMixIn(config, expand(defaults), expand(rawConfig));
+function normalise(config) {
+    config = expand(config);
 
     // Some backwards compatible things..
-    config.shorthandResolver = config.shorthandResolver
-    .replace(/\{\{\{/g, '{{')
-    .replace(/\}\}\}/g, '}}');
+    if (config.shorthandResolver) {
+      config.shorthandResolver = config.shorthandResolver
+        .replace(/\{\{\{/g, '{{')
+        .replace(/\}\}\}/g, '}}');
+    }
 
     // Ensure that every registry endpoint does not end with /
     config.registry.search = config.registry.search.map(function (url) {
@@ -68,9 +99,11 @@ Config.normalise = function (rawConfig) {
     config.registry.publish = config.registry.publish.replace(/\/+$/, '');
     config.tmp = path.resolve(config.tmp);
 
-    return config;
-};
+    loadCAs(config.ca);
 
-Config.DEFAULT_REGISTRY = defaults.registry;
+    return config;
+}
+
+Config.DEFAULT_REGISTRY = require('./util/defaults').registry;
 
 module.exports = Config;

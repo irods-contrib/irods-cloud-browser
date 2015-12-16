@@ -17,15 +17,19 @@ class FileCreatorTemplateController extends RestfulController {
 	IRODSAccessObjectFactory irodsAccessObjectFactory
 	FileCreatorTemplateService fileCreatorTemplateService
 
+	def index() {
+		log.info("index()")
+		show()
+	}
 	/**
 	 * GET operation gets the list of available templates
 	 * @return
 	 */
-	def index() {
+	def show() {
 		log.info("index() gets list of templates")
 		def irodsAccount = request.irodsAccount
 		if (!irodsAccount) throw new IllegalStateException("no irodsAccount in request")
-		render fileCreatorTemplateService.listAllTemplates() as JSON
+		render fileCreatorTemplateService.listAllTemplates(irodsAccount) as JSON
 	}
 
 	/**

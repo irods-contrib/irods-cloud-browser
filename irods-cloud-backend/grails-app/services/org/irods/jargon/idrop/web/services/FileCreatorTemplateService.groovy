@@ -22,7 +22,7 @@ import org.irods.jargon.filetemplate.FileTemplateService
 	 * @param irodsAccount
 	 * @return
 	 */
-	def listAlltemplates(IRODSAccount irodsAccount) {
+	def listAllTemplates(IRODSAccount irodsAccount) {
 
 		log.info("listAlltemplates()")
 

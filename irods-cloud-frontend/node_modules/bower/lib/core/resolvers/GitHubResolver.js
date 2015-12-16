@@ -72,7 +72,7 @@ GitHubResolver.prototype._checkout = function () {
 
     // Download tarball
     return download(tarballUrl, file, {
-        proxy: this._config.httpsProxy,
+        ca: this._config.ca.default,
         strictSSL: this._config.strictSsl,
         timeout: this._config.timeout,
         headers: reqHeaders

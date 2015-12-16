@@ -3,6 +3,7 @@ package org.irods.jargon.idrop.web.services
 import org.irods.jargon.core.connection.IRODSAccount
 import org.irods.jargon.core.exception.JargonRuntimeException
 import org.irods.jargon.core.pub.IRODSAccessObjectFactory
+import org.irods.jargon.filetemplate.impl.DefaultFileTemplateServiceImpl
 import org.irods.jargon.usertagging.starring.IRODSStarringServiceImpl
 import org.irods.jargon.vircoll.impl.VirtualCollectionDiscoveryServiceImpl
 import org.irods.jargon.vircoll.impl.VirtualCollectionFactoryImpl
@@ -57,5 +58,14 @@ class JargonServiceFactoryService {
 			throw new JargonRuntimeException("no configured zipServiceConfiguration")
 		}
 		return new JargonZipServiceImpl(zipServiceConfiguration, irodsAccessObjectFactory, irodsAccount)
+	}
+
+	/**
+	 * Obtain an instance of the {@link FileTemplateService} that can create files from templates
+	 * @param irodsAccount
+	 * @return
+	 */
+	def instanceFileTemplateService(IRODSAccount irodsAccount) {
+		return new DefaultFileTemplateServiceImpl(irodsAccessObjectFactory, irodsAccount)
 	}
 }

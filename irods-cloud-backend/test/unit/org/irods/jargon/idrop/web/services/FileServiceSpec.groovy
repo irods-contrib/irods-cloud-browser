@@ -155,10 +155,19 @@ class FileServiceSpec extends Specification {
 		irodsFile.demand.getName{-> "hello"}
 		def irodsFileMock = irodsFile.createMock()
 
+		def objStat = new ObjStat()
+		objStat.objectType = CollectionAndDataObjectListingEntry.ObjectType.DATA_OBJECT
+
+		def collectionAndDataObjectListAndSearchAO = mockFor(CollectionAndDataObjectListAndSearchAO)
+		collectionAndDataObjectListAndSearchAO.demand.retrieveObjectStatForPath{pth -> return objStat}
+		def collectionAndDataObjectListAndSearchAOMock = collectionAndDataObjectListAndSearchAO.createMock()
+
 		def irodsFileFactory = mockFor(IRODSFileFactory)
 		irodsFileFactory.demand.instanceIRODSFileInputStream{path1 -> return inputStreamMock}
 		irodsFileFactory.demand.instanceIRODSFile{path2 -> return irodsFileMock}
 		def irodsFileFactoryMock = irodsFileFactory.createMock()
+		irodsAccessObjectFactory.demand.getCollectionAndDataObjectListAndSearchAO{acct3 -> return collectionAndDataObjectListAndSearchAOMock}
+
 		irodsAccessObjectFactory.demand.getIRODSFileFactory{acct1 -> return irodsFileFactoryMock}
 		irodsAccessObjectFactory.demand.getIRODSFileFactory{acct2 -> return irodsFileFactoryMock}
 		def irodsAccessObjectFactoryMock = irodsAccessObjectFactory.createMock()
@@ -331,7 +340,7 @@ class FileServiceSpec extends Specification {
 		def collectionAOMock = collectionAO.createMock()
 
 		def dataTransferOperations = mockFor(DataTransferOperations)
-		dataTransferOperations.demand.move{f1,f2->return void}
+		dataTransferOperations.demand.rename{f1,f2->return void}
 		def dataTransferOperationsMock = dataTransferOperations.createMock()
 
 		irodsAccessObjectFactory.demand.getDataTransferOperations{ia2 -> return dataTransferOperationsMock}

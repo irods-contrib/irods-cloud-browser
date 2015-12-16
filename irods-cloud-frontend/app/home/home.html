@@ -54,13 +54,15 @@
 									   	<li><a title="Upload items to this folder" ng-click="upload_pop_up_open()"><img src="images/upload_icon_dark.png"><span>&nbsp;Upload</span></a></li>
 									   	<li><a title="Go to the Info page of this folder" ng-click="selectProfile(pagingAwareCollectionListing.pagingAwareCollectionListingDescriptor.parentAbsolutePath)"><img src="images/dark_info_icon.png"><span>&nbsp;Folder Info</span></a></li>
 									   	<li><a title="Creates a new folder inside the folder: {{breadcrumb.b}}" ng-click="create_pop_up_open()"><img src="images/dark_collection_icon.png"><span>&nbsp;New Folder</span></a></li>
-									   	<!-- <li class="divider"></li>
+									   	<li class="divider"></li>
 									   	  <li class="dropdown-submenu">
 									   	    <a tabindex="-1" href="#"><img src="images/data_object_icon.png">New File</a>
 									   	    <ul class="dropdown-menu">
-									   	      <li><a ng-click="create_text_pop_up_open()">Text</a></li>	
+									   	      <li ng-repeat="breadcrumb in breadcrumb_full_array_paths">
+									   	      	<a ng-click="create_text_pop_up_open()">Text</a>
+									   	      </li>	
 									   	    </ul>
-									   	  </li> -->
+									   	  </li>
 								   </ul>
 								 </div>
 							</div>

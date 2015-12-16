@@ -145,6 +145,18 @@ angular.module('myApp.home', ['ngRoute', 'ngFileUpload', 'ng-context-menu','ui.c
             mode: {name:"javascript", typescript: true}
         };
         $scope.pop_up_form = "";
+        $scope.list_file_templates = function () {
+
+                $log.info("getting file templates");
+                return $http({method: 'GET', url: $globals.backendUrl('fileCreatorTemplate')}).success(function (data) {
+                    $scope.file_templates = data;
+                }).error(function () {
+                    $scope.file_templates = [];
+                });
+            
+
+        };
+        $scope.list_file_templates();
         $scope.selectedVc = selectedVc;
         $scope.pagingAwareCollectionListing = pagingAwareCollectionListing;
         $scope.selected_target = "";

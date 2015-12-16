@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('myApp.home', ['ngRoute', 'ngFileUpload', 'ng-context-menu'])
+angular.module('myApp.home', ['ngRoute', 'ngFileUpload', 'ng-context-menu','ui.codemirror'])
 
     .config(['$routeProvider', function ($routeProvider, globals) {
         $routeProvider.when('/home/:vcName', {
@@ -63,6 +63,66 @@ angular.module('myApp.home', ['ngRoute', 'ngFileUpload', 'ng-context-menu'])
             }, 1);
         };
     })
+
+        // var elm1 = document.getElementById('body');
+        // var timeout;
+        // var lastTap = 0;
+        // elm1.addEventListener('touchend', function(event) {
+        //     event.preventDefault();
+        //     var currentTime = new Date().getTime();
+        //     var tapLength = currentTime - lastTap;
+        //     clearTimeout(timeout);
+        //     if (tapLength < 500 && tapLength > 0) {                
+        //         if($(event.target).parents("li").hasClass("data_true")){
+        //             var path = $(event.target).parents("li").attr("id");
+        //             $scope.selectProfile(path,true);
+        //         }else if ($(event.target).parents("li").hasClass("data_false")){
+        //             var path = $(event.target).parents("li").attr("id");
+        //             $scope.selectVirtualCollection($scope.selectedVc.data.uniqueName,path,true)
+        //         };
+        //     } else {
+        //         timeout = setTimeout(function() {
+        //             if($(event.target).parents("li").hasClass("ui-widget-content")){
+
+        //             }
+        //             clearTimeout(timeout);
+        //         }, 500);
+        //     }
+        //     lastTap = currentTime;
+        // });
+
+
+    .directive('ngDoubleTap', function() {
+        return function (scope, element, attrs) {
+          var tapping;
+          tapping = false;
+          element.bind('touchstart', function(e) {
+            element.addClass('active');
+            tapping = true;
+          });
+
+          element.bind('touchmove', function(e) {
+            element.removeClass('active');
+            tapping = false;
+          });
+
+          element.bind('touchend', function(e) {
+            element.removeClass('active');            
+            if (tapping) {
+                if(scope.tapped == "yes"){
+                    scope.$apply(attrs['ngDoubleTap'], element);
+                }else{
+                    scope.tapped = "yes";
+                }              
+              scope.explode = function(){
+                scope.tapped = "no";
+              }
+              setTimeout(scope.explode,300)
+            }
+          });
+
+        };
+      })
     .filter('iconic', function () {
         return function (input, optional) {
             var out = "";
@@ -79,12 +139,16 @@ angular.module('myApp.home', ['ngRoute', 'ngFileUpload', 'ng-context-menu'])
         /*
          basic scope data for collections and views
          */
+         $scope.editorOptions = {
+            lineWrapping : false,
+            lineNumbers: true,
+            mode: {name:"javascript", typescript: true}
+        };
         $scope.pop_up_form = "";
         $scope.selectedVc = selectedVc;
         $scope.pagingAwareCollectionListing = pagingAwareCollectionListing;
         $scope.selected_target = "";
-        $scope.$on('onRepeatLast', function (scope, element, attrs) {
-
+        $scope.$on('onRepeatLast', function (scope, element, attrs) {            
             $(".selectable").selectable({
                 stop: function () {
                     $('.list_content').removeClass("ui-selected");
@@ -173,7 +237,7 @@ angular.module('myApp.home', ['ngRoute', 'ngFileUpload', 'ng-context-menu'])
         $scope.files_to_upload = [];
         $scope.files_name = [];
         $scope.copy_source = "";
-        $scope.copy_target = "";        
+        $scope.copy_target = "";       
         $scope.stage_files = function (files) {
             if (files && files.length) {
                 $(".upload_container").css('display', 'none');
@@ -240,7 +304,7 @@ angular.module('myApp.home', ['ngRoute', 'ngFileUpload', 'ng-context-menu'])
          * Handle the selection of a virtual collection from the virtual collection list, by causing a route change and updating the selected virtual collection
          * @param vcName
          */
-        $scope.selectVirtualCollection = function (vcName, path) {
+        $scope.selectVirtualCollection = function (vcName, path, touch_event) {
             $log.info("selectVirtualCollection()");
             if (!vcName) {
                 MessageService.danger("missing vcName");
@@ -249,6 +313,10 @@ angular.module('myApp.home', ['ngRoute', 'ngFileUpload', 'ng-context-menu'])
             $log.info("list vc contents for vc name:" + vcName);
             $location.path("/home/" + vcName);
             $location.search("path", path);
+            if(touch_event == true){
+                $scope.$apply();
+            };
+
         };
         /**
          * Get the breadcrumbs from the pagingAwareCollectionListing in the scope.  This updates the path
@@ -445,7 +513,6 @@ angular.module('myApp.home', ['ngRoute', 'ngFileUpload', 'ng-context-menu'])
                 // The return value gets picked up by the then in the controller.
                 //setTimeout(function () {
                     $location.path("/login").search({});
-                $globals.setLastPath("/home");
                 //}, 0);
             });
 
@@ -591,8 +658,8 @@ angular.module('myApp.home', ['ngRoute', 'ngFileUpload', 'ng-context-menu'])
                     }
                     break;
             }
-        });
-        
+        });     
+
         $scope.getCopyBreadcrumbPaths = function () {     
             $scope.breadcrumb_popup_full_array = $scope.copy_list.data.pagingAwareCollectionListingDescriptor.parentAbsolutePath.split("/");
             $scope.breadcrumb_popup_full_array.shift();
@@ -738,6 +805,12 @@ angular.module('myApp.home', ['ngRoute', 'ngFileUpload', 'ng-context-menu'])
             $('.creater').fadeIn(100);
             $('#new_collection_name').focus();
         };
+        $scope.create_text_pop_up_open = function () {
+            $scope.pop_up_form = "create";
+            $('.pop_up_window').fadeIn(100);
+            $('.creater').fadeIn(100);
+            $('#new_collection_name').focus();
+        };
         $scope.rename_pop_up_open = function () {
             if($('li.ui-selected').hasClass("data_true")){
                 $scope.renaming_item = "file";
@@ -850,7 +923,7 @@ angular.module('myApp.home', ['ngRoute', 'ngFileUpload', 'ng-context-menu'])
         /*
          Retrieve the data profile for the data object at the given absolute path
          */
-        $scope.selectProfile = function (irodsAbsolutePath) {
+        $scope.selectProfile = function (irodsAbsolutePath, touch_event) {
             $log.info("going to Data Profile");
             if (!irodsAbsolutePath) {
                 $log.error("missing irodsAbsolutePath")
@@ -861,6 +934,10 @@ angular.module('myApp.home', ['ngRoute', 'ngFileUpload', 'ng-context-menu'])
 
             $location.url("/profile/");
             $location.search("path", irodsAbsolutePath);
+            $log.info('end: '+irodsAbsolutePath);
+            if(touch_event == true){
+                $scope.$apply();
+            };
 
         };
         $scope.hide_breadcrumbs = function () {

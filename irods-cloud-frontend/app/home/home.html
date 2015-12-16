@@ -53,7 +53,14 @@
 								 	<ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
 									   	<li><a title="Upload items to this folder" ng-click="upload_pop_up_open()"><img src="images/upload_icon_dark.png"><span>&nbsp;Upload</span></a></li>
 									   	<li><a title="Go to the Info page of this folder" ng-click="selectProfile(pagingAwareCollectionListing.pagingAwareCollectionListingDescriptor.parentAbsolutePath)"><img src="images/dark_info_icon.png"><span>&nbsp;Folder Info</span></a></li>
-									   	<li><a title="Creates a new folder inside the folder: {{breadcrumb.b}}" ng-click="create_pop_up_open()"><img src="images/dark_add_icon.png"><span>&nbsp;New Folder</span></a></li>
+									   	<li><a title="Creates a new folder inside the folder: {{breadcrumb.b}}" ng-click="create_pop_up_open()"><img src="images/dark_collection_icon.png"><span>&nbsp;New Folder</span></a></li>
+									   	<!-- <li class="divider"></li>
+									   	  <li class="dropdown-submenu">
+									   	    <a tabindex="-1" href="#"><img src="images/data_object_icon.png">New File</a>
+									   	    <ul class="dropdown-menu">
+									   	      <li><a ng-click="create_text_pop_up_open()">Text</a></li>	
+									   	    </ul>
+									   	  </li> -->
 								   </ul>
 								 </div>
 							</div>
@@ -106,6 +113,9 @@
 							<span id="select-result">Nothing has been selected</span>
 					
 				</div>
+
+				<!-- <div ui-codemirror ui-codemirror-opts="editorOptions"></div> -->
+				
 				<div class="list_header">
 			    	<div class="col-xs-7 list_content">        
 		            	<span><b>Name</b></span>
@@ -118,7 +128,7 @@
 		            </div>
 			    </div>
 				<ul context-menu data-target="main_list_menu" ng-class="{ 'highlight': highlight, 'expanded' : expanded }" class="selectable general_list_item">
-				    <li class="ui-widget-content data_{{collectionAndDataObject.dataObject}} ui-selectee " ng-dblclick="collectionAndDataObject.dataObject == true ? selectProfile(collectionAndDataObject.formattedAbsolutePath) : selectVirtualCollection(selectedVc.data.uniqueName,collectionAndDataObject.formattedAbsolutePath)" ng-class-odd="'light_back_option'" ng-class-even="'light_back_option_even'" ng-repeat="collectionAndDataObject in pagingAwareCollectionListing.collectionAndDataObjectListingEntries" id='{{collectionAndDataObject.formattedAbsolutePath}}' on-last-repeat>
+				    <li class="ui-widget-content data_{{collectionAndDataObject.dataObject}} ui-selectee " ng-dblclick="collectionAndDataObject.dataObject == true ? selectProfile(collectionAndDataObject.formattedAbsolutePath) : selectVirtualCollection(selectedVc.data.uniqueName,collectionAndDataObject.formattedAbsolutePath)" ng-class-odd="'light_back_option'" ng-double-tap="collectionAndDataObject.dataObject == true ? selectProfile(collectionAndDataObject.formattedAbsolutePath) : selectVirtualCollection(selectedVc.data.uniqueName,collectionAndDataObject.formattedAbsolutePath)" ng-class-even="'light_back_option_even'" ng-repeat="collectionAndDataObject in pagingAwareCollectionListing.collectionAndDataObjectListingEntries" id='{{collectionAndDataObject.formattedAbsolutePath}}' on-last-repeat>
 			            <div class="col-xs-7 list_content">
 				            <img ng-show="{{collectionAndDataObject.dataObject}} == true" src="images/data_object_icon.png">
 				            <img ng-show="{{collectionAndDataObject.dataObject}} == false" src="images/collection_icon.png">        

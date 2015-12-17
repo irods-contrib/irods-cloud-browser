@@ -501,6 +501,7 @@ angular.module('myApp.home', ['ngRoute', 'ngFileUpload', 'ng-context-menu','ui.c
                     url: $globals.backendUrl('fileCreatorTemplate'),
                     params: {parentPath:$scope.pagingAwareCollectionListing.pagingAwareCollectionListingDescriptor.parentAbsolutePath,fileName:file_name,templateUniqueIdentifier:$scope.file_to_be_created.templateUniqueIdentifier}
                 }).success(function (data) {
+                    $scope.pop_up_close_clear();
                     $scope.selectProfile($scope.pagingAwareCollectionListing.pagingAwareCollectionListingDescriptor.parentAbsolutePath + '/' +file_name)
                 }).error(function (data) {
                     MessageService.danger(data);

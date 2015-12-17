@@ -424,6 +424,9 @@ select{
 .creater{
 	display: none;
 }
+.file_creater{
+	display: none;
+}
 .renamer{
 	display: none;
 }

@@ -3,6 +3,7 @@ package org.irods.jargon.idrop.web.services
 import org.irods.jargon.core.connection.IRODSAccount
 import org.irods.jargon.core.exception.JargonRuntimeException
 import org.irods.jargon.core.pub.IRODSAccessObjectFactory
+import org.irods.jargon.datautils.filesampler.FileSamplerServiceImpl
 import org.irods.jargon.filetemplate.impl.DefaultFileTemplateServiceImpl
 import org.irods.jargon.usertagging.starring.IRODSStarringServiceImpl
 import org.irods.jargon.vircoll.impl.VirtualCollectionDiscoveryServiceImpl
@@ -14,7 +15,7 @@ import org.irods.jargon.zipservice.api.ZipServiceConfiguration
  * This is a bit of slight-of-hand intended to make it easy to mock various services. 
  * @author Mike Conway - DICE
  *
- */
+ */ 
 class JargonServiceFactoryService {
 
 	static transactional = false
@@ -67,5 +68,14 @@ class JargonServiceFactoryService {
 	 */
 	def instanceFileTemplateService(IRODSAccount irodsAccount) {
 		return new DefaultFileTemplateServiceImpl(irodsAccessObjectFactory, irodsAccount)
+	}
+
+	/**
+	 * Obtain and instance of the {@link FileSamplerService} which can sample and stringify iRODS files
+	 * @param irodsAccount
+	 * @return
+	 */
+	def instanceFileSamplerService(IRODSAccount irodsAccount) {
+		return new FileSamplerServiceImpl(irodsAccessObjectFactory, irodsAccount)
 	}
 }

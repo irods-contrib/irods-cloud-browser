@@ -10,6 +10,7 @@ import org.irods.jargon.core.pub.IRODSAccessObjectFactory
 import org.irods.jargon.core.pub.domain.ObjStat
 import org.irods.jargon.core.pub.io.IRODSFile
 import org.irods.jargon.core.query.CollectionAndDataObjectListingEntry
+import org.irods.jargon.datautils.filesampler.FileSamplerService
 
 
 
@@ -378,5 +379,28 @@ class FileService {
 		log.info("move complete")
 		log.info("entry for new file:${listingEntry}")
 		return listingEntry
+	}
+
+	/**
+	 * Get the String content of a fle
+	 * @param sourcePath <code>String</code> with the absolute path of the iRODS file
+	 * @param irodsAccount
+	 * @return <code>String</code> with the representation of the file data
+	 * @throws FileNotFoundException
+	 * @throws JargonException
+	 */
+	String stringFromFile(String sourcePath, irodsAccount) throws FileNotFoundException, JargonException {
+		log.info("stringFromFile()")
+		if (!sourcePath) {
+			throw new IllegalArgumentException("null or empty sourcePath")
+		}
+
+		if (!irodsAccount) {
+			throw new IllegalArgumentException("irodsAccount is missing")
+		}
+
+		log.info("sourcePath:${sourcePath}")
+		FileSamplerService fileSamplerService = jargonServiceFactoryService.instanceFileSamplerService(irodsAccount)
+		return fileSamplerService.convertFileContentsToString(sourcePath, 2000) // simple max file size setting in kb here
 	}
 }

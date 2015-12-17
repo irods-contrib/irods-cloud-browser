@@ -39,7 +39,7 @@ class FileCreatorTemplateServiceSpec extends Specification {
 
 		when:
 
-		def actual = fileCreatorTemplateService.listAlltemplates(irodsAccount)
+		def actual = fileCreatorTemplateService.listAllTemplates(irodsAccount)
 
 		then:
 

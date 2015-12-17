@@ -36,7 +36,7 @@ class FileCreatorTemplateControllerSpec extends Specification {
 		fileTemplate.templateUniqueIdentifier = "a.unique.name"
 		def templates = new ArrayList<FileTemplate>()
 		templates.add(fileTemplate)
-		fileCreatorTemplateService.demand.listAllTemplates{-> return templates}
+		fileCreatorTemplateService.demand.listAllTemplates{ia -> return templates}
 		def serviceMock =
 				controller.fileCreatorTemplateService = fileCreatorTemplateService.createMock()
 

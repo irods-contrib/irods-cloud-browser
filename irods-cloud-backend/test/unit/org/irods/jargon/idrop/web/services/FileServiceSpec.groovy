@@ -19,6 +19,7 @@ import org.irods.jargon.core.query.CollectionAndDataObjectListingEntry
 import org.irods.jargon.core.transfer.DefaultTransferControlBlock
 import org.irods.jargon.core.transfer.TransferControlBlock
 import org.irods.jargon.core.transfer.TransferStatusCallbackListener
+import org.irods.jargon.datautils.filesampler.FileSamplerService
 import org.irods.jargon.zipservice.api.*
 import org.junit.*
 import org.mockito.Mockito
@@ -481,6 +482,39 @@ class FileServiceSpec extends Specification {
 
 		then:
 		Mockito.verify(dataTransferOperations).physicalMove(sourcePath, resource)
+
+		actual != null
+	}
+
+
+	void "should create String from file"() {
+		given:
+		IRODSAccount irodsAccount = IRODSAccount.instance("host", 1247, "user", "password", "", "zone", "")
+		def irodsAccessObjectFactory = mockFor(IRODSAccessObjectFactory)
+
+		def sourcePath = "/a/path/file.txt"
+		def retString = "xxx"
+
+		def fileSamplerService = mockFor(FileSamplerService)
+		fileSamplerService.demand.convertFileContentsToString{pth,sz -> return retString}
+		def fileSamplerServiceMock = fileSamplerService.createMock()
+
+		def jargonServiceFactoryService = mockFor(JargonServiceFactoryService)
+		jargonServiceFactoryService.demand.instanceFileSamplerService{ia -> return fileSamplerServiceMock}
+		def jargonServiceFactoryServiceMock = jargonServiceFactoryService.createMock()
+
+		def irodsAccessObjectFactoryMock = irodsAccessObjectFactory.createMock()
+
+		FileService fileService = new FileService()
+		fileService.irodsAccessObjectFactory = irodsAccessObjectFactoryMock
+		fileService.jargonServiceFactoryService = jargonServiceFactoryServiceMock
+
+		when:
+
+		def actual = fileService.stringFromFile(sourcePath, irodsAccount)
+
+		then:
+
 
 		actual != null
 	}

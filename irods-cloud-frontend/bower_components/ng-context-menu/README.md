@@ -8,6 +8,8 @@
 
 [![Code Climate](https://codeclimate.com/github/ianwalter/ng-context-menu.png)](https://codeclimate.com/github/ianwalter/ng-context-menu) [![Circle CI](https://circleci.com/gh/ianwalter/ng-context-menu.svg?style=svg)](https://circleci.com/gh/ianwalter/ng-context-menu)
 
+This project was built using [ng-boilerplate](https://github.com/ianwalter/ng-boilerplate)!
+
 ---
 
 ### Implementation steps

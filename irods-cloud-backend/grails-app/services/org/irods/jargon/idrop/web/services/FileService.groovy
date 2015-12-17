@@ -382,7 +382,7 @@ class FileService {
 	}
 
 	/**
-	 * Get the String content of a fle
+	 * Get the String content of a file
 	 * @param sourcePath <code>String</code> with the absolute path of the iRODS file
 	 * @param irodsAccount
 	 * @return <code>String</code> with the representation of the file data
@@ -402,5 +402,32 @@ class FileService {
 		log.info("sourcePath:${sourcePath}")
 		FileSamplerService fileSamplerService = jargonServiceFactoryService.instanceFileSamplerService(irodsAccount)
 		return fileSamplerService.convertFileContentsToString(sourcePath, 2000) // simple max file size setting in kb here
+	}
+
+	/**
+	 * Push a String into a file
+	 * @param data <code>String</code> with data to store
+	 * @param irodsPath <code>String</code> with the iRODS path
+	 * @param irodsAccount 
+	 * @throws JargonException
+	 */
+	void stringToFile(data, irodsPath, irodsAccount) throws JargonException {
+		log.info("stringToFile()")
+		if (!data) {
+			throw new IllegalArgumentException("null or empty data")
+		}
+
+		if (!irodsPath) {
+			throw new IllegalArgumentException("null or empty irodsPath")
+		}
+
+		if (!irodsAccount) {
+			throw new IllegalArgumentException("irodsAccount is missing")
+		}
+
+		log.info("irodsPath:${irodsPath}")
+		FileSamplerService fileSamplerService = jargonServiceFactoryService.instanceFileSamplerService(irodsAccount)
+		fileSamplerService.saveStringToFile(data, irodsPath)
+		log.info("done")
 	}
 }

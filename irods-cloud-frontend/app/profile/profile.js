@@ -28,6 +28,24 @@ angular.module('myApp.profile', ['ngRoute'])
 
         $scope.dataProfile = dataProfile;
         $scope.pop_up_form = "";
+        $scope.get_file_content = function () {
+
+                $log.info("getting file content");
+                return $http({
+                    method: 'GET', 
+                    url: $globals.backendUrl('fileEdit'),
+                    params: {
+                        irodsPath: $scope.dataProfile.parentPath + '/' + $scope.dataProfile.childName
+                    }
+                }).success(function (data) {
+                    $scope.file_content = data;
+                }).error(function () {
+                    $scope.file_content = "";
+                });
+            
+
+        };
+        $scope.get_file_content();
         $http({
             method: 'GET',
             url: $globals.backendUrl('collection/') + 'root',
@@ -246,8 +264,6 @@ angular.module('myApp.profile', ['ngRoute'])
                 window.history.back();
             })
         };
-
-
 
         $scope.rename_action = function (){
             var rename_path = $scope.dataProfile.parentPath + "/" + $scope.dataProfile.childName;

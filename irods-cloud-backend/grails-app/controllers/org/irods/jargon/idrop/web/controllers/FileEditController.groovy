@@ -33,7 +33,7 @@ class FileEditController extends RestfulController {
 		if (!irodsAccount) throw new IllegalArgumentException("no irodsAccount in request")
 		if (!irodsPath) throw new IllegalArgumentException("no irodsPath in request")
 		log.info("irodsPath:${irodsPath}")
-		String responseData = fileService.stringFromFile(irodsPath)
+		String responseData = fileService.stringFromFile(irodsPath, irodsAccount)
 		render responseData
 	}
 

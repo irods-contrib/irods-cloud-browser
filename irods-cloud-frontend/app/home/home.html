@@ -56,10 +56,10 @@
 									   	<li><a title="Creates a new folder inside the folder: {{breadcrumb.b}}" ng-click="create_pop_up_open()"><img src="images/dark_collection_icon.png"><span>&nbsp;New Folder</span></a></li>
 									   	<li class="divider"></li>
 									   	  <li class="dropdown-submenu">
-									   	    <a tabindex="-1" href="#"><img src="images/data_object_icon.png">New File</a>
+									   	    <a tabindex="-1" ><img src="images/data_object_icon.png">New File</a>
 									   	    <ul class="dropdown-menu">
-									   	      <li ng-repeat="breadcrumb in breadcrumb_full_array_paths">
-									   	      	<a ng-click="create_text_pop_up_open()">Text</a>
+									   	      <li ng-repeat="file in file_templates">
+									   	      	<a ng-click="create_file_pop_up_open(file)"><img src="images/data_object_icon.png">{{file.templateName}}</a>
 									   	      </li>	
 									   	    </ul>
 									   	  </li>

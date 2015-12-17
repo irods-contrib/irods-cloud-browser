@@ -493,6 +493,20 @@ angular.module('myApp.home', ['ngRoute', 'ngFileUpload', 'ng-context-menu','ui.c
                 })
             }
         };
+        $scope.create_file_action = function () {
+                var file_name = $('#new_file_name').val();
+                $log.info('Adding:' + file_name + $scope.file_to_be_created.templateUniqueIdentifier);
+                return $http({
+                    method: 'PUT',
+                    url: $globals.backendUrl('fileCreatorTemplate'),
+                    params: {parentPath:$scope.pagingAwareCollectionListing.pagingAwareCollectionListingDescriptor.parentAbsolutePath,fileName:file_name,templateUniqueIdentifier:$scope.file_to_be_created.templateUniqueIdentifier}
+                }).success(function (data) {
+                    $scope.selectProfile($scope.pagingAwareCollectionListing.pagingAwareCollectionListingDescriptor.parentAbsolutePath + '/' +file_name)
+                }).error(function (data) {
+                    MessageService.danger(data);
+                });
+            
+        };
 
         $scope.getDownloadLink = function () {
             $('.list_content').removeClass("ui-selected");
@@ -817,11 +831,12 @@ angular.module('myApp.home', ['ngRoute', 'ngFileUpload', 'ng-context-menu','ui.c
             $('.creater').fadeIn(100);
             $('#new_collection_name').focus();
         };
-        $scope.create_text_pop_up_open = function () {
-            $scope.pop_up_form = "create";
+        $scope.create_file_pop_up_open = function (file) {
+            $scope.pop_up_form = "file_create";
+            $scope.file_to_be_created = file;
             $('.pop_up_window').fadeIn(100);
-            $('.creater').fadeIn(100);
-            $('#new_collection_name').focus();
+            $('.file_creater').fadeIn(100);
+            $('#new_file_name').focus();
         };
         $scope.rename_pop_up_open = function () {
             if($('li.ui-selected').hasClass("data_true")){
@@ -874,6 +889,7 @@ angular.module('myApp.home', ['ngRoute', 'ngFileUpload', 'ng-context-menu','ui.c
                 $('.uploader').fadeOut(100);
                 $('.deleter').fadeOut(100);
                 $('.creater').fadeOut(100);
+                $('.file_creater').fadeOut(100);
                 $('.renamer').fadeOut(100);
                 $('.copier').fadeOut(100);
                 $('.mover').fadeOut(100);
@@ -911,6 +927,7 @@ angular.module('myApp.home', ['ngRoute', 'ngFileUpload', 'ng-context-menu','ui.c
                 $('.uploader').fadeOut(100);
                 $('.deleter').fadeOut(100);
                 $('.creater').fadeOut(100);
+                $('.file_creater').fadeOut(100);
                 $('.renamer').fadeOut(100);
                 $('.copier').fadeOut(100);
                 $('.mover').fadeOut(100);

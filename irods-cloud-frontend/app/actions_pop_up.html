@@ -192,27 +192,28 @@
     </div>
 
       <!--********************************
-      *********   TEXT CREATER   *********
+      *********   FILE CREATER   *********
       *********************************-->
 
-<!--     <div class="column_content creater pop_up_content">
-      <div class="light_header"><img src="images/dark_add_icon.png"><span>&nbsp;Adding sub-folder to {{pagingAwareCollectionListing.pagingAwareCollectionListingDescriptor.pathComponents[current_collection_index]}}</span><img class="pop_up_close_clear_button right" title="close window" ng-click="pop_up_close()" src="images/close_icon.png"></div>
+    <div class="column_content file_creater pop_up_content">
+      <div class="light_header"><img src="images/data_object_icon.png"><span>&nbsp;New {{file_to_be_created.templateName}}</span><img class="pop_up_close_clear_button right" title="close window" ng-click="pop_up_close()" src="images/close_icon.png"></div>
       
       <div class="add_container">
         <br>
         <ul>
-          <li><b>New folder name</b></li>
-          <li><input type="text" id="new_collection_name" value=""/>
+          <li><b>Name</b></li>
+          <li><input type="text" id="new_file_name" value=""/>
+          <li><span class="foot_note">*Please make sure to include a file extension ( example<b>.txt</b> )</span></li>
         </ul>
         <div class="container"><hr class="hr_flat"></div>
         <div class="left">
           <div class="btn btn-default" ng-click="pop_up_close_clear()">Cancel</div>
         </div>
         <div class="right t_right">
-          <div class="btn btn-success" ng-click="create_collection_action()">Create</div>
+          <div class="btn btn-success" ng-click="create_file_action()">Create</div>
         </div>
       </div>
-    </div> -->
+    </div>
 
     <!--********************************
     ***********    RENAMER    **********
@@ -227,7 +228,7 @@
         <ul>
           <li >You are renaming <b><span class="selected_object"></span></b> to:</li>
           <li ><input type="text" id="new_renaming_name" value=""/>
-          <li ng-show="renaming_item == 'file'"><span class="foot_note">*If you are renaming a DATA OBJECT please make sure to include the DATA OBJECT extension (i.e. sample<b>.txt</b>)</em></li>
+          <li ng-show="renaming_item == 'file'"><span class="foot_note">*If you are renaming a DATA OBJECT please make sure to include the DATA OBJECT extension (i.e. sample<b>.txt</b>)</span></li>
         </ul>
         <div class="container"><hr class="hr_flat"></div>
         <div class="left">

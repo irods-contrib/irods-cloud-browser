@@ -5,6 +5,7 @@ import org.irods.jargon.core.exception.JargonRuntimeException
 import org.irods.jargon.core.pub.IRODSAccessObjectFactory
 import org.irods.jargon.datautils.filesampler.FileSamplerServiceImpl
 import org.irods.jargon.filetemplate.impl.DefaultFileTemplateServiceImpl
+import org.irods.jargon.ruleservice.composition.RuleCompositionServiceImpl
 import org.irods.jargon.usertagging.starring.IRODSStarringServiceImpl
 import org.irods.jargon.vircoll.impl.VirtualCollectionDiscoveryServiceImpl
 import org.irods.jargon.vircoll.impl.VirtualCollectionFactoryImpl
@@ -77,5 +78,14 @@ class JargonServiceFactoryService {
 	 */
 	def instanceFileSamplerService(IRODSAccount irodsAccount) {
 		return new FileSamplerServiceImpl(irodsAccessObjectFactory, irodsAccount)
+	}
+
+	/**
+	 * Obtain a service that can manipulate, edit, and run rules
+	 * @param irodsAccount
+	 * @return
+	 */
+	def instanceRuleCompositionService(IRODSAccount irodsAccount) {
+		return new RuleCompositionServiceImpl(irodsAccessObjectFactory, irodsAccount)
 	}
 }

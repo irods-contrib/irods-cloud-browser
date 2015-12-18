@@ -46,7 +46,7 @@ class RuleWorkbenchService {
 	 * @param inputParameters
 	 * @param outputParameters
 	 * @param irodsAccount
-	 * @return
+	 * @return {@link Rule}
 	 */
 	def storeRuleFromParts( String ruleAbsolutePath,
 			String ruleBody,   List inputParameters,
@@ -79,5 +79,41 @@ class RuleWorkbenchService {
 
 		def ruleCompositionService = jargonServiceFactoryService.instanceRuleCompositionService(irodsAccount)
 		return ruleCompositionService.storeRuleFromParts(ruleAbsolutePath, ruleBody, inputParameters, outputParameters)
+	}
+
+
+	/**
+	 * Execute the given rule from its parts
+	 * @param ruleBody
+	 * @param inputParams
+	 * @param outputParams
+	 * @param irodsAccount
+	 * @return
+	 */
+	def executeRuleFromParts(String ruleBody, List<String> inputParameters, List<String> outputParameters, IRODSAccount irodsAccount) {
+		log.info("executeRuleFromParts()")
+
+		if (ruleBody == null || ruleBody.isEmpty()) {
+			throw new IllegalArgumentException("null or empty ruleBody")
+		}
+
+		if (inputParameters == null) {
+			throw new IllegalArgumentException("null inputParameters")
+		}
+
+		if (outputParameters == null) {
+			throw new IllegalArgumentException("null outputParameters")
+		}
+
+		if (!irodsAccount) {
+			throw new IllegalArgumentException("null irodsAccount")
+		}
+
+		log.info("ruleBody:${ruleBody}")
+		log.info("inputParameters:${inputParameters}")
+		log.info("outputParameters:${outputParameters}")
+
+		def ruleCompositionService = jargonServiceFactoryService.instanceRuleCompositionService(irodsAccount)
+		return ruleCompositionService.executeRuleFromParts(ruleBody, inputParameters, outputParameters)
 	}
 }

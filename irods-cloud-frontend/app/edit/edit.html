@@ -1,0 +1,86 @@
+<div ng-include="'header.html'"></div>
+<div ng-include="'actions_pop_up.html'"></div>
+<!--<div ng-include="'side_nav.html'"></div>-->
+<div id="main_contents" class="collapsed_main_content"> 
+	<div class="full_column">
+		<div class="column_content">
+			<div class="collection_header"> 
+				<div id="breadcrumbs_container">
+					<div class="breadcrumbs_container">
+						<div class="breadcrumbs_sub_container col-xs-9" >
+
+							<div class="dropdown" ng-show=" breadcrumb_compressed_array.length > 0 ">
+							   	<div ng-mouseleave="hide_breadcrumbs()" type="button" class="dark_back_option_double dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+							     ... 
+							   </div>
+							   <ul class="dropdown-menu">
+								   	<li title="{{breadcrumb.b}}" ng-repeat="breadcrumb in breadcrumb_compressed_array">
+								   		<a ng-click="goToBreadcrumb(breadcrumb.path)">
+								   			>&nbsp;{{breadcrumb.b}}
+								   		</a>
+								   	</li>							     
+							   </ul>
+							</div>
+						 
+							<div ng-repeat="breadcrumb in breadcrumb_full_array_paths | limitTo:-5" class="dark_back_option_double" title="{{breadcrumb.b}}" ng-click="goToBreadcrumb(breadcrumb.path)">
+								<div >{{breadcrumb.b}}</div>							 
+							</div>
+							<div class="active_breadcrumb" title="Back to the File Info Page" ng-click="selectProfile(dataProfile.domainObject.absolutePath)">
+							 	{{dataProfile.childName}}								 		
+							</div>
+						</div>			
+					</div>					
+				</div>
+					
+			</div>
+			<div>
+				<div class="themed_header"><img src="images/edit_icon.png">&nbsp;Editing {{dataProfile.childName}}</div>
+				<div class="edit_header">							
+						<div class="edit_actions_container">
+							<div class="btn btn-xs btn-success just_right" ng-class="file_content == initial_file_content ? 'save_button' : 'save_button_active'" ng-click="save_content_action()">Save Changes</div>
+							<div class="btn btn-xs btn-default just_right" ng-click="selectProfile(dataProfile.domainObject.absolutePath)">Cancel</div>
+							<div class="visible_button_left" title="Create a new metadata item" ng-click='reload_file_content()'> 
+								<img src="images/dark_reload_icon.png"><span>&nbsp;Reload</span>	
+							</div>																
+						</div>	
+				</div>
+				<div class="profile_body">
+					<div ui-codemirror ui-codemirror-opts="editorOptions" ng-model="file_content" class="listing"></div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+<div context-menu class="panel panel-default position-fixed"
+     data-target="menu-{{ $index }}"
+     ng-class="{ 'highlight': highlight, 'expanded' : expanded }">
+  ...
+</div>
+
+<div class="dropdown position-fixed" id="metadata_list_menu">
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <button class="visible_button context_button" title="Create a new metadata item" ng-click='selectProfile(selected_target)'> 
+      	<img src="images/dark_add_icon.png"><span>&nbsp;Add</span>	
+      </button>
+    </li>
+    <li>
+      <button class="rename_button context_button" title="Edit selected metadata" ng-click='getDownloadLink()' > 
+      	<img src="images/dark_edit_icon.png"><span>&nbsp;Edit</span>	
+      </button>
+    </li>
+    <li>
+      <button class="rename_button context_button" title="Delete selected metadata" ng-click='move_pop_up_open()' > 
+      	<img src="images/dark_delete_icon.png"><span>&nbsp;Delete</span>	
+      </button>
+    </li>    
+  </ul>
+</div>
+
+
+
+
+
+

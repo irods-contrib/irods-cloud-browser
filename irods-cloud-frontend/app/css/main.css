@@ -139,7 +139,8 @@ body{
 	background: #00A9C2;
 	border-top: 0px;
 	text-align: left;
-	padding: 7px 0px 0px 15px;
+	padding: 5px 0px 0px 15px;
+	margin:0px 0px 7px 0px;
 	font-size: 16px;
 	font-weight: bold;
 	height:35px;
@@ -477,6 +478,14 @@ select{
 .tablet_rename_button{
 	display: none;
 }
+.save_button{
+	opacity: 0.1;
+	pointer-events:none;
+}
+.save_button_active{
+	opacity: 1;
+	pointer-events:auto;
+}
 .download_button,.rename_button{
 	position:relative;
 	float: right;
@@ -500,7 +509,18 @@ select{
 	font-weight: lighter;
 	text-align: center;
 	height: 26px;
-	float:right;
+	margin: 0px 5px;
+	cursor: pointer;
+}
+.visible_button_left{
+	position:relative;
+	float: left;
+	opacity: 0.8;
+	width: 85px;
+	font-size: 12px;
+	font-weight: lighter;
+	text-align: center;
+	height: 26px;
 	margin: 0px 5px;
 	cursor: pointer;
 }
@@ -519,7 +539,7 @@ select{
 	background: rgba(0,0,0,0.1);
 	opacity:1;
 }
-.download_button:hover,.rename_button:hover,.visible_button:hover{
+.download_button:hover,.rename_button:hover,.visible_button:hover,.visible_button_left:hover{
 	background: rgba(0,0,0,0.2);
 	opacity:1;
 }
@@ -568,6 +588,14 @@ select{
 	position: relative;
 	float: left;
 	padding: 0px 10px 0px 3px;
+}
+.edit_header{
+	position: relative;
+	display: inline-block;
+	width:100%;
+	height:30px;
+	border-bottom: 1px solid #C7C9C7;
+	padding: 0px 0px 5px 0px ;
 }
 .profile_header{
 	position: relative;
@@ -700,6 +728,13 @@ input.col-xs-12{
 	float: right;
 	margin: 0px;
 	padding: 0px;
+}
+.just_right{
+	position: relative;
+	float: right;
+}
+.just_right.btn{
+	margin:0px 5px;
 }
 .border_left{
     border-left: 2px solid rgba(255,255,255,0.5);
@@ -918,7 +953,7 @@ input.col-xs-12{
 .selection_actions_container{
 	float:right;
 	height: 22px;
-	width:580px;
+	width:675px;
 	z-index: 10;
     position: relative;
 }
@@ -926,6 +961,13 @@ input.col-xs-12{
 	float:right;
 	height: 22px;
 	width:580px;
+	z-index: 10;
+    position: relative;
+}
+.edit_actions_container{
+	float:left;
+	height: 22px;
+	width:100%;
 	z-index: 10;
     position: relative;
 }

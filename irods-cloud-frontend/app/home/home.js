@@ -197,12 +197,12 @@ angular.module('myApp.home', ['ngRoute', 'ngFileUpload', 'ng-context-menu','ui.c
 
                     if ($(".general_list_item .ui-selected").length > 1) {
                         result.append("You've selected: " + $('.general_list_item .ui-selected').length + " items");
-                        $(".download_button").css('opacity', '0.8');
+                        $(".download_button").css('opacity', '1');
                         $(".download_button").css('pointer-events', 'auto');
                         $(".rename_button").css('opacity', '0.1');
                         $(".rename_button").css('pointer-events', 'none');
-                        $(".rename_divider").css('opacity', '0.8');
-                        $(".download_divider").css('opacity', '0.8');
+                        $(".rename_divider").css('opacity', '1');
+                        $(".download_divider").css('opacity', '1');
 
                         $(".tablet_download_button").fadeIn();
                         $(".tablet_rename_button").fadeOut();
@@ -216,15 +216,21 @@ angular.module('myApp.home', ['ngRoute', 'ngFileUpload', 'ng-context-menu','ui.c
                         }
 
                         result.append(name_of_selection);
-                        $(".download_button").css('opacity', '0.8');
+                        $(".download_button").css('opacity', '1');
                         $(".download_button").css('pointer-events', 'auto');
-                        $(".rename_button").css('opacity', '0.8');
+                        $(".file_edit_button").css('opacity', '1');
+                        $(".file_edit_button").css('pointer-events', 'auto');
+                        $(".rename_button").css('opacity', '1');
                         $(".rename_button").css('pointer-events', 'auto');
-                        $(".rename_divider").css('opacity', '0.8');
-                        $(".download_divider").css('opacity', '0.8');
+                        $(".rename_divider").css('opacity', '1');
+                        $(".download_divider").css('opacity', '1');
                         $(".tablet_download_button").fadeIn();
                         $(".tablet_rename_button").fadeIn();
                         $(".empty_selection").fadeOut();
+                        if($(".general_list_item .ui-selected").hasClass("data_false")){
+                            $(".file_edit_button").css('opacity', '0.1');
+                            $(".file_edit_button").css('pointer-events', 'none');
+                        }
                     } else if ($(".general_list_item .ui-selected").length == 0) {
                         $(".download_button").css('opacity', '0.1');
                         $(".download_button").css('pointer-events', 'none');
@@ -502,7 +508,7 @@ angular.module('myApp.home', ['ngRoute', 'ngFileUpload', 'ng-context-menu','ui.c
                     params: {parentPath:$scope.pagingAwareCollectionListing.pagingAwareCollectionListingDescriptor.parentAbsolutePath,fileName:file_name,templateUniqueIdentifier:$scope.file_to_be_created.templateUniqueIdentifier}
                 }).success(function (data) {
                     $scope.pop_up_close_clear();
-                    $scope.selectProfile($scope.pagingAwareCollectionListing.pagingAwareCollectionListingDescriptor.parentAbsolutePath + '/' +file_name)
+                    $scope.editFile($scope.pagingAwareCollectionListing.pagingAwareCollectionListingDescriptor.parentAbsolutePath + '/' +file_name)
                 }).error(function (data) {
                     MessageService.danger(data);
                 });
@@ -648,15 +654,21 @@ angular.module('myApp.home', ['ngRoute', 'ngFileUpload', 'ng-context-menu','ui.c
                             }
 
                             result.append(name_of_selection);
-                            $(".download_button").css('opacity','0.8');
+                            $(".download_button").css('opacity','1');
                             $(".download_button").css('pointer-events', 'auto');
-                            $(".rename_button").css('opacity','0.8');
+                            $(".rename_button").css('opacity','1');
                             $(".rename_button").css('pointer-events', 'auto');
-                            $(".rename_divider").css('opacity','0.8');
-                            $(".download_divider").css('opacity','0.8');
+                            $(".rename_divider").css('opacity','1');
+                            $(".download_divider").css('opacity','1');
                             $(".tablet_download_button").fadeIn();
                             $(".tablet_rename_button").fadeIn();
                             $(".empty_selection").fadeOut();
+                            $(".file_edit_button").css('opacity', '0.1');
+                            $(".file_edit_button").css('pointer-events', 'none');
+                            if($(event.target).parents("li").hasClass("data_true")){
+                                $(".file_edit_button").css('opacity', '1');
+                                $(".file_edit_button").css('pointer-events', 'auto');
+                            };
                         });
                     }
                     if ($(".general_list_item .ui-selected").length > 1) {
@@ -671,12 +683,12 @@ angular.module('myApp.home', ['ngRoute', 'ngFileUpload', 'ng-context-menu','ui.c
                                 }
 
                                 result.append(name_of_selection);
-                                $(".download_button").css('opacity','0.8');
+                                $(".download_button").css('opacity','1');
                                 $(".download_button").css('pointer-events', 'auto');
-                                $(".rename_button").css('opacity','0.8');
+                                $(".rename_button").css('opacity','1');
                                 $(".rename_button").css('pointer-events', 'auto');
-                                $(".rename_divider").css('opacity','0.8');
-                                $(".download_divider").css('opacity','0.8');
+                                $(".rename_divider").css('opacity','1');
+                                $(".download_divider").css('opacity','1');
                                 $(".tablet_download_button").fadeIn();
                                 $(".tablet_rename_button").fadeIn();
                                 $(".empty_selection").fadeOut();
@@ -963,6 +975,24 @@ angular.module('myApp.home', ['ngRoute', 'ngFileUpload', 'ng-context-menu','ui.c
             //$location.search(null);
 
             $location.url("/profile/");
+            $location.search("path", irodsAbsolutePath);
+            $log.info('end: '+irodsAbsolutePath);
+            if(touch_event == true){
+                $scope.$apply();
+            };
+
+        };
+        $scope.editFile = function (irodsAbsolutePath, touch_event,event) {
+            $log.info("going to File edit");
+            $log.info('end: '+irodsAbsolutePath);
+            if (!irodsAbsolutePath) {
+                $log.error("missing irodsAbsolutePath")
+                MessageService.danger("missing irodsAbsolutePath");
+            }
+            //alert("setting location..");
+            //$location.search(null);
+
+            $location.url("/edit/");
             $location.search("path", irodsAbsolutePath);
             $log.info('end: '+irodsAbsolutePath);
             if(touch_event == true){

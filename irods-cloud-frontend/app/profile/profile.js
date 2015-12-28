@@ -28,6 +28,7 @@ angular.module('myApp.profile', ['ngRoute'])
 
         $scope.dataProfile = dataProfile;
         $scope.pop_up_form = "";
+        $scope.file_content = "";
         $scope.get_file_content = function () {
 
                 $log.info("getting file content");
@@ -35,7 +36,7 @@ angular.module('myApp.profile', ['ngRoute'])
                     method: 'GET', 
                     url: $globals.backendUrl('fileEdit'),
                     params: {
-                        irodsPath: $scope.dataProfile.parentPath + '/' + $scope.dataProfile.childName
+                        irodsPath: $scope.dataProfile.domainObject.absolutePath
                     }
                 }).success(function (data) {
                     $scope.file_content = data;
@@ -46,6 +47,11 @@ angular.module('myApp.profile', ['ngRoute'])
 
         };
         $scope.get_file_content();
+        $scope.editorOptions = {
+            lineWrapping : false,
+            lineNumbers: true,
+            mode: {name:"javascript", typescript: true}
+        };
         $http({
             method: 'GET',
             url: $globals.backendUrl('collection/') + 'root',
@@ -238,7 +244,7 @@ angular.module('myApp.profile', ['ngRoute'])
                                                  
                         Upload.upload({
                             url: $globals.backendUrl('file') ,
-                            fields:{collectionParentName: $scope.dataProfile.parentPath + "/" +$scope.dataProfile.childName},
+                            fields:{collectionParentName: $scope.dataProfile.domainObject.absolutePath},
                             file: file
                         }).progress(function (evt) {                            
                             var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
@@ -249,9 +255,27 @@ angular.module('myApp.profile', ['ngRoute'])
                     }
                 }
             };
+        $scope.save_content_action = function () {
+            $log.info("saving file content");
+                return $http({
+                    method: 'POST', 
+                    url: $globals.backendUrl('fileEdit'),
+                    params: {
+                        data:$scope.file_content,
+                        irodsPath: $scope.dataProfile.domainObject.absolutePath
+                    }
+                }).success(function (data) {
+                    location.reload();
+                }).error(function () {
+                });
+            
+
+        };
+        $scope.get_file_content();
+        
 
         $scope.delete_action = function (){
-            var delete_paths = $scope.dataProfile.parentPath + "/" +$scope.dataProfile.childName;
+            var delete_paths = $scope.dataProfile.domainObject.absolutePath;
             $log.info('Deleting:'+delete_paths);
             return $http({
                     method: 'DELETE',
@@ -266,7 +290,7 @@ angular.module('myApp.profile', ['ngRoute'])
         };
 
         $scope.rename_action = function (){
-            var rename_path = $scope.dataProfile.parentPath + "/" + $scope.dataProfile.childName;
+            var rename_path = $scope.dataProfile.domainObject.absolutePath;
             var new_name = $('#new_renaming_name').val();
             var old_url = window.location;
             var n = String(old_url).lastIndexOf("%2F");
@@ -297,7 +321,7 @@ angular.module('myApp.profile', ['ngRoute'])
         };
 
         $scope.copy_action = function (){
-            $scope.copy_source = $scope.dataProfile.parentPath + "/" + $scope.dataProfile.childName;
+            $scope.copy_source = $scope.dataProfile.domainObject.absolutePath;
             $log.info('||||||||||||| copying:'+ $scope.copy_source +' to '+ $scope.copy_target);
             $http({
                 method: 'POST',
@@ -310,7 +334,7 @@ angular.module('myApp.profile', ['ngRoute'])
         };   
 
         $scope.move_action = function (){
-            $scope.copy_source = $scope.dataProfile.parentPath + "/" + $scope.dataProfile.childName;   
+            $scope.copy_source = $scope.dataProfile.domainObject.absolutePath;   
             var new_name = $scope.dataProfile.childName;
             var old_url = window.location;
             var n = String(old_url).lastIndexOf("=");
@@ -393,6 +417,24 @@ angular.module('myApp.profile', ['ngRoute'])
             });
             
         };
+        $scope.editFile = function (irodsAbsolutePath, touch_event,event) {
+            $log.info("going to File edit");
+            $log.info('end: '+irodsAbsolutePath);
+            if (!irodsAbsolutePath) {
+                $log.error("missing irodsAbsolutePath")
+                MessageService.danger("missing irodsAbsolutePath");
+            }
+            //alert("setting location..");
+            //$location.search(null);
+
+            $location.url("/edit/");
+            $location.search("path", irodsAbsolutePath);
+            $log.info('end: '+irodsAbsolutePath);
+            if(touch_event == true){
+                $scope.$apply();
+            };
+
+        };
         $(window).keyup(function($event){   
             if($event.keyCode == "13"){         
                 if($scope.pop_up_form === "delete"){
@@ -427,7 +469,7 @@ angular.module('myApp.profile', ['ngRoute'])
             var copy_path_display = $(".copy_select_result").empty();
             var path_array = $scope.copy_list.data.pagingAwareCollectionListingDescriptor.pathComponents;
             var current_collection = path_array[path_array.length - 1];
-            $scope.copy_source = $scope.dataProfile.parentPath + "/" + $scope.dataProfile.childName;
+            $scope.copy_source = $scope.dataProfile.domainObject.absolutePath;
             $scope.copy_target = $scope.dataProfile.parentPath;
             copy_path_display.append(current_collection);
             if ($scope.dataProfile.file == true) {
@@ -452,7 +494,7 @@ angular.module('myApp.profile', ['ngRoute'])
             var copy_path_display = $(".copy_select_result").empty();
             var path_array = $scope.copy_list.data.pagingAwareCollectionListingDescriptor.pathComponents;
             var current_collection = path_array[path_array.length - 1];
-            $scope.copy_source = $scope.dataProfile.parentPath + "/" + $scope.dataProfile.childName;
+            $scope.copy_source = $scope.dataProfile.domainObject.absolutePath;
             $scope.copy_target = $scope.dataProfile.parentPath;
             copy_path_display.append(current_collection);
             if ($scope.dataProfile.file == true) {
@@ -489,9 +531,9 @@ angular.module('myApp.profile', ['ngRoute'])
             $scope.pop_up_form = "delete";
             $('.pop_up_window').fadeIn(100);                 
                  if($scope.dataProfile.file == true){
-                        $(".delete_container ul").append('<li class="light_back_option_even"><div class="col-xs-7 list_content"><img src="images/data_object_icon.png">&nbsp;'+$scope.dataProfile.parentPath + "/" +$scope.dataProfile.childName+'</div></li>');
+                        $(".delete_container ul").append('<li class="light_back_option_even"><div class="col-xs-7 list_content"><img src="images/data_object_icon.png">&nbsp;'+$scope.dataProfile.domainObject.absolutePath+'</div></li>');
                     }else{
-                        $(".delete_container ul").append('<li class="light_back_option_even"><div class="col-xs-7 list_content"><img src="images/collection_icon.png">&nbsp;'+$scope.dataProfile.parentPath + "/" +$scope.dataProfile.childName+'</div></li>');
+                        $(".delete_container ul").append('<li class="light_back_option_even"><div class="col-xs-7 list_content"><img src="images/collection_icon.png">&nbsp;'+$scope.dataProfile.domainObject.absolutePath+'</div></li>');
                     }                        
             $('.deleter').fadeIn(100);
         };
@@ -628,9 +670,9 @@ angular.module('myApp.profile', ['ngRoute'])
         |||||||||||||||||||||||||||||||*/
         $scope.available_metadata = $scope.dataProfile.metadata;
         $scope.star_action = function(){
-            var star_path = $scope.dataProfile.parentPath + "/" + $scope.dataProfile.childName;
+            var star_path = $scope.dataProfile.domainObject.absolutePath;
             fileService.starFileOrFolder(star_path).then(function() {
-                $http({method: 'GET', url: $globals.backendUrl('file') , params: {path: $scope.dataProfile.parentPath + "/" + $scope.dataProfile.childName}}).success(function(data){
+                $http({method: 'GET', url: $globals.backendUrl('file') , params: {path: $scope.dataProfile.domainObject.absolutePath}}).success(function(data){
                     $scope.new_meta = data;
                     $scope.available_metadata = $scope.new_meta.metadata;
                 });
@@ -641,10 +683,10 @@ angular.module('myApp.profile', ['ngRoute'])
 
         };
         $scope.unstar_action = function(){
-            var unstar_path = $scope.dataProfile.parentPath + "/" + $scope.dataProfile.childName;
+            var unstar_path = $scope.dataProfile.domainObject.absolutePath;
             //fileService.unstarFileOrFolder(unstar_path);
             fileService.unstarFileOrFolder(unstar_path).then(function() {
-                $http({method: 'GET', url: $globals.backendUrl('file') , params: {path: $scope.dataProfile.parentPath + "/" + $scope.dataProfile.childName}}).success(function(data){
+                $http({method: 'GET', url: $globals.backendUrl('file') , params: {path: $scope.dataProfile.domainObject.absolutePath}}).success(function(data){
                     $scope.new_meta = data;
                     $scope.available_metadata = $scope.new_meta.metadata;
                 });
@@ -690,7 +732,7 @@ angular.module('myApp.profile', ['ngRoute'])
         };
 
         $scope.metadata_add_action = function(){
-            var data_path = $scope.dataProfile.parentPath + "/" + $scope.dataProfile.childName;
+            var data_path = $scope.dataProfile.domainObject.absolutePath;
             var new_attribute = $('#new_metadata_attribute').val();
             var new_value = $('#new_metadata_value').val();
             var new_unit = $('#new_metadata_unit').val();
@@ -712,7 +754,7 @@ angular.module('myApp.profile', ['ngRoute'])
                     $('#new_metadata_attribute').focus();
             }else{
                 metadataService.addMetadataForPath(data_path, new_attribute, new_value, new_unit).then(function () {
-                   $http({method: 'GET', url: $globals.backendUrl('file') , params: {path: $scope.dataProfile.parentPath + "/" + $scope.dataProfile.childName}}).success(function(data){
+                   $http({method: 'GET', url: $globals.backendUrl('file') , params: {path: $scope.dataProfile.domainObject.absolutePath}}).success(function(data){
                         $scope.new_meta = data;
                         $scope.available_metadata = $scope.new_meta.metadata;
                    });
@@ -721,12 +763,12 @@ angular.module('myApp.profile', ['ngRoute'])
             }
         };
         $scope.metadata_edit_action = function(){
-            var data_path = $scope.dataProfile.parentPath + "/" + $scope.dataProfile.childName;
+            var data_path = $scope.dataProfile.domainObject.absolutePath;
             var new_attribute = $('#edit_metadata_attribute').val();
             var new_value = $('#edit_metadata_value').val();
             var new_unit = $('#edit_metadata_unit').val();            
             metadataService.updateMetadataForPath(data_path, $scope.old_metadata_attribute, $scope.old_metadata_value, $scope.old_metadata_unit, new_attribute, new_value, new_unit).then(function () {
-               $http({method: 'GET', url: $globals.backendUrl('file') , params: {path: $scope.dataProfile.parentPath + "/" + $scope.dataProfile.childName}}).success(function(data){
+               $http({method: 'GET', url: $globals.backendUrl('file') , params: {path: $scope.dataProfile.domainObject.absolutePath}}).success(function(data){
                     $scope.new_meta = data;
                     $scope.available_metadata = $scope.new_meta.metadata;
                });
@@ -736,12 +778,12 @@ angular.module('myApp.profile', ['ngRoute'])
         };
 
         $scope.metadata_delete_action = function(){
-            var data_path = $scope.dataProfile.parentPath + "/" + $scope.dataProfile.childName;
+            var data_path = $scope.dataProfile.domainObject.absolutePath;
             var new_attribute = $('#edit_metadata_attribute').val();
             var new_value = $('#edit_metadata_value').val();
             var new_unit = $('#edit_metadata_unit').val();            
             metadataService.deleteMetadataForPath(data_path, $scope.old_metadata_attribute, $scope.old_metadata_value, $scope.old_metadata_unit).then(function () {
-               $http({method: 'GET', url: $globals.backendUrl('file') , params: {path: $scope.dataProfile.parentPath + "/" + $scope.dataProfile.childName}}).success(function(data){
+               $http({method: 'GET', url: $globals.backendUrl('file') , params: {path: $scope.dataProfile.domainObject.absolutePath}}).success(function(data){
                     $scope.new_meta = data;
                     $scope.available_metadata = $scope.new_meta.metadata;
                });

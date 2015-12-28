@@ -7,6 +7,7 @@ angular.module('myApp', [
     'MessageCenter',
     'myApp.home',
     'myApp.gallery',
+    'myApp.edit',
     'myApp.login',
     'myApp.profile',
     'myApp.metadata',

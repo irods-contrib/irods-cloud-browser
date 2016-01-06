@@ -28,6 +28,8 @@ class UrlMappings {
 
 		"/fileEdit"(resource:"FileEdit")
 
+		"/ruleExecution"(resource:"RuleExecution")
+
 		"/initialConf"(resource:"initialConf")
 
 		"/$controller/$action?/$id?(.$format)?"{ constraints { // apply constraints here

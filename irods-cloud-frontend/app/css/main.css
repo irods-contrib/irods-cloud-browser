@@ -92,6 +92,9 @@ body{
 }
 .pop_up_content{
 	min-height:336px;
+	position: fixed;
+    width: 60%;
+    height: 60%;
 }
 .slim_column_content{
 	border-top:2px solid #00A9C2;

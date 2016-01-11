@@ -24,10 +24,20 @@ class RuleExecutionController extends RestfulController {
 		log.info("index() gets content of a file")
 		def irodsAccount = request.irodsAccount
 		def irodsPath = params.irodsPath
+		def ruleAsString = params.ruleAsString
+
 		if (!irodsAccount) throw new IllegalArgumentException("no irodsAccount in request")
 		if (!irodsPath) throw new IllegalArgumentException("no irodsPath in request")
 		log.info("irodsPath:${irodsPath}")
-		def rule = ruleWorkbenchService.loadRuleFromIrods(irodsPath, irodsAccount)
+
+		def rule = null
+		if (ruleAsString) {
+			log.info("present rule as a string")
+		} else {
+			log.info("present rule as a formatted rule object")
+			rule = ruleWorkbenchService.loadRuleFromIrods(irodsPath, irodsAccount)
+		}
+
 		log.info("have rule:${rule}")
 		render rule as JSON
 	}

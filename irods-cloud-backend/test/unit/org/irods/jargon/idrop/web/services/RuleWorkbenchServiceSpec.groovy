@@ -7,6 +7,8 @@ import org.irods.jargon.core.pub.IRODSAccessObjectFactory
 import org.irods.jargon.core.rule.IRODSRule
 import org.irods.jargon.core.rule.IRODSRuleExecResult
 import org.irods.jargon.core.rule.IRODSRuleExecResultOutputParameter
+import org.irods.jargon.core.rule.IRODSRuleParameter
+import org.irods.jargon.ruleservice.composition.Rule
 import org.irods.jargon.ruleservice.composition.RuleCompositionService
 
 import spock.lang.Specification
@@ -49,6 +51,76 @@ class RuleWorkbenchServiceSpec extends Specification {
 		actual != null
 		actual instanceof org.irods.jargon.ruleservice.composition.Rule
 	}
+
+	void "should load a rule as a raw string"() {
+
+		given:
+		IRODSAccount irodsAccount = IRODSAccount.instance("host", 1247, "user", "password", "", "zone", "")
+		String absPath = "/a/b/c.txt"
+		String ruleText = "blah"
+		def irodsAccessObjectFactory = mockFor(IRODSAccessObjectFactory)
+		def irodsAccessObjectFactoryMock = irodsAccessObjectFactory.createMock()
+
+		def ruleCompositionService = mockFor(RuleCompositionService)
+		def  rule = ruleText
+		ruleCompositionService.demand.loadRuleFromIrodsAsString{pth-> return ruleText}
+		def ruleCompositionServiceMock = ruleCompositionService.createMock()
+
+		def jargonServiceFactoryService = mockFor(JargonServiceFactoryService)
+		jargonServiceFactoryService.demand.instanceRuleCompositionService{act1 -> return ruleCompositionServiceMock}
+		def jargonServiceFactoryServiceMock = jargonServiceFactoryService.createMock()
+
+		def ruleWorkbenchService = new RuleWorkbenchService()
+		ruleWorkbenchService.irodsAccessObjectFactory = irodsAccessObjectFactoryMock
+		ruleWorkbenchService.jargonServiceFactoryService = jargonServiceFactoryServiceMock
+
+
+		when:
+
+		def actual = ruleWorkbenchService.loadRawRuleFromIrods(absPath, irodsAccount)
+
+		then:
+
+		actual != null
+		actual == ruleText
+	}
+
+
+	void "should execute a rule from a raw string"() {
+
+		given:
+		IRODSAccount irodsAccount = IRODSAccount.instance("host", 1247, "user", "password", "", "zone", "")
+		String absPath = "/a/b/c.txt"
+		String ruleText = "blah"
+		def irodsAccessObjectFactory = mockFor(IRODSAccessObjectFactory)
+		def irodsAccessObjectFactoryMock = irodsAccessObjectFactory.createMock()
+
+		def ruleCompositionService = mockFor(RuleCompositionService)
+
+		IRODSRule irodsRule = IRODSRule.instance("text", new ArrayList<IRODSRuleParameter>(), new ArrayList<IRODSRuleParameter>(), "ruleText")
+		def irodsRuleExecResult = IRODSRuleExecResult.instance(irodsRule, new HashMap<String, IRODSRuleExecResultOutputParameter>())
+
+		ruleCompositionService.demand.executeRuleAsRawString{pth-> return irodsRuleExecResult}
+		def ruleCompositionServiceMock = ruleCompositionService.createMock()
+
+		def jargonServiceFactoryService = mockFor(JargonServiceFactoryService)
+		jargonServiceFactoryService.demand.instanceRuleCompositionService{act1 -> return ruleCompositionServiceMock}
+		def jargonServiceFactoryServiceMock = jargonServiceFactoryService.createMock()
+
+		def ruleWorkbenchService = new RuleWorkbenchService()
+		ruleWorkbenchService.irodsAccessObjectFactory = irodsAccessObjectFactoryMock
+		ruleWorkbenchService.jargonServiceFactoryService = jargonServiceFactoryServiceMock
+
+
+		when:
+
+		def actual = ruleWorkbenchService.executeRuleAsRawString(ruleText, irodsAccount)
+
+		then:
+
+		actual != null
+	}
+
 
 	def "should store a rule from parts"() {
 		given:

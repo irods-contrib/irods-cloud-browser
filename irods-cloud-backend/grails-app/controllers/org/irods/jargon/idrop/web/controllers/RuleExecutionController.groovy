@@ -3,6 +3,7 @@ package org.irods.jargon.idrop.web.controllers
 import grails.converters.JSON
 import grails.rest.RestfulController
 
+import org.irods.jargon.core.connection.IRODSAccount
 import org.irods.jargon.core.pub.IRODSAccessObjectFactory
 import org.irods.jargon.idrop.web.services.RuleWorkbenchService
 
@@ -12,33 +13,22 @@ class RuleExecutionController extends RestfulController {
 	IRODSAccessObjectFactory irodsAccessObjectFactory
 	RuleWorkbenchService ruleWorkbenchService
 
-	def index() {
-		log.info("index()")
-		show()
-	}
+
 	/**
-	 * GET operation gets the rule at the path
-	 * @return
+	 * POST operation executes the rule, which in this first iteration is a raw string with the entire rule, returning the result of executing that rule
+	 * @return {@link IRODSRuleExecutionResult}
 	 */
-	def show() {
-		log.info("index() gets content of a file")
+
+	def save() {
+		log.info("save() handling POST that runs a rule")
+
 		def irodsAccount = request.irodsAccount
-		def irodsPath = params.irodsPath
-		def ruleAsString = params.ruleAsString
+		def rule = params.rule
 
 		if (!irodsAccount) throw new IllegalArgumentException("no irodsAccount in request")
-		if (!irodsPath) throw new IllegalArgumentException("no irodsPath in request")
-		log.info("irodsPath:${irodsPath}")
+		if (!rule) throw new IllegalArgumentException("no rule in request")
 
-		def rule = null
-		if (ruleAsString) {
-			log.info("present rule as a string")
-		} else {
-			log.info("present rule as a formatted rule object")
-			rule = ruleWorkbenchService.loadRuleFromIrods(irodsPath, irodsAccount)
-		}
-
-		log.info("have rule:${rule}")
-		render rule as JSON
+		log.info("rule:${rule}")
+		render ruleWorkbenchService.executeRuleAsRawString(rule, IRODSAccount) as JSON
 	}
 }

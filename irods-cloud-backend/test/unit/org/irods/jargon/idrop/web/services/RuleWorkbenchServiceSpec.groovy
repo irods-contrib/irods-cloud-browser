@@ -121,6 +121,39 @@ class RuleWorkbenchServiceSpec extends Specification {
 		actual != null
 	}
 
+	void "should store a rule from a raw string"() {
+
+		given:
+		IRODSAccount irodsAccount = IRODSAccount.instance("host", 1247, "user", "password", "", "zone", "")
+		String absPath = "/a/b/c.txt"
+		String ruleText = "blah"
+		def irodsAccessObjectFactory = mockFor(IRODSAccessObjectFactory)
+		def irodsAccessObjectFactoryMock = irodsAccessObjectFactory.createMock()
+
+		def ruleCompositionService = mockFor(RuleCompositionService)
+
+		def org.irods.jargon.ruleservice.composition.Rule rule = new org.irods.jargon.ruleservice.composition.Rule()
+		ruleCompositionService.demand.storeRule{ap, st-> return rule}
+		def ruleCompositionServiceMock = ruleCompositionService.createMock()
+
+		def jargonServiceFactoryService = mockFor(JargonServiceFactoryService)
+		jargonServiceFactoryService.demand.instanceRuleCompositionService{act1 -> return ruleCompositionServiceMock}
+		def jargonServiceFactoryServiceMock = jargonServiceFactoryService.createMock()
+
+		def ruleWorkbenchService = new RuleWorkbenchService()
+		ruleWorkbenchService.irodsAccessObjectFactory = irodsAccessObjectFactoryMock
+		ruleWorkbenchService.jargonServiceFactoryService = jargonServiceFactoryServiceMock
+
+
+		when:
+
+		def actual = ruleWorkbenchService.storeRuleFromRawString(absPath, ruleText, irodsAccount)
+
+		then:
+
+		actual != null
+	}
+
 
 	def "should store a rule from parts"() {
 		given:

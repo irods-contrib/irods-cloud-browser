@@ -30,6 +30,7 @@ angular.module('myApp.edit', ['ngRoute'])
         $scope.pop_up_form = "";
         $scope.initial_file_content = "";
         $scope.file_content = "";
+        $scope.rule_object = ""; 
         $scope.get_file_content = function () {
 
                 $log.info("getting file content");
@@ -47,7 +48,23 @@ angular.module('myApp.edit', ['ngRoute'])
                 });
             
 
-        };        
+        };  
+        $scope.get_rule_string = function () {
+
+                $log.info("getting rule object");
+                return $http({
+                    method: 'GET', 
+                    url: $globals.backendUrl('rawRule'),
+                    params: {
+                        irodsPath: $scope.dataProfile.parentPath + '/' + $scope.dataProfile.childName
+                    }
+                }).success(function (data) {
+                    $scope.rule_string = data;
+                }).error(function () {
+                    $scope.rule_string = "";
+                });  
+        };  
+            
         $scope.reload_file_content = function(){
             $scope.get_file_content();
         };
@@ -277,7 +294,7 @@ angular.module('myApp.edit', ['ngRoute'])
 
         };
         $scope.get_file_content();
-        
+        $scope.get_rule_string();
 
         $scope.delete_action = function (){
             var delete_paths = $scope.dataProfile.parentPath + "/" +$scope.dataProfile.childName;

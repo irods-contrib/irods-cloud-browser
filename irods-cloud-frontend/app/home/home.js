@@ -751,6 +751,7 @@ angular.module('myApp.home', ['ngRoute', 'ngFileUpload', 'ng-context-menu','ui.c
 
         $scope.move_pop_up_open = function () {     
             $scope.pop_up_form = "move";
+            window.scrollTo(0,0);
             $scope.copy_source = $('.general_list_item .ui-selected').attr('id');       
             $scope.copyVC = $scope.selectedVc;
             $('.pop_up_window').fadeIn(100);
@@ -796,6 +797,7 @@ angular.module('myApp.home', ['ngRoute', 'ngFileUpload', 'ng-context-menu','ui.c
 
         $scope.copy_pop_up_open = function () {
             $scope.pop_up_form = "copy";  
+            window.scrollTo(0,0);
             $scope.copy_source = $('.general_list_item .ui-selected').attr('id');
             $scope.copyVC = $scope.selectedVc;
             $('.pop_up_window').fadeIn(100);
@@ -840,12 +842,14 @@ angular.module('myApp.home', ['ngRoute', 'ngFileUpload', 'ng-context-menu','ui.c
         };
         $scope.create_pop_up_open = function () {
             $scope.pop_up_form = "create";
+            window.scrollTo(0,0);
             $('.pop_up_window').fadeIn(100);
             $('.creater').fadeIn(100);
             $('#new_collection_name').focus();
         };
         $scope.create_file_pop_up_open = function (file) {
             $scope.pop_up_form = "file_create";
+            window.scrollTo(0,0);
             $scope.file_to_be_created = file;
             $('.pop_up_window').fadeIn(100);
             $('.file_creater').fadeIn(100);
@@ -858,6 +862,7 @@ angular.module('myApp.home', ['ngRoute', 'ngFileUpload', 'ng-context-menu','ui.c
                 $scope.renaming_item = "folder";
             }
             $scope.pop_up_form = "rename";
+            window.scrollTo(0,0);
             $('.pop_up_window').fadeIn(100);
             $('.renamer').fadeIn(100);
             $('#new_renaming_name').focus();
@@ -866,11 +871,13 @@ angular.module('myApp.home', ['ngRoute', 'ngFileUpload', 'ng-context-menu','ui.c
         };
         $scope.upload_pop_up_open = function () {
             $scope.pop_up_form = "upload";
+            window.scrollTo(0,0);
             $('.pop_up_window').fadeIn(100);
             $('.uploader').fadeIn(100);
         };
         $scope.delete_pop_up_open = function () {
             $scope.pop_up_form = "delete";
+            window.scrollTo(0,0);
             $('.pop_up_window').fadeIn(100);     
             var delete_objects = $('.ui-selected');
             delete_objects.each(function () {

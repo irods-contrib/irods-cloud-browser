@@ -33,7 +33,7 @@
 				</div>
 					
 			</div>
-			<div>
+			<div ng-show="dataProfile.mimeType=='text/plain'">
 				<div class="themed_header"><img src="images/edit_icon.png">&nbsp;Editing {{dataProfile.childName}}</div>
 				<div class="edit_header">							
 						<div class="edit_actions_container">
@@ -44,8 +44,33 @@
 							</div>																
 						</div>	
 				</div>
-				<div class="profile_body">
-					<div ui-codemirror ui-codemirror-opts="editorOptions" ng-model="file_content" class="listing"></div>
+				<div class="edit_body">
+					<div ui-codemirror ui-codemirror-opts="editorOptions" ng-model="file_content" class="text_body"></div>
+				</div>
+			</div>
+			<div ng-show="dataProfile.mimeType=='application/octet-stream'">
+				<div class="themed_header"><img src="images/edit_icon.png">&nbsp;Editing/Executing {{dataProfile.childName}}</div>
+				<div class="edit_header">							
+						<div class="edit_actions_container">
+							<div class="btn btn-xs btn-success just_right" ng-class="file_content == initial_file_content ? 'save_button' : 'save_button_active'" ng-click="save_content_action()">Save Changes</div>
+							<div class="btn btn-xs btn-default just_right" ng-click="selectProfile(dataProfile.domainObject.absolutePath)">Cancel</div>
+							<div class="visible_button_left" title="Create a new metadata item" ng-click='reload_file_content()'> 
+								<img src="images/dark_reload_icon.png"><span>&nbsp;Reload</span>	
+							</div>																
+						</div>	
+				</div>
+				<div class="edit_body">
+					<div class="rule_container">
+						<div class="small_themed_header">Body</div>
+						<div ui-codemirror ui-codemirror-opts="editorOptions" ng-model="rule_string.ruleText" class="rule_body"></div>
+						<div class="rule_actions">
+							<div class="btn btn-xs btn-success just_right" ng-click="exec_rule()">Run >></div>
+						</div>
+					</div>
+					<div class="rule_results_container">
+						<div class="small_themed_header_light">Results</div>
+						<div ui-codemirror ui-codemirror-opts="editorOptions" ng-model="rule_results" class="rule_results"></div>
+					</div>
 				</div>
 			</div>
 		</div>

@@ -64,6 +64,22 @@ angular.module('myApp.edit', ['ngRoute'])
                     $scope.rule_string = "";
                 });  
         };  
+        $scope.exec_rule = function () {
+
+                $log.info("executing rule");
+                $log.info($scope.rule_string.ruleText);
+                return $http({
+                    method: 'POST', 
+                    url: $globals.backendUrl('ruleExecution'),
+                    params: {
+                        rule: $scope.rule_string.ruleText
+                    }
+                }).success(function (data) {
+                    $scope.rule_results = data;
+                }).error(function () {
+                    $scope.rule_results = "";
+                });  
+        }; 
             
         $scope.reload_file_content = function(){
             $scope.get_file_content();

@@ -73,6 +73,83 @@ body{
 	border: 2px solid #00A9C2;
 	padding: 4px;
 }
+.text_body{
+	background: #fff;
+	border: 2px solid #00A9C2;
+	padding: 4px;
+	width: 100%;
+	height: 500px;
+	position: relative;
+	float: left;
+}
+.rule_container{
+	width: 70%;
+	height: 500px;
+	position: relative;
+	float: left;
+	padding: 5px;
+}
+.rule_results_container{
+	width: 30%;
+	height: 500px;
+	position: relative;
+	float: left;
+	padding: 5px;
+}
+.rule_body{
+	background: #fff;
+	border-left: 2px solid #00A9C2;
+	border-right: 2px solid #00a9c2;
+	border-top: 2px solid #00a9c2;
+	padding: 4px;
+	width: 100%;
+	height: 93%;
+}
+.rule_actions{
+	background: #fff;
+	border-top: 1px solid #00A9C2;
+	border-left: 2px solid #00A9C2;
+	border-right: 2px solid #00a9c2;
+	border-bottom: 2px solid #00a9c2;
+	padding: 4px;
+	width: 100%;
+	height: 7%;
+}
+.rule_results{
+	background: #fff;
+	border: 2px solid #D9D7D8;
+	padding: 4px;
+	width: 100%;
+	height: 100%;
+}
+/*.rule_input{
+	width:48%;
+	margin: 3px 0px 0px 0px;
+}
+.rule_input_container{
+	text-align: center;
+	background: #fff;
+	border: 2px solid #00A9C2;
+	width:55%;
+	height:39%;
+	position: relative;
+    float: left;
+    margin: 1% 0.3% 0px 0px;
+}
+.rule_output{
+	width:99%;
+	margin: 3px 0px 0px 0px;
+}
+.rule_output_container{
+	text-align: center;
+	background: #fff;
+	border: 2px solid #00A9C2;
+	width:30%;
+	height:39%;
+	position: relative;
+    float: left;
+    margin: 1% 0px 0px 0.3%;
+}*/
 .selectable .ui-selecting { background: #08889B !important; }
 .selectable .ui-selected { background: #00A9C2 !important; color: white; }
 .main_content{
@@ -92,8 +169,7 @@ body{
 }
 .pop_up_content{
 	min-height:336px;
-	position: fixed;
-    width: 60%;
+	position: relative;
     height: 60%;
 }
 .slim_column_content{
@@ -148,6 +224,26 @@ body{
 	font-weight: bold;
 	height:35px;
 	z-index: 10;
+}
+.small_themed_header{
+	color: #fff;
+    background: #00A9C2;
+    text-align: left;
+    padding: 2px 0px 0px 15px;
+    font-size: 16px;
+    font-weight: normal;
+    height: 25px;
+    z-index: 10;
+}
+.small_themed_header_light{
+	color: #676767;
+    background: #D9D7D8;
+    text-align: left;
+    padding: 2px 0px 0px 15px;
+    font-size: 16px;
+    font-weight: normal;
+    height: 25px;
+    z-index: 10;
 }
 .collection_header{
 	color: #333;
@@ -607,7 +703,7 @@ select{
 	border-bottom: 1px solid #C7C9C7;
 	padding: 0px 0px 5px 0px ;
 }
-.profile_body{
+.edit_body{
 	position: relative;
 	display: inline-block;
 	width:100%;

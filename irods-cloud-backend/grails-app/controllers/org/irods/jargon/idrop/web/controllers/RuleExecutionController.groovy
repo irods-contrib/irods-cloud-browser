@@ -3,7 +3,6 @@ package org.irods.jargon.idrop.web.controllers
 import grails.converters.JSON
 import grails.rest.RestfulController
 
-import org.irods.jargon.core.connection.IRODSAccount
 import org.irods.jargon.core.pub.IRODSAccessObjectFactory
 import org.irods.jargon.idrop.web.services.RuleWorkbenchService
 
@@ -29,6 +28,6 @@ class RuleExecutionController extends RestfulController {
 		if (!rule) throw new IllegalArgumentException("no rule in request")
 
 		log.info("rule:${rule}")
-		render ruleWorkbenchService.executeRuleAsRawString(rule, IRODSAccount) as JSON
+		render ruleWorkbenchService.executeRuleAsRawString(rule, irodsAccount) as JSON
 	}
 }

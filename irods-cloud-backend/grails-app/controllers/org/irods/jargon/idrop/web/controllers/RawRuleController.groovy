@@ -3,7 +3,6 @@ package org.irods.jargon.idrop.web.controllers
 import grails.converters.JSON
 import grails.rest.RestfulController
 
-import org.irods.jargon.core.connection.IRODSAccount
 import org.irods.jargon.core.pub.IRODSAccessObjectFactory
 import org.irods.jargon.idrop.web.services.RuleWorkbenchService
 
@@ -52,6 +51,6 @@ class RawRuleController extends RestfulController {
 		log.info("irodsPath:${irodsPath}")
 		log.info("rule:${rule}")
 
-		render ruleWorkbenchService.storeRuleFromRawString(irodsPath, rule, IRODSAccount) as JSON
+		render ruleWorkbenchService.storeRuleFromRawString(irodsPath, rule, irodsAccount) as JSON
 	}
 }

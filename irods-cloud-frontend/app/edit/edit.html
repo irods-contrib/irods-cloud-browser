@@ -52,9 +52,9 @@
 				<div class="themed_header"><img src="images/edit_icon.png">&nbsp;Editing/Executing {{dataProfile.childName}}</div>
 				<div class="edit_header">							
 						<div class="edit_actions_container">
-							<div class="btn btn-xs btn-success just_right" ng-class="file_content == initial_file_content ? 'save_button' : 'save_button_active'" ng-click="save_content_action()">Save Changes</div>
+							<div class="btn btn-xs btn-success just_right" ng-class="rule_string.ruleText == initial_rule_string_body ? 'save_button' : 'save_button_active'" ng-click="save_rule()">Save Changes</div>
 							<div class="btn btn-xs btn-default just_right" ng-click="selectProfile(dataProfile.domainObject.absolutePath)">Cancel</div>
-							<div class="visible_button_left" title="Create a new metadata item" ng-click='reload_file_content()'> 
+							<div class="visible_button_left" title="Create a new metadata item" ng-click='reload_rule_string()'> 
 								<img src="images/dark_reload_icon.png"><span>&nbsp;Reload</span>	
 							</div>																
 						</div>	

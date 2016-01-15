@@ -29,6 +29,7 @@ angular.module('myApp.edit', ['ngRoute'])
         $scope.dataProfile = dataProfile;
         $scope.pop_up_form = "";
         $scope.initial_file_content = "";
+        $scope.initial_rule_string = "";
         $scope.file_content = "";
         $scope.rule_object = ""; 
         $scope.get_file_content = function () {
@@ -50,7 +51,6 @@ angular.module('myApp.edit', ['ngRoute'])
 
         };  
         $scope.get_rule_string = function () {
-
                 $log.info("getting rule object");
                 return $http({
                     method: 'GET', 
@@ -60,29 +60,43 @@ angular.module('myApp.edit', ['ngRoute'])
                     }
                 }).success(function (data) {
                     $scope.rule_string = data;
+                    $scope.initial_rule_string_body = $scope.rule_string.ruleText;
+                    $scope.initial_rule_string = data;
                 }).error(function () {
                     $scope.rule_string = "";
                 });  
         };  
         $scope.exec_rule = function () {
-
                 $log.info("executing rule");
-                $log.info($scope.rule_string.ruleText);
                 return $http({
                     method: 'POST', 
                     url: $globals.backendUrl('ruleExecution'),
                     params: {
                         rule: $scope.rule_string.ruleText
                     }
-                }).success(function (data) {
-                    $scope.rule_results = data;
-                }).error(function () {
-                    $scope.rule_results = "";
-                });  
+                }).success(function (data) {                    
+                        $scope.rule_results = data.ruleExecOut;                      
+                }) 
         }; 
-            
+        $scope.save_rule = function () {
+                $log.info("saving rule");
+                return $http({
+                    method: 'POST', 
+                    url: $globals.backendUrl('rawRule'),
+                    params: {
+                        irodsPath: $scope.dataProfile.parentPath + '/' + $scope.dataProfile.childName,
+                        rule: $scope.rule_string.ruleText
+                    }
+                }).success(function () {       
+                    MessageService.success("Rule saved!");             
+                    $scope.get_rule_string();                     
+                }) 
+        };  
         $scope.reload_file_content = function(){
             $scope.get_file_content();
+        };
+        $scope.reload_rule_string = function(){
+            $scope.get_rule_string();
         };
         $scope.editorOptions = {
             lineWrapping : false,

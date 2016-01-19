@@ -97,12 +97,20 @@ angular.module('myApp.edit', ['ngRoute'])
         };
         $scope.reload_rule_string = function(){
             $scope.get_rule_string();
+            $scope.rule_results = ""; 
         };
         $scope.editorOptions = {
             lineWrapping : false,
             lineNumbers: true,
             mode: {name:"javascript", typescript: true}
         };
+        $scope.resultsOptions = {
+            lineWrapping : true,
+            lineNumbers: true,
+            readOnly: true,
+            mode: {name:"javascript", typescript: true}
+        };
+        
         $http({
             method: 'GET',
             url: $globals.backendUrl('collection/') + 'root',

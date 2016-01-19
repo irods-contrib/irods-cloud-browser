@@ -613,6 +613,9 @@ angular.module('myApp.home', ['ngRoute', 'ngFileUpload', 'ng-context-menu','ui.c
                 if($scope.pop_up_form == "create"){
                     $scope.create_collection_action();
                 }
+                if($scope.pop_up_form == "file_create"){
+                    $scope.create_file_action();
+                }
                 if($scope.pop_up_form == "rename"){
                     $scope.rename_action();
                 }

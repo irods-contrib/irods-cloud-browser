@@ -98,6 +98,7 @@ angular.module('myApp.edit', ['ngRoute'])
         };
         $scope.reload_rule_string = function(){
             $scope.get_rule_string();
+            $scope.rule_results_raw = "";
         };
         $scope.editorOptions = {
             lineWrapping : false,

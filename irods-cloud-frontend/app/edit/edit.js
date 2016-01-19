@@ -32,6 +32,7 @@ angular.module('myApp.edit', ['ngRoute'])
         $scope.initial_rule_string = "";
         $scope.file_content = "";
         $scope.rule_object = ""; 
+        $scope.rule_results_raw = "";
         $scope.get_file_content = function () {
 
                 $log.info("getting file content");
@@ -75,7 +76,7 @@ angular.module('myApp.edit', ['ngRoute'])
                         rule: $scope.rule_string.ruleText
                     }
                 }).success(function (data) {                    
-                        $scope.rule_results = data.ruleExecOut;                      
+                        $scope.rule_results_raw = data;
                 }) 
         }; 
         $scope.save_rule = function () {
@@ -97,7 +98,6 @@ angular.module('myApp.edit', ['ngRoute'])
         };
         $scope.reload_rule_string = function(){
             $scope.get_rule_string();
-            $scope.rule_results = ""; 
         };
         $scope.editorOptions = {
             lineWrapping : false,

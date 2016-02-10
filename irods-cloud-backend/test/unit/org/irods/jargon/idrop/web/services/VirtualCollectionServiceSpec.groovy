@@ -8,6 +8,7 @@ import org.irods.jargon.core.pub.IRODSAccessObjectFactory
 import org.irods.jargon.core.query.PagingAwareCollectionListing
 import org.irods.jargon.idrop.web.services.VirtualCollectionService.ListingType
 import org.irods.jargon.vircoll.AbstractVirtualCollection
+import org.irods.jargon.vircoll.UserVirtualCollectionProfile
 import org.irods.jargon.vircoll.VirtualCollectionDiscoveryService
 import org.irods.jargon.vircoll.impl.VirtualCollectionFactoryImpl
 import org.irods.jargon.vircoll.types.CollectionBasedVirtualCollection
@@ -47,7 +48,9 @@ class VirtualCollectionServiceSpec  extends Specification  {
 		List<AbstractVirtualCollection> virColls = new ArrayList<AbstractVirtualCollection>()
 		CollectionBasedVirtualCollection collBasedVirColl = new CollectionBasedVirtualCollection(uniqueName,"/a/path")
 		virColls.add(collBasedVirColl)
-		mockSession.virtualCollections = virColls
+		def userVirtualCollectionProfile = new UserVirtualCollectionProfile();
+		userVirtualCollectionProfile.userHomeCollections = virColls
+		mockSession.virtualCollections = userVirtualCollectionProfile
 
 		VirtualCollectionService virtualCollectionService = new VirtualCollectionService()
 		virtualCollectionService.irodsAccessObjectFactory = iafMock

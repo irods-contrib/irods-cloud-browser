@@ -34,7 +34,7 @@ class VirtualCollectionService {
 		log.info("irodsAccount: ${irodsAccount}")
 
 		def virtualCollectionDiscoveryService = new VirtualCollectionDiscoveryServiceImpl(irodsAccessObjectFactory, irodsAccount)
-		def colls = virtualCollectionDiscoveryService.listDefaultUserCollections()
+		def colls = virtualCollectionDiscoveryService.userVirtualCollectionProfile(irodsAccount.getUserName())
 		session.virtualCollections = colls
 
 		return colls
@@ -72,7 +72,16 @@ class VirtualCollectionService {
 			vcsInSession = virtualCollectionHomeListingForUser(irodsAccount, session)
 		}
 
-		for (vc in vcsInSession) {
+		for (vc in vcsInSession.userHomeCollections) {
+			if (vc.uniqueName == vcName) {
+				log.info("found: ${vc}")
+				return vc
+			}
+		}
+
+		log.info("not found in home colls, check in temporary queries")
+
+		for (vc in vcsInSession.userRecentQueries) {
 			if (vc.uniqueName == vcName) {
 				log.info("found: ${vc}")
 				return vc
@@ -119,8 +128,22 @@ class VirtualCollectionService {
 			virColls = virtualCollectionHomeListingForUser(irodsAccount, session)
 		}
 
+		// FIXME: refactor into a service that can search across different vcs
 		def virColl
-		for (virCollEntry in virColls) {
+		for (virCollEntry in virColls.userHomeCollections) {
+			if (virCollEntry.uniqueName == vcName) {
+				log.info("found it")
+				session.virtualCollection = virCollEntry
+				virColl = virCollEntry
+				break
+			}
+		}
+
+		if (!virColl) {
+			log.info("not in home colls, try saved queries")
+		}
+
+		for (virCollEntry in virColls.userRecentQueries) {
 			if (virCollEntry.uniqueName == vcName) {
 				log.info("found it")
 				session.virtualCollection = virCollEntry
@@ -150,7 +173,6 @@ class VirtualCollectionService {
 		if (listingType == ListingType.ALL) {
 
 			return executor.queryAll(path, offset)
-			
 		} else {
 			throw new UnsupportedOperationException("not supported yet")
 		}

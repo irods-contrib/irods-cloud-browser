@@ -63,6 +63,9 @@ body{
     -o-transition: all 0.5s ease;
     transition: all 0.5s ease;
 }
+.recent_queries_container{
+	border:2px solid #00A9C2;
+}
 .side_nav_toggle_button{
 	color:#777;
 	padding: 0px 8px 4px;

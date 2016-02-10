@@ -11,6 +11,13 @@
 			            <span><span class="{{virtualCollection.i18icon|iconic}}"></span><span>{{virtualCollection.uniqueName}}</span></span>
 			    </li>
 			</ul>
+			<br>
+			<div class="light_header"><span>Recent Queries</span></div>
+			<ul class="recent_queries_container">
+			    <li class="light_back_option" ng-repeat="virtualCollection in virtualCollections.userRecentQueries" ng-click="selectVirtualCollection(virtualCollection.uniqueName, '')">
+			            <span><span class="{{virtualCollection.i18icon|iconic}}"></span><span>{{virtualCollection.uniqueName}}</span></span>
+			    </li>
+			</ul>
 		</div>
 	</div>
 	<div class="four_column main_list">

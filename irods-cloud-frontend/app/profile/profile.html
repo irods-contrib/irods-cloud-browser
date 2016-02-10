@@ -1,14 +1,13 @@
 <div ng-include="'header.html'"></div>
 <div ng-include="'actions_pop_up.html'"></div>
-<!--<div ng-include="'side_nav.html'"></div>-->
-<div id="main_contents" class="collapsed_main_content"> 
+<div ng-include="'side_nav.html'"></div>
+<div id="main_contents" class="uncollapsed_main_contents"> 
 	<div class="full_column">
 		<div class="column_content">
 			<div class="collection_header"> 
 				<div id="breadcrumbs_container">
 					<div class="breadcrumbs_container">
 						<div class="breadcrumbs_sub_container col-xs-9" >
-
 
 							<div class="dropdown" ng-show=" breadcrumb_compressed_array.length > 0 ">
 							   	<div ng-mouseleave="hide_breadcrumbs()" type="button" class="dark_back_option_double dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

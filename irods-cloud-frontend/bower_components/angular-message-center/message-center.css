@@ -37,7 +37,6 @@
 	overflow: hidden;
 	padding: 5px 10px;
 	text-overflow: ellipsis;
-	white-space: nowrap;
 	-webkit-box-shadow: 0 0 12px #000;
 	-moz-box-shadow: 0 0 12px #000;
 	box-shadow: 0 0 12px #000;

@@ -178,15 +178,15 @@ angular.module('myApp.profile', ['ngRoute'])
                 $('.side_nav_options').animate({'opacity': '0'});
                 $('#side_nav').removeClass('uncollapsed_nav');
                 $('#side_nav').addClass('collapsed_nav');
-                $('#main_contents').removeClass('uncollapsed_main_content');
-                $('#main_contents').addClass('collapsed_main_content');
+                $('#main_contents').addClass('uncollapsed_main_contents');
+                $('#main_contents').removeClass('collapsed_main_contents');
                 $('.side_nav_toggle_button').text('>>');
             } else if (side_nav_toggled == "yes") {
                 side_nav_toggled = "no";
                 $('#side_nav').removeClass('collapsed_nav');
                 $('#side_nav').addClass('uncollapsed_nav');
-                $('#main_contents').removeClass('collapsed_main_content');
-                $('#main_contents').addClass('uncollapsed_main_content');
+                $('#main_contents').addClass('collapsed_main_contents');
+                $('#main_contents').removeClass('uncollapsed_main_contents');
                 $('.side_nav_options').animate({'opacity': '1'});
                 $('.side_nav_toggle_button').text('<<');
             }
@@ -806,6 +806,14 @@ angular.module('myApp.profile', ['ngRoute'])
         $scope.getDownloadLink = function() {
             return  $globals.backendUrl('download') + "?path=" + $scope.dataProfile.domainObject.absolutePath;
 
+        };
+        $scope.selectDashboardView = function () {
+            $log.info("going to Dashboard View");
+            $location.url("/dashboard/");
+        };
+        $scope.selectHierView = function () {
+            $log.info("going to Hierarchical View");
+            $location.url("/home");
         };
 
         /**

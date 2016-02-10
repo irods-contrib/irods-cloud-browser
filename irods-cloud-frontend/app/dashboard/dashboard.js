@@ -1,11 +1,11 @@
 'use strict';
 
-angular.module('myApp.gallery', ['ngRoute', 'ngFileUpload'])
+angular.module('myApp.dashboard', ['ngRoute', 'ngFileUpload', 'ng-context-menu','ui.codemirror'])
 
-    .config(['$routeProvider', function ($routeProvider) {
-        $routeProvider.when('/gallery/:vcName', {
-            templateUrl: 'gallery/gallery.html',
-            controller: 'galleryCtrl',
+     .config(['$routeProvider', function ($routeProvider) {
+        $routeProvider.when('/dashboard/:vcName', {
+            templateUrl: 'dashboard/dashboard.html',
+            controller: 'dashboardCtrl',
             resolve: {
 
                 // set vc name as selected
@@ -27,9 +27,9 @@ angular.module('myApp.gallery', ['ngRoute', 'ngFileUpload'])
                 }
 
             }
-        }).when('/gallery', {
-            templateUrl: 'gallery/gallery.html',
-            controller: 'galleryCtrl',
+        }).when('/dashboard', {
+            templateUrl: 'dashboard/dashboard.html',
+            controller: 'dashboardCtrl',
             resolve: {
                 // set vc name as selected
                 selectedVc: function ($route) {
@@ -52,7 +52,49 @@ angular.module('myApp.gallery', ['ngRoute', 'ngFileUpload'])
             }, 1);
         };
     })
-    .controller('galleryCtrl', ['$scope', 'Upload', '$log', '$http', '$location', 'MessageService', 'globals', 'breadcrumbsService', 'downloadService', 'virtualCollectionsService', 'collectionsService', 'fileService', 'selectedVc', 'pagingAwareCollectionListing', function ($scope, Upload, $log, $http, $location, MessageService, $globals, breadcrumbsService, downloadService, $virtualCollectionsService, $collectionsService, fileService, selectedVc, pagingAwareCollectionListing) {
+    .directive('ngDoubleTap', function() {
+        return function (scope, element, attrs) {
+          var tapping;
+          tapping = false;
+          element.bind('touchstart', function(e) {
+            element.addClass('active');
+            tapping = true;
+          });
+
+          element.bind('touchmove', function(e) {
+            element.removeClass('active');
+            tapping = false;
+          });
+
+          element.bind('touchend', function(e) {
+            element.removeClass('active');            
+            if (tapping) {
+                if(scope.tapped == "yes"){
+                    scope.$apply(attrs['ngDoubleTap'], element);
+                }else{
+                    scope.tapped = "yes";
+                }              
+              scope.explode = function(){
+                scope.tapped = "no";
+              }
+              setTimeout(scope.explode,300)
+            }
+          });
+
+        };
+      })
+    .filter('iconic', function () {
+        return function (input, optional) {
+            var out = "";
+            if (input == "virtual.collection.default.icon") {
+                var out = "default_icon";
+            } else if (input == "virtual.collection.icon.starred") {
+                var out = "star_icon";
+            }
+            return out;
+        };
+    })
+    .controller('dashboardCtrl', ['$scope', 'Upload', '$log', '$http', '$location', 'MessageService', 'globals', 'breadcrumbsService', 'downloadService', 'virtualCollectionsService', 'collectionsService', 'fileService', 'selectedVc', 'pagingAwareCollectionListing', function ($scope, Upload, $log, $http, $location, MessageService, $globals, breadcrumbsService, downloadService, $virtualCollectionsService, $collectionsService, fileService, selectedVc, pagingAwareCollectionListing) {
 
         /*
          basic scope data for collections and views
@@ -190,7 +232,7 @@ angular.module('myApp.gallery', ['ngRoute', 'ngFileUpload'])
                 return;
             }
             $log.info("list vc contents for vc name:" + vcName);
-            $location.path("/gallery/" + vcName);
+            $location.path("/dashboard/" + vcName);
             $location.search("path", path);
         };
         /**
@@ -373,24 +415,28 @@ angular.module('myApp.gallery', ['ngRoute', 'ngFileUpload'])
                 return;
             }
 
-            $location.path("/gallery/root");
+            $location.path("/dashboard/root");
             $location.search("path", breadcrumbsService.buildPathUpToIndex(index));
 
         };
         var side_nav_toggled = "yes";
         $scope.side_nav_toggle = function () {
+
             if (side_nav_toggled == "no") {
                 side_nav_toggled = "yes";
                 $('.side_nav_options').animate({'opacity': '0'});
-                $('#side_nav').animate({'width': '3%'});
-                $('#main_contents').animate({'width': '96.9%'});
-                $('.side_nav_toggle_button').text('>>');
+                $('#side_nav').addClass('collapsed_nav'); 
+                $('#side_nav').removeClass('uncollapsed_nav');
+                $('#main_contents').addClass('uncollapsed_main_contents');
+                $('#main_contents').removeClass('collapsed_main_contents');
             } else if (side_nav_toggled == "yes") {
                 side_nav_toggled = "no";
-                $('#main_contents').animate({'width': '81.9%'});
-                $('#side_nav').animate({'width': '18%'});
+
+                $('#side_nav').addClass('uncollapsed_nav');
+                $('#side_nav').removeClass('collapsed_nav');
+                $('#main_contents').addClass('collapsed_main_contents');
+                $('#main_contents').removeClass('uncollapsed_main_contents');
                 $('.side_nav_options').animate({'opacity': '1'});
-                $('.side_nav_toggle_button').text('<<');
             }
         };
         var toggle_on
@@ -428,9 +474,9 @@ angular.module('myApp.gallery', ['ngRoute', 'ngFileUpload'])
 
         }
 
-        $scope.selectGalleryView = function () {
-            $log.info("going to Gallery View");            
-            $location.url("/gallery/");
+        $scope.selectDashboardView = function () {
+            $log.info("going to Dashboard View");            
+            $location.url("/dashboard/");
         }
         $scope.selectHierView = function () {
             $log.info("going to Hierarchical View");            

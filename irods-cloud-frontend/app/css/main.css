@@ -19,7 +19,21 @@ time, mark, audio, video {
   list-style: none;
 }
 body{
-	background: #333;
+	background: #EAEAEA;
+	font-family: FontAwesome;
+}
+#main_contents{
+	position: relative;
+    -webkit-transition: all 0.5s ease;
+    -moz-transition: all 0.5s ease;
+    -o-transition: all 0.5s ease;
+    transition: all 0.5s ease;
+}
+.uncollapsed_main_contents{
+	margin:0px 0px 0px 3%;
+}
+.collapsed_main_contents{
+	margin:0px 0px 0px 18%;
 }
 .light_hr {
 	margin:0px;
@@ -39,21 +53,23 @@ body{
 /* ||||||||||||||||||||||||||||||||||| */
 #side_nav{	
 	height:100%;
-	position:relative;
+	background: #333;
 	float: left;
+    top: 50px;
+    position: fixed;
 	color:#fff;
-	padding: 50px 0px 0px 0px;
     -webkit-transition: all 0.5s ease;
     -moz-transition: all 0.5s ease;
     -o-transition: all 0.5s ease;
     transition: all 0.5s ease;
 }
 .side_nav_toggle_button{
-	padding: 0px 10px 4px;
+	color:#777;
+	padding: 0px 8px 4px;
 	border-bottom: 1px solid rgba(255,255,255,0.2)
 }
 .side_nav_toggle_button:hover{
-	background: rgba(255,255,255,0.2);
+	color:#fff;
 }
 .side_nav_options{
 	overflow: hidden;
@@ -103,7 +119,7 @@ body{
 	border-top: 2px solid #00a9c2;
 	padding: 4px;
 	width: 100%;
-	height: 93%;
+	height: 90%;
 }
 .rule_actions{
 	background: #fff;
@@ -120,7 +136,7 @@ body{
 	border: 2px solid #D9D7D8;
 	padding: 4px;
 	width: 100%;
-	height: 100%;
+	height: 97%;
 	overflow-wrap: break-word; 
 }
 .rule_output_param{
@@ -168,7 +184,6 @@ body{
 	border-top:2px solid #00A9C2;
 	background: #fff;
 	padding: 5px;
-	min-height:100vh;
 	height: 100%;
 	width:100%;
 }
@@ -264,9 +279,9 @@ body{
 	background: #00A9C2;
 	color:#fff;
 }
-.green_nav{
+.upper_main_nav{
 	background: #00A9C2;
-	position: absolute;
+	position: relative;
 	z-index: 2;
 	min-width: 100%;
 }
@@ -376,21 +391,10 @@ select{
 .app_container{
 	height:100%;
 }
-#main_contents{
-	background:#CFD0CC;
-	display: inline-block;
-	min-height:100vh;
-	padding: 5px;
-	-webkit-transition: all 0.5s ease;
-    -moz-transition: all 0.5s ease;
-    -o-transition: all 0.5s ease;
-    transition: all 0.5s ease;
-}
 .message_link{
 	cursor: pointer;
 }
 .main_wrapper{
-	background: #384B50;
 	padding:0px;
 	width:100%;
 	height:100%;
@@ -399,28 +403,45 @@ select{
 	min-width: 1200px;
 }
 .four_column{
-	padding: 53px 5px 35px 5px;
+	padding: 5px 5px 5px 5px;
 	position: relative;
 	float: left;
 	width:80%;
+	 -webkit-transition: all 0.5s ease;
+    -moz-transition: all 0.5s ease;
+    -o-transition: all 0.5s ease;
+    transition: all 0.5s ease;
 }
 .full_column{
-	padding: 53px 5px 35px 5px;
+	padding: 3px 5px 35px 5px;
 	position: relative;
 	float: left;
 	width:100%;
+	 -webkit-transition: all 0.5s ease;
+    -moz-transition: all 0.5s ease;
+    -o-transition: all 0.5s ease;
+    transition: all 0.5s ease;
 }
 .three_column{
-	padding: 53px 5px 35px 5px;
+	padding: 5px 5px 35px 5px;
 	position: relative;
-	float: left;
-	width:60%;
+	margin: 0 auto;
+	display: flex;
+	width:65%;
+	 -webkit-transition: all 0.5s ease;
+    -moz-transition: all 0.5s ease;
+    -o-transition: all 0.5s ease;
+    transition: all 0.5s ease;
 }
 .one_column{
-	padding: 53px 5px 35px 5px;
+	padding: 5px 5px 5px 5px;
 	position: relative;
 	float: left;
 	width: 20%;
+	 -webkit-transition: all 0.5s ease;
+    -moz-transition: all 0.5s ease;
+    -o-transition: all 0.5s ease;
+    transition: all 0.5s ease;
 }
 .one_column.mover{
 	padding: 5px 0px 0px 0px;
@@ -594,7 +615,7 @@ select{
 	position:relative;
 	float: right;
 	opacity: 0.1;
-	width: 85px;
+	width: 87px;
 	font-size: 12px;
 	font-weight: lighter;
 	text-align: center;
@@ -898,6 +919,21 @@ input.col-xs-12{
     overflow: hidden;
     display: inline-block;
 }
+.side_nav_option{
+	color: #777;
+	white-space: nowrap;
+	cursor: pointer;
+    border-bottom: 1px solid #AEAEB0;
+    height: 34px;
+    width:100%;
+    padding:3px;
+	overflow: hidden;
+	text-overflow:ellipsis;
+	display: inline-block;
+}
+.side_nav_option:hover{
+	color: #fff;
+}
 .dark_back_option_double{
 	color: #777;
     background: #D9D7D8;
@@ -1057,7 +1093,7 @@ input.col-xs-12{
 .selection_actions_container{
 	float:right;
 	height: 22px;
-	width:675px;
+	width:685px;
 	z-index: 10;
     position: relative;
 }
@@ -1085,20 +1121,22 @@ input.col-xs-12{
 }
 .collapsed_nav{
 	width:3%;
+	-webkit-transition: all 0.5s ease;
+    -moz-transition: all 0.5s ease;
+    -o-transition: all 0.5s ease;
+    transition: all 0.5s ease;
 }
 .uncollapsed_nav{
 	width:18%;
+	-webkit-transition: all 0.5s ease;
+    -moz-transition: all 0.5s ease;
+    -o-transition: all 0.5s ease;
+    transition: all 0.5s ease;
 }
 /* TO BE USED WHEN THE SIDE NAV BECOMES AVAILABLE
 .collapsed_main_content{
 	width:96.9%;
 }*/
-.collapsed_main_content{
-	width:100%;
-}
-.uncollapsed_main_content{
-	width:81.9%;
-}
 /******************************************************************************
 
                                  BEGIN MEDIA QUERIES
@@ -1107,7 +1145,8 @@ input.col-xs-12{
 
 
 /* Small devices (tablets, 600px and up) */
-@media screen and (max-width: 1199px){
+@media screen and (max-width: 1200px){
+
 .light_back_option{
 	color:#000;
 	opacity:0.5;
@@ -1150,7 +1189,6 @@ input.col-xs-12{
 	list-style: none;
 }
 .main_wrapper{
-	background: #384B50;
 	padding:0px;
 	width:100%;
 	position: relative;
@@ -1164,10 +1202,16 @@ input.col-xs-12{
 	display: block;
 }
 .collapsed_nav{
-	width:4.4%;
+	width:52px;
 }
 .uncollapsed_nav{
-	width:18%;
+	width:214px;
+}
+.uncollapsed_main_contents{
+	margin:0px 0px 0px 52px;
+}
+.collapsed_main_contents{
+	margin:0px 0px 0px 214px;
 }
 /*.collapsed_main_content{
 	width:95.5%;
@@ -1177,36 +1221,6 @@ input.col-xs-12{
 }
 .uncollapsed_main_content{
 	width:81.9%;
-}
-
-}
-
-
-/* Small devices (tablets, 600px and up) */
-@media screen and (max-width: 991px){
-.tablet_appear{
-	display:block;
-}
-.tablet_disappear{
-	display:none;
-}
-.collapsed_nav{
-	width:5.4%;
-}
-.uncollapsed_nav{
-	width:23%;
-}
-/*.collapsed_main_content{
-	width:94.5%;
-}*/
-.collapsed_main_content{
-	width:100%;
-}
-.uncollapsed_main_content{
-	width:76.9%;
-}
-.green_toggle_container{
-	padding:10px 10px 5px;
 }
 
 }

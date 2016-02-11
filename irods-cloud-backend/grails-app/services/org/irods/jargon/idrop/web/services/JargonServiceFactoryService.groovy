@@ -7,6 +7,7 @@ import org.irods.jargon.datautils.filesampler.FileSamplerServiceImpl
 import org.irods.jargon.filetemplate.impl.DefaultFileTemplateServiceImpl
 import org.irods.jargon.ruleservice.composition.RuleCompositionServiceImpl
 import org.irods.jargon.usertagging.starring.IRODSStarringServiceImpl
+import org.irods.jargon.vircoll.impl.TemporaryQueryServiceImpl
 import org.irods.jargon.vircoll.impl.VirtualCollectionDiscoveryServiceImpl
 import org.irods.jargon.vircoll.impl.VirtualCollectionFactoryImpl
 import org.irods.jargon.zipservice.api.JargonZipServiceImpl
@@ -31,6 +32,16 @@ class JargonServiceFactoryService {
 	def instanceVirtualCollectionExecutorFactory(IRODSAccount irodsAccount) {
 		return new VirtualCollectionFactoryImpl(irodsAccessObjectFactory, irodsAccount)
 	}
+
+	/**
+	 * Get an instance of the temp query service
+	 * @param irodsAccount
+	 * @return
+	 */
+	def instanceTemporaryQueryService(IRODSAccount irodsAccount) {
+		return new TemporaryQueryServiceImpl(irodsAccessObjectFactory, irodsAccount)
+	}
+
 
 	/**
 	 * Get an instance of the virtual collection discovery service that can find virtual collections

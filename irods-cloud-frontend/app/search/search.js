@@ -292,8 +292,7 @@ angular.module('myApp.search', ['ngRoute', 'ngFileUpload', 'ng-context-menu','ui
                     method: 'POST',
                     url: $globals.backendUrl('metadataQuery'),
                     data:query_val,
-                    dataType: "json",
-                    params: { : data}
+                    dataType: "json"
                 }).success(function (data) {
                     $log.info(data);   
                 })         

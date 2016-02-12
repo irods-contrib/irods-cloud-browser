@@ -7,10 +7,12 @@ package org.irods.jargon.idrop.web.services
  * browse view, so there is actually a disintermediation.
  */
 import org.irods.jargon.core.connection.IRODSAccount
+import org.irods.jargon.core.exception.DataNotFoundException
 import org.irods.jargon.core.pub.IRODSAccessObjectFactory
 import org.irods.jargon.mdquery.MetadataQuery
 import org.irods.jargon.mdquery.serialization.MetadataQueryJsonService
 import org.irods.jargon.vircoll.VirtualCollectionProfileUtils
+import org.irods.jargon.vircoll.exception.VirtualCollectionException
 import org.irods.jargon.vircoll.types.MetadataQueryMaintenanceService
 import org.irods.jargon.vircoll.types.MetadataQueryVirtualCollection
 
@@ -26,10 +28,10 @@ class MetadataQueryService {
 	VirtualCollectionService virtualCollectionService
 
 	/**
-	 * Get the metadata query with the given unique name, note that <code>null</code> is returned if the given query cannot be found
+	 * Get the metadata query with the given unique name, note that a {@link DataNotFoundException} exception is thrown if the given query cannot be found
 	 * @param queryName <code>String</code> with the unique name for the query
 	 * @param irodsAccount {@link IRODSAccount} for the user
-	 * @return {@link AbstractVirtualCollection} that is an {@link MetadataQuery} or <code>null</code> if not found
+	 * @return JSON string that is an {@link MetadataQuery} or <code>null</code> if not found
 	 */
 	def retrieveMetadataQuery(String queryName, IRODSAccount irodsAccount) {
 		log.info("retrieveMetadataQuery")
@@ -46,7 +48,17 @@ class MetadataQueryService {
 
 		def vcProfile = virtualCollectionService.virtualCollectionHomeListingForUser(irodsAccount.getUserName(), irodsAccount)
 
-		return VirtualCollectionProfileUtils.findVirtualCollectionInTempQueries(queryName, vcProfile)
+		def query = VirtualCollectionProfileUtils.findVirtualCollectionInTempQueries(queryName, vcProfile)
+		if (query == null) {
+			log.error("query not found")
+			throw new DataNotFoundException("no query found")
+		}
+		if (!(query instanceof MetadataQueryVirtualCollection)) {
+			log.error("query is not a metadata query")
+			throw new VirtualCollectionException("retrieved query is not a metadata query")
+		}
+
+		return query.queryString
 	}
 
 	/**

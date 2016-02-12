@@ -67,6 +67,9 @@ class MetadataQueryController {
 		def metadataQueryResponse = new MetadataQueryVcName()
 		metadataQueryResponse.vcName = vcName
 		log.info("response:${metadataQueryResponse}")
+		//FIXME: think of better way to directly update the cache
+		session.virtualCollections = null
+
 		render metadataQueryResponse as JSON
 	}
 }

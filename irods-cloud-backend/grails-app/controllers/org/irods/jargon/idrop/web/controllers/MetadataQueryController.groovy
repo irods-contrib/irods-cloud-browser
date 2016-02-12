@@ -50,7 +50,7 @@ class MetadataQueryController {
 	 */
 	def save() {
 
-		log.info("show()")
+		log.info("save()")
 
 		def irodsAccount = request.irodsAccount
 		if (!irodsAccount) throw new IllegalStateException("no irodsAccount in request")

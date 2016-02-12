@@ -1021,6 +1021,10 @@ angular.module('myApp.home', ['ngRoute', 'ngFileUpload', 'ng-context-menu','ui.c
             $log.info("going to Hierarchical View");
             $location.url("/home");
         };
+        $scope.selectSearchView = function () {
+            $log.info("going to Dashboard View");            
+            $location.url("/search/");
+        };
 
 
     }])

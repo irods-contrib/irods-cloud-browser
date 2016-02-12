@@ -11,6 +11,7 @@ angular.module('myApp', [
     'myApp.login',
     'myApp.profile',
     'myApp.metadata',
+    'myApp.search',
     'globalsModule',
     'fileModule',
     'ngFileUpload'

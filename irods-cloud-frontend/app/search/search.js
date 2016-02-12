@@ -1,11 +1,11 @@
 'use strict';
 
-angular.module('myApp.dashboard', ['ngRoute', 'ngFileUpload', 'ng-context-menu','ui.codemirror'])
+angular.module('myApp.search', ['ngRoute', 'ngFileUpload', 'ng-context-menu','ui.codemirror'])
 
      .config(['$routeProvider', function ($routeProvider) {
-        $routeProvider.when('/dashboard/:vcName', {
-            templateUrl: 'dashboard/dashboard.html',
-            controller: 'dashboardCtrl',
+        $routeProvider.when('/search/:vcName', {
+            templateUrl: 'search/search.html',
+            controller: 'searchCtrl',
             resolve: {
 
                 // set vc name as selected
@@ -27,9 +27,9 @@ angular.module('myApp.dashboard', ['ngRoute', 'ngFileUpload', 'ng-context-menu',
                 }
 
             }
-        }).when('/dashboard', {
-            templateUrl: 'dashboard/dashboard.html',
-            controller: 'dashboardCtrl',
+        }).when('/search', {
+            templateUrl: 'search/search.html',
+            controller: 'searchCtrl',
             resolve: {
                 // set vc name as selected
                 selectedVc: function ($route) {
@@ -94,7 +94,7 @@ angular.module('myApp.dashboard', ['ngRoute', 'ngFileUpload', 'ng-context-menu',
             return out;
         };
     })
-    .controller('dashboardCtrl', ['$scope', 'Upload', '$log', '$http', '$location', 'MessageService', 'globals', 'breadcrumbsService', 'downloadService', 'virtualCollectionsService', 'collectionsService', 'fileService', 'selectedVc', 'pagingAwareCollectionListing', function ($scope, Upload, $log, $http, $location, MessageService, $globals, breadcrumbsService, downloadService, $virtualCollectionsService, $collectionsService, fileService, selectedVc, pagingAwareCollectionListing) {
+    .controller('searchCtrl', ['$scope', 'Upload', '$log', '$http', '$location', 'MessageService', 'globals', 'breadcrumbsService', 'downloadService', 'virtualCollectionsService', 'collectionsService', 'fileService', 'selectedVc', 'pagingAwareCollectionListing', function ($scope, Upload, $log, $http, $location, MessageService, $globals, breadcrumbsService, downloadService, $virtualCollectionsService, $collectionsService, fileService, selectedVc, pagingAwareCollectionListing) {
 
         /*
          basic scope data for collections and views
@@ -232,7 +232,7 @@ angular.module('myApp.dashboard', ['ngRoute', 'ngFileUpload', 'ng-context-menu',
                 return;
             }
             $log.info("list vc contents for vc name:" + vcName);
-            $location.path("/dashboard/" + vcName);
+            $location.path("/search/" + vcName);
             $location.search("path", path);
         };
         /**
@@ -285,6 +285,18 @@ angular.module('myApp.dashboard', ['ngRoute', 'ngFileUpload', 'ng-context-menu',
                 }).success(function (data) {
                     location.reload();
                 })
+        };
+        $scope.query_search = function (query_val){
+            $log.info('searching:'+query_val);   
+            return $http({
+                    method: 'POST',
+                    url: $globals.backendUrl('metadataQuery'),
+                    data:query_val,
+                    dataType: "json",
+                    params: { : data}
+                }).success(function (data) {
+                    $log.info(data);   
+                })         
         };
 
         $scope.create_collection_action = function (){
@@ -415,7 +427,7 @@ angular.module('myApp.dashboard', ['ngRoute', 'ngFileUpload', 'ng-context-menu',
                 return;
             }
 
-            $location.path("/dashboard/root");
+            $location.path("/search/root");
             $location.search("path", breadcrumbsService.buildPathUpToIndex(index));
 
         };
@@ -478,13 +490,13 @@ angular.module('myApp.dashboard', ['ngRoute', 'ngFileUpload', 'ng-context-menu',
             $log.info("going to Dashboard View");            
             $location.url("/dashboard/");
         }
-        $scope.selectHierView = function () {
-            $log.info("going to Hierarchical View");            
-            $location.url("/home/");
-        }
         $scope.selectSearchView = function () {
             $log.info("going to Dashboard View");            
             $location.url("/search/");
+        }
+        $scope.selectHierView = function () {
+            $log.info("going to Hierarchical View");            
+            $location.url("/home/");
         }
 
     }])

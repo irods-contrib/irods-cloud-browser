@@ -1,0 +1,27 @@
+<div ng-include="'header.html'"></div>
+<div ng-include="'actions_pop_up.html'"></div>
+<div ng-include="'side_nav.html'"></div>
+<div id="main_contents" class="uncollapsed_main_contents"> 
+	<div class="full_column">
+		<div class="column_content">
+			
+			<div>
+				<div class="themed_header"><i class="fa fa-search fa-lg"></i>&nbsp;Search</div>
+				<div class="search_body">
+          <ul>
+            <li >Search for:</li>
+            <li ><input type="text" size="50" value="" ng-model="query_val"/>&nbsp;<div class="btn btn-success" ng-click="query_search(query_val)">Search</div></li>
+          </ul>
+
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+
+
+
+
+

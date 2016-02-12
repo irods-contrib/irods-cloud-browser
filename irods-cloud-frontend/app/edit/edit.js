@@ -879,6 +879,10 @@ angular.module('myApp.edit', ['ngRoute'])
             $log.info("going to Hierarchical View");
             $location.url("/home");
         };
+        $scope.selectSearchView = function () {
+            $log.info("going to Dashboard View");            
+            $location.url("/search/");
+        };
         /**
          * Upon the selection of an element in a breadrumb link, set that as the location of the browser, triggering
          * a view of that collection

@@ -224,16 +224,19 @@ angular.module('myApp.search', ['ngRoute', 'ngFileUpload', 'ng-context-menu','ui
          * Handle the selection of a virtual collection from the virtual collection list, by causing a route change and updating the selected virtual collection
          * @param vcName
          */
-        $scope.selectVirtualCollection = function (vcName, path) {
-
+        $scope.selectVirtualCollection = function (vcName, path, touch_event) {
             $log.info("selectVirtualCollection()");
             if (!vcName) {
                 MessageService.danger("missing vcName");
                 return;
             }
             $log.info("list vc contents for vc name:" + vcName);
-            $location.path("/search/" + vcName);
+            $location.path("/home/" + vcName);
             $location.search("path", path);
+            if(touch_event == true){
+                $scope.$apply();
+            };
+
         };
         /**
          * Get the breadcrumbs from the pagingAwareCollectionListing in the scope.  This updates the path
@@ -294,7 +297,7 @@ angular.module('myApp.search', ['ngRoute', 'ngFileUpload', 'ng-context-menu','ui
                     data:query_val,
                     dataType: "json"
                 }).success(function (data) {
-                    $log.info(data);   
+                    $scope.selectVirtualCollection(data.vcName,"");   
                 })         
         };
 

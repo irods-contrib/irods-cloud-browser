@@ -398,6 +398,7 @@ angular.module('myApp.home', ['ngRoute', 'ngFileUpload', 'ng-context-menu','ui.c
             }).then(function (data) {
                 MessageService.info("Deletion completed!");
                 $scope.pagingAwareCollectionListing = data;
+                $scope.listVirtualCollections();
                 $scope.pop_up_close_clear();
             })
         };

@@ -15,7 +15,7 @@
 			<div class="light_header"><span>Recent Queries</span></div>
 			<ul class="recent_queries_container">
 			    <li class="light_back_option" ng-repeat="virtualCollection in virtualCollections.userRecentQueries" ng-click="selectVirtualCollection(virtualCollection.uniqueName, '')">
-			            <span><span class="{{virtualCollection.i18icon|iconic}}"></span><span>{{virtualCollection.uniqueName}}</span></span>
+			            <span title="{{virtualCollection.uniqueName}}"><span class="{{virtualCollection.i18icon|iconic}}"></span><span>{{virtualCollection.uniqueName}}</span></span>
 			    </li>
 			</ul>
 		</div>
@@ -92,11 +92,11 @@
 								<img src="images/dark_edit_icon.png"><span>&nbsp;Edit</span>	
 							</div>
 							<div class="rename_divider small_vertical_divider"></div>
-							<div class="rename_button" title="Copy selected file" ng-click='copy_pop_up_open()' > 
+							<div class="rename_button" title="Copy selected file" ng-hide="selectedVc.data.pathHintable==false" ng-click='copy_pop_up_open()' > 
 								<img src="images/dark_copy_icon.png"><span>&nbsp;Copy</span>	
 							</div>
 							<div class="rename_divider small_vertical_divider"></div>
-							<div class="rename_button" title="Move selected file" ng-click='move_pop_up_open()' > 
+							<div class="rename_button" title="Move selected file" ng-hide="selectedVc.data.pathHintable==false" ng-click='move_pop_up_open()' > 
 								<img src="images/dark_move_icon.png"><span>&nbsp;Move</span>	
 							</div>
 							<div class="download_divider small_vertical_divider"></div>
@@ -183,12 +183,12 @@
       </button>
     </li>
     <li>
-      <button class="rename_button context_button" title="Move selected file" ng-click='move_pop_up_open()' > 
+      <button class="rename_button context_button" ng-hide="selectedVc.data.pathHintable==false" title="Move selected file" ng-click='move_pop_up_open()' > 
       	<img src="images/dark_move_icon.png"><span>&nbsp;Move</span>	
       </button>
     </li>
     <li>
-      <button class="rename_button context_button" title="Copy selected file" ng-click='copy_pop_up_open()' > 
+      <button class="rename_button context_button" ng-hide="selectedVc.data.pathHintable==false" title="Copy selected file" ng-click='copy_pop_up_open()' > 
 		<img src="images/dark_copy_icon.png"><span>&nbsp;Copy</span>	
 	</button>
     </li>

@@ -52,6 +52,13 @@ angular.module('myApp.search', ['ngRoute', 'ngFileUpload', 'ng-context-menu','ui
             }, 1);
         };
     })
+    .directive("addAttr", function($compile){
+        return function(scope, element, attrs){
+            element.bind("click", function(){
+                angular.element(document.getElementById('query_container')).append($compile('<div class="and_param"> <div style="width: 409px;position: relative;text-align: center;margin: 13px 0px;float: left;border-bottom: 1px solid #bbb;color: #999;"><b>and</b></div><div style="position:relative;float:left;"><b>*&nbsp;Attribute Name</b><br><input type="text" value="" class="attr_name"/></div><div style="position:relative;float:left;padding:12px 12px 0px 12px;"><select class="form-control attr_eval" ><option value="EQUAL"><b>=</b></option><option value="LESS"><b><</b></option><option value="MORE"><b>></b></option></select></div><div style="position:relative;float:left;"><b>*&nbsp;Attribute Value</b><br><input type="text" value="" class="attr_val"/></div><div style="position:relative;float:left;padding:22px 0px 0px 12px;"><div title="Remove this line of parameters" ng-click="remove_and_avu()"><img class="pop_up_close_clear_button" src="images/close_icon.png"></div></div></div>')(scope));
+            });
+        };
+    })
     .directive('ngDoubleTap', function() {
         return function (scope, element, attrs) {
           var tapping;
@@ -99,7 +106,7 @@ angular.module('myApp.search', ['ngRoute', 'ngFileUpload', 'ng-context-menu','ui
         /*
          basic scope data for collections and views
          */
-
+        $scope.count = 0;
         $scope.selectedVc = selectedVc;
         $scope.pagingAwareCollectionListing = pagingAwareCollectionListing.data;        
         $scope.$on('onRepeatLast', function (scope, element, attrs) {
@@ -289,8 +296,36 @@ angular.module('myApp.search', ['ngRoute', 'ngFileUpload', 'ng-context-menu','ui
                     location.reload();
                 })
         };
-        $scope.query_search = function (query_val){
-            $log.info('searching:'+query_val);   
+        $scope.query_search = function (){
+            if($scope.search_objs == null){
+                MessageService.danger("Please choose what you want to search for");
+                $("#search_objs").focus();
+                return;
+            };
+            var query_val = '{"targetZone":"","queryType":"'+ $scope.search_objs +'","pathHint":"","metadataQueryElements":[';
+            var attr_names = [];
+            var attr_names = $(".attr_name");
+            var attr_vals = [];
+            var attr_vals = $(".attr_val");
+            var attr_evals = [];
+            var attr_evals = $(".attr_eval");
+
+            for (var i = 0; i < attr_names.length; i++) {
+
+                if(attr_names[i].value == ""){
+                    MessageService.danger("Missing Attribute Name");
+                    return;
+                }
+                if(attr_vals[i].value == ""){
+                    MessageService.danger("Missing Attribute Value");
+                    return;
+                }
+
+                query_val += '{"attributeName":"'+attr_names[i].value+'","operator":"'+attr_evals[i].value+'","attributeValue":["'+attr_vals[i].value+'"],"connector":"AND"},';
+            }
+            query_val += ']}';
+            
+
             return $http({
                     method: 'POST',
                     url: $globals.backendUrl('metadataQuery'),
@@ -300,6 +335,13 @@ angular.module('myApp.search', ['ngRoute', 'ngFileUpload', 'ng-context-menu','ui
                     $scope.selectVirtualCollection(data.vcName,"");   
                 })         
         };
+
+
+        $scope.remove_and_avu = function(){
+            $(event.target).closest(".and_param").remove();
+        };
+
+
 
         $scope.create_collection_action = function (){
             var collections_new_name = $('#new_collection_name').val();

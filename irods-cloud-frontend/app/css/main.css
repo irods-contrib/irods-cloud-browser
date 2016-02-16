@@ -406,7 +406,7 @@ select{
 	min-width: 1200px;
 }
 .four_column{
-	padding: 5px 5px 5px 5px;
+	padding: 5px;
 	position: relative;
 	float: left;
 	width:80%;
@@ -416,7 +416,7 @@ select{
     transition: all 0.5s ease;
 }
 .full_column{
-	padding: 3px 5px 35px 5px;
+	padding: 5px;
 	position: relative;
 	float: left;
 	width:100%;
@@ -425,8 +425,28 @@ select{
     -o-transition: all 0.5s ease;
     transition: all 0.5s ease;
 }
+.two_column{
+	padding: 5px;
+	position: relative;
+	float: left;
+	width:40%;
+	 -webkit-transition: all 0.5s ease;
+    -moz-transition: all 0.5s ease;
+    -o-transition: all 0.5s ease;
+    transition: all 0.5s ease;
+}
+.half_column{
+	padding: 5px;
+	position: relative;
+	float: left;
+	width:50%;
+	 -webkit-transition: all 0.5s ease;
+    -moz-transition: all 0.5s ease;
+    -o-transition: all 0.5s ease;
+    transition: all 0.5s ease;
+}
 .three_column{
-	padding: 5px 5px 35px 5px;
+	padding: 5px;
 	position: relative;
 	margin: 0 auto;
 	display: flex;
@@ -437,7 +457,7 @@ select{
     transition: all 0.5s ease;
 }
 .one_column{
-	padding: 5px 5px 5px 5px;
+	padding: 5px;
 	position: relative;
 	float: left;
 	width: 20%;
@@ -494,6 +514,12 @@ select{
 	text-overflow:ellipsis;
 	margin: 0px;
 	padding: 0px;
+}
+#query_container{
+	position: relative;
+    float: left;
+    clear: both;
+    width: 100%;
 }
 .full_star, .empty_star{
 	padding: 5px 0px 0px 0px;
@@ -993,6 +1019,10 @@ input.col-xs-12{
 	height:20px;
 	font-size: 12px;
 	width: 100%;
+	white-space: nowrap;
+    cursor: pointer;
+	overflow: hidden;
+	text-overflow:ellipsis;
 }
 .list_header{
 	height: 25px;
@@ -1008,8 +1038,7 @@ input.col-xs-12{
 	width: 100%;
 }
 .light_back_option span, .light_back_option_even span{
-	padding: 0px 0px 0px 4px;
-	display: inline-flex;
+	padding: 0px 0px 4px 4px;
 	cursor: pointer;
 }
 .ui-widget-content.light_back_option, .ui-widget-content.light_back_option_even{
@@ -1050,6 +1079,7 @@ input.col-xs-12{
 	font-size: 14px;
 	font-weight: bold;
 	height:32px;
+	margin: 0px 0px 5px 0px;
 	background: #fff;
 	border-bottom:1px solid #C7C9C7; 
 }

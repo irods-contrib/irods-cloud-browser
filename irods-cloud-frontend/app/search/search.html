@@ -4,24 +4,50 @@
 <div id="main_contents" class="uncollapsed_main_contents"> 
 	<div class="full_column">
 		<div class="column_content">
-			
-			<div>
-				<div class="themed_header"><i class="fa fa-search fa-lg"></i>&nbsp;Search</div>
-				<div class="search_body">
-          <ul>
-            <li >Search for:</li>
-            <li ><input type="text" size="50" value="" ng-model="query_val"/>&nbsp;<div class="btn btn-success" ng-click="query_search(query_val)">Search</div></li>
-          </ul>
+			<div class="themed_header"><i class="fa fa-search fa-lg"></i>&nbsp;Metadata Search</div>
 
+			<div class="two_column search_body">
+				<div id="query_container">
+					<div>
+						<b>*&nbsp;Search for:</b>
+						<br>
+						<select style="margin: 0px 0px 10px;height: 26px;" id="search_objs" ng-model="search_objs">
+							<option value="OBJ"><b>Files</b></option>
+							<option value="COLLECTION"><b>Folders</b></option>
+							<option value="BOTH"><b>Both</b></option>
+						</select>
+					</div>
+					<div class="and_param">
+						<div style="position:relative;float:left;">
+							<b>*&nbsp;Attribute Name</b><br>
+							<input type="text" value="" class="attr_name"/>
+						</div>
+
+						<div style="position:relative;float:left;padding:12px 12px 0px 12px;">
+							<select class="form-control attr_eval">
+								<option value="EQUAL"><b>=</b></option>
+								<option value="LESS"><b><</b></option>
+								<option value="MORE"><b>></b></option>
+							</select>
+						</div>
+
+						<div style="position:relative;float:left;">
+							<b>*&nbsp;Attribute Value</b><br>
+							<input type="text" value="" class="attr_val"/>
+						</div>
+						
+						<div style="position:relative;float:right;padding:16px 12px 0px 12px;">
+							<div title="Adds another pair of parameters to refine search" add-attr class="btn btn-sm btn-default">and</div>
+						</div>
+					</div>
 				</div>
+
 			</div>
+			<div class="container"><hr class="hr_flat"></div>
+			<div class="btn btn-success" ng-click="query_search()">Search</div>
 		</div>
 	</div>
 </div>
-
-
-
-
 
 
 

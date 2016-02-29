@@ -218,8 +218,10 @@ angular.module('myApp.home', ['ngRoute', 'ngFileUpload', 'ng-context-menu','ui.c
                         result.append(name_of_selection);
                         $(".download_button").css('opacity', '1');
                         $(".download_button").css('pointer-events', 'auto');
-                        $(".file_edit_button").css('opacity', '1');
-                        $(".file_edit_button").css('pointer-events', 'auto');
+                        $(".file_edit_button").css('opacity', '0.1');
+                        $(".file_edit_button").css('pointer-events', 'none');
+                        $(".folder_upload_button").css('opacity', '1');
+                        $(".folder_upload_button").css('pointer-events', 'auto');
                         $(".rename_button").css('opacity', '1');
                         $(".rename_button").css('pointer-events', 'auto');
                         $(".rename_divider").css('opacity', '1');
@@ -227,10 +229,12 @@ angular.module('myApp.home', ['ngRoute', 'ngFileUpload', 'ng-context-menu','ui.c
                         $(".tablet_download_button").fadeIn();
                         $(".tablet_rename_button").fadeIn();
                         $(".empty_selection").fadeOut();
-                        if($(".general_list_item .ui-selected").hasClass("data_false")){
-                            $(".file_edit_button").css('opacity', '0.1');
-                            $(".file_edit_button").css('pointer-events', 'none');
-                        }
+                        if($(".general_list_item .ui-selected").hasClass("data_true")){
+                            $(".file_edit_button").css('opacity', '1');
+                            $(".file_edit_button").css('pointer-events', 'auto');
+                            $(".folder_upload_button").css('opacity', '0.1');
+                            $(".folder_upload_button").css('pointer-events', 'none');
+                        };
                     } else if ($(".general_list_item .ui-selected").length == 0) {
                         $(".download_button").css('opacity', '0.1');
                         $(".download_button").css('pointer-events', 'none');
@@ -275,14 +279,14 @@ angular.module('myApp.home', ['ngRoute', 'ngFileUpload', 'ng-context-menu','ui.c
             }
 
         }
-        $scope.upload = function () {
+        $scope.upload = function (upload_path) {
 
             if ($scope.files_to_upload && $scope.files_to_upload.length) {
                 for (var i = 0; i < $scope.files_to_upload.length; i++) {
                     var file = $scope.files_to_upload[i];
                     Upload.upload({
                         url: $globals.backendUrl('file'),
-                        fields: {collectionParentName: $scope.pagingAwareCollectionListing.pagingAwareCollectionListingDescriptor.parentAbsolutePath},
+                        fields: {collectionParentName: upload_path},
                         file: file
                     }).progress(function (evt) {
                         var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
@@ -538,20 +542,7 @@ angular.module('myApp.home', ['ngRoute', 'ngFileUpload', 'ng-context-menu','ui.c
         };
 
 
-        $scope.logout_func = function () {
-            var promise = $http({
-                method: 'POST',
-                url: $globals.backendUrl('logout')
-            }).then(function () {
-                // The then function here is an opportunity to modify the response
-                // The return value gets picked up by the then in the controller.
-                //setTimeout(function () {
-                    $location.path("/login").search({});
-                //}, 0);
-            });
-
-            return promise;
-        };
+        
 
         $scope.green_action_toggle = function ($event) {
             var content = $event.currentTarget.nextElementSibling;
@@ -560,38 +551,7 @@ angular.module('myApp.home', ['ngRoute', 'ngFileUpload', 'ng-context-menu','ui.c
             $(container).toggleClass('green_toggle_container_open');
         };
 
-        var side_nav_toggled = "yes";
-        $scope.side_nav_toggle = function () {
-
-            if (side_nav_toggled == "no") {
-                side_nav_toggled = "yes";
-                $('.side_nav_options').animate({'opacity': '0'});
-                $('#side_nav').addClass('collapsed_nav'); 
-                $('#side_nav').removeClass('uncollapsed_nav');
-                $('#main_contents').addClass('uncollapsed_main_contents');
-                $('#main_contents').removeClass('collapsed_main_contents');
-            } else if (side_nav_toggled == "yes") {
-                side_nav_toggled = "no";
-
-                $('#side_nav').addClass('uncollapsed_nav');
-                $('#side_nav').removeClass('collapsed_nav');
-                $('#main_contents').addClass('collapsed_main_contents');
-                $('#main_contents').removeClass('uncollapsed_main_contents');
-                $('.side_nav_options').animate({'opacity': '1'});
-            }
-        };
-        var toggle_on
-        $scope.side_nav_autotoggle = function (auto_toggle) {
-
-            if (auto_toggle == 'off') {
-                if (side_nav_toggled == "no") {
-                    toggle_on = setTimeout($scope.side_nav_toggle, 1000);
-                }
-            } else if (auto_toggle == 'on') {
-                clearTimeout(toggle_on);
-            }
-        };
-
+        
         /****************************************
          ****  POP UP ACTIONS AND FUNCTIONS  ****
          ****************************************/
@@ -668,34 +628,48 @@ angular.module('myApp.home', ['ngRoute', 'ngFileUpload', 'ng-context-menu','ui.c
                             $(".empty_selection").fadeOut();
                             $(".file_edit_button").css('opacity', '0.1');
                             $(".file_edit_button").css('pointer-events', 'none');
+                            $(".folder_upload_button").css('opacity', '1');
+                            $(".folder_upload_button").css('pointer-events', 'auto');
                             if($(event.target).parents("li").hasClass("data_true")){
                                 $(".file_edit_button").css('opacity', '1');
                                 $(".file_edit_button").css('pointer-events', 'auto');
+                                $(".folder_upload_button").css('opacity', '0.1');
+                                $(".folder_upload_button").css('pointer-events', 'none');
                             };
                         });
                     }
                     if ($(".general_list_item .ui-selected").length > 1) {
                         if(!$(event.target).parents("li").hasClass("ui-selected")){
                             $(".general_list_item .ui-selected").removeClass("ui-selected");
-                            $(event.target).parents("li").addClass("ui-selected","fast",function(){
-                                var result = $("#select-result").empty();
-                                $scope.selected_target = $('.general_list_item .ui-selected').attr("id");
-                                var name_of_selection = "You've selected: " + $('.ui-selected').children('.list_content').children('.data_object').text();
-                                if (name_of_selection == "You've selected: ") {
-                                    var name_of_selection = "You've selected: " + $('.ui-selected').children('.list_content').children('.collection_object').text();
-                                }
+                        $(event.target).parents("li").addClass("ui-selected","fast",function(){
+                            var result = $("#select-result").empty();
+                            $scope.selected_target = $('.general_list_item .ui-selected').attr("id");
+                            var name_of_selection = "You've selected: " + $('.ui-selected').children('.list_content').children('.data_object').text();
+                            if (name_of_selection == "You've selected: ") {
+                                var name_of_selection = "You've selected: " + $('.ui-selected').children('.list_content').children('.collection_object').text();
+                            }
 
-                                result.append(name_of_selection);
-                                $(".download_button").css('opacity','1');
-                                $(".download_button").css('pointer-events', 'auto');
-                                $(".rename_button").css('opacity','1');
-                                $(".rename_button").css('pointer-events', 'auto');
-                                $(".rename_divider").css('opacity','1');
-                                $(".download_divider").css('opacity','1');
-                                $(".tablet_download_button").fadeIn();
-                                $(".tablet_rename_button").fadeIn();
-                                $(".empty_selection").fadeOut();
-                            });
+                            result.append(name_of_selection);
+                            $(".download_button").css('opacity','1');
+                            $(".download_button").css('pointer-events', 'auto');
+                            $(".rename_button").css('opacity','1');
+                            $(".rename_button").css('pointer-events', 'auto');
+                            $(".rename_divider").css('opacity','1');
+                            $(".download_divider").css('opacity','1');
+                            $(".tablet_download_button").fadeIn();
+                            $(".tablet_rename_button").fadeIn();
+                            $(".empty_selection").fadeOut();
+                            $(".file_edit_button").css('opacity', '0.1');
+                            $(".file_edit_button").css('pointer-events', 'none');
+                            $(".folder_upload_button").css('opacity', '1');
+                            $(".folder_upload_button").css('pointer-events', 'auto');
+                            if($(event.target).parents("li").hasClass("data_true")){
+                                $(".file_edit_button").css('opacity', '1');
+                                $(".file_edit_button").css('pointer-events', 'auto');
+                                $(".folder_upload_button").css('opacity', '0.1');
+                                $(".folder_upload_button").css('pointer-events', 'none');
+                            };
+                        });
                         }
                     }
                     break;
@@ -874,6 +848,15 @@ angular.module('myApp.home', ['ngRoute', 'ngFileUpload', 'ng-context-menu','ui.c
         };
         $scope.upload_pop_up_open = function () {
             $scope.pop_up_form = "upload";
+            if ($(".general_list_item .ui-selected").length == 0){
+                $scope.upload_path = $scope.pagingAwareCollectionListing.pagingAwareCollectionListingDescriptor.parentAbsolutePath;
+                $scope.upload_paths_array = $scope.upload_path.split("/"); 
+                $scope.upload_folder_name = $scope.upload_paths_array[$scope.upload_paths_array.length-1]
+            }else{
+                $scope.upload_path = $(".general_list_item .ui-selected").attr("id");
+                $scope.upload_paths_array = $scope.upload_path.split("/"); 
+                $scope.upload_folder_name = $scope.upload_paths_array[$scope.upload_paths_array.length-1]
+            }
             window.scrollTo(0,0);
             $('.pop_up_window').fadeIn(100);
             $('.uploader').fadeIn(100);
@@ -1014,19 +997,7 @@ angular.module('myApp.home', ['ngRoute', 'ngFileUpload', 'ng-context-menu','ui.c
             $(".dark_back_option_double").removeClass("open");
         };
 
-        $scope.selectDashboardView = function () {
-            $log.info("going to Dashboard View");
-            $location.url("/dashboard/");
-        };
-        $scope.selectHierView = function () {
-            $log.info("going to Hierarchical View");
-            $location.url("/home");
-        };
-        $scope.selectSearchView = function () {
-            $log.info("going to Dashboard View");            
-            $location.url("/search/");
-        };
-
+        
 
     }])
     .factory('virtualCollectionsService', ['$http', '$log', 'globals', function ($http, $log, globals) {

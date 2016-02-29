@@ -6,18 +6,18 @@
     *********************************-->
 
     <div class="column_content uploader pop_up_content">
-      <div class="light_header"><img src="images/upload_icon_dark.png"><span>Uploading files to {{pagingAwareCollectionListing.pagingAwareCollectionListingDescriptor.pathComponents[current_collection_index]}}{{dataProfile.childName}}</span><img class="pop_up_close_clear_button right" title="close window" ng-click="pop_up_close()" src="images/close_icon.png"></div>
+      <div class="light_header"><img src="images/upload_icon_dark.png"><span>Uploading files to {{upload_folder_name}}</span><img class="pop_up_close_clear_button right" title="close window" ng-click="pop_up_close()" src="images/close_icon.png"></div>
       
       <div class="upload_container">
         <br>
-        Choose the file(s) you wish to upload to <b>THIS</b> folder.<br>
+        Choose the file(s) you wish to upload.<br>
         <div class="btn btn-default btn-xs" ngf-select ngf-change="stage_files($files)" ngf-multiple="multiple">Browse Files</div>
       </div>
       <div class="upload_container_result">
         <ul></ul>
         <div class="container"><hr class="hr_flat"></div>
         <div class="right container t_right">
-          <div class="btn btn-success" ng-click="upload()">Upload Now</div>
+          <div class="btn btn-success" ng-click="upload(upload_path)">Upload Now</div>
         </div>
         <div class="container"><hr class="hr_flat"></div>
         <div class="container">You can also&nbsp;<div class="btn btn-default btn-xs" ngf-select ngf-change="stage_files($files)" ngf-multiple="multiple">Browse More Files</div>

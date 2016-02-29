@@ -170,40 +170,7 @@ angular.module('myApp.profile', ['ngRoute'])
             });
         };
        $scope.listVirtualCollections();
-       var side_nav_toggled = "yes";
-       $scope.side_nav_toggle = function () {
-
-            if (side_nav_toggled == "no") {
-                side_nav_toggled = "yes";
-                $('.side_nav_options').animate({'opacity': '0'});
-                $('#side_nav').removeClass('uncollapsed_nav');
-                $('#side_nav').addClass('collapsed_nav');
-                $('#main_contents').addClass('uncollapsed_main_contents');
-                $('#main_contents').removeClass('collapsed_main_contents');
-                $('.side_nav_toggle_button').text('>>');
-            } else if (side_nav_toggled == "yes") {
-                side_nav_toggled = "no";
-                $('#side_nav').removeClass('collapsed_nav');
-                $('#side_nav').addClass('uncollapsed_nav');
-                $('#main_contents').addClass('collapsed_main_contents');
-                $('#main_contents').removeClass('uncollapsed_main_contents');
-                $('.side_nav_options').animate({'opacity': '1'});
-                $('.side_nav_toggle_button').text('<<');
-            }
-        };
-        var toggle_on
-        $scope.side_nav_autotoggle = function (auto_toggle) {
-
-            if ( auto_toggle == 'off' ) {    
-              if(side_nav_toggled == "no"){  
-                toggle_on = setTimeout($scope.side_nav_toggle, 1000);
-              }
-            } else if (auto_toggle == 'on' ) {
-              clearTimeout(toggle_on);
-            }
-        };
-
-        
+               
         $scope.$watch('files', function () {
             $scope.upload($scope.files);
         });
@@ -513,6 +480,7 @@ angular.module('myApp.profile', ['ngRoute'])
             });
         };
         $scope.upload_pop_up_open = function(){
+            $scope.upload_folder_name = $scope.dataProfile.childName;
             $scope.pop_up_form = "upload";
             $('.pop_up_window').fadeIn(100);
             $('.uploader').fadeIn(100);
@@ -807,18 +775,7 @@ angular.module('myApp.profile', ['ngRoute'])
             return  $globals.backendUrl('download') + "?path=" + $scope.dataProfile.domainObject.absolutePath;
 
         };
-        $scope.selectDashboardView = function () {
-            $log.info("going to Dashboard View");
-            $location.url("/dashboard/");
-        };
-        $scope.selectHierView = function () {
-            $log.info("going to Hierarchical View");
-            $location.url("/home");
-        };
-        $scope.selectSearchView = function () {
-            $log.info("going to Dashboard View");            
-            $location.url("/search/");
-        };
+        
 
         /**
          * Upon the selection of an element in a breadrumb link, set that as the location of the browser, triggering

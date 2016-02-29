@@ -475,37 +475,7 @@ angular.module('myApp.search', ['ngRoute', 'ngFileUpload', 'ng-context-menu','ui
             $location.search("path", breadcrumbsService.buildPathUpToIndex(index));
 
         };
-        var side_nav_toggled = "yes";
-        $scope.side_nav_toggle = function () {
-
-            if (side_nav_toggled == "no") {
-                side_nav_toggled = "yes";
-                $('.side_nav_options').animate({'opacity': '0'});
-                $('#side_nav').addClass('collapsed_nav'); 
-                $('#side_nav').removeClass('uncollapsed_nav');
-                $('#main_contents').addClass('uncollapsed_main_contents');
-                $('#main_contents').removeClass('collapsed_main_contents');
-            } else if (side_nav_toggled == "yes") {
-                side_nav_toggled = "no";
-
-                $('#side_nav').addClass('uncollapsed_nav');
-                $('#side_nav').removeClass('collapsed_nav');
-                $('#main_contents').addClass('collapsed_main_contents');
-                $('#main_contents').removeClass('uncollapsed_main_contents');
-                $('.side_nav_options').animate({'opacity': '1'});
-            }
-        };
-        var toggle_on
-        $scope.side_nav_autotoggle = function (auto_toggle) {
-
-            if (auto_toggle == 'off') {
-                if (side_nav_toggled == "no") {
-                    toggle_on = setTimeout($scope.side_nav_toggle, 1000);
-                }
-            } else if (auto_toggle == 'on') {
-                clearTimeout(toggle_on);
-            }
-        };
+        
         /**
          * INIT
          */
@@ -528,19 +498,6 @@ angular.module('myApp.search', ['ngRoute', 'ngFileUpload', 'ng-context-menu','ui
             $location.url("/profile/");
             $location.search("path", irodsAbsolutePath);
 
-        }
-
-        $scope.selectDashboardView = function () {
-            $log.info("going to Dashboard View");            
-            $location.url("/dashboard/");
-        }
-        $scope.selectSearchView = function () {
-            $log.info("going to Dashboard View");            
-            $location.url("/search/");
-        }
-        $scope.selectHierView = function () {
-            $log.info("going to Hierarchical View");            
-            $location.url("/home/");
         }
 
     }])

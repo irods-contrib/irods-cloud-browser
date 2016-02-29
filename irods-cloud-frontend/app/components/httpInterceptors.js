@@ -109,8 +109,7 @@ angular.module('httpInterceptorModule', []).factory('myHttpResponseInterceptor',
     }
 
 }])//Http Intercpetor to check auth failures for xhr requests
-    .
-    config(['$httpProvider', function ($httpProvider) {
+    .config(['$httpProvider', function ($httpProvider) {
         $httpProvider.interceptors.push('myHttpResponseInterceptor');
 
         /* configure xsrf token

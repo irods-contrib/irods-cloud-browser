@@ -415,6 +415,9 @@ select{
     -o-transition: all 0.5s ease;
     transition: all 0.5s ease;
 }
+.main_list{
+	padding: 5px 5px 34px 5px;
+}
 .full_column{
 	padding: 5px;
 	position: relative;
@@ -532,7 +535,7 @@ select{
 	position: relative;
     float: left;
     clear: both;
-    width: 100%;
+    width: 500px;
 }
 .full_star, .empty_star{
 	padding: 5px 0px 0px 0px;
@@ -1202,7 +1205,7 @@ input.col-xs-12{
 /* Small devices (tablets, 600px and up) */
 @media screen and (max-width: 1200px){
 
-.light_back_option{
+/*.light_back_option{
 	color:#000;
 	opacity:0.5;
 	height:30px;
@@ -1219,7 +1222,7 @@ input.col-xs-12{
 .login_input{
 	line-height: 30px;
 }
-@media screen and (-webkit-min-device-pixel-ratio:0) {  /*safari and chrome*/
+@media screen and (-webkit-min-device-pixel-ratio:0) {  /*safari and chrome
 .login_input select {
         height:40px;
         line-height:40px;
@@ -1242,13 +1245,13 @@ input.col-xs-12{
 	margin: 2px 0px;
 	font-size: 15px;
 	list-style: none;
-}
+}*/
 .main_wrapper{
 	padding:0px;
 	width:100%;
 	position: relative;
 	float: left;
-	min-width: 992px;
+	min-width: 1200px;
 }
 .desktop_collection_actions{
 	display: none;

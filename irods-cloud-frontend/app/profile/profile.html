@@ -108,12 +108,12 @@
 									 		<div class="caret"></div>
 									 	</div>
 									 	<ul class="dropdown-menu" aria-labelledby="actions_menu">
-										   	<li><a title="Copy File" ng-click="copy_pop_up_open()"><img src="images/dark_copy_icon.png"><span>&nbsp;Copy</span></a></li>
-										   	<li><a title="Move File" ng-click="move_pop_up_open()"><img src="images/dark_move_icon.png"><span>&nbsp;Move</span></a></li>
-										   	<li><a title="Rename File" ng-click="rename_pop_up_open()"><img src="images/dark_rename_icon.png"><span>&nbsp;Rename</span></a></li>
-										   	<li><a title="Edit File" ng-click="editFile(dataProfile.domainObject.absolutePath)"><img src="images/dark_edit_icon.png"><span>&nbsp;Edit</span></a></li>
-										   	<li><a title="Download File" href='{{getDownloadLink()}}'><img src="images/dark_download_icon.png"><span>&nbsp;Download</span></a></li>
-										   	<li><a title="Delete File" ng-click="delete_pop_up_open()"><img src="images/dark_delete_icon.png"><span>&nbsp;Delete</span></a></li>
+										   	<li><a title="Copy File" class="active_option" ng-click="copy_pop_up_open()"><img src="images/dark_copy_icon.png"><span>&nbsp;Copy</span></a></li>
+										   	<li><a title="Move File" class="active_option" ng-click="move_pop_up_open()"><img src="images/dark_move_icon.png"><span>&nbsp;Move</span></a></li>
+										   	<li><a title="Rename File" class="active_option" ng-click="rename_pop_up_open()"><img src="images/dark_rename_icon.png"><span>&nbsp;Rename</span></a></li>
+										   	<li><a title="Edit File" ng-class="dataProfile.mimeType == 'text/plain' || dataProfile.mimeType == 'application/xml' ? 'active_option' : 'inactive_option' " ng-click="editFile(dataProfile.domainObject.absolutePath)"><img src="images/dark_edit_icon.png"><span>&nbsp;Edit</span></a></li>
+										   	<li><a title="Download File" class="active_option" href='{{getDownloadLink()}}'><img src="images/dark_download_icon.png"><span>&nbsp;Download</span></a></li>
+										   	<li><a title="Delete File" class="active_option" ng-click="delete_pop_up_open()"><img src="images/dark_delete_icon.png"><span>&nbsp;Delete</span></a></li>
 									   </ul>
 									 </div>
 
@@ -123,12 +123,12 @@
 									 		<div class="caret"></div>
 									 	</div>
 									 	<ul class="dropdown-menu" aria-labelledby="folder_actions_menu">
-									 		<li><a title="Download Folder" href='{{getDownloadLink()}}'><img src="images/dark_download_icon.png"><span>&nbsp;Download</span></a></li>
-										   	<li><a title="Copy Folder" ng-click="copy_pop_up_open()"><img src="images/dark_copy_icon.png"><span>&nbsp;Copy</span></a></li>
-										   	<li><a title="Move Folder" ng-click="move_pop_up_open()"><img src="images/dark_move_icon.png"><span>&nbsp;Move</span></a></li>
-										   	<li><a title="Rename Folder" ng-click="rename_pop_up_open()"><img src="images/dark_rename_icon.png"><span>&nbsp;Rename</span></a></li>
-										   	<li><a title="Upload Folder" ng-click="upload_pop_up_open()"><img src="images/upload_icon_dark.png"><span>&nbsp;Upload</span></a></li>
-										   	<li><a title="Delete Folder" ng-click="delete_pop_up_open()"><img src="images/dark_delete_icon.png"><span>&nbsp;Delete</span></a></li>
+									 		<li><a title="Download Folder" class="active_option" href='{{getDownloadLink()}}'><img src="images/dark_download_icon.png"><span>&nbsp;Download</span></a></li>
+										   	<li><a title="Copy Folder" class="active_option" ng-click="copy_pop_up_open()"><img src="images/dark_copy_icon.png"><span>&nbsp;Copy</span></a></li>
+										   	<li><a title="Move Folder" class="active_option" ng-click="move_pop_up_open()"><img src="images/dark_move_icon.png"><span>&nbsp;Move</span></a></li>
+										   	<li><a title="Rename Folder" class="active_option" ng-click="rename_pop_up_open()"><img src="images/dark_rename_icon.png"><span>&nbsp;Rename</span></a></li>
+										   	<li><a title="Upload Folder" class="active_option" ng-click="upload_pop_up_open()"><img src="images/upload_icon_dark.png"><span>&nbsp;Upload</span></a></li>
+										   	<li><a title="Delete Folder" class="active_option" ng-click="delete_pop_up_open()"><img src="images/dark_delete_icon.png"><span>&nbsp;Delete</span></a></li>
 									   </ul>
 									 </div>								
 

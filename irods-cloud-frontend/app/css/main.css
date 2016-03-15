@@ -55,7 +55,7 @@ body{
 	height:100%;
 	background: #333;
 	float: left;
-    padding: 55px 0px 0px 5px;
+    padding: 50px 0px 0px 5px;
     position: fixed;
 	color:#fff;
     -webkit-transition: all 0.5s ease;
@@ -68,8 +68,9 @@ body{
 }
 .side_nav_toggle_button{
 	color:#777;
-	padding: 0px 8px 4px;
-	border-bottom: 1px solid rgba(255,255,255,0.2)
+	padding: 5px 8px 5px;
+	border-bottom: 1px solid rgba(255,255,255,0.2);
+	border-top: 1px solid rgba(255,255,255,0.2);
 }
 .side_nav_toggle_button:hover{
 	color:#fff;
@@ -80,6 +81,7 @@ body{
 }
 .single_top{
 	margin-top: 20px;
+	text-align: right;
 }
 .double_top{
 	margin-top: 40px;
@@ -340,6 +342,16 @@ select{
     background: #fff;
     cursor: pointer;
     border: 1px solid #AEAEB0;
+}
+.active_option{
+	opacity: 0.8;
+    pointer-events: auto;
+    cursor: pointer;
+}
+.inactive_option{
+	opacity: 0.1;
+    pointer-events: none;
+    cursor: default;
 }
 .logout:hover{
 	background: #efefef;

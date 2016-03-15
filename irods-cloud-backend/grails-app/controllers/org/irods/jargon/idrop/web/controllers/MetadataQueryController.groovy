@@ -62,8 +62,14 @@ class MetadataQueryController {
 			throw new IllegalArgumentException("missing json body")
 		}
 
+		def vcName = params.uniqueName
+		if (!vcName) {
+			log.info("no vcName provided, will auto-generate")
+			vcName = ""
+		}
+
 		log.error("storing:${jsonObject}")
-		def vcName = metadataQueryService.storeMetadataTempQuery(jsonObject.toString(), irodsAccount)
+		vcName = metadataQueryService.storeMetadataTempQuery(jsonObject.toString(), irodsAccount, vcName)
 		def metadataQueryResponse = new MetadataQueryVcName()
 		metadataQueryResponse.vcName = vcName
 		log.info("response:${metadataQueryResponse}")

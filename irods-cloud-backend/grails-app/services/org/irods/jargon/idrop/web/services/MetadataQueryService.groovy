@@ -65,9 +65,10 @@ class MetadataQueryService {
 	 * Store a query string (a jsonized metadata query) in a temporary virtual collection and get back the name of that vc
 	 * @param metadataQuery <code>String</code> with a json metadata query
 	 * @param irodsAccount
+	 * @param vcName <code>String</code> that is optional (blank if not specified) that will be the unique name.  If not specified, it will be auto-generated.
 	 * @return <code>String</code> with the name of the virtual collection 
 	 */
-	def storeMetadataTempQuery(String metadataQuery, IRODSAccount irodsAccount) {
+	def storeMetadataTempQuery(String metadataQuery, IRODSAccount irodsAccount, String vcName) {
 		log.info("storeMetadataTempQuery")
 		if (!metadataQuery) {
 			throw new IllegalArgumentException("Null or empty metadataQuery")
@@ -81,6 +82,9 @@ class MetadataQueryService {
 		log.info("try to deserialize as a validation step")
 		MetadataQuery validateMetadataQuery = metadataQueryJsonService.metadataQueryFromJson(metadataQuery);
 		MetadataQueryVirtualCollection metadataQueryVirtualCollection = new MetadataQueryVirtualCollection(metadataQuery);
+		if (vcName) {
+			metadataQueryVirtualCollection.uniqueName = vcName
+		}
 		def metadataQueryMaintenanceService = new MetadataQueryMaintenanceService(irodsAccessObjectFactory, irodsAccount)
 		def temporaryQueryService = jargonServiceFactoryService.instanceTemporaryQueryService(irodsAccount)
 		return temporaryQueryService.nameAndStoreTemporaryQuery(metadataQueryVirtualCollection, irodsAccount.getUserName(), metadataQueryMaintenanceService)

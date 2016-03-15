@@ -4,6 +4,7 @@ import grails.test.mixin.*
 
 import org.codehaus.groovy.grails.plugins.testing.GrailsMockHttpSession
 import org.irods.jargon.core.connection.IRODSAccount
+import org.irods.jargon.core.pub.CollectionAO
 import org.irods.jargon.core.pub.IRODSAccessObjectFactory
 import org.irods.jargon.core.query.PagingAwareCollectionListing
 import org.irods.jargon.idrop.web.services.VirtualCollectionService.ListingType
@@ -70,6 +71,8 @@ class VirtualCollectionServiceSpec  extends Specification  {
 		IRODSAccount irodsAccount = IRODSAccount.instance("host", 1247, "user", "password", "", "zone", "")
 		String uniqueName = "root"
 		def irodsAccessObjectFactory = mockFor(IRODSAccessObjectFactory)
+		def collectionAO = mockFor(CollectionAO)
+		irodsAccessObjectFactory.demand.getCollectionAO{ia -> return collectionAO.createMock()}
 		irodsAccessObjectFactory.demand.getEnvironmentalInfoAO{ irodsAcct -> return envMock }
 		def iafMock = irodsAccessObjectFactory.createMock()
 		PagingAwareCollectionListing listing = new PagingAwareCollectionListing()
@@ -77,7 +80,6 @@ class VirtualCollectionServiceSpec  extends Specification  {
 		def collectionBasedVirtualCollectionExecutor = mockFor(CollectionBasedVirtualCollectionExecutor)
 		collectionBasedVirtualCollectionExecutor.demand.queryAll{return listing}
 		def execMock = collectionBasedVirtualCollectionExecutor.createMock()
-
 
 		def virtualCollectionFactory = mockFor(VirtualCollectionFactoryImpl)
 		virtualCollectionFactory.demand.instanceExecutorBasedOnVirtualCollection{vc -> return execMock}

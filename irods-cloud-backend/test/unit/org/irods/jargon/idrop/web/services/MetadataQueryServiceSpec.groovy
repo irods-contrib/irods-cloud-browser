@@ -75,7 +75,7 @@ class MetadataQueryServiceSpec extends Specification {
 
 		when:
 
-		def actual = metadataQueryService.storeMetadataTempQuery(testQueryJson, irodsAccount)
+		def actual = metadataQueryService.storeMetadataTempQuery(testQueryJson, irodsAccount, "")
 
 		then:
 		actual != null

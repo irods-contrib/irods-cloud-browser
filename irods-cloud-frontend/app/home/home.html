@@ -6,15 +6,15 @@
 	<div class="one_column ">
 		<div class="column_content">
 			<div class="light_header"><span>My Folders</span></div>
-			<ul >
-			    <li class="light_back_option" ng-repeat="virtualCollection in virtualCollections.userHomeCollections" ng-click="selectVirtualCollection(virtualCollection.uniqueName, '')">
+			<ul>
+			    <li class="light_back_option" ng-class="selectedVc.data.uniqueName == virtualCollection.uniqueName ? 'selected' : '' " ng-repeat="virtualCollection in virtualCollections.userHomeCollections" ng-click="selectVirtualCollection(virtualCollection.uniqueName, '')">
 			            <span><span class="{{virtualCollection.i18icon|iconic}}"></span><span>{{virtualCollection.uniqueName}}</span></span>
 			    </li>
 			</ul>
 			<br>
 			<div class="light_header"><span>Recent Queries</span></div>
 			<ul class="recent_queries_container">
-			    <li class="light_back_option" ng-repeat="virtualCollection in virtualCollections.userRecentQueries" ng-click="selectVirtualCollection(virtualCollection.uniqueName, '')">
+			    <li class="light_back_option" ng-class="selectedVc.data.uniqueName == virtualCollection.uniqueName ? 'selected' : '' " ng-repeat="virtualCollection in virtualCollections.userRecentQueries" ng-click="selectVirtualCollection(virtualCollection.uniqueName, '')">
 			            <span title="{{virtualCollection.uniqueName}}"><span class="{{virtualCollection.i18icon|iconic}}"></span><span>{{virtualCollection.uniqueName}}</span></span>
 			    </li>
 			</ul>

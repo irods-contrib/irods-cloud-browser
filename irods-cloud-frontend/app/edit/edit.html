@@ -33,7 +33,7 @@
 				</div>
 					
 			</div>
-			<div ng-show="dataProfile.mimeType=='text/plain'">
+			<div ng-show="dataProfile.mimeType =='text/plain' || dataProfile.mimeType =='application/xml'">
 				<div class="themed_header"><img src="images/edit_icon.png">&nbsp;Editing {{dataProfile.childName}}</div>
 				<div class="edit_header">							
 						<div class="edit_actions_container">
@@ -48,7 +48,7 @@
 					<div ui-codemirror ui-codemirror-opts="editorOptions" ng-model="file_content" class="text_body"></div>
 				</div>
 			</div>
-			<div ng-show="dataProfile.mimeType=='application/octet-stream'">
+			<div ng-show="dataProfile.mimeType=='application/irods-rule'">
 				<div class="themed_header"><img src="images/edit_icon.png">&nbsp;Editing/Executing {{dataProfile.childName}}</div>
 				<div class="edit_header">							
 						<div class="edit_actions_container">

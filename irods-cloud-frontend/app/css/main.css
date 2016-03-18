@@ -63,9 +63,6 @@ body{
     -o-transition: all 0.5s ease;
     transition: all 0.5s ease;
 }
-.recent_queries_container{
-	border:2px solid #00A9C2;
-}
 .side_nav_toggle_button{
 	color:#777;
 	padding: 5px 8px 5px;
@@ -236,7 +233,7 @@ body{
 .light_back_option.selected,.light_back_option_even.selected{
 	color:#fff;
 	opacity:1;
-	background: #00A9C2;
+	background: rgba(0,169,194,0.6);
 }
 .themed_header{
 	color: #fff;

@@ -330,13 +330,22 @@ angular.module('myApp.search', ['ngRoute', 'ngFileUpload', 'ng-context-menu','ui
                     method: 'POST',
                     url: $globals.backendUrl('metadataQuery'),
                     data:query_val,
-                    dataType: "json"
+                    dataType: "json",
+                    params:{uniqueName:'han_solo'}
                 }).success(function (data) {
                     $scope.selectVirtualCollection(data.vcName,"");   
                 })         
         };
-
-
+        $scope.get_query_params = function (){
+            return $http({
+                    method: 'GET',
+                    url: $globals.backendUrl('metadataQuery'),
+                    params: {uniqueName:'han_solo'}
+                }).success(function (data) {
+                    $scope.query_params = data;
+                })
+        }
+        $scope.get_query_params();
         $scope.remove_and_avu = function(){
             $(event.target).closest(".and_param").remove();
         };

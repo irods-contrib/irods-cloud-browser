@@ -9,7 +9,6 @@ package org.irods.jargon.idrop.web.services
 import javax.servlet.http.HttpSession
 
 import org.irods.jargon.core.connection.IRODSAccount
-import org.irods.jargon.core.exception.DataNotFoundException
 import org.irods.jargon.core.pub.IRODSAccessObjectFactory
 import org.irods.jargon.mdquery.MetadataQuery
 import org.irods.jargon.mdquery.serialization.MetadataQueryJsonService
@@ -52,15 +51,14 @@ class MetadataQueryService {
 
 		def query = VirtualCollectionProfileUtils.findVirtualCollectionInTempQueries(queryName, vcProfile)
 		if (query == null) {
-			log.error("query not found")
-			throw new DataNotFoundException("no query found")
-		}
-		if (!(query instanceof MetadataQueryVirtualCollection)) {
+			log.error("query not found.. return empty")
+			return new MetadataQuery()
+		} else if (!(query instanceof MetadataQueryVirtualCollection)) {
 			log.error("query is not a metadata query")
 			throw new VirtualCollectionException("retrieved query is not a metadata query")
+		} else {
+			return query
 		}
-
-		return query.queryString
 	}
 
 	/**

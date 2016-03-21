@@ -6,6 +6,8 @@ package org.irods.jargon.idrop.web.services
  * Note that 'execution' in this system means storage as a temporary virtual collection for execution in the
  * browse view, so there is actually a disintermediation.
  */
+import javax.servlet.http.HttpSession
+
 import org.irods.jargon.core.connection.IRODSAccount
 import org.irods.jargon.core.exception.DataNotFoundException
 import org.irods.jargon.core.pub.IRODSAccessObjectFactory
@@ -33,7 +35,7 @@ class MetadataQueryService {
 	 * @param irodsAccount {@link IRODSAccount} for the user
 	 * @return JSON string that is an {@link MetadataQuery} or <code>null</code> if not found
 	 */
-	def retrieveMetadataQuery(String queryName, IRODSAccount irodsAccount) {
+	def retrieveMetadataQuery(String queryName, IRODSAccount irodsAccount, HttpSession theSession) {
 		log.info("retrieveMetadataQuery")
 		if (!queryName) {
 			throw new IllegalArgumentException("Null queryName")
@@ -46,7 +48,7 @@ class MetadataQueryService {
 
 		log.info("get user vc profile")
 
-		def vcProfile = virtualCollectionService.virtualCollectionHomeListingForUser(irodsAccount.getUserName(), irodsAccount)
+		def vcProfile = virtualCollectionService.virtualCollectionHomeListingForUser(irodsAccount, theSession)
 
 		def query = VirtualCollectionProfileUtils.findVirtualCollectionInTempQueries(queryName, vcProfile)
 		if (query == null) {

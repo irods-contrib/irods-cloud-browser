@@ -2,6 +2,8 @@ package org.irods.jargon.idrop.web.services
 
 import grails.test.mixin.*
 
+import javax.servlet.http.HttpSession
+
 import org.irods.jargon.core.connection.IRODSAccount
 import org.irods.jargon.core.pub.CollectionAO
 import org.irods.jargon.core.pub.IRODSAccessObjectFactory
@@ -35,10 +37,11 @@ class MetadataQueryServiceSpec extends Specification {
 		def metadataQueryService = new MetadataQueryService()
 		metadataQueryService.virtualCollectionService = virtualCollectionService.createMock()
 		metadataQueryService.irodsAccessObjectFactory = irodsAccessObjectFactory.createMock()
+		def session = mockFor(HttpSession)
 
 		when:
 
-		def actual = metadataQueryService.retrieveMetadataQuery(name, irodsAccount)
+		def actual = metadataQueryService.retrieveMetadataQuery(name, irodsAccount, session.createMock())
 
 		then:
 		actual != null

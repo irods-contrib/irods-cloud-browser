@@ -41,7 +41,7 @@ class MetadataQueryController {
 			throw new IllegalArgumentException("uniqueName is missing")
 		}
 
-		return metadataQueryService.retrieveMetadataQuery(uniqueName, irodsAccount)
+		return metadataQueryService.retrieveMetadataQuery(uniqueName, irodsAccount, session)
 	}
 
 	/**

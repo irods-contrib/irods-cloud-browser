@@ -23,7 +23,6 @@ angular.module('globalsModule', [])
             $log.info("computed URL:" + myUrl);
             return myUrl;
         };
-
         /* ||||||||||||||||||||||||||||||||||| */
         /* ||||||||  SIDE NAV ACTIONS  ||||||| */
         /* ||||||||||||||||||||||||||||||||||| */
@@ -36,12 +35,30 @@ angular.module('globalsModule', [])
             $log.info("going to Hierarchical View");
             $location.url("/home");
         };
-        $rootScope.selectSearchView = function () {
+        $rootScope.selectSearchView = function (query_name) {
+          if (!query_name){
+            var query_id = uuid.v1();
+            alert(query_id);
             $log.info("going to Dashboard View");            
-            $location.url("/search/");
+            $location.url("/search/?query_id="+query_id);
+          }else{
+            $log.info("going to Dashboard View");            
+            $location.url("/search/?query_id="+query_name);
+          }
+            
         };
-
-
+        $rootScope.get_query_params = function (query_name){
+            return $http({
+                    method: 'GET',
+                    url: $globals.backendUrl('metadataQuery'),
+                    params: {uniqueName:query_name}
+                }).success(function (data) {
+                    $scope.query_vc = data;
+                    var param_string = $scope.query_vc.queryString;
+                    $scope.query_params =  JSON.parse(param_string);
+                    $scope.search_objs = "BOTH";
+                })
+        }
         var side_nav_toggled = "yes";
         $rootScope.side_nav_toggle = function () {
 

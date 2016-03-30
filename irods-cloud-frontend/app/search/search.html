@@ -11,34 +11,63 @@
 					<div>
 						<b>*&nbsp;Search for:</b>
 						<br>
-						<select style="margin: 0px 0px 10px;height: 26px;" id="search_objs" ng-model="search_objs">
-							<option value="OBJ"><b>Files</b></option>
-							<option value="COLLECTION"><b>Folders</b></option>
-							<option value="BOTH"><b>Files and Folders</b></option>
+						<select style="margin: 0px 0px 10px;height: 26px;" id="search_objs" >
+							<option selected="{{query_params.queryType}} == 'OBJ' ? 'selected' : '' " value="OBJ"><b>Files</b></option>
+							<option selected="{{query_params.queryType}} == 'COLLECTION' ? 'selected' : '' " value="COLLECTION"><b>Folders</b></option>
+							<option selected="{{query_params.queryType}} == 'BOTH' ? 'selected' : '' " value="BOTH"><b>Files and Folders</b></option>
 						</select>
 					</div>
-					<div class="and_param">
+                    <div ng-show="!query_vc.uniqueName" class="and_param">
+                        <div style="position:relative;float:left;">
+                            <b>*&nbsp;Attribute Name</b><br>
+                            <input type="text" value="" class="attr_name"/>
+                        </div>
+
+                        <div style="position:relative;float:left;padding:12px 12px 0px 12px;">
+                            <select class="form-control attr_eval">                             
+                                <option selected="" value="LESS"><b><</b></option>
+                                <option selected="" value="MORE"><b>></b></option>
+                                <option selected="" value="EQUAL"><b>=</b></option>
+                            </select>
+                        </div>
+
+                        <div style="position:relative;float:left;">
+                            <b>*&nbsp;Attribute Value</b><br>
+                            <input type="text" value="" class="attr_val"/>
+                        </div>
+                        <div style="position:relative;float:right;padding:16px 12px 0px 12px;">
+                            <div title="Adds another pair of parameters to refine search" add-attr class="btn btn-sm btn-default">and</div>
+                        </div>
+                    </div>
+					<div ng-repeat='param in query_params.metadataQueryElements' class="and_param">
+                        <div ng-show="!$first" style="width: 409px;position: relative;text-align: center;margin: 13px 0px;float: left;border-bottom: 1px solid #bbb;color: #999;">
+                            <b>and</b>
+                        </div>
 						<div style="position:relative;float:left;">
 							<b>*&nbsp;Attribute Name</b><br>
-							<input type="text" value="" class="attr_name"/>
+							<input type="text" value="{{param.attributeName}}" class="attr_name"/>
 						</div>
 
 						<div style="position:relative;float:left;padding:12px 12px 0px 12px;">
-							<select class="form-control attr_eval">
-								<option value="EQUAL"><b>=</b></option>
-								<option value="LESS"><b><</b></option>
-								<option value="MORE"><b>></b></option>
+							<select class="form-control attr_eval">								
+								<option selected="{{param.operator}} == 'LESS' ? 'selected' : '' " value="LESS"><b><</b></option>
+								<option selected="{{param.operator}} == 'MORE' ? 'selected' : '' " value="MORE"><b>></b></option>
+                                <option selected="{{param.operator}} == 'EQUAL' ? 'selected' : '' " value="EQUAL"><b>=</b></option>
 							</select>
 						</div>
 
 						<div style="position:relative;float:left;">
 							<b>*&nbsp;Attribute Value</b><br>
-							<input type="text" value="" class="attr_val"/>
+							<input type="text" value="{{param.attributeValue[0]}}" class="attr_val"/>
 						</div>
-						
-						<div style="position:relative;float:right;padding:16px 12px 0px 12px;">
-							<div title="Adds another pair of parameters to refine search" add-attr class="btn btn-sm btn-default">and</div>
-						</div>
+                        <div ng-show="!$first" style="position:relative;float:left;padding:22px 0px 0px 12px;">
+                            <div title="Remove this line of parameters" ng-click="remove_and_avu()">
+                                <img class="pop_up_close_clear_button" src="images/close_icon.png">
+                            </div>
+                        </div>
+                        <div ng-show="$first" style="position:relative;float:right;padding:16px 12px 0px 12px;">
+                            <div title="Adds another pair of parameters to refine search" add-attr class="btn btn-sm btn-default">and</div>
+                        </div>
 					</div>
 				</div>
 
@@ -48,6 +77,4 @@
 		</div>
 	</div>
 </div>
-
-
 

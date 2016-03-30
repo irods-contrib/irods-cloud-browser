@@ -20,7 +20,7 @@ time, mark, audio, video {
 }
 body{
 	background: #EAEAEA;
-	font-family: FontAwesome;
+	font-family: proxima-nova, "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 #main_contents{
 	position: relative;
@@ -1160,7 +1160,7 @@ input.col-xs-12{
 .selection_actions_container{
 	float:right;
 	height: 22px;
-	width:785px;
+	width:685px;
 	z-index: 10;
     position: relative;
 }
@@ -1209,7 +1209,19 @@ input.col-xs-12{
                                  BEGIN MEDIA QUERIES
 
 *******************************************************************************/
+@media screen and (max-width: 1300px){
 
+	.desktop_collection_actions{
+		display: none;
+	}
+	.tablet_collection_actions{
+		display: block;
+	}
+	.selection_actions_container{
+		width: 200px;
+	}
+
+}
 
 /* Small devices (tablets, 600px and up) */
 @media screen and (max-width: 1200px){
@@ -1261,12 +1273,6 @@ input.col-xs-12{
 	position: relative;
 	float: left;
 	min-width: 1200px;
-}
-.desktop_collection_actions{
-	display: none;
-}
-.tablet_collection_actions{
-	display: block;
 }
 .collapsed_nav{
 	width:52px;

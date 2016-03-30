@@ -297,18 +297,24 @@ angular.module('myApp.search', ['ngRoute', 'ngFileUpload', 'ng-context-menu','ui
                 })
         };
         $scope.query_search = function (){
-            if($scope.search_objs == null){
+            if($('#search_objs').val() == null){
                 MessageService.danger("Please choose what you want to search for");
                 $("#search_objs").focus();
                 return;
             };
-            var query_val = '{"targetZone":"","queryType":"'+ $scope.search_objs +'","pathHint":"","metadataQueryElements":[';
+            var query_val = '{"targetZone":"","queryType":"'+ $('#search_objs').val() +'","pathHint":"","metadataQueryElements":[';
             var attr_names = [];
-            var attr_names = $(".attr_name");
+            $(".attr_name").each(function() {
+                attr_names.push($(this).val());
+            });
             var attr_vals = [];
-            var attr_vals = $(".attr_val");
+            $(".attr_val").each(function() {
+                attr_vals.push($(this).val());
+            });
             var attr_evals = [];
-            var attr_evals = $(".attr_eval");
+            $(".attr_eval").each(function() {
+                attr_evals.push($(this).val());
+            });
 
             for (var i = 0; i < attr_names.length; i++) {
 
@@ -321,31 +327,33 @@ angular.module('myApp.search', ['ngRoute', 'ngFileUpload', 'ng-context-menu','ui
                     return;
                 }
 
-                query_val += '{"attributeName":"'+attr_names[i].value+'","operator":"'+attr_evals[i].value+'","attributeValue":["'+attr_vals[i].value+'"],"connector":"AND"},';
+                query_val += '{"attributeName":"'+attr_names[i]+'","operator":"'+attr_evals[i]+'","attributeValue":["'+attr_vals[i]+'"],"connector":"AND"},';
             }
             query_val += ']}';
-            
-
             return $http({
                     method: 'POST',
                     url: $globals.backendUrl('metadataQuery'),
                     data:query_val,
                     dataType: "json",
-                    params:{uniqueName:'han_solo'}
+                    params:{uniqueName:$scope.url_query_name.query_id}
                 }).success(function (data) {
                     $scope.selectVirtualCollection(data.vcName,"");   
                 })         
         };
-        $scope.get_query_params = function (){
+        $scope.url_query_name = $location.search();
+        $scope.get_query_params = function (query_name){
             return $http({
                     method: 'GET',
                     url: $globals.backendUrl('metadataQuery'),
-                    params: {uniqueName:'han_solo'}
+                    params: {uniqueName:query_name}
                 }).success(function (data) {
-                    $scope.query_params = data;
+                    $scope.query_vc = data;
+                    var param_string = $scope.query_vc.queryString;
+                    $scope.query_params = JSON.parse(param_string);
+                    
                 })
         }
-        $scope.get_query_params();
+        $scope.get_query_params($scope.url_query_name.query_id);
         $scope.remove_and_avu = function(){
             $(event.target).closest(".and_param").remove();
         };

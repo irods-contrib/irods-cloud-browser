@@ -4,6 +4,7 @@ import grails.test.mixin.*
 
 import javax.servlet.http.HttpSession
 
+import org.codehaus.groovy.grails.plugins.testing.GrailsMockHttpSession
 import org.irods.jargon.core.connection.IRODSAccount
 import org.irods.jargon.core.pub.CollectionAO
 import org.irods.jargon.core.pub.IRODSAccessObjectFactory
@@ -75,10 +76,12 @@ class MetadataQueryServiceSpec extends Specification {
 			return temporaryQueryServiceMock.createMock()
 		}
 		metadataQueryService.jargonServiceFactoryService = jargonServiceFactory.createMock()
+		def sess = new GrailsMockHttpSession()
+
 
 		when:
 
-		def actual = metadataQueryService.storeMetadataTempQuery(testQueryJson, irodsAccount, "")
+		def actual = metadataQueryService.storeMetadataTempQuery(testQueryJson, irodsAccount, "", sess)
 
 		then:
 		actual != null

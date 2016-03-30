@@ -69,12 +69,10 @@ class MetadataQueryController {
 		}
 
 		log.error("storing:${jsonObject}")
-		vcName = metadataQueryService.storeMetadataTempQuery(jsonObject.toString(), irodsAccount, vcName)
+		vcName = metadataQueryService.storeMetadataTempQuery(jsonObject.toString(), irodsAccount, vcName, session)
 		def metadataQueryResponse = new MetadataQueryVcName()
 		metadataQueryResponse.vcName = vcName
 		log.info("response:${metadataQueryResponse}")
-		//FIXME: think of better way to directly update the cache
-		session.virtualCollections = null
 
 		render metadataQueryResponse as JSON
 	}

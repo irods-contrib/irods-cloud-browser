@@ -68,7 +68,7 @@ class MetadataQueryService {
 	 * @param vcName <code>String</code> that is optional (blank if not specified) that will be the unique name.  If not specified, it will be auto-generated.
 	 * @return <code>String</code> with the name of the virtual collection 
 	 */
-	def storeMetadataTempQuery(String metadataQuery, IRODSAccount irodsAccount, String vcName) {
+	def storeMetadataTempQuery(String metadataQuery, IRODSAccount irodsAccount, String vcName, HttpSession theSession) {
 		log.info("storeMetadataTempQuery")
 		if (!metadataQuery) {
 			throw new IllegalArgumentException("Null or empty metadataQuery")
@@ -87,6 +87,7 @@ class MetadataQueryService {
 		}
 		def metadataQueryMaintenanceService = new MetadataQueryMaintenanceService(irodsAccessObjectFactory, irodsAccount)
 		def temporaryQueryService = jargonServiceFactoryService.instanceTemporaryQueryService(irodsAccount)
+		theSession.virtualCollections = null
 		return temporaryQueryService.nameAndStoreTemporaryQuery(metadataQueryVirtualCollection, irodsAccount.getUserName(), metadataQueryMaintenanceService)
 	}
 }

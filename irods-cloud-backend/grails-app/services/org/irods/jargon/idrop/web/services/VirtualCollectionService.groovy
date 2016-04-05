@@ -94,6 +94,7 @@ class VirtualCollectionService {
 
 	}
 
+
 	/**
 	 * Given a virtual collection type, generate a listing of data for display, incorporating a path if the virtual collection supports subpaths
 	 * @param vcName

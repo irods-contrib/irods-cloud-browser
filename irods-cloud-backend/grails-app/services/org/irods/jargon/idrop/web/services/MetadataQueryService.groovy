@@ -12,9 +12,9 @@ import org.irods.jargon.core.connection.IRODSAccount
 import org.irods.jargon.core.pub.IRODSAccessObjectFactory
 import org.irods.jargon.mdquery.MetadataQuery
 import org.irods.jargon.mdquery.serialization.MetadataQueryJsonService
+import org.irods.jargon.vircoll.CollectionTypes
 import org.irods.jargon.vircoll.VirtualCollectionProfileUtils
 import org.irods.jargon.vircoll.exception.VirtualCollectionException
-import org.irods.jargon.vircoll.types.MetadataQueryMaintenanceService
 import org.irods.jargon.vircoll.types.MetadataQueryVirtualCollection
 
 class MetadataQueryService {
@@ -32,6 +32,7 @@ class MetadataQueryService {
 	 * Get the metadata query with the given unique name, note that a {@link DataNotFoundException} exception is thrown if the given query cannot be found
 	 * @param queryName <code>String</code> with the unique name for the query
 	 * @param irodsAccount {@link IRODSAccount} for the user
+	 * @param theSession {@link HttpSession} that holds a cache of vcs
 	 * @return JSON string that is an {@link MetadataQuery} or <code>null</code> if not found
 	 */
 	def retrieveMetadataQuery(String queryName, IRODSAccount irodsAccount, HttpSession theSession) {
@@ -62,12 +63,91 @@ class MetadataQueryService {
 	}
 
 	/**
-	 * Store a query string (a jsonized metadata query) in a temporary virtual collection and get back the name of that vc
+	 * Add or update metadata query
+	 * @param uniqueName <code>String</code> with the name of the VC to delete
+	 * @param theSession {@link HttpSession} that holds a cache of vcs
+	 * @return
+	 */
+	def storeMetadataQuery(MetadataQuery metadataQuery, CollectionTypes collectionType, HttpSession theSession) {
+		log.info("deleteVirtualCollection")
+		if (!metadataQuery) {
+			throw new IllegalArgumentException("missing metadataQuery")
+		}
+		if (!theSession) {
+			throw new IllegalArgumentException("missing session")
+		}
+
+
+		log.info("storing metadata query:${metadataQuery}")
+		def metadataQueryMaintenanceService = jargonServiceFactoryService.instanceMetadataQueryMaintenanceService(irodsAccount)
+
+		log.info("seeing if the collection exists...")
+
+
+
+
+
+		theSession.virtualCollections = null
+		log.info("delete done")
+	}
+
+
+	/**
+	 * Delete the metadata query
+	 * @param uniqueName <code>String</code> with the name of the VC to delete
+	 * @param theSession {@link HttpSession} that holds a cache of vcs
+	 * @return
+	 */
+	def deleteMetadataQuery(String uniqueName, HttpSession theSession) {
+		log.info("deleteVirtualCollection")
+		if (!uniqueName) {
+			throw new IllegalArgumentException("missing uniqueName")
+		}
+		if (!theSession) {
+			throw new IllegalArgumentException("missing session")
+		}
+
+		log.info("delete vc with uniqueName:${uniqueName}")
+		def metadataQueryMaintenanceService = jargonServiceFactoryService.instanceMetadataQueryMaintenanceService(irodsAccount)
+		metadataQueryMaintenanceService.deleteVirtualCollection(uniqueName)
+		theSession.virtualCollections = null
+		log.info("delete done")
+	}
+
+	/**
+	 * Move a collection from one category to another
+	 * @param uniqueName <code>String</code> 
+	 * @param collectionType
+	 * @param theSession
+	 * @return
+	 */
+	def recategorizeQuery(String uniqueName,CollectionTypes collectionType, HttpSession theSession) {
+		log.info("recategorizeQuery()")
+		if (!uniqueName) {
+			throw new IllegalArgumentException("missing uniqueName")
+		}
+		if (!theSession) {
+			throw new IllegalArgumentException("missing session")
+		}
+
+		log.info("recategorize vc with uniqueName:${uniqueName} to type: ${collectionType}")
+		def metadataQueryMaintenanceService = jargonServiceFactoryService.instanceMetadataQueryMaintenanceService(irodsAccount)
+		metadataQueryMaintenanceService.reclassifyVirtualCollection(collectionType, uniqueName)
+		log.info("reclassified collection!")
+	}
+
+
+
+	/**
+	 * Store a query string (a jsonized metadata query) in a temporary virtual collection and get back the name of that vc. 
 	 * @param metadataQuery <code>String</code> with a json metadata query
 	 * @param irodsAccount
 	 * @param vcName <code>String</code> that is optional (blank if not specified) that will be the unique name.  If not specified, it will be auto-generated.
+	 * @param theSession {@link HttpSession} that holds a cache of vcs
 	 * @return <code>String</code> with the name of the virtual collection 
+	 * @deprecated this needs to go away because it assumes it's a temp query, need an add and an update
 	 */
+
 	def storeMetadataTempQuery(String metadataQuery, IRODSAccount irodsAccount, String vcName, HttpSession theSession) {
 		log.info("storeMetadataTempQuery")
 		if (!metadataQuery) {
@@ -85,9 +165,9 @@ class MetadataQueryService {
 		if (vcName) {
 			metadataQueryVirtualCollection.uniqueName = vcName
 		}
-		def metadataQueryMaintenanceService = new MetadataQueryMaintenanceService(irodsAccessObjectFactory, irodsAccount)
+		def metadataQueryMaintenanceService = jargonServiceFactoryService.instanceMetadataQueryMaintenanceService(irodsAccount)
 		def temporaryQueryService = jargonServiceFactoryService.instanceTemporaryQueryService(irodsAccount)
 		theSession.virtualCollections = null
-		return temporaryQueryService.nameAndStoreTemporaryQuery(metadataQueryVirtualCollection, irodsAccount.getUserName(), metadataQueryMaintenanceService)
+		return temporaryQueryService.addOrUpdateTemporaryQuery(metadataQueryVirtualCollection, irodsAccount.getUserName(), metadataQueryMaintenanceService)
 	}
 }

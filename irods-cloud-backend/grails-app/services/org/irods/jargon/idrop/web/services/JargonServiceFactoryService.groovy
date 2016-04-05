@@ -10,6 +10,7 @@ import org.irods.jargon.usertagging.starring.IRODSStarringServiceImpl
 import org.irods.jargon.vircoll.impl.TemporaryQueryServiceImpl
 import org.irods.jargon.vircoll.impl.VirtualCollectionDiscoveryServiceImpl
 import org.irods.jargon.vircoll.impl.VirtualCollectionFactoryImpl
+import org.irods.jargon.vircoll.types.MetadataQueryMaintenanceService
 import org.irods.jargon.zipservice.api.JargonZipServiceImpl
 import org.irods.jargon.zipservice.api.ZipServiceConfiguration
 
@@ -98,5 +99,14 @@ class JargonServiceFactoryService {
 	 */
 	def instanceRuleCompositionService(IRODSAccount irodsAccount) {
 		return new RuleCompositionServiceImpl(irodsAccessObjectFactory, irodsAccount)
+	}
+
+	/**
+	 * Obtain a service to maintain metadata queries
+	 * @param irodsAccount
+	 * @return
+	 */
+	def instanceMetadataQueryMaintenanceService(IRODSAccount irodsAccount) {
+		return new MetadataQueryMaintenanceService(irodsAccessObjectFactory, irodsAccount)
 	}
 }

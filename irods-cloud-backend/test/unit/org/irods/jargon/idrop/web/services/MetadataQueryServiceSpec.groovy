@@ -12,6 +12,7 @@ import org.irods.jargon.mdquery.MetadataQuery
 import org.irods.jargon.mdquery.serialization.MetadataQueryJsonService
 import org.irods.jargon.vircoll.TemporaryQueryService
 import org.irods.jargon.vircoll.UserVirtualCollectionProfile
+import org.irods.jargon.vircoll.types.MetadataQueryMaintenanceService
 import org.irods.jargon.vircoll.types.MetadataQueryVirtualCollection
 
 import spock.lang.Specification
@@ -38,7 +39,11 @@ class MetadataQueryServiceSpec extends Specification {
 		def metadataQueryService = new MetadataQueryService()
 		metadataQueryService.virtualCollectionService = virtualCollectionService.createMock()
 		metadataQueryService.irodsAccessObjectFactory = irodsAccessObjectFactory.createMock()
-		def session = mockFor(HttpSession)
+
+		def metadataQueryMaintenanceService = mockFor(MetadataQueryMaintenanceService)
+		metadataQueryMaintenanceService.demand.
+
+				def session = mockFor(HttpSession)
 
 		when:
 

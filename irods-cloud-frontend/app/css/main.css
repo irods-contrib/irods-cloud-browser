@@ -917,6 +917,11 @@ input.col-xs-12{
 	margin: 0px;
 	padding: 0px;
 }
+.left{
+	position: relative;
+	float: left;
+	margin: 0px 15px 10px 0px;
+}
 .just_right{
 	position: relative;
 	float: right;
@@ -996,6 +1001,9 @@ input.col-xs-12{
 }
 .side_nav_option:hover{
 	color: #fff;
+}
+.search_path{
+	width:98%;
 }
 .dark_back_option_double{
 	color: #777;

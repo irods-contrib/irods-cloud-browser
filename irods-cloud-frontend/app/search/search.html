@@ -9,15 +9,29 @@
 			<div class="two_column search_body">
 				<div id="query_container">
 					<div>
-						<b>*&nbsp;Search for:</b>
-						<br>
-						<select style="margin: 0px 0px 10px;height: 26px;" id="search_objs" >
-							<option selected="{{query_params.queryType}} == 'OBJ' ? 'selected' : '' " value="OBJ"><b>Files</b></option>
-							<option selected="{{query_params.queryType}} == 'COLLECTION' ? 'selected' : '' " value="COLLECTION"><b>Folders</b></option>
-							<option selected="{{query_params.queryType}} == 'BOTH' ? 'selected' : '' " value="BOTH"><b>Files and Folders</b></option>
-						</select>
+						Fill the form below to define your search:
 					</div>
-                    <div ng-show="!query_vc.uniqueName" class="and_param">
+                    <hr>
+                    <div class="left col-xs-12" title="This is the name that will be displayed on your navigation bar">
+                        <b>*&nbsp;Search name:</b>
+                        <br>
+                        <input type="text-area" value="{{query_params.description}}" class="display_name"/>
+                    </div>
+                    <div class="left col-xs-12">
+                        <b>*&nbsp;Search for:</b>
+                        <br>
+                        <select style="margin: 0px 0px 10px;height: 26px;" id="search_objs" >
+                            <option selected="{{query_params.queryType}} == 'OBJ' ? 'selected' : '' " value="OBJ"><b>Files</b></option>
+                            <option selected="{{query_params.queryType}} == 'COLLECTION' ? 'selected' : '' " value="COLLECTION"><b>Folders</b></option>
+                            <option selected="{{query_params.queryType}} == 'BOTH' ? 'selected' : '' " value="BOTH"><b>Files and Folders</b></option>
+                        </select>
+                    </div>
+                    <div class="left col-xs-12">
+                        <b>*&nbsp;Search in:</b>
+                        <br>
+                        <input type="text-area" value="{{query_params.path}}" class="search_path"/>
+                    </div>
+                    <div ng-show="!query_vc.uniqueName" class="and_param left col-xs-12">
                         <div style="position:relative;float:left;">
                             <b>*&nbsp;Attribute Name</b><br>
                             <input type="text" value="" class="attr_name"/>

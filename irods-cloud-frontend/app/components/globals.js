@@ -99,9 +99,9 @@ angular.module('globalsModule', [])
         $rootScope.logout_func = function () {
             var $http;
             if (!$http) { $http = $injector.get('$http'); }
-            var promise = $http({
+            return $http({
                 method: 'POST',
-                url: backendUrl('logout')
+                url: f.backendUrl('logout')
             }).then(function () {
                 // The then function here is an opportunity to modify the response
                 // The return value gets picked up by the then in the controller.
@@ -109,8 +109,6 @@ angular.module('globalsModule', [])
                     $location.path("/login").search({});
                 //}, 0);
             });
-
-            return promise;
         };
 
         /* ||||||||||||||||||||||||||||||||||| */

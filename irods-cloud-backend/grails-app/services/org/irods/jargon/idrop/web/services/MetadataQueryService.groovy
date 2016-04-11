@@ -83,12 +83,8 @@ class MetadataQueryService {
 
 		log.info("seeing if the collection exists...")
 
-
-
-
-
 		theSession.virtualCollections = null
-		log.info("delete done")
+		log.info("store done")
 	}
 
 
@@ -144,11 +140,12 @@ class MetadataQueryService {
 	 * @param irodsAccount
 	 * @param vcName <code>String</code> that is optional (blank if not specified) that will be the unique name.  If not specified, it will be auto-generated.
 	 * @param theSession {@link HttpSession} that holds a cache of vcs
+	 * @param description <code>String</code> with the user assignable name of the vc, if not provided, will use the unique name
 	 * @return <code>String</code> with the name of the virtual collection 
 	 * @deprecated this needs to go away because it assumes it's a temp query, need an add and an update
 	 */
 
-	def storeMetadataTempQuery(String metadataQuery, IRODSAccount irodsAccount, String vcName, HttpSession theSession) {
+	def storeMetadataTempQuery(String metadataQuery, IRODSAccount irodsAccount, String vcName, HttpSession theSession, String description) {
 		log.info("storeMetadataTempQuery")
 		if (!metadataQuery) {
 			throw new IllegalArgumentException("Null or empty metadataQuery")
@@ -165,6 +162,13 @@ class MetadataQueryService {
 		if (vcName) {
 			metadataQueryVirtualCollection.uniqueName = vcName
 		}
+
+		if (description) {
+			metadataQueryVirtualCollection.description = description
+		} else {
+			metadataQueryVirtualCollection.description = "Metadata Query:" + System.currentTimeMillis()
+		}
+
 		def metadataQueryMaintenanceService = jargonServiceFactoryService.instanceMetadataQueryMaintenanceService(irodsAccount)
 		def temporaryQueryService = jargonServiceFactoryService.instanceTemporaryQueryService(irodsAccount)
 		theSession.virtualCollections = null

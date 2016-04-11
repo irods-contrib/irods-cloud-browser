@@ -68,8 +68,10 @@ class MetadataQueryController {
 			vcName = ""
 		}
 
+		def description = params.description
+
 		log.error("storing:${jsonObject}")
-		vcName = metadataQueryService.storeMetadataTempQuery(jsonObject.toString(), irodsAccount, vcName, session)
+		vcName = metadataQueryService.storeMetadataTempQuery(jsonObject.toString(), irodsAccount, vcName, session, description)
 		def metadataQueryResponse = new MetadataQueryVcName()
 		metadataQueryResponse.vcName = vcName
 		log.info("response:${metadataQueryResponse}")

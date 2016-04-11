@@ -41,13 +41,12 @@ class MetadataQueryServiceSpec extends Specification {
 		metadataQueryService.irodsAccessObjectFactory = irodsAccessObjectFactory.createMock()
 
 		def metadataQueryMaintenanceService = mockFor(MetadataQueryMaintenanceService)
-		metadataQueryMaintenanceService.demand.
 
-				def session = mockFor(HttpSession)
+		def theSession = mockFor(HttpSession)
 
 		when:
 
-		def actual = metadataQueryService.retrieveMetadataQuery(name, irodsAccount, session.createMock())
+		def actual = metadataQueryService.retrieveMetadataQuery(name, irodsAccount, theSession.createMock())
 
 		then:
 		actual != null
@@ -72,21 +71,29 @@ class MetadataQueryServiceSpec extends Specification {
 		metadataQueryService.virtualCollectionService = virtualCollectionService.createMock()
 		metadataQueryService.irodsAccessObjectFactory = irodsAccessObjectFactory.createMock()
 		def temporaryQueryServiceMock = mockFor(TemporaryQueryService)
-		temporaryQueryServiceMock.demand.nameAndStoreTemporaryQuery{ mdq, un, maint ->
+		temporaryQueryServiceMock.demand.addOrUpdateTemporaryQuery{ mdq, un, maint ->
 			return "foo"
 		}
 
-		def jargonServiceFactory = mockFor(JargonServiceFactoryService)
-		jargonServiceFactory.demand.instanceTemporaryQueryService{ ia2 ->
+		def metadataQueryMaintenanceService = mockFor(MetadataQueryMaintenanceService)
+		def metadataQueryMaintMock = metadataQueryMaintenanceService.createMock()
+
+		def jargonServiceFactoryService = mockFor(JargonServiceFactoryService)
+
+		jargonServiceFactoryService.demand.instanceMetadataQueryMaintenanceService{ ia2 -> return metadataQueryMaintMock }
+
+		jargonServiceFactoryService.demand.instanceTemporaryQueryService{ ia3 ->
 			return temporaryQueryServiceMock.createMock()
 		}
-		metadataQueryService.jargonServiceFactoryService = jargonServiceFactory.createMock()
+
+		metadataQueryService.jargonServiceFactoryService = jargonServiceFactoryService.createMock()
+
 		def sess = new GrailsMockHttpSession()
 
 
 		when:
 
-		def actual = metadataQueryService.storeMetadataTempQuery(testQueryJson, irodsAccount, "", sess)
+		def actual = metadataQueryService.storeMetadataTempQuery(testQueryJson, irodsAccount, "", sess, "boo")
 
 		then:
 		actual != null

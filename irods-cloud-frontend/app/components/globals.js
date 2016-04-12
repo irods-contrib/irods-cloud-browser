@@ -38,7 +38,6 @@ angular.module('globalsModule', [])
         $rootScope.selectSearchView = function (query_name) {
           if (!query_name){
             var query_id = uuid.v1();
-            alert(query_id);
             $log.info("going to Dashboard View");            
             $location.url("/search/?query_id="+query_id);
           }else{

@@ -577,6 +577,10 @@ select{
 	display: none;
 	padding: 5px;
 }
+.path_picker{
+	display: none;
+	padding: 5px;
+}
 .move_listing{
 	max-height:289px;
 	overflow-y:scroll;

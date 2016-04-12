@@ -3,20 +3,18 @@
 angular.module('myApp.search', ['ngRoute', 'ngFileUpload', 'ng-context-menu','ui.codemirror'])
 
      .config(['$routeProvider', function ($routeProvider) {
-        $routeProvider.when('/search/:vcName', {
+        $routeProvider.when('/search', {
             templateUrl: 'search/search.html',
             controller: 'searchCtrl',
             resolve: {
-
-                // set vc name as selected
-                selectedVc: function ($route, virtualCollectionsService) {
-
-                    var vcData = virtualCollectionsService.listUserVirtualCollectionData($route.current.params.vcName);
+                 selectedVc: function ($route, virtualCollectionsService) {
+                    var current_vc = "My Home";
+                    var vcData = virtualCollectionsService.listUserVirtualCollectionData("My Home");
                     return vcData;
                 },
                 // do a listing
                 pagingAwareCollectionListing: function ($route, collectionsService) {
-                    var vcName = $route.current.params.vcName;
+                    var vcName = "My Home";
 
                     var path = $route.current.params.path;
                     if (path == null) {
@@ -24,21 +22,6 @@ angular.module('myApp.search', ['ngRoute', 'ngFileUpload', 'ng-context-menu','ui
                     }
 
                     return collectionsService.listCollectionContents(vcName, path, 0);
-                }
-
-            }
-        }).when('/search', {
-            templateUrl: 'search/search.html',
-            controller: 'searchCtrl',
-            resolve: {
-                // set vc name as selected
-                selectedVc: function ($route) {
-
-                    return null;
-                },
-                // do a listing
-                pagingAwareCollectionListing: function ($route, collectionsService) {
-                    return {};
                 }
 
             }
@@ -55,7 +38,7 @@ angular.module('myApp.search', ['ngRoute', 'ngFileUpload', 'ng-context-menu','ui
     .directive("addAttr", function($compile){
         return function(scope, element, attrs){
             element.bind("click", function(){
-                angular.element(document.getElementById('query_container')).append($compile('<div class="and_param"> <div style="width: 409px;position: relative;text-align: center;margin: 13px 0px;float: left;border-bottom: 1px solid #bbb;color: #999;"><b>and</b></div><div style="position:relative;float:left;"><b>*&nbsp;Attribute Name</b><br><input type="text" value="" class="attr_name"/></div><div style="position:relative;float:left;padding:12px 12px 0px 12px;"><select class="form-control attr_eval" ><option value="EQUAL"><b>=</b></option><option value="LESS"><b><</b></option><option value="MORE"><b>></b></option></select></div><div style="position:relative;float:left;"><b>*&nbsp;Attribute Value</b><br><input type="text" value="" class="attr_val"/></div><div style="position:relative;float:left;padding:22px 0px 0px 12px;"><div title="Remove this line of parameters" ng-click="remove_and_avu()"><img class="pop_up_close_clear_button" src="images/close_icon.png"></div></div></div>')(scope));
+                angular.element(document.getElementById('query_container')).append($compile('<div class="and_param left col-xs-12"> <div style="width: 409px;position: relative;text-align: center;margin: 13px 0px;float: left;border-bottom: 1px solid #bbb;color: #999;"><b>and</b></div><div style="position:relative;float:left;"><b>*&nbsp;Attribute Name</b><br><input type="text" value="" class="attr_name"/></div><div style="position:relative;float:left;padding:12px 12px 0px 12px;"><select class="form-control attr_eval" ><option value="EQUAL"><b>=</b></option><option value="LESS"><b><</b></option><option value="MORE"><b>></b></option></select></div><div style="position:relative;float:left;"><b>*&nbsp;Attribute Value</b><br><input type="text" value="" class="attr_val"/></div><div style="position:relative;float:left;padding:22px 0px 0px 12px;"><div title="Remove this line of parameters" ng-click="remove_and_avu()"><img class="pop_up_close_clear_button" src="images/close_icon.png"></div></div></div>')(scope));
             });
         };
     })
@@ -108,7 +91,7 @@ angular.module('myApp.search', ['ngRoute', 'ngFileUpload', 'ng-context-menu','ui
          */
         $scope.count = 0;
         $scope.selectedVc = selectedVc;
-        $scope.pagingAwareCollectionListing = pagingAwareCollectionListing.data;        
+        $scope.pagingAwareCollectionListing = pagingAwareCollectionListing;        
         $scope.$on('onRepeatLast', function (scope, element, attrs) {
             if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
                 
@@ -359,7 +342,7 @@ angular.module('myApp.search', ['ngRoute', 'ngFileUpload', 'ng-context-menu','ui
             $(event.target).closest(".and_param").remove();
         };
 
-        
+
 
         $scope.create_collection_action = function (){
             var collections_new_name = $('#new_collection_name').val();
@@ -372,69 +355,97 @@ angular.module('myApp.search', ['ngRoute', 'ngFileUpload', 'ng-context-menu','ui
                 })
         };
 
-        $scope.getDownloadLink = function () {
-            $('.list_content').removeClass("ui-selected");
-            var links = $('.ui-selected');
-            $log.info(links);
-            var multiple_paths = '';
-            if(links.length == 1){
-                var path = $('.ui-selected').attr('id');
-                window.open($globals.backendUrl('download') + "?path=" + path, '_blank');
-            }else{
-                links.each(function () {
-                    if ($(this).attr('id') != undefined) {
-                        var path = $(this).attr('id');
-                        multiple_paths += 'path='+path+'&';
-                    };
+        $scope.getCopyBreadcrumbPaths = function () {     
+            $scope.breadcrumb_popup_full_array = $scope.copy_list.data.pagingAwareCollectionListingDescriptor.parentAbsolutePath.split("/");
+            $scope.breadcrumb_popup_full_array.shift();
+            $scope.breadcrumb_popup_full_array_paths = [];
+            var popup_totalPath = "";
+            for (var i = 0; i < $scope.breadcrumb_popup_full_array.length; i++) {
+                popup_totalPath = popup_totalPath + "/" + $scope.breadcrumb_popup_full_array[i];
+                $scope.breadcrumb_popup_full_array_paths.push({
+                    b: $scope.breadcrumb_popup_full_array[i],
+                    path: popup_totalPath
                 });
-                multiple_paths = multiple_paths.substring(0, multiple_paths.length - 1);
-                window.open($globals.backendUrl('download') + "?" + multiple_paths , '_blank');
             }
+            if ($scope.breadcrumb_popup_full_array.length > 5) {
+                $scope.breadcrumb_popup_compressed_array = $scope.breadcrumb_popup_full_array_paths.splice(0, ($scope.breadcrumb_popup_full_array_paths.length) - 5);
+            } else {
+                $scope.breadcrumb_popup_compressed_array = [];
+            }
+        }
+        $scope.set_path = function (path_name, path) {
+            var copy_path_display = $(".copy_select_result").empty();
+            var copy_path = path_name;
+            copy_path_display.append(copy_path);
+            $scope.copy_target = path;
         };
-        $scope.copy_pop_up_open = function(){
-            $('.pop_up_window').fadeIn(100);
-            $scope.name_of_selection = $('.ui-selected');
-            $scope.name_of_selection.each(function() {
-                if ($(this).attr('id') != undefined) {
-                    if($(this).hasClass("data_true")){
-                        $(".copy_container ul").append('<li class="light_back_option_even"><div class="col-xs-7 list_content"><img src="images/data_object_icon.png">'+$(this).attr('id')+'</div></li>'); 
-                    }else{
-                        $(".copy_container ul").append('<li class="light_back_option_even"><div class="col-xs-7 list_content"><img src="images/collection_icon.png">'+$(this).attr('id')+'</div></li>');
-                    };
-                };              
-            }); 
-            $('.copier').fadeIn(100);
-            return $http({
-                method: 'GET', 
-                url: $globals.backendUrl('virtualCollection')
-            }).success(function (data) {
-                $scope.copy_vc_list = data;
-            }).error(function () {
-                alert("Something went wrong while fetching the Virtual Collections");
-                $scope.copy_vc_list = [];
-            });
-            return $http({
+        $scope.copy_list_refresh = function (VC, selectedPath) {
+            if (VC == "") {
+                var pop_up_vc = $scope.copyVC.data.uniqueName;
+            } else {
+                var pop_up_vc = VC;
+            }
+            $http({
                 method: 'GET',
-                url: $globals.backendUrl('collection/') + selectedVc.data.uniqueName,
-                params: {path: "", offset: 0}
-            }).success(function (data) {
-                $scope.copy_list = data;
-            }).error(function () {
-                alert("Something went wrong while fetching the contents of the Collection");
-                $scope.copy_list = [];
-            });
-        };
-        $scope.copy_list_refresh = function(VC,selectedPath){
-            $scope.copyVC = VC;
-            return $http({
-                method: 'GET',
-                url: $globals.backendUrl('collection/') + VC,
+                url: $globals.backendUrl('collection/') + pop_up_vc,
                 params: {path: selectedPath, offset: 0}
-            }).success(function (data) {
+            }).then(function (data) {
                 $scope.copy_list = data;
-            }).error(function () {
-                alert("Something went wrong while fetching the contents of the Collection");
-                $scope.copy_list = [];
+            }).then(function () {
+                return $http({
+                    method: 'GET',
+                    url: $globals.backendUrl('virtualCollection/') + pop_up_vc
+                })
+            }).then(function (data) {
+                $scope.copyVC = data;
+                if ($scope.copyVC.data.type == 'COLLECTION') {
+                    $scope.getCopyBreadcrumbPaths();
+                }
+            });
+
+        };
+
+        $scope.path_pop_up_open = function () {     
+            $scope.pop_up_form = "path_picker";
+            window.scrollTo(0,0);      
+            $scope.copyVC = $scope.selectedVc;
+            $('.pop_up_window').fadeIn(100);
+            var copy_path_display = $(".copy_select_result").empty();
+            var path_array = $scope.pagingAwareCollectionListing.pagingAwareCollectionListingDescriptor.pathComponents;
+            var current_collection = path_array[path_array.length - 1];
+            $scope.name_of_selection = $('.ui-selected');
+            $scope.copy_target = $scope.pagingAwareCollectionListing.pagingAwareCollectionListingDescriptor.parentAbsolutePath;
+            copy_path_display.append(current_collection);
+            $scope.name_of_selection.each(function () {
+                if ($(this).attr('id') != undefined) {
+                    if ($(this).hasClass("data_true")) {
+                        $(".move_container ul").append('<li class="light_back_option_even"><div class="col-xs-12 list_content"><img src="images/data_object_icon.png">' + $(this).attr('id') + '</div></li>');
+                    } else {
+                        $(".move_container ul").append('<li class="light_back_option_even"><div class="col-xs-12 list_content"><img src="images/collection_icon.png">' + $(this).attr('id') + '</div></li>');
+                    }
+                    ;
+                }
+                ;
+            });
+            $('.path_picker').fadeIn(100);
+            $('.path_picker_button').fadeIn(100);
+            $http({
+                method: 'GET',
+                url: $globals.backendUrl('virtualCollection')
+            }).then(function (data) {
+                $scope.copy_vc_list = data;
+            }).then(function () {
+                return $http({
+                    method: 'GET',
+                    url: $globals.backendUrl('collection/') + $scope.copyVC.data.uniqueName,
+                    params: {
+                        path: $scope.pagingAwareCollectionListing.pagingAwareCollectionListingDescriptor.parentAbsolutePath,
+                        offset: 0
+                    }
+                })
+            }).then(function (data) {
+                $scope.copy_list = data;
+                $scope.getCopyBreadcrumbPaths();
             });
         };
         $scope.create_pop_up_open = function(){
@@ -461,18 +472,13 @@ angular.module('myApp.search', ['ngRoute', 'ngFileUpload', 'ng-context-menu','ui
             });            
             $('.deleter').fadeIn(100);
         };
-        $scope.pop_up_close_clear = function () {
+        $scope.pop_up_close = function () {
 
-            $('.pop_up_window').fadeOut(100, function () {
-                $(".upload_container").css('display', 'block');
-                $(".upload_container_result").html('<ul></ul>');
-                $(".upload_container_result").css('display', 'none');
-                $('.uploader').fadeOut(100);
-                $('.deleter').fadeOut(100);
-                $('.creater').fadeOut(100);
-                $('.renamer').fadeOut(100);
-                $('.copier').fadeOut(100);
-                location.reload();
+            $('.pop_up_window').fadeOut(200, function () {
+                $(".move_container ul").empty();
+                $('.path_picker').fadeOut(100);
+                $('.path_picker_button').fadeOut(100);
+                $scope.pop_up_form = "";
             });
 
         };

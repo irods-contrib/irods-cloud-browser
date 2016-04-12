@@ -3,7 +3,7 @@
 angular.module('myApp.profile', ['ngRoute'])
 
 .config(['$routeProvider', function($routeProvider) {
-  $routeProvider.when('/profile', {
+$routeProvider.when('/profile', {
             templateUrl: 'profile/profile.html',
             controller: 'profileCtrl',
             resolve: {
@@ -316,23 +316,6 @@ angular.module('myApp.profile', ['ngRoute'])
                 MessageService.success("Move completed!");    
                 location.assign(new_url);  
             })
-        };
-
-        $scope.logout_func = function () {
-            var promise = $http({
-                method: 'POST',
-                url: $globals.backendUrl('logout')
-            }).then(function () {
-                // The then function here is an opportunity to modify the response
-                // The return value gets picked up by the then in the controller.
-                //setTimeout(function () {
-                $location.path("/login").search({});
-                $globals.setLastPath("/home");
-
-                //}, 0);
-            });
-
-            return promise;
         };
                  
         $scope.getCopyBreadcrumbPaths = function () {      

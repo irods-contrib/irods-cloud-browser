@@ -174,6 +174,69 @@
       
 
       <!--********************************
+      ********    PATH PICKER    *********
+      *********************************-->
+      
+        <div class="column_content pop_up_content path_picker">
+          <div class="light_big_header path_picker">      
+            <span><i class="fa fa-folder-open"></i>&nbsp;Search in:&nbsp;<span class="copy_select_result"></span><img class="pop_up_close_clear_button right" title="close window" ng-click="pop_up_close()" src="images/close_icon.png"></span>
+          </div>
+          <div class='collection_header'>
+            <div class="breadcrumbs_container" ng-show="copyVC.data.type == 'COLLECTION'">
+              <div class="breadcrumbs_sub_container">
+
+                <div class="dropdown" ng-show="breadcrumb_popup_compressed_array.length > 0 ">
+                  <div ng-mouseleave="hide_breadcrumbs()" type="button" class="dark_back_option_double dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                     ... 
+                  </div>
+                  <ul class="dropdown-menu">
+                    <li title="{{breadcrumb.b}}" ng-repeat="breadcrumb in breadcrumb_popup_compressed_array">
+                      <a ng-click="copy_list_refresh(copyVC.data.uniqueName,breadcrumb.path);set_path(breadcrumb.b,breadcrumb.path)">
+                        >&nbsp;{{breadcrumb.b}}
+                      </a>
+                    </li>                  
+                  </ul>
+                </div>
+                <div ng-class="{'dark_back_option_double':!$last,'last_breadcrumb':$last}" title="{{breadcrumb.b}}" ng-click="$last == true ? '' : copy_list_refresh(copyVC.data.uniqueName,breadcrumb.path);set_path(breadcrumb.b,breadcrumb.path) "  ng-repeat="breadcrumb in breadcrumb_popup_full_array_paths | limitTo:-5">
+                   <div ng-hide="$last == true">{{breadcrumb.b}}</div>  
+                   <div ng-show="$last == true" class="active_breadcrumb">
+                    {{breadcrumb.b}}
+                  </div>    
+                </div>
+
+              </div>      
+            </div>  
+          </div>   
+          <div class="listing"> 
+            <div class="list_header">
+              <div class="col-xs-7 list_content">        
+                <span><b>Name</b></span>
+              </div>
+              <div class="col-xs-3 list_content text-right tablet_disappear">
+                <b>Last Modified</b>
+              </div>
+            </div>      
+            <ul class="selectable move_listing">
+                <li class="ui-widget-content data_{{collectionAndDataObject.dataObject}} move_list_item ui-selectee" ng-show="{{collectionAndDataObject.dataObject}} == false" ng-dblclick="copy_list_refresh(copyVC.data.uniqueName,collectionAndDataObject.formattedAbsolutePath)" ng-class-odd="'light_back_option'" ng-class-even="'light_back_option_even'" ng-repeat="collectionAndDataObject in copy_list.data.collectionAndDataObjectListingEntries" id='{{collectionAndDataObject.formattedAbsolutePath}}' on-last-repeat>
+                        <div class="col-xs-10 col-sm-10 col-md-7 col-lg-7 list_content">
+                          <img src="images/collection_icon.png">          
+                          <span class="collection_object">{{collectionAndDataObject.nodeLabelDisplayValue}}</span>
+                        </div>
+                        <div class="col-xs-3 list_content text-right">
+                          <p>{{collectionAndDataObject.modifiedAt | date:"short"}}</p>
+                        </div>
+                  </li>             
+            </ul>
+          </div>
+          <div class="container"><hr class="hr_flat"></div>
+          <div class="right t_right">
+            <div class="btn btn-success path_picker_button" ng-click="">Choose</div>
+          </div>
+        </div>
+        
+      
+
+      <!--********************************
       ***********    CREATER    **********
       *********************************-->
 

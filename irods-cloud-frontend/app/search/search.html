@@ -29,7 +29,7 @@
                     <div class="left col-xs-12">
                         <b>*&nbsp;Search in:</b>
                         <br>
-                        <input type="text-area" value="{{query_params.path}}" class="search_path"/>
+                        <input type="text-area" value="{{query_params.pathHint}}" title="{{query_params.pathHint}}" class="search_path"/>
                         <div style="position:relative;float:left;">
                             <div title="Opens a path picker menu" class="btn btn-sm btn-default" ng-click="path_pop_up_open()"><i class="fa fa-folder-open"></i></div>
                         </div>
@@ -56,7 +56,8 @@
                             <div title="Adds another pair of parameters to refine search" add-attr class="btn btn-sm btn-default">and</div>
                         </div>
                     </div>
-					<div ng-repeat='param in query_params.metadataQueryElements' class="and_param">
+
+					<div ng-repeat='param in query_params.metadataQueryElements' class="and_param left col-xs-12">
                         <div ng-show="!$first" style="width: 409px;position: relative;text-align: center;margin: 13px 0px;float: left;border-bottom: 1px solid #bbb;color: #999;">
                             <b>and</b>
                         </div>
@@ -86,6 +87,7 @@
                             <div title="Adds another pair of parameters to refine search" add-attr class="btn btn-sm btn-default">and</div>
                         </div>
 					</div>
+
 				</div>
 
 			</div>

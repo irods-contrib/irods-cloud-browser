@@ -297,6 +297,7 @@ angular.module('myApp.search', ['ngRoute', 'ngFileUpload', 'ng-context-menu','ui
                 })
         };
         $scope.query_search = function (){
+            $scope.display_name = $('.display_name').val()
             if($('#search_objs').val() == null){
                 MessageService.danger("Please choose what you want to search for");
                 $("#search_objs").focus();
@@ -335,7 +336,7 @@ angular.module('myApp.search', ['ngRoute', 'ngFileUpload', 'ng-context-menu','ui
                     url: $globals.backendUrl('metadataQuery'),
                     data:query_val,
                     dataType: "json",
-                    params:{uniqueName:$scope.url_query_name.query_id}
+                    params:{uniqueName:$scope.url_query_name.query_id, description:$scope.display_name}
                 }).success(function (data) {
                     $scope.selectVirtualCollection(data.vcName,"");   
                 })         

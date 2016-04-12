@@ -359,7 +359,7 @@ angular.module('myApp.search', ['ngRoute', 'ngFileUpload', 'ng-context-menu','ui
             $(event.target).closest(".and_param").remove();
         };
 
-
+        
 
         $scope.create_collection_action = function (){
             var collections_new_name = $('#new_collection_name').val();

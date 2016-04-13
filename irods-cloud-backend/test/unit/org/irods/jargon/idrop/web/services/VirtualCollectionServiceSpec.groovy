@@ -4,7 +4,6 @@ import grails.test.mixin.*
 
 import org.codehaus.groovy.grails.plugins.testing.GrailsMockHttpSession
 import org.irods.jargon.core.connection.IRODSAccount
-import org.irods.jargon.core.pub.CollectionAO
 import org.irods.jargon.core.pub.IRODSAccessObjectFactory
 import org.irods.jargon.core.query.PagingAwareCollectionListing
 import org.irods.jargon.idrop.web.services.VirtualCollectionService.ListingType
@@ -66,68 +65,20 @@ class VirtualCollectionServiceSpec  extends Specification  {
 		actual != null
 	}
 
-	void "test get vc not cached in session but retrieved via listing"() {
-		given:
-		IRODSAccount irodsAccount = IRODSAccount.instance("host", 1247, "user", "password", "", "zone", "")
-		String uniqueName = "root"
-		def irodsAccessObjectFactory = mockFor(IRODSAccessObjectFactory)
-		def collectionAO = mockFor(CollectionAO)
-		irodsAccessObjectFactory.demand.getCollectionAO{ia -> return collectionAO.createMock()}
-		irodsAccessObjectFactory.demand.getEnvironmentalInfoAO{ irodsAcct -> return envMock }
-		def iafMock = irodsAccessObjectFactory.createMock()
-		PagingAwareCollectionListing listing = new PagingAwareCollectionListing()
-
-		def collectionBasedVirtualCollectionExecutor = mockFor(CollectionBasedVirtualCollectionExecutor)
-		collectionBasedVirtualCollectionExecutor.demand.queryAll{return listing}
-		def execMock = collectionBasedVirtualCollectionExecutor.createMock()
-
-		def virtualCollectionFactory = mockFor(VirtualCollectionFactoryImpl)
-		virtualCollectionFactory.demand.instanceExecutorBasedOnVirtualCollection{vc -> return execMock}
-		def factMock = virtualCollectionFactory.createMock()
-
-		def jargonServiceFactoryService = mockFor(JargonServiceFactoryService)
-		jargonServiceFactoryService.demand.instanceVirtualCollectionExecutorFactory{irodsAcct -> return factMock}
-
-		List<AbstractVirtualCollection> virColls = new ArrayList<AbstractVirtualCollection>()
-		CollectionBasedVirtualCollection collBasedVirColl = new CollectionBasedVirtualCollection(uniqueName,"/a/path")
-		virColls.add(collBasedVirColl)
-		def virtualCollectionDiscoveryService = mockFor(VirtualCollectionDiscoveryService)
-		virtualCollectionDiscoveryService.demand.listDefaultUserCollections{return virColls}
-		def discoveryMock = virtualCollectionDiscoveryService.createMock()
-
-		jargonServiceFactoryService.demand.instanceVirtualCollectionDiscoveryService{irodsAcct -> return discoveryMock}
-
-		def virtualCollectionExecutorFactoryCreatorServiceMock = jargonServiceFactoryService.createMock()
-
-		def mockSession = new GrailsMockHttpSession()
-
-		mockSession.virtualCollections = []
-
-		VirtualCollectionService virtualCollectionService = new VirtualCollectionService()
-		virtualCollectionService.irodsAccessObjectFactory = iafMock
-		virtualCollectionService.jargonServiceFactoryService = virtualCollectionExecutorFactoryCreatorServiceMock
-
-		when:
-
-		def actual = virtualCollectionService.virtualCollectionDetails(uniqueName,irodsAccount, mockSession)
-
-		then:
-
-		actual != null
-	}
-
 	void "test create listing from collection based vc"() {
 		given:
 		IRODSAccount irodsAccount = IRODSAccount.instance("host", 1247, "user", "password", "", "zone", "")
 		String uniqueName = "root"
 		def irodsAccessObjectFactory = mockFor(IRODSAccessObjectFactory)
-		irodsAccessObjectFactory.demand.getEnvironmentalInfoAO{ irodsAcct -> return envMock }
+		//irodsAccessObjectFactory.demand.getEnvironmentalInfoAO{ irodsAcct -> return envMock }
 		def iafMock = irodsAccessObjectFactory.createMock()
 		PagingAwareCollectionListing listing = new PagingAwareCollectionListing()
 
 		List<AbstractVirtualCollection> virColls = new ArrayList<AbstractVirtualCollection>()
 		CollectionBasedVirtualCollection collBasedVirColl = new CollectionBasedVirtualCollection(uniqueName,"/a/path")
 		virColls.add(collBasedVirColl)
+		def userVirtualCollectionProfile = new UserVirtualCollectionProfile()
+		userVirtualCollectionProfile.userHomeCollections = virColls
 
 		def jargonServiceFactoryService = mockFor(JargonServiceFactoryService)
 		def collectionBasedVirtualCollectionExecutor = mockFor(CollectionBasedVirtualCollectionExecutor)
@@ -139,7 +90,7 @@ class VirtualCollectionServiceSpec  extends Specification  {
 		def factMock = virtualCollectionFactory.createMock()
 
 		def virtualCollectionDiscoveryService = mockFor(VirtualCollectionDiscoveryService)
-		virtualCollectionDiscoveryService.demand.listDefaultUserCollections{return virColls}
+		virtualCollectionDiscoveryService.demand.userVirtualCollectionProfile{return userVirtualCollectionProfile}
 		def discoveryMock = virtualCollectionDiscoveryService.createMock()
 
 		//virtualCollectionFactoryCreatorService.demand.instanceVirtualCollectionDiscoveryService{irodsAcct -> return discoveryMock}
@@ -147,7 +98,7 @@ class VirtualCollectionServiceSpec  extends Specification  {
 
 		def mockSession = new GrailsMockHttpSession()
 
-		mockSession.virtualCollections = virColls
+		mockSession.virtualCollections = userVirtualCollectionProfile
 
 		VirtualCollectionService virtualCollectionService = new VirtualCollectionService()
 		virtualCollectionService.irodsAccessObjectFactory = iafMock

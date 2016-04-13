@@ -21,7 +21,7 @@ class MetadataQueryControllerSpec extends Specification {
 		def metadataQueryService = mockFor(MetadataQueryService)
 
 		def metadataQueryVcName = new MetadataQueryVcName()
-		metadataQueryService.demand.storeMetadataTempQuery{ qry, irodsAccount1-> return metadataQueryVcName}
+		metadataQueryService.demand.storeMetadataQuery{ qry, irodsAccount1, typ-> return metadataQueryVcName}
 
 		def metadataQueryServiceMock = metadataQueryService.createMock()
 

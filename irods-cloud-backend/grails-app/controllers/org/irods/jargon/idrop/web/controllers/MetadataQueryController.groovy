@@ -4,6 +4,7 @@ import grails.converters.JSON
 
 import org.irods.jargon.core.pub.IRODSAccessObjectFactory
 import org.irods.jargon.idrop.web.services.MetadataQueryService
+import org.irods.jargon.vircoll.CollectionTypes
 
 /**
  * Controller for storing and retrieving metadata queries as virtual collections
@@ -50,6 +51,7 @@ class MetadataQueryController {
 	 */
 	def save() {
 
+
 		log.info("save()")
 
 		def irodsAccount = request.irodsAccount
@@ -68,10 +70,20 @@ class MetadataQueryController {
 			vcName = ""
 		}
 
+		def collectionType = CollectionTypes.TEMPORARY_QUERY
+		def collectionTypeName = params.collection
+		if (!collectionTypeName) {
+			log.info("no collection, use temp")
+			collectionType = CollectionTypes.TEMPORARY_QUERY
+		} else if (collectionTypeName == CollectionTypes.USER_HOME.name) {
+			log.info("user home coll type")
+			collectionType = CollectionTypes.USER_HOME
+		}
+
 		def description = params.description
 
 		log.error("storing:${jsonObject}")
-		vcName = metadataQueryService.storeMetadataTempQuery(jsonObject.toString(), irodsAccount, vcName, session, description)
+		vcName = metadataQueryService.storeMetadataQuery(jsonObject.toString(), irodsAccount, vcName, session, description, collectionType)
 		def metadataQueryResponse = new MetadataQueryVcName()
 		metadataQueryResponse.vcName = vcName
 		log.info("response:${metadataQueryResponse}")

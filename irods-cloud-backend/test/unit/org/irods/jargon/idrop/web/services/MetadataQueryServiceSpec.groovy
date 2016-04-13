@@ -10,6 +10,7 @@ import org.irods.jargon.core.pub.CollectionAO
 import org.irods.jargon.core.pub.IRODSAccessObjectFactory
 import org.irods.jargon.mdquery.MetadataQuery
 import org.irods.jargon.mdquery.serialization.MetadataQueryJsonService
+import org.irods.jargon.vircoll.CollectionTypes
 import org.irods.jargon.vircoll.TemporaryQueryService
 import org.irods.jargon.vircoll.UserVirtualCollectionProfile
 import org.irods.jargon.vircoll.types.MetadataQueryMaintenanceService
@@ -93,7 +94,7 @@ class MetadataQueryServiceSpec extends Specification {
 
 		when:
 
-		def actual = metadataQueryService.storeMetadataTempQuery(testQueryJson, irodsAccount, "", sess, "boo")
+		def actual = metadataQueryService.storeMetadataQuery(testQueryJson, irodsAccount, "", sess, "boo", CollectionTypes.TEMPORARY_QUERY)
 
 		then:
 		actual != null

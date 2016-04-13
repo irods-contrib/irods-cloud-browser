@@ -92,82 +92,96 @@ angular.module('myApp.search', ['ngRoute', 'ngFileUpload', 'ng-context-menu','ui
         $scope.count = 0;
         $scope.selectedVc = selectedVc;
         $scope.pagingAwareCollectionListing = pagingAwareCollectionListing;        
-        $scope.$on('onRepeatLast', function (scope, element, attrs) {
-            if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
-                
-                $(".ui-selectee").on("tap",function(e){
-                  var result = $("#select-result").empty();
-                  e.preventDefault();
-
-                  if($(e.target).hasClass('ui-selected')){
-                      $(e.target).removeClass('ui-selected');
-                  }else{
-                      $(e.target).addClass('ui-selected');
-                  }
-                  if ($(".ui-selected").length > 1) {
-                            result.append($('.ui-selected').length + " files");                            
-                        } else if ($(".ui-selected").length == 1) {
-                            var name_of_selection = $('.ui-selected').text();
-                            result.append(name_of_selection);
-                        } else if ($(".ui-selected").length == 0) {
-
-                        }
-
-                });
-            }else{              
-                $(".selectable").selectable({
-                    stop: function (){ 
-                        $('.list_content').removeClass("ui-selected");
-                        var result = $("#select-result").empty();
-                        // $(".ui-selected", this).each(function () {
-                        //     var index = $("#selectable li").index(this);
-                        //     if(index == 0 || index == -1 ){
-                        //     }else{
-                        //         result.append(" #" + ( index + 1 )); 
-                        //     }                       
-                        // });
-                        if ($(".copy_list_item.ui-selected").length > 1) {
-                            $('.copy_list_item.ui-selected').not(':first').removeClass('ui-selected');
-                        } 
-                        if ($("li.ui-selected").length > 1) {
-                            result.append($('.ui-selected').length + " files");
-                            $(".download_button").fadeIn();
-                            $(".download_divider").fadeIn();
-                            $(".rename_button").fadeOut();
-                            $(".rename_divider").fadeOut();
-
-                            $(".tablet_download_button").fadeIn();
-                            $(".tablet_rename_button").fadeOut();
-                            $(".empty_selection").fadeOut();
-                            
-                        } else if ($("li.ui-selected").length == 1) {
-                            var name_of_selection = $('.ui-selected').children('.list_content').children('.data_object').text();
-                            result.append(name_of_selection);
-                            $(".download_button").fadeIn();
-                            $(".rename_button").fadeIn();
-                            $(".rename_divider").fadeIn();
-                            $(".download_divider").fadeIn();
-
-                            $(".tablet_download_button").fadeIn();
-                            $(".tablet_rename_button").fadeIn();
-                            $(".empty_selection").fadeOut();
-                        } else if ($("li.ui-selected").length == 0) {
-                            $(".download_button").fadeOut();
-                            $(".rename_button").fadeOut();
-                            $(".rename_divider").fadeOut();
-                            $(".download_divider").fadeOut();
-
-                            $(".tablet_download_button").fadeOut();
-                            $(".tablet_rename_button").fadeOut();
-                            $(".empty_selection").fadeIn();
-                        }
-
-
+        $scope.$on('onRepeatLast', function (scope, element, attrs) {            
+            $(".selectable").selectable({
+                stop: function () {
+                    $('.list_content').removeClass("ui-selected");
+                    $('span').removeClass("ui-selected");
+                    $('img').removeClass("ui-selected");
+                    var result = $("#select-result").empty();
+                    $(".dropdown").removeClass("open");
+                    var copy_path_display = $(".copy_select_result").empty();
+                    
+                    if ($(".copy_list_item.ui-selected").length == 1) {
+                        var copy_path = $('.copy_list_item.ui-selected').children('.list_content').children('.collection_object').text();
+                        copy_path_display.append(copy_path);
+                        $scope.copy_target = $('.copy_list_item.ui-selected').attr('id');
                     }
-                });
-            }  
-  $('.grid').masonry();        
-                   
+                    if ($(".copy_list_item.ui-selected").length > 1) {
+                        $('.copy_list_item.ui-selected').not(':first').removeClass('ui-selected');
+                        var copy_path = $('.copy_list_item.ui-selected').children('.list_content').children('.collection_object').text();
+                        copy_path_display.append(copy_path);
+                        $scope.copy_target = $('.copy_list_item.ui-selected').attr('id');
+                    }
+
+                    if ($(".move_list_item.ui-selected").length == 1) {
+                        var move_path = $('.move_list_item.ui-selected').children('.list_content').children('.collection_object').text();
+                        copy_path_display.append(move_path);
+                        $scope.copy_target = $('.move_list_item.ui-selected').attr('id');
+                    }
+                    if ($(".move_list_item.ui-selected").length > 1) {
+                        $('.move_list_item.ui-selected').not(':first').removeClass('ui-selected');
+                        var move_path = $('.move_list_item.ui-selected').children('.list_content').children('.collection_object').text();
+                        copy_path_display.append(move_path);
+                        $scope.move_target = $('.move_list_item.ui-selected').attr('id');
+                    }
+
+
+                    if ($(".general_list_item .ui-selected").length > 1) {
+                        result.append("You've selected: " + $('.general_list_item .ui-selected').length + " items");
+                        $(".download_button").css('opacity', '1');
+                        $(".download_button").css('pointer-events', 'auto');
+                        $(".rename_button").css('opacity', '0.1');
+                        $(".rename_button").css('pointer-events', 'none');
+                        $(".rename_divider").css('opacity', '1');
+                        $(".download_divider").css('opacity', '1');
+
+                        $(".tablet_download_button").fadeIn();
+                        $(".tablet_rename_button").fadeOut();
+                        $(".empty_selection").fadeOut();
+
+                    } else if ($(".general_list_item .ui-selected").length == 1) {
+                        $scope.selected_target = $('.general_list_item .ui-selected').attr("id");
+                        var name_of_selection = "You've selected: " + $('.ui-selected').children('.list_content').children('.data_object').text();
+                        if (name_of_selection == "You've selected: ") {
+                            var name_of_selection = "You've selected: " + $('.ui-selected').children('.list_content').children('.collection_object').text();
+                        }
+
+                        result.append(name_of_selection);
+                        $(".download_button").css('opacity', '1');
+                        $(".download_button").css('pointer-events', 'auto');
+                        $(".file_edit_button").css('opacity', '0.1');
+                        $(".file_edit_button").css('pointer-events', 'none');
+                        $(".folder_upload_button").css('opacity', '1');
+                        $(".folder_upload_button").css('pointer-events', 'auto');
+                        $(".rename_button").css('opacity', '1');
+                        $(".rename_button").css('pointer-events', 'auto');
+                        $(".rename_divider").css('opacity', '1');
+                        $(".download_divider").css('opacity', '1');
+                        $(".tablet_download_button").fadeIn();
+                        $(".tablet_rename_button").fadeIn();
+                        $(".empty_selection").fadeOut();
+                        if($(".general_list_item .ui-selected").hasClass("data_true")){
+                            $(".file_edit_button").css('opacity', '1');
+                            $(".file_edit_button").css('pointer-events', 'auto');
+                            $(".folder_upload_button").css('opacity', '0.1');
+                            $(".folder_upload_button").css('pointer-events', 'none');
+                        };
+                    } else if ($(".general_list_item .ui-selected").length == 0) {
+                        $(".download_button").css('opacity', '0.1');
+                        $(".download_button").css('pointer-events', 'none');
+                        $(".rename_button").css('opacity', '0.1');
+                        $(".rename_button").css('pointer-events', 'none');
+                        $(".rename_divider").css('opacity', '0.1');
+                        $(".download_divider").css('opacity', '0.1');
+                        $(".tablet_download_button").fadeOut();
+                        $(".tablet_rename_button").fadeOut();
+                        $(".empty_selection").fadeIn();
+                    }
+
+
+                }
+            });
         });
         $scope.$watch('files', function () {
             $scope.upload($scope.files);
@@ -248,37 +262,6 @@ angular.module('myApp.search', ['ngRoute', 'ngFileUpload', 'ng-context-menu','ui
             $scope.current_collection_index = $scope.pagingAwareCollectionListing.pagingAwareCollectionListingDescriptor.pathComponents.length - 1;
         }
 
-        $scope.delete_action = function (){
-            var delete_objects = $('.ui-selected');
-            var delete_paths = '';
-            delete_objects.each(function () {
-                if ($(this).attr('id') != undefined) {
-                    delete_paths += 'path='+ $(this).attr('id') +'&';
-                };
-            });
-            delete_paths = delete_paths.substring(0, delete_paths.length - 1);
-            $log.info('Deleting:'+delete_paths);
-            return $http({
-                    method: 'DELETE',
-                    url: $globals.backendUrl('file') + '?' + delete_paths 
-                }).success(function (data) {
-                    alert('Deletion completed');
-                    location.reload();
-                })
-        };
-
-        $scope.rename_action = function (){
-            var rename_path = $('.ui-selected').attr('id');
-            var new_name = $('#new_renaming_name').val();
-            $log.info('Renaming:'+rename_path);
-            return $http({
-                    method: 'PUT',
-                    url: $globals.backendUrl('rename'),
-                    params: {path: rename_path, newName: new_name}
-                }).success(function (data) {
-                    location.reload();
-                })
-        };
         $scope.query_search = function (){
             $scope.display_name = $('.display_name').val()
             if($('#search_objs').val() == null){
@@ -286,7 +269,7 @@ angular.module('myApp.search', ['ngRoute', 'ngFileUpload', 'ng-context-menu','ui
                 $("#search_objs").focus();
                 return;
             };
-            var query_val = '{"targetZone":"","queryType":"'+ $('#search_objs').val() +'","pathHint":"'+$('.display_name').val()+'","metadataQueryElements":[';
+            var query_val = '{"targetZone":"","queryType":"'+ $('#search_objs').val() +'","pathHint":"'+$('.search_path').val()+'","metadataQueryElements":[';
             var attr_names = [];
             $(".attr_name").each(function() {
                 attr_names.push($(this).val());
@@ -340,19 +323,6 @@ angular.module('myApp.search', ['ngRoute', 'ngFileUpload', 'ng-context-menu','ui
         $scope.get_query_params($scope.url_query_name.query_id);
         $scope.remove_and_avu = function(){
             $(event.target).closest(".and_param").remove();
-        };
-
-
-
-        $scope.create_collection_action = function (){
-            var collections_new_name = $('#new_collection_name').val();
-            $log.info('Adding:'+collections_new_name);
-            return $http({
-                    method: 'PUT',
-                    url: $globals.backendUrl('file') + '?path='+ $scope.pagingAwareCollectionListing.pagingAwareCollectionListingDescriptor.parentAbsolutePath +'/'+ collections_new_name
-                }).success(function (data) {
-                    location.reload();
-                })
         };
 
         $scope.getCopyBreadcrumbPaths = function () {     
@@ -448,30 +418,12 @@ angular.module('myApp.search', ['ngRoute', 'ngFileUpload', 'ng-context-menu','ui
                 $scope.getCopyBreadcrumbPaths();
             });
         };
-        $scope.create_pop_up_open = function(){
-            $('.pop_up_window').fadeIn(100);
-            $('.creater').fadeIn(100);
+
+        $scope.path_pick_action = function () {
+            $('.search_path').val($scope.copy_target);
+            $scope.pop_up_close();
         };
-        $scope.rename_pop_up_open = function(){
-            $('.pop_up_window').fadeIn(100);
-            $('.renamer').fadeIn(100);
-            var name_of_selection = $('.ui-selected').children('.list_content').children('.data_object').text();
-            $('.selected_object').append(name_of_selection);
-        };
-        $scope.upload_pop_up_open = function(){
-            $('.pop_up_window').fadeIn(100);
-            $('.uploader').fadeIn(100);
-        };
-        $scope.delete_pop_up_open = function(){
-            $('.pop_up_window').fadeIn(100);
-            var delete_objects = $('.ui-selected');
-            delete_objects.each(function () {
-                if ($(this).attr('id') != undefined) {
-                    $(".delete_container ul").append('<li class="light_back_option_even"><div class="col-xs-7 list_content"><img src="images/data_object_icon.png">'+$(this).attr('id')+'</div></li>');
-                };
-            });            
-            $('.deleter').fadeIn(100);
-        };
+        
         $scope.pop_up_close = function () {
 
             $('.pop_up_window').fadeOut(200, function () {

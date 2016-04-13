@@ -286,7 +286,7 @@ angular.module('myApp.search', ['ngRoute', 'ngFileUpload', 'ng-context-menu','ui
                 $("#search_objs").focus();
                 return;
             };
-            var query_val = '{"targetZone":"","queryType":"'+ $('#search_objs').val() +'","pathHint":"","metadataQueryElements":[';
+            var query_val = '{"targetZone":"","queryType":"'+ $('#search_objs').val() +'","pathHint":"'+$('.display_name').val()+'","metadataQueryElements":[';
             var attr_names = [];
             $(".attr_name").each(function() {
                 attr_names.push($(this).val());

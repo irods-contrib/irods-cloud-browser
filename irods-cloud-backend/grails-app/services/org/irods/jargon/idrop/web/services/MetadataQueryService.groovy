@@ -53,38 +53,13 @@ class MetadataQueryService {
 		def query = VirtualCollectionProfileUtils.findVirtualCollectionInTempQueries(queryName, vcProfile)
 		if (query == null) {
 			log.error("query not found.. return empty")
-			return new MetadataQuery()
+			return new MetadataQueryVirtualCollection()
 		} else if (!(query instanceof MetadataQueryVirtualCollection)) {
 			log.error("query is not a metadata query")
 			throw new VirtualCollectionException("retrieved query is not a metadata query")
 		} else {
 			return query
 		}
-	}
-
-	/**
-	 * Add or update metadata query
-	 * @param uniqueName <code>String</code> with the name of the VC to delete
-	 * @param theSession {@link HttpSession} that holds a cache of vcs
-	 * @return
-	 */
-	def storeMetadataQuery(MetadataQuery metadataQuery, CollectionTypes collectionType, HttpSession theSession) {
-		log.info("deleteVirtualCollection")
-		if (!metadataQuery) {
-			throw new IllegalArgumentException("missing metadataQuery")
-		}
-		if (!theSession) {
-			throw new IllegalArgumentException("missing session")
-		}
-
-
-		log.info("storing metadata query:${metadataQuery}")
-		def metadataQueryMaintenanceService = jargonServiceFactoryService.instanceMetadataQueryMaintenanceService(irodsAccount)
-
-		log.info("seeing if the collection exists...")
-
-		theSession.virtualCollections = null
-		log.info("store done")
 	}
 
 
@@ -141,17 +116,21 @@ class MetadataQueryService {
 	 * @param vcName <code>String</code> that is optional (blank if not specified) that will be the unique name.  If not specified, it will be auto-generated.
 	 * @param theSession {@link HttpSession} that holds a cache of vcs
 	 * @param description <code>String</code> with the user assignable name of the vc, if not provided, will use the unique name
+	 * @param collectionType {@link CollectionTypes} enum value for the category of collection
 	 * @return <code>String</code> with the name of the virtual collection 
 	 * @deprecated this needs to go away because it assumes it's a temp query, need an add and an update
 	 */
 
-	def storeMetadataTempQuery(String metadataQuery, IRODSAccount irodsAccount, String vcName, HttpSession theSession, String description) {
+	def storeMetadataQuery(String metadataQuery, IRODSAccount irodsAccount, String vcName, HttpSession theSession, String description, CollectionTypes collectionType) {
 		log.info("storeMetadataTempQuery")
 		if (!metadataQuery) {
 			throw new IllegalArgumentException("Null or empty metadataQuery")
 		}
 		if (!irodsAccount) {
 			throw new IllegalArgumentException("Null irodsAccount")
+		}
+		if (!collectionType) {
+			throw new IllegalArgumentException("null collectionType")
 		}
 
 		log.info("storing temp query:${metadataQuery} ")
@@ -172,6 +151,13 @@ class MetadataQueryService {
 		def metadataQueryMaintenanceService = jargonServiceFactoryService.instanceMetadataQueryMaintenanceService(irodsAccount)
 		def temporaryQueryService = jargonServiceFactoryService.instanceTemporaryQueryService(irodsAccount)
 		theSession.virtualCollections = null
-		return temporaryQueryService.addOrUpdateTemporaryQuery(metadataQueryVirtualCollection, irodsAccount.getUserName(), metadataQueryMaintenanceService)
+
+		if (collectionType == CollectionTypes.TEMPORARY_QUERY) {
+			log.info("ading temp query")
+			return temporaryQueryService.addOrUpdateTemporaryQuery(metadataQueryVirtualCollection, irodsAccount.getUserName(), metadataQueryMaintenanceService)
+		} else {
+			log.info("updating existing query")
+			return metadataQueryMaintenanceService.addOrUpdateVirtualCollection(virtualCollection, collectionType, virtualCollection.uniqueName)
+		}
 	}
 }

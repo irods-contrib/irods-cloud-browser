@@ -178,4 +178,32 @@ class VirtualCollectionService {
 			throw new UnsupportedOperationException("not supported yet")
 		}
 	}
+
+	/**
+	 * Delete all unique names in the given list
+	 * @param uniqueNames list of unique names
+	 * @param irodsAccount
+	 * @param httpSession
+	 * @return
+	 */
+	def deleteVirtualCollections(String[] uniqueNames, IRODSAccount irodsAccount, HttpSession httpSession) {
+		log.info("deleteVirtualCollections()")
+		if (!uniqueNames) {
+			throw new IllegalArgumentException("missing uniqueNames")
+		}
+		if (!irodsAccount) {
+			throw new IllegalArgumentException("null irodsAccount")
+		}
+
+		if (!httpSession) {
+			throw new IllegalArgumentException("null httpSession")
+		}
+
+
+		log.info("deleting: ${uniqueNames}")
+		def virtualCollectionMaintenanceService = jargonServiceFactoryService.instanceGenericVirtualCollectionMaintenanceService(irodsAccount)
+		uniqueNames.each{uniqueName -> virtualCollectionMaintenanceService.deleteVirtualCollection(uniqueName)}
+		httpSession.virtualCollections = null
+
+	}
 }

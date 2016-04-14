@@ -7,6 +7,7 @@ import org.irods.jargon.datautils.filesampler.FileSamplerServiceImpl
 import org.irods.jargon.filetemplate.impl.DefaultFileTemplateServiceImpl
 import org.irods.jargon.ruleservice.composition.RuleCompositionServiceImpl
 import org.irods.jargon.usertagging.starring.IRODSStarringServiceImpl
+import org.irods.jargon.vircoll.impl.GenericVirtualCollectionMaintenanceService
 import org.irods.jargon.vircoll.impl.TemporaryQueryServiceImpl
 import org.irods.jargon.vircoll.impl.VirtualCollectionDiscoveryServiceImpl
 import org.irods.jargon.vircoll.impl.VirtualCollectionFactoryImpl
@@ -108,5 +109,14 @@ class JargonServiceFactoryService {
 	 */
 	def instanceMetadataQueryMaintenanceService(IRODSAccount irodsAccount) {
 		return new MetadataQueryMaintenanceService(irodsAccessObjectFactory, irodsAccount)
+	}
+
+	/**
+	 * Return a service that can provide generic operations (delete, move, etc) for a virtual collection
+	 * @param irodsAccount
+	 * @return
+	 */
+	def instanceGenericVirtualCollectionMaintenanceService(IRODSAccount irodsAccount) {
+		return new GenericVirtualCollectionMaintenanceService(irodsAccessObjectFactory, irodAccount)
 	}
 }

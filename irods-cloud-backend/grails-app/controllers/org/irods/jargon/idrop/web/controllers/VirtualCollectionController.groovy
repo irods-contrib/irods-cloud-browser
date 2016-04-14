@@ -50,4 +50,34 @@ class VirtualCollectionController extends RestfulController {
 		log.info("virtualCollection:${virtualCollection}")
 		render virtualCollection as JSON
 	}
+
+	/**
+	 * Delete a virtual collection.  
+	 * 
+	 * Params
+	 * 
+	 * uniqueName can be one, or an array of names, each will be deleted
+	 */
+	def delete() {
+		log.info("delete")
+
+		def irodsAccount = request.irodsAccount
+		if (!irodsAccount) throw new IllegalStateException("no irodsAccount in request")
+
+
+		def vcName = params.uniqueName
+		if (!vcName) throw new IllegalArgumentException("no uniqueName")
+
+		log.info("uniqueName:${vcName}")
+		def vcNames = new ArrayList<String>()
+		if (vcName instanceof String[]) {
+			log.info("multiple names, delete each")
+			vcName.each{vc -> vcNames.add(vc)}
+		} else {
+			log.info("single path for download")
+			vcNames.add(vcName)
+		}
+
+		virtualCollectionService.delete(vcNames, irodsAccount, session)
+	}
 }

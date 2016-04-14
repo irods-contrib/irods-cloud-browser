@@ -10,6 +10,7 @@ import org.irods.jargon.idrop.web.services.VirtualCollectionService.ListingType
 import org.irods.jargon.vircoll.AbstractVirtualCollection
 import org.irods.jargon.vircoll.UserVirtualCollectionProfile
 import org.irods.jargon.vircoll.VirtualCollectionDiscoveryService
+import org.irods.jargon.vircoll.impl.GenericVirtualCollectionMaintenanceService
 import org.irods.jargon.vircoll.impl.VirtualCollectionFactoryImpl
 import org.irods.jargon.vircoll.types.CollectionBasedVirtualCollection
 import org.irods.jargon.vircoll.types.CollectionBasedVirtualCollectionExecutor
@@ -65,12 +66,45 @@ class VirtualCollectionServiceSpec  extends Specification  {
 		actual != null
 	}
 
+	void "test delete vc"() {
+		given:
+		IRODSAccount irodsAccount = IRODSAccount.instance("host", 1247, "user", "password", "", "zone", "")
+		String[] uniqueName = ["xxxx"]
+		def uniqueNamesList = new ArrayList<String>();
+		def irodsAccessObjectFactory = mockFor(IRODSAccessObjectFactory)
+		def iafMock = irodsAccessObjectFactory.createMock()
+
+		def jargonServiceFactoryService = mockFor(JargonServiceFactoryService)
+		def virtualCollectionMaintenanceService = mockFor(GenericVirtualCollectionMaintenanceService)
+		virtualCollectionMaintenanceService.demand.deleteVirtualCollection{nm -> return void}
+		def maintMock = virtualCollectionMaintenanceService.createMock()
+
+		jargonServiceFactoryService.demand.instanceGenericVirtualCollectionMaintenanceService{irodsAcct -> return maintMock}
+
+		def mockSession = new GrailsMockHttpSession()
+		def userVirtualCollectionProfile = new UserVirtualCollectionProfile();
+		mockSession.virtualCollections = userVirtualCollectionProfile
+
+		VirtualCollectionService virtualCollectionService = new VirtualCollectionService()
+		virtualCollectionService.irodsAccessObjectFactory = iafMock
+		def virtualCollectionFactoryCreatorServiceMock = jargonServiceFactoryService.createMock()
+
+		virtualCollectionService.jargonServiceFactoryService = virtualCollectionFactoryCreatorServiceMock
+
+		when:
+
+		def actual = virtualCollectionService.deleteVirtualCollections(uniqueName, irodsAccount, mockSession)
+
+		then:
+
+		1 == 1
+	}
+
 	void "test create listing from collection based vc"() {
 		given:
 		IRODSAccount irodsAccount = IRODSAccount.instance("host", 1247, "user", "password", "", "zone", "")
 		String uniqueName = "root"
 		def irodsAccessObjectFactory = mockFor(IRODSAccessObjectFactory)
-		//irodsAccessObjectFactory.demand.getEnvironmentalInfoAO{ irodsAcct -> return envMock }
 		def iafMock = irodsAccessObjectFactory.createMock()
 		PagingAwareCollectionListing listing = new PagingAwareCollectionListing()
 

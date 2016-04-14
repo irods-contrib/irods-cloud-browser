@@ -44,4 +44,28 @@ class VirtualCollectionControllerSpec extends Specification {
 		controller.response.status == 200
 		log.info("responseText:${response.text}")
 	}
+
+	void testDeleteVirtualCollection() {
+		given:
+
+		def vcServiceMock = mockFor(VirtualCollectionService)
+		def mockSession = new GrailsMockHttpSession()
+		def name = "vcname"
+
+		vcServiceMock.demand.delete {nme, irodsAccount, sess -> return null }
+
+		controller.virtualCollectionService = vcServiceMock.createMock()
+
+		IRODSAccount testAccount = IRODSAccount.instance("host", 1247, "user", "password", "","zone", "")
+		request.irodsAccount = testAccount
+		params.uniqueName = name;
+
+
+		when:
+		controller.delete()
+
+		then:
+		controller.response.status == 200
+		log.info("responseText:${response.text}")
+	}
 }

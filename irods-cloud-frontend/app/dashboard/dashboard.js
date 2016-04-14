@@ -83,17 +83,6 @@ angular.module('myApp.dashboard', ['ngRoute', 'ngFileUpload', 'ng-context-menu',
 
         };
       })
-    .filter('iconic', function () {
-        return function (input, optional) {
-            var out = "";
-            if (input == "virtual.collection.default.icon") {
-                var out = "default_icon";
-            } else if (input == "virtual.collection.icon.starred") {
-                var out = "star_icon";
-            }
-            return out;
-        };
-    })
     .controller('dashboardCtrl', ['$scope', 'Upload', '$log', '$http', '$location', 'MessageService', 'globals', 'breadcrumbsService', 'downloadService', 'virtualCollectionsService', 'collectionsService', 'fileService', 'selectedVc', 'pagingAwareCollectionListing', function ($scope, Upload, $log, $http, $location, MessageService, $globals, breadcrumbsService, downloadService, $virtualCollectionsService, $collectionsService, fileService, selectedVc, pagingAwareCollectionListing) {
 
         /*

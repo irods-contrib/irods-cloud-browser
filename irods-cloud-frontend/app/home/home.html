@@ -3,19 +3,19 @@
 <div ng-include="'side_nav.html'"></div>
 <div id="main_contents" class="uncollapsed_main_contents"> 	
 	
-	<div class="one_column ">
+	<div class="one_column">
 		<div class="column_content">
 			<div class="light_header"><span>My Folders</span></div>
 			<ul>
-			    <li class="light_back_option" ng-class="selectedVc.data.uniqueName == virtualCollection.uniqueName ? 'selected' : '' " ng-repeat="virtualCollection in virtualCollections.userHomeCollections" ng-click="selectVirtualCollection(virtualCollection.uniqueName, '')">
-			            <span><span class="{{virtualCollection.i18icon|iconic}}"></span><span>{{virtualCollection.uniqueName}}</span></span>
+			    <li class="light_back_option " ng-class="selectedVc.data.uniqueName == virtualCollection.uniqueName ? 'selected' : '' " ng-repeat="virtualCollection in virtualCollections.userHomeCollections" ng-click="selectVirtualCollection(virtualCollection.uniqueName, '')">
+			            <span><i class="fa fa-{{virtualCollection.i18icon|iconic}} folder_listing"></i><span>{{virtualCollection.uniqueName}}</span></span>
 			    </li>
 			</ul>
 			<br>
 			<div class="light_header"><span>Recent Queries</span></div>
 			<ul class="recent_queries_container">
-			    <li class="light_back_option" ng-class="selectedVc.data.uniqueName == virtualCollection.uniqueName ? 'selected' : '' " ng-repeat="virtualCollection in virtualCollections.userRecentQueries" ng-click="selectVirtualCollection(virtualCollection.uniqueName, '')">
-			            <span title="{{virtualCollection.description}}"><span class="{{virtualCollection.i18icon|iconic}}"></span><span>{{virtualCollection.description}}</span></span>
+			    <li context-menu data-target="recent_queries_menu" class="light_back_option recent_query" ng-class="selectedVc.data.uniqueName == virtualCollection.uniqueName ? 'selected' : '' " ng-repeat="virtualCollection in virtualCollections.userRecentQueries" ng-click="selectVirtualCollection(virtualCollection.uniqueName, '')">
+			            <span title="{{virtualCollection.description}}"><i class="fa fa-search folder_listing"></i><span>{{virtualCollection.description}}</span></span>
 			    </li>
 			</ul>
 		</div>
@@ -143,8 +143,8 @@
 				<ul context-menu data-target="main_list_menu" ng-class="{ 'highlight': highlight, 'expanded' : expanded }" class="selectable general_list_item">
 				    <li class="ui-widget-content data_{{collectionAndDataObject.dataObject}} ui-selectee " ng-dblclick="collectionAndDataObject.dataObject == true ? selectProfile(collectionAndDataObject.formattedAbsolutePath) : selectVirtualCollection(selectedVc.data.uniqueName,collectionAndDataObject.formattedAbsolutePath)" ng-class-odd="'light_back_option'" ng-double-tap="collectionAndDataObject.dataObject == true ? selectProfile(collectionAndDataObject.formattedAbsolutePath) : selectVirtualCollection(selectedVc.data.uniqueName,collectionAndDataObject.formattedAbsolutePath)" ng-class-even="'light_back_option_even'" ng-repeat="collectionAndDataObject in pagingAwareCollectionListing.collectionAndDataObjectListingEntries" id='{{collectionAndDataObject.formattedAbsolutePath}}' on-last-repeat>
 			            <div class="col-xs-7 list_content">
-				            <img ng-show="{{collectionAndDataObject.dataObject}} == true" src="images/data_object_icon.png">
-				            <img ng-show="{{collectionAndDataObject.dataObject}} == false" src="images/collection_icon.png">        
+				            <i ng-show="{{collectionAndDataObject.dataObject}} == true" class="fa fa-file-o"></i>  
+				            <i ng-show="{{collectionAndDataObject.dataObject}} == false" class="fa fa-folder folder_listing"></i>      
 			            	<span class="data_object">{{collectionAndDataObject.nodeLabelDisplayValue}}</span>
 			            </div>
 			            <div class="col-xs-3 list_content text-right ">
@@ -209,6 +209,26 @@
   </ul>
 </div>
 
+
+<div class="dropdown position-fixed" id="recent_queries_menu">
+  <ul class="dropdown-menu" role="menu">
+  	<li>
+      <button class="download_button context_button" title="Save recent query and make it permanent in My Folders" ng-click='delete_pop_up_open()' > 
+      	<i class="fa fa-level-up fa-2x"></i><span>&nbsp;Move <b class="max_200">{{right_clicked_query}}</b> to <b>My Folders</b></span>	
+      </button>
+    </li>
+    <li>
+      <button class="download_button context_button" title="Delete selected file(s) " ng-click='delete_pop_up_open()' > 
+      	<i class="fa fa-pencil fa-2x"></i><span>&nbsp;Edit</span>	
+      </button>
+    </li>
+    <li>
+      <button class="download_button context_button" title="Delete selected file(s) " ng-click='delete_pop_up_open()' > 
+      	<i class="fa fa-close fa-2x"></i><span>&nbsp;Delete</span>	
+      </button>
+    </li>
+  </ul>
+</div>
 
 
 

@@ -73,17 +73,6 @@ angular.module('myApp.search', ['ngRoute', 'ngFileUpload', 'ng-context-menu','ui
 
         };
       })
-    .filter('iconic', function () {
-        return function (input, optional) {
-            var out = "";
-            if (input == "virtual.collection.default.icon") {
-                var out = "default_icon";
-            } else if (input == "virtual.collection.icon.starred") {
-                var out = "star_icon";
-            }
-            return out;
-        };
-    })
     .controller('searchCtrl', ['$scope', 'Upload', '$log', '$http', '$location', 'MessageService', 'globals', 'breadcrumbsService', 'downloadService', 'virtualCollectionsService', 'collectionsService', 'fileService', 'selectedVc', 'pagingAwareCollectionListing', function ($scope, Upload, $log, $http, $location, MessageService, $globals, breadcrumbsService, downloadService, $virtualCollectionsService, $collectionsService, fileService, selectedVc, pagingAwareCollectionListing) {
 
         /*
@@ -283,7 +272,7 @@ angular.module('myApp.search', ['ngRoute', 'ngFileUpload', 'ng-context-menu','ui
                 attr_evals.push($(this).val());
             });
 
-            for (var i = 0; i < attr_names.length; i++) {
+            for (var i = 1; i < attr_names.length; i++) {
 
                 if(attr_names[i].value == ""){
                     MessageService.danger("Missing Attribute Name");
@@ -297,6 +286,7 @@ angular.module('myApp.search', ['ngRoute', 'ngFileUpload', 'ng-context-menu','ui
                 query_val += '{"attributeName":"'+attr_names[i]+'","operator":"'+attr_evals[i]+'","attributeValue":["'+attr_vals[i]+'"],"connector":"AND"},';
             }
             query_val += ']}';
+            alert(query_val);
             return $http({
                     method: 'POST',
                     url: $globals.backendUrl('metadataQuery'),

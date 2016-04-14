@@ -127,9 +127,9 @@ angular.module('myApp.home', ['ngRoute', 'ngFileUpload', 'ng-context-menu','ui.c
         return function (input, optional) {
             var out = "";
             if (input == "virtual.collection.default.icon") {
-                var out = "default_icon";
+                var out = "folder";
             } else if (input == "virtual.collection.icon.starred") {
-                var out = "star_icon";
+                var out = "star";
             }
             return out;
         };
@@ -590,6 +590,7 @@ angular.module('myApp.home', ['ngRoute', 'ngFileUpload', 'ng-context-menu','ui.c
                             
                         }else{
                             $(".general_list_item .ui-selected").removeClass("ui-selected");
+                            $(".recent_query").removeClass("selected");
                             $(".download_button").css('opacity', '0.1');
                             $(".download_button").css('pointer-events', 'none');
                             $(".rename_button").css('opacity', '0.1');
@@ -600,7 +601,7 @@ angular.module('myApp.home', ['ngRoute', 'ngFileUpload', 'ng-context-menu','ui.c
                             $(".tablet_rename_button").fadeOut();
                             $(".empty_selection").fadeIn();
                             $("#select-result").empty();
-                            $(".dropdown").removeClass("open");
+                            $(".dropdown").removeClass("open");                            
                         }
                     }
                     break;
@@ -637,6 +638,10 @@ angular.module('myApp.home', ['ngRoute', 'ngFileUpload', 'ng-context-menu','ui.c
                                 $(".folder_upload_button").css('pointer-events', 'none');
                             };
                         });
+                        
+                        if($(event.target).parents("li").hasClass('recent_query')){
+                            $scope.right_clicked_query = $(event.target).parents("li").children("span").children("span").text();                            
+                        }
                     }
                     if ($(".general_list_item .ui-selected").length > 1) {
                         if(!$(event.target).parents("li").hasClass("ui-selected")){

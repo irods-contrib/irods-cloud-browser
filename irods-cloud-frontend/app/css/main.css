@@ -86,6 +86,9 @@ body{
 /* ||||||||||||||||||||||||||||||||||| */
 /* |||||| COLOR THEME ELEMENTS ||||||| */
 /* ||||||||||||||||||||||||||||||||||| */
+.folder_listing{
+	font-size: 16px !important;
+}
 .listing{
 	background: #fff;
 	border: 2px solid #00A9C2;
@@ -711,12 +714,13 @@ select{
 	margin: 0px;
 	background: #fff;
 	border: 0px;
-	padding: 4px 0px 0px 5px;
+	padding: 4px 8px 0px 5px;
 	text-align: left;
 	float: left;
 	font-weight: normal;
 	width: 100%;
 	height: 31px;
+	white-space: nowrap;
 }
 .download_button.context_button:hover,.rename_button.context_button:hover,.visible_button.context_button:hover{
 	background: rgba(0,0,0,0.1);
@@ -855,18 +859,6 @@ select{
 .border_left{
 	border-left: 1px solid #999;
 }
-.default_icon{
-	background: url("../images/collection_icon.png");
-	width: 20px;
-	height: 20px;
-	display: inline-flex;
-}
-.star_icon{
-	background: url("../images/star_icon.png");
-	width: 20px;
-	height: 20px;
-	display: inline-flex;
-}
 .breadcrumbs_sub_container a{
 	color: #555;
 }
@@ -954,6 +946,14 @@ input.col-xs-12{
 /* ||||||||||||||||||||||||||||||||||| */
 /* |||| BUTTONS AND OPTIONS STYLES ||| */
 /* ||||||||||||||||||||||||||||||||||| */
+.max_200{
+	display: inline-block;
+    max-width: 200px;
+    overflow-x: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    vertical-align: bottom;
+}
 .desktop_collection_actions{
 	display: block;
 }
@@ -1088,6 +1088,8 @@ input.col-xs-12{
 .light_back_option span, .light_back_option_even span{
 	padding: 0px 0px 4px 4px;
 	cursor: pointer;
+	width: 100%;
+    display: inline-block;
 }
 .ui-widget-content.light_back_option, .ui-widget-content.light_back_option_even{
 	cursor:pointer;

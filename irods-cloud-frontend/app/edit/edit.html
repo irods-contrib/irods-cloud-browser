@@ -34,13 +34,13 @@
 					
 			</div>
 			<div ng-show="dataProfile.mimeType =='text/plain' || dataProfile.mimeType =='application/xml'">
-				<div class="themed_header"><img src="images/edit_icon.png">&nbsp;Editing {{dataProfile.childName}}</div>
+				<div class="themed_header"><i class="fa fa-pencil folder_listing"></i>&nbsp;Editing {{dataProfile.childName}}</div>
 				<div class="edit_header">							
 						<div class="edit_actions_container">
 							<div class="btn btn-xs btn-success just_right" ng-class="file_content == initial_file_content ? 'save_button' : 'save_button_active'" ng-click="save_content_action()">Save Changes</div>
 							<div class="btn btn-xs btn-default just_right" ng-click="selectProfile(dataProfile.domainObject.absolutePath)">Cancel</div>
 							<div class="visible_button_left" title="Create a new metadata item" ng-click='reload_file_content()'> 
-								<img src="images/dark_reload_icon.png"><span>&nbsp;Reload</span>	
+								<i class="fa fa-refresh folder_listing"></i><span>&nbsp;Reload</span>	
 							</div>																
 						</div>	
 				</div>
@@ -49,13 +49,13 @@
 				</div>
 			</div>
 			<div ng-show="dataProfile.mimeType=='application/irods-rule'">
-				<div class="themed_header"><img src="images/edit_icon.png">&nbsp;Editing/Executing {{dataProfile.childName}}</div>
+				<div class="themed_header"><i class="fa fa-pencil folder_listing"></i>&nbsp;Editing/Executing {{dataProfile.childName}}</div>
 				<div class="edit_header">							
 						<div class="edit_actions_container">
 							<div class="btn btn-xs btn-success just_right" ng-class="rule_string.ruleText == initial_rule_string_body ? 'save_button' : 'save_button_active'" ng-click="save_rule()">Save Changes</div>
 							<div class="btn btn-xs btn-default just_right" ng-click="selectProfile(dataProfile.domainObject.absolutePath)">Cancel</div>
 							<div class="visible_button_left" title="Create a new metadata item" ng-click='reload_rule_string()'> 
-								<img src="images/dark_reload_icon.png"><span>&nbsp;Reload</span>	
+								<i class="fa fa-refresh folder_listing"></i><span>&nbsp;Reload</span>	
 							</div>																
 						</div>	
 				</div>
@@ -96,17 +96,17 @@
   <ul class="dropdown-menu" role="menu">
     <li>
       <button class="visible_button context_button" title="Create a new metadata item" ng-click='selectProfile(selected_target)'> 
-      	<img src="images/dark_add_icon.png"><span>&nbsp;Add</span>	
+      	<i class="fa fa-plus folder_listing"></i><span>&nbsp;Add</span>	
       </button>
     </li>
     <li>
       <button class="rename_button context_button" title="Edit selected metadata" ng-click='getDownloadLink()' > 
-      	<img src="images/dark_edit_icon.png"><span>&nbsp;Edit</span>	
+      	<i class="fa fa-pencil folder_listing"></i><span>&nbsp;Edit</span>	
       </button>
     </li>
     <li>
       <button class="rename_button context_button" title="Delete selected metadata" ng-click='move_pop_up_open()' > 
-      	<img src="images/dark_delete_icon.png"><span>&nbsp;Delete</span>	
+      	<i class="fa fa-remove folder_listing"></i><span>&nbsp;Delete</span>	
       </button>
     </li>    
   </ul>

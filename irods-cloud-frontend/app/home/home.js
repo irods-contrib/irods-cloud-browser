@@ -130,6 +130,12 @@ angular.module('myApp.home', ['ngRoute', 'ngFileUpload', 'ng-context-menu','ui.c
                 var out = "folder";
             } else if (input == "virtual.collection.icon.starred") {
                 var out = "star";
+            } else if (input == "Text File") {
+                var out = "file-text-o";
+            } else if (input == "XML File") {
+                var out = "file-o";
+            } else if (input == "iRODS Rule") {
+                var out = "file-code-o";
             }
             return out;
         };
@@ -273,7 +279,7 @@ angular.module('myApp.home', ['ngRoute', 'ngFileUpload', 'ng-context-menu','ui.c
                     } else {
                         $scope.files_to_upload.push(file);
                         $scope.files_name.push(file.name);
-                        $(".upload_container_result ul").append('<li id="uploading_item_' + i + '" class="light_back_option_even"><div class="col-xs-10 list_content"><img src="images/data_object_icon.png">' + file.name + '</div></li>');
+                        $(".upload_container_result ul").append('<li id="uploading_item_' + i + '" class="light_back_option_even"><div class="col-xs-10 list_content"><i class="fa fa-file-o"></i>&nbsp' + file.name + '</div></li>');
                     }
                 }
             }
@@ -396,6 +402,25 @@ angular.module('myApp.home', ['ngRoute', 'ngFileUpload', 'ng-context-menu','ui.c
                 url: $globals.backendUrl('file'),
                 params: {
                     path: delete_paths
+                }
+            }).then(function (data) {
+                return $collectionsService.listCollectionContents($scope.selectedVc.data.uniqueName, $scope.pagingAwareCollectionListing.pagingAwareCollectionListingDescriptor.parentAbsolutePath, 0);
+            }).then(function (data) {
+                MessageService.info("Deletion completed!");
+                $scope.pagingAwareCollectionListing = data;
+                $scope.listVirtualCollections();
+                $scope.pop_up_close_clear();
+            })
+        };
+        
+        $scope.query_delete_action = function () {
+            $log.info('Deleting:' + $scope.right_clicked_query);
+            $log.info('ID:' + $scope.right_clicked_query_id);
+            return $http({
+                method: 'DELETE',
+                url: $globals.backendUrl('virtualCollection'),
+                params: {
+                    uniqueName: $scope.right_clicked_query_id
                 }
             }).then(function (data) {
                 return $collectionsService.listCollectionContents($scope.selectedVc.data.uniqueName, $scope.pagingAwareCollectionListing.pagingAwareCollectionListingDescriptor.parentAbsolutePath, 0);
@@ -640,7 +665,8 @@ angular.module('myApp.home', ['ngRoute', 'ngFileUpload', 'ng-context-menu','ui.c
                         });
                         
                         if($(event.target).parents("li").hasClass('recent_query')){
-                            $scope.right_clicked_query = $(event.target).parents("li").children("span").children("span").text();                            
+                            $scope.right_clicked_query = $(event.target).parents("li").children("span").children("span").text();   
+                            $scope.right_clicked_query_id = $(event.target).parents("li").attr("id");
                         }
                     }
                     if ($(".general_list_item .ui-selected").length > 1) {
@@ -746,14 +772,8 @@ angular.module('myApp.home', ['ngRoute', 'ngFileUpload', 'ng-context-menu','ui.c
             copy_path_display.append(current_collection);
             $scope.name_of_selection.each(function () {
                 if ($(this).attr('id') != undefined) {
-                    if ($(this).hasClass("data_true")) {
-                        $(".move_container ul").append('<li class="light_back_option_even"><div class="col-xs-12 list_content"><img src="images/data_object_icon.png">' + $(this).attr('id') + '</div></li>');
-                    } else {
-                        $(".move_container ul").append('<li class="light_back_option_even"><div class="col-xs-12 list_content"><img src="images/collection_icon.png">' + $(this).attr('id') + '</div></li>');
-                    }
-                    ;
-                }
-                ;
+                        $(".move_container ul").append('<li class="light_back_option_even"><div class="col-xs-12 list_content"><i class="fa fa-folder folder_listing"></i>&nbsp' + $(this).attr('id') + '</div></li>');
+                };
             });
             $('.mover').fadeIn(100);
             $('.mover_button').fadeIn(100);
@@ -791,15 +811,9 @@ angular.module('myApp.home', ['ngRoute', 'ngFileUpload', 'ng-context-menu','ui.c
             $scope.copy_target = $scope.pagingAwareCollectionListing.pagingAwareCollectionListingDescriptor.parentAbsolutePath;
             copy_path_display.append(current_collection);
             $scope.name_of_selection.each(function () {
-                if ($(this).attr('id') != undefined) {
-                    if ($(this).hasClass("data_true")) {
-                        $(".copy_container ul").append('<li class="light_back_option_even"><div class="col-xs-12 list_content"><img src="images/data_object_icon.png">' + $(this).attr('id') + '</div></li>');
-                    } else {
-                        $(".copy_container ul").append('<li class="light_back_option_even"><div class="col-xs-12 list_content"><img src="images/collection_icon.png">' + $(this).attr('id') + '</div></li>');
-                    }
-                    ;
-                }
-                ;
+                if ($(this).attr('id') != undefined) {                    
+                        $(".copy_container ul").append('<li class="light_back_option_even"><div class="col-xs-12 list_content"><i class="fa fa-folder folder_listing"></i>&nbsp' + $(this).attr('id') + '</div></li>');
+                };
             });
             $('.copier').fadeIn(100);
             $('.copier_button').fadeIn(100);
@@ -874,9 +888,9 @@ angular.module('myApp.home', ['ngRoute', 'ngFileUpload', 'ng-context-menu','ui.c
             delete_objects.each(function () {
                 if ($(this).attr('id') != undefined) {
                     if ($(this).hasClass("data_true")) {
-                        $(".delete_container ul").append('<li class="light_back_option_even"><div class="col-xs-12 list_content"><img src="images/data_object_icon.png">' + $(this).attr('id') + '</div></li>');
+                        $(".delete_container ul").append('<li class="light_back_option_even"><div class="col-xs-12 list_content"><i class="fa fa-file-o "></i>&nbsp' + $(this).attr('id') + '</div></li>');
                     } else {
-                        $(".delete_container ul").append('<li class="light_back_option_even"><div class="col-xs-12 list_content"><img src="images/collection_icon.png">' + $(this).attr('id') + '</div></li>');
+                        $(".delete_container ul").append('<li class="light_back_option_even"><div class="col-xs-12 list_content"><i class="fa fa-folder folder_listing"></i>&nbsp' + $(this).attr('id') + '</div></li>');
                     }
                     ;
                 }
@@ -884,11 +898,19 @@ angular.module('myApp.home', ['ngRoute', 'ngFileUpload', 'ng-context-menu','ui.c
             });
             $('.deleter').fadeIn(100);
         };
+        $scope.query_delete_pop_up_open = function () {
+            $scope.pop_up_form = "query_delete";
+            window.scrollTo(0,0);
+            $('.pop_up_window').fadeIn(100);
+            $(".query_delete_container ul").append('<li class="light_back_option_even"><div class="col-xs-12 list_content"><i class="fa fa-search folder_listing"></i><span>' + $scope.right_clicked_query + '</span></div></li>');                  
+            $('.query_deleter').fadeIn(100);
+        };
         $scope.pop_up_close_clear = function () {
 
             $('.pop_up_window').fadeOut(200, function () {
                 $(".move_container ul").empty();
                 $(".delete_container ul").empty();
+                $(".query_delete_container ul").empty();
                 $('#new_collection_name').val('');
                 $('.selected_object').empty();
                 $('#new_renaming_name').val('');
@@ -899,6 +921,7 @@ angular.module('myApp.home', ['ngRoute', 'ngFileUpload', 'ng-context-menu','ui.c
                 $(".upload_container_result").css('display', 'none');
                 $('.uploader').fadeOut(100);
                 $('.deleter').fadeOut(100);
+                $('.query_deleter').fadeOut(100);
                 $('.creater').fadeOut(100);
                 $('.file_creater').fadeOut(100);
                 $('.renamer').fadeOut(100);
@@ -927,6 +950,7 @@ angular.module('myApp.home', ['ngRoute', 'ngFileUpload', 'ng-context-menu','ui.c
             $('.pop_up_window').fadeOut(200, function () {
                 $(".move_container ul").empty();
                 $(".delete_container ul").empty();
+                $(".query_delete_container ul").empty();
                 $('#new_collection_name').val('');
                 $('.selected_object').empty();
                 $('#new_renaming_name').val('');
@@ -937,6 +961,7 @@ angular.module('myApp.home', ['ngRoute', 'ngFileUpload', 'ng-context-menu','ui.c
                 $(".upload_container_result").css('display', 'none');
                 $('.uploader').fadeOut(100);
                 $('.deleter').fadeOut(100);
+                $('.query_deleter').fadeOut(100);
                 $('.creater').fadeOut(100);
                 $('.file_creater').fadeOut(100);
                 $('.renamer').fadeOut(100);

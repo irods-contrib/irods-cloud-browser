@@ -261,18 +261,30 @@ angular.module('myApp.search', ['ngRoute', 'ngFileUpload', 'ng-context-menu','ui
             var query_val = '{"targetZone":"","queryType":"'+ $('#search_objs').val() +'","pathHint":"'+$('.search_path').val()+'","metadataQueryElements":[';
             var attr_names = [];
             $(".attr_name").each(function() {
-                attr_names.push($(this).val());
+                if($(this).parent().parent().hasClass('ng-hide')){
+
+                }else{
+                    attr_names.push($(this).val());
+                }
             });
             var attr_vals = [];
             $(".attr_val").each(function() {
-                attr_vals.push($(this).val());
+                if($(this).parent().parent().hasClass('ng-hide')){
+
+                }else{
+                    attr_vals.push($(this).val());
+                }
             });
             var attr_evals = [];
             $(".attr_eval").each(function() {
-                attr_evals.push($(this).val());
+                if($(this).parent().parent().hasClass('ng-hide')){
+
+                }else{
+                    attr_evals.push($(this).val());
+                }
             });
 
-            for (var i = 1; i < attr_names.length; i++) {
+            for (var i = 0; i < attr_names.length; i++) {
 
                 if(attr_names[i].value == ""){
                     MessageService.danger("Missing Attribute Name");
@@ -286,7 +298,6 @@ angular.module('myApp.search', ['ngRoute', 'ngFileUpload', 'ng-context-menu','ui
                 query_val += '{"attributeName":"'+attr_names[i]+'","operator":"'+attr_evals[i]+'","attributeValue":["'+attr_vals[i]+'"],"connector":"AND"},';
             }
             query_val += ']}';
-            alert(query_val);
             return $http({
                     method: 'POST',
                     url: $globals.backendUrl('metadataQuery'),

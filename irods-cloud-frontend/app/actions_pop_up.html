@@ -6,7 +6,7 @@
     *********************************-->
 
     <div class="column_content uploader pop_up_content">
-      <div class="light_header"><img src="images/upload_icon_dark.png"><span>Uploading files to {{upload_folder_name}}</span><img class="pop_up_close_clear_button right" title="close window" ng-click="pop_up_close()" src="images/close_icon.png"></div>
+      <div class="light_header"><i class="fa fa-arrow-up folder_listing"></i><span>Uploading files to {{upload_folder_name}}</span><i class="fa fa-times-circle fa-lg right" title="close window" ng-click="pop_up_close()"></i></div>
       
       <div class="upload_container">
         <br>
@@ -30,7 +30,7 @@
     *********************************-->
 
     <div class="column_content deleter pop_up_content">
-      <div class="delete_header"><img src="images/red_delete_icon.png"><span>&nbsp;Are you sure you want to DELETE the following:</span><img class="pop_up_close_clear_button right" title="close window" ng-click="pop_up_close()" src="images/close_icon.png"></div>
+      <div class="delete_header"><i class="fa fa-remove folder_listing"></i><span>&nbsp;Are you sure you want to DELETE the following:</span><i class="fa fa-times-circle fa-lg right dark" title="close window" ng-click="pop_up_close()"></i></div>
       
       <div class="delete_container">
         <br>
@@ -46,13 +46,35 @@
       </div>
     </div>
 
+
+    <!--********************************
+    *******    QUERY DELETER    ********
+    *********************************-->
+
+    <div class="column_content query_deleter pop_up_content">
+      <div class="delete_header"><i class="fa fa-remove folder_listing"></i><span>&nbsp;Are you sure you want to DELETE the following:</span><i class="fa fa-times-circle fa-lg right dark" title="close window" ng-click="pop_up_close()"></i></div>
+      
+      <div class="query_delete_container">
+        <br>
+        <ul></ul>
+
+        <div class="container"><hr class="hr_flat"></div>
+        <div class="left">
+          <div class="btn btn-default" ng-click="pop_up_close_clear()">Cancel</div>
+        </div>
+        <div class="right t_right">
+          Yes, I'm sure.&nbsp;<div class="btn btn-danger" ng-click="query_delete_action()">Delete</div>
+        </div>
+      </div>
+    </div>
+
     <!--********************************
     ***********    COPIER    ***********
     *********************************-->
 
         <div class="column_content pop_up_content copier">
           <div class="light_big_header copier">      
-            <span><img src="images/dark_copy_icon.png">&nbsp;Copying to:&nbsp;<span class="copy_select_result"></span><img class="pop_up_close_clear_button right" title="close window" ng-click="pop_up_close()" src="images/close_icon.png"></span>
+            <span><i class="fa fa-clone folder_listing"></i>&nbsp;Copying to:&nbsp;<span class="copy_select_result"></span><i class="fa fa-times-circle fa-lg right" title="close window" ng-click="pop_up_close()"></i></span>
           </div>
 
           <div class="breadcrumbs_container">
@@ -94,7 +116,7 @@
             <ul class="selectable copy_listing">
                 <li class="ui-widget-content data_{{collectionAndDataObject.dataObject}} copy_list_item ui-selectee" ng-show="{{collectionAndDataObject.dataObject}} == false" ng-dblclick="copy_list_refresh(copyVC.data.uniqueName,collectionAndDataObject.formattedAbsolutePath)" ng-class-odd="'light_back_option'" ng-class-even="'light_back_option_even'" ng-repeat="collectionAndDataObject in copy_list.data.collectionAndDataObjectListingEntries" id='{{collectionAndDataObject.formattedAbsolutePath}}' on-last-repeat>
                         <div class="col-xs-10 col-sm-10 col-md-7 col-lg-7 list_content">
-                          <img src="images/collection_icon.png">          
+                          <i class="fa fa-folder folder_listing"></i>          
                           <span class="collection_object">{{collectionAndDataObject.nodeLabelDisplayValue}}</span>
                         </div>
                         <div class="col-xs-3 list_content text-right">
@@ -116,7 +138,7 @@
       
         <div class="column_content pop_up_content mover">
           <div class="light_big_header mover">      
-            <span><img src="images/dark_move_icon.png">&nbsp;Moving to:&nbsp;<span class="copy_select_result"></span><img class="pop_up_close_clear_button right" title="close window" ng-click="pop_up_close()" src="images/close_icon.png"></span>
+            <span><i class="fa fa-arrow-right folder_listing"></i>&nbsp;Moving to:&nbsp;<span class="copy_select_result"></span><i class="fa fa-times-circle fa-lg right" title="close window" ng-click="pop_up_close()"></i></span>
           </div>
           <div class='collection_header'>
             <div class="breadcrumbs_container" ng-show="copyVC.data.type == 'COLLECTION'">
@@ -156,7 +178,7 @@
             <ul class="selectable move_listing">
                 <li class="ui-widget-content data_{{collectionAndDataObject.dataObject}} move_list_item ui-selectee" ng-show="{{collectionAndDataObject.dataObject}} == false" ng-dblclick="copy_list_refresh(copyVC.data.uniqueName,collectionAndDataObject.formattedAbsolutePath)" ng-class-odd="'light_back_option'" ng-class-even="'light_back_option_even'" ng-repeat="collectionAndDataObject in copy_list.data.collectionAndDataObjectListingEntries" id='{{collectionAndDataObject.formattedAbsolutePath}}' on-last-repeat>
                         <div class="col-xs-10 col-sm-10 col-md-7 col-lg-7 list_content">
-                          <img src="images/collection_icon.png">          
+                          <i class="fa fa-folder folder_listing"></i>         
                           <span class="collection_object">{{collectionAndDataObject.nodeLabelDisplayValue}}</span>
                         </div>
                         <div class="col-xs-3 list_content text-right">
@@ -179,7 +201,7 @@
       
         <div class="column_content pop_up_content path_picker">
           <div class="light_big_header path_picker">      
-            <span><i class="fa fa-folder-open"></i>&nbsp;Search in:&nbsp;<span class="copy_select_result"></span><img class="pop_up_close_clear_button right" title="close window" ng-click="pop_up_close()" src="images/close_icon.png"></span>
+            <span><i class="fa fa-folder-open"></i>&nbsp;Search in:&nbsp;<span class="copy_select_result"></span><i class="fa fa-times-circle fa-lg right" title="close window" ng-click="pop_up_close()"></i></span>
           </div>
           <div class='collection_header'>
             <div class="breadcrumbs_container" ng-show="copyVC.data.type == 'COLLECTION'">
@@ -219,7 +241,7 @@
             <ul class="selectable move_listing">
                 <li class="ui-widget-content data_{{collectionAndDataObject.dataObject}} move_list_item ui-selectee" ng-show="{{collectionAndDataObject.dataObject}} == false" ng-dblclick="copy_list_refresh(copyVC.data.uniqueName,collectionAndDataObject.formattedAbsolutePath)" ng-class-odd="'light_back_option'" ng-class-even="'light_back_option_even'" ng-repeat="collectionAndDataObject in copy_list.data.collectionAndDataObjectListingEntries" id='{{collectionAndDataObject.formattedAbsolutePath}}' on-last-repeat>
                         <div class="col-xs-10 col-sm-10 col-md-7 col-lg-7 list_content">
-                          <img src="images/collection_icon.png">          
+                          <i class="fa fa-folder folder_listing"></i>        
                           <span class="collection_object">{{collectionAndDataObject.nodeLabelDisplayValue}}</span>
                         </div>
                         <div class="col-xs-3 list_content text-right">
@@ -241,7 +263,7 @@
       *********************************-->
 
     <div class="column_content creater pop_up_content">
-      <div class="light_header"><img src="images/dark_add_icon.png"><span>&nbsp;Adding sub-folder to {{pagingAwareCollectionListing.pagingAwareCollectionListingDescriptor.pathComponents[current_collection_index]}}</span><img class="pop_up_close_clear_button right" title="close window" ng-click="pop_up_close()" src="images/close_icon.png"></div>
+      <div class="light_header"><i class="fa fa-folder folder_listing"></i><span>&nbsp;Adding sub-folder to {{pagingAwareCollectionListing.pagingAwareCollectionListingDescriptor.pathComponents[current_collection_index]}}</span><i class="fa fa-times-circle fa-lg right" title="close window" ng-click="pop_up_close()"></i></div>
       
       <div class="add_container">
         <br>
@@ -264,7 +286,7 @@
       *********************************-->
 
     <div class="column_content file_creater pop_up_content">
-      <div class="light_header"><img src="images/data_object_icon.png"><span>&nbsp;New {{file_to_be_created.templateName}}</span><img class="pop_up_close_clear_button right" title="close window" ng-click="pop_up_close()" src="images/close_icon.png"></div>
+      <div class="light_header"><i class="fa fa-{{file_to_be_created.templateName|iconic}} folder_listing"></i><span>&nbsp;New {{file_to_be_created.templateName}}</span><i class="fa fa-times-circle fa-lg right" title="close window" ng-click="pop_up_close()"></i></div>
       
       <div class="add_container">
         <br>
@@ -289,7 +311,7 @@
 
 
     <div class="column_content renamer pop_up_content">
-      <div class="light_header"><img src="images/dark_edit_icon.png"><span>&nbsp;Renaming</span><img class="pop_up_close_clear_button right" title="close window" ng-click="pop_up_close()" src="images/close_icon.png"></div>
+      <div class="light_header"><i class="fa fa-i-cursor folder_listing"></i><span>&nbsp;Renaming</span><i class="fa fa-times-circle fa-lg right" title="close window" ng-click="pop_up_close()"></i></div>
       
       <div class="rename_container">
         <br>
@@ -314,7 +336,7 @@
     *********************************-->
 
     <div class="column_content metadata_adder pop_up_content">
-      <div class="light_header"><img src="images/dark_add_icon.png"><span>&nbsp;Metadata: ADD</span><img class="pop_up_close_clear_button right" title="close window" ng-click="pop_up_close()" src="images/close_icon.png"></div>
+      <div class="light_header"><i class="fa fa-plus folder_listing"></i><span>&nbsp;Metadata: ADD</span><i class="fa fa-times-circle fa-lg right" title="close window" ng-click="pop_up_close()"></i></div>
       
       <div class="metadata_add_container col-xs-10 col-xs-offset-1">
         <br>
@@ -346,7 +368,7 @@
     *********************************-->
 
     <div class="column_content metadata_deleter pop_up_content">
-      <div class="delete_header"><img src="images/red_delete_icon.png"><span>&nbsp;Metadata: DELETE</span><img class="pop_up_close_clear_button right" title="close window" ng-click="pop_up_close()" src="images/close_icon.png"></div>
+      <div class="delete_header"><i class="fa fa-remove folder_listing"></i><span>&nbsp;Metadata: DELETE</span><i class="fa fa-times-circle fa-lg right dark" title="close window" ng-click="pop_up_close()"></i></div>
       
       <div class="metadata_delete_container col-xs-10 col-xs-offset-1">
         <br>
@@ -369,7 +391,7 @@
     *********************************-->
 
     <div class="column_content metadata_editor pop_up_content">
-      <div class="light_header"><img src="images/dark_edit_icon.png"><span>&nbsp;Metadata: Edit</span><img class="pop_up_close_clear_button right" title="close window" ng-click="pop_up_close()" src="images/close_icon.png"></div>
+      <div class="light_header"><i class="fa fa-pencil folder_listing"></i><span>&nbsp;Metadata: Edit</span><i class="fa fa-times-circle fa-lg right" title="close window" ng-click="pop_up_close()"></i></div>
       
       <div class="metadata_add_container col-xs-10 col-xs-offset-1">
         <br>

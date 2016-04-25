@@ -86,6 +86,9 @@ body{
 /* ||||||||||||||||||||||||||||||||||| */
 /* |||||| COLOR THEME ELEMENTS ||||||| */
 /* ||||||||||||||||||||||||||||||||||| */
+.dark{
+	color:#384B50;
+}
 .folder_listing{
 	font-size: 16px !important;
 }
@@ -1088,8 +1091,10 @@ input.col-xs-12{
 .light_back_option span, .light_back_option_even span{
 	padding: 0px 0px 4px 4px;
 	cursor: pointer;
-	width: 100%;
     display: inline-block;
+}
+.recent_query span{
+	width: 100%;
 }
 .ui-widget-content.light_back_option, .ui-widget-content.light_back_option_even{
 	cursor:pointer;
@@ -1150,6 +1155,11 @@ input.col-xs-12{
     padding: 3px;
 }
 .deleter{
+	display:none;
+	padding: 5px 5px 39px 5px;
+}
+.query_deleter{
+	display:none;
 	padding: 5px 5px 39px 5px;
 }
 .copier_wrap{

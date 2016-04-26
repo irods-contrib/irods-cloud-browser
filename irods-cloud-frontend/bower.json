@@ -20,7 +20,7 @@
     "jquery-ui": "~1.11",
     "bootstrap": "~3.3.5",
     "jquery-mobile": "",
-    "ng-context-menu":""
+    "angular-ui-codemirror":""
   },
   "resolutions": {
     "jquery": "~1.11.3",

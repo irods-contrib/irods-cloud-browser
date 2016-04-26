@@ -418,9 +418,9 @@ angular.module('myApp.home', ['ngRoute', 'ngFileUpload', 'ng-context-menu','ui.c
             $log.info('ID:' + $scope.right_clicked_query_id);
             return $http({
                 method: 'DELETE',
-                url: $globals.backendUrl('virtualCollection'),
+                url: $globals.backendUrl('virtualCollection' + "/" + encodeURI($scope.right_clicked_query)),
                 params: {
-                    uniqueName: $scope.right_clicked_query_id
+                   
                 }
             }).then(function (data) {
                 return $collectionsService.listCollectionContents($scope.selectedVc.data.uniqueName, $scope.pagingAwareCollectionListing.pagingAwareCollectionListingDescriptor.parentAbsolutePath, 0);

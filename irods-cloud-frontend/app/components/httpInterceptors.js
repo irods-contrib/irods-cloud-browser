@@ -48,6 +48,13 @@ angular.module('httpInterceptorModule', []).factory('myHttpResponseInterceptor',
 
             } else if (status == 500) {
                 $log.info("internal server error");
+
+
+                // todo: fix for no vc found
+                if (rejection.data.error.localizedMessage.startsWith("no virtual collections")) {
+                    alert("no vc babe");
+                }
+
                 globals.setLastPath($location.path());
                 //$location.path("/index");
                 //if (globals.loggedInIdentity != null) {

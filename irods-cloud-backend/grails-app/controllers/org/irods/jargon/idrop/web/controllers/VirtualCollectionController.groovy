@@ -16,6 +16,7 @@ class VirtualCollectionController extends RestfulController {
 	IRODSAccessObjectFactory irodsAccessObjectFactory
 	VirtualCollectionService virtualCollectionService
 
+
 	/**
 	 * Get user listing of virtual collections, responds to a get with no vc name
 	 */
@@ -78,6 +79,7 @@ class VirtualCollectionController extends RestfulController {
 			vcNames.add(vcName)
 		}
 
-		virtualCollectionService.deleteVirtualCollections(vcNames, irodsAccount, session)
+		virtualCollectionService.deleteVirtualCollections(vcNames.toArray(new String[vcNames.size()]), irodsAccount, session)
+		render(status: 204, text: 'deleted vc ${vcNames}')
 	}
 }

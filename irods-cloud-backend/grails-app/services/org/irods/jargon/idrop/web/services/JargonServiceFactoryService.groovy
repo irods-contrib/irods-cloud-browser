@@ -117,6 +117,6 @@ class JargonServiceFactoryService {
 	 * @return
 	 */
 	def instanceGenericVirtualCollectionMaintenanceService(IRODSAccount irodsAccount) {
-		return new GenericVirtualCollectionMaintenanceService(irodsAccessObjectFactory, irodAccount)
+		return new GenericVirtualCollectionMaintenanceService(irodsAccessObjectFactory, irodsAccount)
 	}
 }

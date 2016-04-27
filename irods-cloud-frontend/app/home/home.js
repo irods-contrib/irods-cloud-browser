@@ -423,12 +423,24 @@ angular.module('myApp.home', ['ngRoute', 'ngFileUpload', 'ng-context-menu','ui.c
 
                 }
             }).then(function (data) {
-                return $collectionsService.listCollectionContents($scope.selectedVc.data.uniqueName, $scope.pagingAwareCollectionListing.pagingAwareCollectionListingDescriptor.parentAbsolutePath, 0);
-            }).then(function (data) {
                 MessageService.info("Deletion completed!");
-                $scope.pagingAwareCollectionListing = data;
-                $scope.listVirtualCollections();
-                $scope.pop_up_close_clear();
+                $location.path("/home/My Home");
+            })
+        };
+
+        $scope.move_query_to_my_folders = function () {
+            $log.info('Moving:' + $scope.right_clicked_query);
+            $log.info('ID:' + $scope.right_clicked_query_id);
+            return $http({
+                method: 'POST',
+                url: $globals.backendUrl('virtualCollection' + "/" + encodeURI($scope.right_clicked_query_id)),
+                params: {
+                    collType: 'USER_HOME'
+                }
+            }).then(function (data) {
+                return $scope.listVirtualCollections();
+            }).then(function (data) {
+                MessageService.success("Move completed!");
             })
         };
 

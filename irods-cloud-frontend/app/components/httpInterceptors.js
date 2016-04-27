@@ -52,7 +52,7 @@ angular.module('httpInterceptorModule', []).factory('myHttpResponseInterceptor',
 
                 // todo: fix for no vc found
                 if (rejection.data.error.localizedMessage.startsWith("no virtual collections")) {
-                    alert("no vc babe");
+                    $location.path("/home/My Home");
                 }
 
                 globals.setLastPath($location.path());

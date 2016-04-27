@@ -1,3 +1,5 @@
+
+
 package org.irods.jargon.idrop.web.controllers
 
 import grails.converters.JSON
@@ -6,6 +8,7 @@ import grails.rest.RestfulController
 import org.irods.jargon.core.exception.JargonException
 import org.irods.jargon.core.pub.IRODSAccessObjectFactory
 import org.irods.jargon.idrop.web.services.VirtualCollectionService
+import org.irods.jargon.vircoll.CollectionTypes
 
 /**
  * Handle iRODS virtual collections
@@ -52,7 +55,33 @@ class VirtualCollectionController extends RestfulController {
 		render virtualCollection as JSON
 	}
 
-	/**a
+
+	def save() {
+		log.info("save() responds to post to update a  vc")
+		def irodsAccount = request.irodsAccount
+		if (!irodsAccount) throw new IllegalStateException("no irodsAccount in request")
+		def vcName = params.name
+		if (!vcName) throw new IllegalArgumentException("no name")
+
+		log.info("uniqueName:${vcName}")
+		def vcNames = new ArrayList<String>()
+		if (vcName instanceof String[]) {
+			log.info("multiple names, move each each")
+			vcName.each{vc -> vcNames.add(vc)}
+		} else {
+			log.info("single path for move")
+			vcNames.add(vcName)
+		}
+
+		def collTypeString =  params.collType
+		if (!collTypeString) throw new IllegalArgumentException("no collTypeString")
+		log.info("collTypeString:${collTypeString}")
+		def collType = CollectionTypes.findTypeByString(collTypeString)
+
+		virtualCollectionService.moveVirtualCollections(vcNames.toArray(new String[vcNames.size()]), collType, irodsAccount, session)
+	}
+
+	/**
 	 * Delete a virtual collection.  
 	 * 
 	 * Params

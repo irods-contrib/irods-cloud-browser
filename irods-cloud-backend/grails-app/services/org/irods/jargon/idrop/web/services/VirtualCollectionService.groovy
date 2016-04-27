@@ -5,6 +5,7 @@ import javax.servlet.http.HttpSession
 import org.irods.jargon.core.connection.IRODSAccount
 import org.irods.jargon.core.exception.DataNotFoundException
 import org.irods.jargon.core.pub.IRODSAccessObjectFactory
+import org.irods.jargon.vircoll.CollectionTypes
 import org.irods.jargon.vircoll.impl.VirtualCollectionDiscoveryServiceImpl
 
 class VirtualCollectionService {
@@ -177,6 +178,41 @@ class VirtualCollectionService {
 		} else {
 			throw new UnsupportedOperationException("not supported yet")
 		}
+	}
+
+
+
+	/**
+	 * Move all virtual collections in the given list to a new type (e.g. move from temporary to user home)
+	 * @param uniqueNames list of unique names
+	 * @param irodsAccount
+	 * @param httpSession
+	 * @return
+	 */
+	def moveVirtualCollections(String[] uniqueNames, CollectionTypes collectionType, IRODSAccount irodsAccount, HttpSession httpSession) {
+		log.info("moveVirtualCollections()")
+		if (!uniqueNames) {
+			throw new IllegalArgumentException("missing uniqueNames")
+		}
+
+		if (!collectionType) {
+			throw new IllegalArgumentException("missing collectionType")
+		}
+
+		if (!irodsAccount) {
+			throw new IllegalArgumentException("null irodsAccount")
+		}
+
+		if (!httpSession) {
+			throw new IllegalArgumentException("null httpSession")
+		}
+
+
+		log.info("moving: ${uniqueNames}")
+		def virtualCollectionMaintenanceService = jargonServiceFactoryService.instanceGenericVirtualCollectionMaintenanceService(irodsAccount)
+		uniqueNames.each{uniqueName -> virtualCollectionMaintenanceService.reclassifyVirtualCollection(collectionType,uniqueName)}
+		httpSession.virtualCollections = null
+
 	}
 
 	/**

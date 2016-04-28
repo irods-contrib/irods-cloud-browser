@@ -79,6 +79,7 @@ class VirtualCollectionController extends RestfulController {
 		def collType = CollectionTypes.findTypeByString(collTypeString)
 
 		virtualCollectionService.moveVirtualCollections(vcNames.toArray(new String[vcNames.size()]), collType, irodsAccount, session)
+		render(status: 200, text: 'moved ${vcNames}')
 	}
 
 	/**

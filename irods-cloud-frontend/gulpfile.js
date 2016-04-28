@@ -15,7 +15,7 @@ gulp.task('default', function () {
 /**
  * Create a dist subdirectory that has the assembled javascript, css, images, html assets
  */
-gulp.task('dist', ['clean', 'vendor-scripts', 'app-scripts', 'css', 'images', 'html-assets','index-html-for-dist']);
+gulp.task('dist', ['clean', 'vendor-scripts', 'app-scripts', 'css', 'images', 'fonts', 'html-assets','index-html-for-dist']);
 
 /**
  * Package the web artifacts for deployment within the cloud browser backend war file
@@ -88,6 +88,7 @@ gulp.task('css',  ['clean'], function () {
         './bower_components/html5-boilerplate/css/*.css',
         './bower_components/angular-message-center/message-center.css',
         './bower_components/bootstrap/dist/css/bootstrap.min.css',
+        './bower_components/components-font-awesome/css/font-awesome.css',
         './app/sb-admin.css',
         './app/css/main.css'
     ])
@@ -117,6 +118,20 @@ gulp.task('html-assets',  ['clean'], function () {
     ],{ base: './app' })
         .pipe(gulp.dest('./dist'));
 
+});
+
+/**
+ * assemble all fonts into the fonts dir in the dist
+ */
+gulp.task('fonts',  ['clean'], function () {
+    // the base option sets the relative root for the set of files,
+    // preserving the folder structure
+    var filesToMove = [
+        './bower_components/components-font-awesome/fonts/*.*'
+    ];
+
+    return gulp.src(filesToMove, {base: './'}).pipe(flatten())
+        .pipe(gulp.dest('./dist/fonts'));
 });
 
 /**

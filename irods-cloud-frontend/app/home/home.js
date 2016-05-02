@@ -680,6 +680,10 @@ angular.module('myApp.home', ['ngRoute', 'ngFileUpload', 'ng-context-menu','ui.c
                             $scope.right_clicked_query = $(event.target).parents("li").children("span").children("span").text();   
                             $scope.right_clicked_query_id = $(event.target).parents("li").attr("id");
                         }
+                        if($(event.target).parents("li").hasClass('permanent_folder')){
+                            $scope.right_clicked_query = $(event.target).parents("li").children("span").children("span").text();   
+                            $scope.right_clicked_query_id = $(event.target).parents("li").attr("id");
+                        }
                     }
                     if ($(".general_list_item .ui-selected").length > 1) {
                         if(!$(event.target).parents("li").hasClass("ui-selected")){

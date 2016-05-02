@@ -1096,6 +1096,9 @@ input.col-xs-12{
 .recent_query span{
 	width: 100%;
 }
+.permanent_folder span{
+	width: 100%;
+}
 .ui-widget-content.light_back_option, .ui-widget-content.light_back_option_even{
 	cursor:pointer;
 }

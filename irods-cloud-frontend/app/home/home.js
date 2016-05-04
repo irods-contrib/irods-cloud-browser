@@ -677,11 +677,11 @@ angular.module('myApp.home', ['ngRoute', 'ngFileUpload', 'ng-context-menu','ui.c
                         });
                         
                         if($(event.target).parents("li").hasClass('recent_query')){
-                            $scope.right_clicked_query = $(event.target).parents("li").children("span").children("span").text();   
+                            $scope.right_clicked_query = $(event.target).parents("li").children("span").attr("id");   
                             $scope.right_clicked_query_id = $(event.target).parents("li").attr("id");
                         }
                         if($(event.target).parents("li").hasClass('permanent_folder')){
-                            $scope.right_clicked_query = $(event.target).parents("li").children("span").children("span").text();   
+                            $scope.right_clicked_query = $(event.target).parents("li").children("span").attr("id");   
                             $scope.right_clicked_query_id = $(event.target).parents("li").attr("id");
                         }
                     }

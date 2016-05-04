@@ -1,14 +1,22 @@
 <div ng-include="'header.html'"></div>
 <div ng-include="'actions_pop_up.html'"></div>
-<!--<div ng-include="'side_nav.html'"></div>-->
-<div id="main_contents" class="collapsed_main_content"> 
+<div ng-include="'side_nav.html'"></div>
+<div id="main_contents" class="uncollapsed_main_contents"> 	
 	
-	<div class="one_column ">
+	<div class="one_column">
 		<div class="column_content">
 			<div class="light_header"><span>My Folders</span></div>
-			<ul >
-			    <li class="light_back_option" ng-repeat="virtualCollection in virtualCollections" ng-click="selectVirtualCollection(virtualCollection.uniqueName, '')">
-			            <span><span class="{{virtualCollection.i18icon|iconic}}"></span><span>{{virtualCollection.uniqueName}}</span></span>
+			<ul>
+			    <li class="light_back_option permanent_folder" ng-class="selectedVc.data.uniqueName == virtualCollection.uniqueName ? 'selected' : '' " ng-repeat="virtualCollection in virtualCollections.userHomeCollections" ng-click="selectVirtualCollection(virtualCollection.uniqueName, '')" id="{{virtualCollection.uniqueName}}">
+			            <span ng-hide="virtualCollection.queryString != undefined"><i class="fa fa-{{virtualCollection.i18icon|iconic}} folder_listing"></i><span>{{virtualCollection.uniqueName}}</span></span>
+			            <span context-menu data-target="my_folders_menu" ng-hide="virtualCollection.queryString == undefined"><i class="fa fa-search folder_listing"></i><span>{{virtualCollection.description}}</span></span>
+			    </li>
+			</ul>
+			<br>
+			<div class="light_header"><span>Recent Queries</span></div>
+			<ul class="recent_queries_container">
+			    <li context-menu data-target="recent_queries_menu" class="light_back_option recent_query" id="{{virtualCollection.uniqueName}}" ng-class="selectedVc.data.uniqueName == virtualCollection.uniqueName ? 'selected' : '' " ng-repeat="virtualCollection in virtualCollections.userRecentQueries" ng-click="selectVirtualCollection(virtualCollection.uniqueName, '')">
+			            <span title="{{virtualCollection.description}}"><i class="fa fa-search folder_listing"></i><span>{{virtualCollection.description}}</span></span>
 			    </li>
 			</ul>
 		</div>
@@ -21,7 +29,7 @@
 					<div class="last_breadcrumb" title="{{selectedVc.data.uniqueName}}">
 												 
 					 	<div class="active_breadcrumb ">
-					 		{{selectedVc.data.uniqueName}}								 		
+					 		{{selectedVc.data.description}}								 		
 					 	</div>
 						 									 
 					</div>
@@ -51,15 +59,15 @@
 								 		<div class="caret"></div>
 								 	</div>
 								 	<ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-									   	<li><a title="Upload items to this folder" ng-click="upload_pop_up_open()"><img src="images/upload_icon_dark.png"><span>&nbsp;Upload</span></a></li>
-									   	<li><a title="Go to the Info page of this folder" ng-click="selectProfile(pagingAwareCollectionListing.pagingAwareCollectionListingDescriptor.parentAbsolutePath)"><img src="images/dark_info_icon.png"><span>&nbsp;Folder Info</span></a></li>
-									   	<li><a title="Creates a new folder inside the folder: {{breadcrumb.b}}" ng-click="create_pop_up_open()"><img src="images/dark_collection_icon.png"><span>&nbsp;New Folder</span></a></li>
+									   	<li><a title="Upload items to {{breadcrumb.b}}" ng-click="upload_pop_up_open()"><i class="fa fa-arrow-up folder_listing"></i><span>&nbsp;Upload</span></a></li>
+									   	<li><a title="Go to the Info page of this folder" ng-click="selectProfile(pagingAwareCollectionListing.pagingAwareCollectionListingDescriptor.parentAbsolutePath)"><i class="fa fa-info-circle folder_listing"></i><span>&nbsp;Folder Info</span></a></li>
+									   	<li><a title="Creates a new folder inside the folder: {{breadcrumb.b}}" ng-click="create_pop_up_open()"><i class="fa fa-folder folder_listing"></i> <span>&nbsp;New Folder</span></a></li>
 									   	<li class="divider"></li>
 									   	  <li class="dropdown-submenu">
-									   	    <a tabindex="-1" title=""><img src="images/data_object_icon.png">New File</a>
+									   	    <a tabindex="-1" title=""><i ng-show="{{collectionAndDataObject.dataObject}} == false" class="fa fa-file-o"></i>&nbsp;New File</a>
 									   	    <ul class="dropdown-menu">
 									   	      <li ng-repeat="file in file_templates">
-									   	      	<a ng-click="create_file_pop_up_open(file)" title="{{file.templateName}}"><img src="images/data_object_icon.png">{{file.templateName}}</a>
+									   	      	<a ng-click="create_file_pop_up_open(file)" title="{{file.templateName}}"><i class="fa fa-{{file.templateName|iconic}} folder_listing"></i>&nbsp;{{file.templateName}}</a>
 									   	      </li>	
 									   	    </ul>
 									   	  </li>
@@ -74,31 +82,31 @@
 					<div class="selection_actions_container">
 						<div class="desktop_collection_actions">
 							<div class="download_button" title="Delete selected file(s) " ng-click='delete_pop_up_open()' > 
-								<img src="images/dark_delete_icon.png"><span>&nbsp;Delete</span>	
+								<i class="fa fa-close folder_listing"></i><span>&nbsp;Delete</span>	
 							</div>
 							<div class="rename_divider small_vertical_divider"></div>
 							<div class="rename_button" title="Rename selected file/collection" ng-click='rename_pop_up_open()' > 
-								<img src="images/dark_rename_icon.png"><span>&nbsp;Rename</span>	
+								<i class="fa fa-i-cursor folder_listing"></i><span>&nbsp;Rename</span>	
 							</div>
 							<div class="rename_divider small_vertical_divider"></div>
-							<div class="rename_button file_edit_button" title="Edit selected file" ng-click='editFile(selected_target)' > 
-								<img src="images/dark_edit_icon.png"><span>&nbsp;Edit</span>	
+							<div class="rename_button" title="Copy selected file" ng-hide="selectedVc.data.pathHintable==false" ng-click='copy_pop_up_open()' > 
+								<i class="fa fa-clone folder_listing"></i><span>&nbsp;Copy</span>	
 							</div>
 							<div class="rename_divider small_vertical_divider"></div>
-							<div class="rename_button" title="Copy selected file" ng-click='copy_pop_up_open()' > 
-								<img src="images/dark_copy_icon.png"><span>&nbsp;Copy</span>	
-							</div>
-							<div class="rename_divider small_vertical_divider"></div>
-							<div class="rename_button" title="Move selected file" ng-click='move_pop_up_open()' > 
-								<img src="images/dark_move_icon.png"><span>&nbsp;Move</span>	
+							<div class="rename_button" title="Move selected file" ng-hide="selectedVc.data.pathHintable==false" ng-click='move_pop_up_open()' > 
+								<i class="fa fa-arrow-right folder_listing"></i><span>&nbsp;Move</span>	
 							</div>
 							<div class="download_divider small_vertical_divider"></div>
 							<div class="download_button" title="Download selected file(s) " ng-click='getDownloadLink()' > 
-								<img src="images/dark_download_icon.png"><span>&nbsp;Download</span>	
+								<i class="fa fa-arrow-down folder_listing"></i><span>&nbsp;Download</span>	
+							</div>
+							<div class="rename_divider small_vertical_divider"></div>
+							<div class="rename_button folder_upload_button" title="Upload file(s) to the selected folder" ng-click='upload_pop_up_open()' > 
+								<i class="fa fa-arrow-up folder_listing"></i><span>&nbsp;Upload</span>	
 							</div>
 							<div class="rename_divider small_vertical_divider"></div>
 							<div class="rename_button" title="Info" ng-click='selectProfile(selected_target)'> 
-								<img src="images/dark_info_icon.png"><span>&nbsp;Info</span>	
+								<i class="fa fa-info-circle folder_listing"></i><span>&nbsp;Info</span>	
 							</div>
 						</div>
 						<div class="right btn-group tablet_collection_actions">
@@ -107,13 +115,13 @@
 						  </button>
 						  <ul class="dropdown-menu dropdown-menu-right">
 						  	<li class="empty_selection">Nothing is selected</li>
-						  	<li class="tablet_rename_button"><a title="Go to the Info page" ng-click='selectProfile(selected_target)'><img src="images/dark_info_icon.png"><span>&nbsp;Info</span></a></li>
-						    <li class="tablet_download_button"><a title="Download selected file(s) " ng-click='getDownloadLink()'><img src="images/dark_download_icon.png"><span>&nbsp;Download</span></a></li>
-						    <li class="tablet_rename_button"><a title="Copy selected file" ng-click='copy_pop_up_open()'><img src="images/dark_copy_icon.png"><span>&nbsp;Copy</span></a></li>
-						    <li class="tablet_rename_button"><a title="Move selected file" ng-click='move_pop_up_open()'><img src="images/dark_move_icon.png"><span>&nbsp;Move</span></a></li>
-						  	<li class="tablet_rename_button"><a title="Rename selected file/collection" ng-click='rename_pop_up_open()'><img src="images/dark_rename_icon.png"><span>&nbsp;Rename</span></a></li>
-						  	<li class="tablet_rename_button file_edit_button"><a title="Edit selected file" ng-click='editFile(selected_target)'><img src="images/dark_edit_icon.png"><span>&nbsp;Edit</span></a></li>
-						    <li class="tablet_download_button"><a title="Delete selected file(s) " ng-click='delete_pop_up_open()'><img src="images/dark_delete_icon.png"><span>&nbsp;Delete</span></a></li>
+						  	<li class="tablet_rename_button"><a title="Go to the Info page" ng-click='selectProfile(selected_target)'><i class="fa fa-info-circle folder_listing"></i><span>&nbsp;Info</span></a></li>
+						    <li class="tablet_rename_button folder_upload_button"><a title="Upload file(s) to the selected folder" ng-click="upload_pop_up_open()"><i class="fa fa-arrow-up folder_listing"></i><span>&nbsp;Upload</span></a></li>
+						    <li class="tablet_download_button"><a title="Download selected file(s) " ng-click='getDownloadLink()'><i class="fa fa-arrow-down folder_listing"></i><span>&nbsp;Download</span></a></li>
+						    <li class="tablet_rename_button"><a title="Copy selected file" ng-click='copy_pop_up_open()'><i class="fa fa-clone folder_listing"></i><span>&nbsp;Copy</span></a></li>
+						    <li class="tablet_rename_button"><a title="Move selected file" ng-click='move_pop_up_open()'><i class="fa fa-arrow-right folder_listing"></i><span>&nbsp;Move</span></a></li>
+						  	<li class="tablet_rename_button"><a title="Rename selected file/collection" ng-click='rename_pop_up_open()'><i class="fa fa-i-cursor folder_listing"></i><span>&nbsp;Rename</span></a></li>
+						    <li class="tablet_download_button"><a title="Delete selected file(s) " ng-click='delete_pop_up_open()'><i class="fa fa-close folder_listing"></i><span>&nbsp;Delete</span></a></li>
 						  </ul>
 						</div>
 					</div>
@@ -137,8 +145,8 @@
 				<ul context-menu data-target="main_list_menu" ng-class="{ 'highlight': highlight, 'expanded' : expanded }" class="selectable general_list_item">
 				    <li class="ui-widget-content data_{{collectionAndDataObject.dataObject}} ui-selectee " ng-dblclick="collectionAndDataObject.dataObject == true ? selectProfile(collectionAndDataObject.formattedAbsolutePath) : selectVirtualCollection(selectedVc.data.uniqueName,collectionAndDataObject.formattedAbsolutePath)" ng-class-odd="'light_back_option'" ng-double-tap="collectionAndDataObject.dataObject == true ? selectProfile(collectionAndDataObject.formattedAbsolutePath) : selectVirtualCollection(selectedVc.data.uniqueName,collectionAndDataObject.formattedAbsolutePath)" ng-class-even="'light_back_option_even'" ng-repeat="collectionAndDataObject in pagingAwareCollectionListing.collectionAndDataObjectListingEntries" id='{{collectionAndDataObject.formattedAbsolutePath}}' on-last-repeat>
 			            <div class="col-xs-7 list_content">
-				            <img ng-show="{{collectionAndDataObject.dataObject}} == true" src="images/data_object_icon.png">
-				            <img ng-show="{{collectionAndDataObject.dataObject}} == false" src="images/collection_icon.png">        
+				            <i ng-show="{{collectionAndDataObject.dataObject}} == true" class="fa fa-file-o"></i>  
+				            <i ng-show="{{collectionAndDataObject.dataObject}} == false" class="fa fa-folder folder_listing"></i>      
 			            	<span class="data_object">{{collectionAndDataObject.nodeLabelDisplayValue}}</span>
 			            </div>
 			            <div class="col-xs-3 list_content text-right ">
@@ -167,44 +175,77 @@
   <ul class="dropdown-menu" role="menu">
     <li>
       <button class="rename_button context_button" title="Info" ng-click='selectProfile(selected_target)'> 
-      	<img src="images/dark_info_icon.png"><span>&nbsp;Info</span>	
+      	<i class="fa fa-info-circle folder_listing"></i><span>&nbsp;Info</span>	
+      </button>
+    </li>
+    <li>
+      <button class="rename_button context_button folder_upload_button" title="Upload file(s) to the selected folder" ng-click="upload_pop_up_open()" > 
+      	<i class="fa fa-arrow-up folder_listing"></i>  <span>&nbsp;Upload</span>	
       </button>
     </li>
     <li>
       <button class="download_button context_button" title="Download selected file(s) " ng-click='getDownloadLink()' > 
-      	<img src="images/dark_download_icon.png"><span>&nbsp;Download</span>	
+      	<i class="fa fa-arrow-down folder_listing"></i><span>&nbsp;Download</span>	
       </button>
     </li>
     <li>
-      <button class="rename_button context_button" title="Move selected file" ng-click='move_pop_up_open()' > 
-      	<img src="images/dark_move_icon.png"><span>&nbsp;Move</span>	
+      <button class="rename_button context_button" ng-hide="selectedVc.data.pathHintable==false" title="Move selected file" ng-click='move_pop_up_open()' > 
+      	<i class="fa fa-arrow-right folder_listing"></i><span>&nbsp;Move</span>	
       </button>
     </li>
     <li>
-      <button class="rename_button context_button" title="Copy selected file" ng-click='copy_pop_up_open()' > 
-		<img src="images/dark_copy_icon.png"><span>&nbsp;Copy</span>	
+      <button class="rename_button context_button" ng-hide="selectedVc.data.pathHintable==false" title="Copy selected file" ng-click='copy_pop_up_open()' > 
+		<i class="fa fa-clone folder_listing"></i><span>&nbsp;Copy</span>	
 	</button>
     </li>
     <li>
       <button class="rename_button context_button" title="Rename selected file/collection" ng-click='rename_pop_up_open()' > 
-      	<img src="images/dark_rename_icon.png"><span>&nbsp;Rename</span>	
-      </button>
-    </li>
-    <li>
-      <button class="rename_button context_button file_edit_button" title="Edit selected file" ng-click='editFile(selected_target)' > 
-      	<img src="images/dark_edit_icon.png"><span>&nbsp;Edit</span>	
+      	<i class="fa fa-i-cursor folder_listing"></i><span>&nbsp;Rename</span>	
       </button>
     </li>
     <li>
       <button class="download_button context_button" title="Delete selected file(s) " ng-click='delete_pop_up_open()' > 
-      	<img src="images/dark_delete_icon.png"><span>&nbsp;Delete</span>	
+      	<i class="fa fa-close folder_listing"></i><span>&nbsp;Delete</span>	
       </button>
     </li>
   </ul>
 </div>
 
 
+<div class="dropdown position-fixed" id="recent_queries_menu">
+  <ul class="dropdown-menu" role="menu">
+  	<li>
+      <button class="download_button context_button" title="Save recent query and make it permanent in My Folders" ng-click='move_query_to_my_folders()' > 
+      	<i class="fa fa-level-up folder_listing"></i><span>&nbsp;Move <b class="max_200">{{right_clicked_query}}</b> to <b>My Folders</b></span>	
+      </button>
+    </li>
+    <li>
+      <button class="download_button context_button" title="Delete selected file(s) " ng-click='selectSearchView(right_clicked_query_id)' > 
+      	<i class="fa fa-pencil folder_listing"></i><span>&nbsp;Edit</span>	
+      </button>
+    </li>
+    <li>
+      <button class="download_button context_button" title="Delete selected file(s) " ng-click='query_delete_pop_up_open()' > 
+      	<i class="fa fa-close folder_listing"></i><span>&nbsp;Delete</span>	
+      </button>
+    </li>
+  </ul>
+</div>
 
+<div class="dropdown position-fixed" id="my_folders_menu">
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <button class="download_button context_button" title="Delete selected file(s) " ng-click='selectSearchView(right_clicked_query_id)' > 
+      	<i class="fa fa-pencil folder_listing"></i><span>&nbsp;Edit</span>	
+      </button>
+    </li>
+    <li>
+      <button class="download_button context_button" title="Delete selected file(s) " ng-click='query_delete_pop_up_open()' > 
+      	<i class="fa fa-close folder_listing"></i><span>&nbsp;Delete</span>	
+      </button>
+    </li>
+  </ul>
+</div>
 
 
 

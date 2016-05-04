@@ -3,7 +3,7 @@
 angular.module('myApp.profile', ['ngRoute'])
 
 .config(['$routeProvider', function($routeProvider) {
-  $routeProvider.when('/profile', {
+$routeProvider.when('/profile', {
             templateUrl: 'profile/profile.html',
             controller: 'profileCtrl',
             resolve: {
@@ -170,40 +170,7 @@ angular.module('myApp.profile', ['ngRoute'])
             });
         };
        $scope.listVirtualCollections();
-       var side_nav_toggled = "yes";
-       $scope.side_nav_toggle = function () {
-
-            if (side_nav_toggled == "no") {
-                side_nav_toggled = "yes";
-                $('.side_nav_options').animate({'opacity': '0'});
-                $('#side_nav').removeClass('uncollapsed_nav');
-                $('#side_nav').addClass('collapsed_nav');
-                $('#main_contents').removeClass('uncollapsed_main_content');
-                $('#main_contents').addClass('collapsed_main_content');
-                $('.side_nav_toggle_button').text('>>');
-            } else if (side_nav_toggled == "yes") {
-                side_nav_toggled = "no";
-                $('#side_nav').removeClass('collapsed_nav');
-                $('#side_nav').addClass('uncollapsed_nav');
-                $('#main_contents').removeClass('collapsed_main_content');
-                $('#main_contents').addClass('uncollapsed_main_content');
-                $('.side_nav_options').animate({'opacity': '1'});
-                $('.side_nav_toggle_button').text('<<');
-            }
-        };
-        var toggle_on
-        $scope.side_nav_autotoggle = function (auto_toggle) {
-
-            if ( auto_toggle == 'off' ) {    
-              if(side_nav_toggled == "no"){  
-                toggle_on = setTimeout($scope.side_nav_toggle, 1000);
-              }
-            } else if (auto_toggle == 'on' ) {
-              clearTimeout(toggle_on);
-            }
-        };
-
-        
+               
         $scope.$watch('files', function () {
             $scope.upload($scope.files);
         });
@@ -349,23 +316,6 @@ angular.module('myApp.profile', ['ngRoute'])
                 MessageService.success("Move completed!");    
                 location.assign(new_url);  
             })
-        };
-
-        $scope.logout_func = function () {
-            var promise = $http({
-                method: 'POST',
-                url: $globals.backendUrl('logout')
-            }).then(function () {
-                // The then function here is an opportunity to modify the response
-                // The return value gets picked up by the then in the controller.
-                //setTimeout(function () {
-                $location.path("/login").search({});
-                $globals.setLastPath("/home");
-
-                //}, 0);
-            });
-
-            return promise;
         };
                  
         $scope.getCopyBreadcrumbPaths = function () {      
@@ -513,6 +463,7 @@ angular.module('myApp.profile', ['ngRoute'])
             });
         };
         $scope.upload_pop_up_open = function(){
+            $scope.upload_folder_name = $scope.dataProfile.childName;
             $scope.pop_up_form = "upload";
             $('.pop_up_window').fadeIn(100);
             $('.uploader').fadeIn(100);
@@ -807,6 +758,7 @@ angular.module('myApp.profile', ['ngRoute'])
             return  $globals.backendUrl('download') + "?path=" + $scope.dataProfile.domainObject.absolutePath;
 
         };
+        
 
         /**
          * Upon the selection of an element in a breadrumb link, set that as the location of the browser, triggering

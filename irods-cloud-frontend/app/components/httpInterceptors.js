@@ -48,6 +48,13 @@ angular.module('httpInterceptorModule', []).factory('myHttpResponseInterceptor',
 
             } else if (status == 500) {
                 $log.info("internal server error");
+
+
+                // todo: fix for no vc found
+                if (rejection.data.error.localizedMessage.startsWith("no virtual collections")) {
+                    $location.path("/home/My Home");
+                }
+
                 globals.setLastPath($location.path());
                 //$location.path("/index");
                 //if (globals.loggedInIdentity != null) {
@@ -109,8 +116,7 @@ angular.module('httpInterceptorModule', []).factory('myHttpResponseInterceptor',
     }
 
 }])//Http Intercpetor to check auth failures for xhr requests
-    .
-    config(['$httpProvider', function ($httpProvider) {
+    .config(['$httpProvider', function ($httpProvider) {
         $httpProvider.interceptors.push('myHttpResponseInterceptor');
 
         /* configure xsrf token

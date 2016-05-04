@@ -7,8 +7,11 @@ import org.irods.jargon.datautils.filesampler.FileSamplerServiceImpl
 import org.irods.jargon.filetemplate.impl.DefaultFileTemplateServiceImpl
 import org.irods.jargon.ruleservice.composition.RuleCompositionServiceImpl
 import org.irods.jargon.usertagging.starring.IRODSStarringServiceImpl
+import org.irods.jargon.vircoll.impl.GenericVirtualCollectionMaintenanceService
+import org.irods.jargon.vircoll.impl.TemporaryQueryServiceImpl
 import org.irods.jargon.vircoll.impl.VirtualCollectionDiscoveryServiceImpl
 import org.irods.jargon.vircoll.impl.VirtualCollectionFactoryImpl
+import org.irods.jargon.vircoll.types.MetadataQueryMaintenanceService
 import org.irods.jargon.zipservice.api.JargonZipServiceImpl
 import org.irods.jargon.zipservice.api.ZipServiceConfiguration
 
@@ -31,6 +34,16 @@ class JargonServiceFactoryService {
 	def instanceVirtualCollectionExecutorFactory(IRODSAccount irodsAccount) {
 		return new VirtualCollectionFactoryImpl(irodsAccessObjectFactory, irodsAccount)
 	}
+
+	/**
+	 * Get an instance of the temp query service
+	 * @param irodsAccount
+	 * @return
+	 */
+	def instanceTemporaryQueryService(IRODSAccount irodsAccount) {
+		return new TemporaryQueryServiceImpl(irodsAccessObjectFactory, irodsAccount)
+	}
+
 
 	/**
 	 * Get an instance of the virtual collection discovery service that can find virtual collections
@@ -87,5 +100,23 @@ class JargonServiceFactoryService {
 	 */
 	def instanceRuleCompositionService(IRODSAccount irodsAccount) {
 		return new RuleCompositionServiceImpl(irodsAccessObjectFactory, irodsAccount)
+	}
+
+	/**
+	 * Obtain a service to maintain metadata queries
+	 * @param irodsAccount
+	 * @return
+	 */
+	def instanceMetadataQueryMaintenanceService(IRODSAccount irodsAccount) {
+		return new MetadataQueryMaintenanceService(irodsAccessObjectFactory, irodsAccount)
+	}
+
+	/**
+	 * Return a service that can provide generic operations (delete, move, etc) for a virtual collection
+	 * @param irodsAccount
+	 * @return
+	 */
+	def instanceGenericVirtualCollectionMaintenanceService(IRODSAccount irodsAccount) {
+		return new GenericVirtualCollectionMaintenanceService(irodsAccessObjectFactory, irodsAccount)
 	}
 }

@@ -5,6 +5,7 @@ import javax.servlet.http.HttpSession
 import org.irods.jargon.core.connection.IRODSAccount
 import org.irods.jargon.core.exception.DataNotFoundException
 import org.irods.jargon.core.pub.IRODSAccessObjectFactory
+import org.irods.jargon.vircoll.CollectionTypes
 import org.irods.jargon.vircoll.impl.VirtualCollectionDiscoveryServiceImpl
 
 class VirtualCollectionService {
@@ -34,7 +35,7 @@ class VirtualCollectionService {
 		log.info("irodsAccount: ${irodsAccount}")
 
 		def virtualCollectionDiscoveryService = new VirtualCollectionDiscoveryServiceImpl(irodsAccessObjectFactory, irodsAccount)
-		def colls = virtualCollectionDiscoveryService.listDefaultUserCollections()
+		def colls = virtualCollectionDiscoveryService.userVirtualCollectionProfile(irodsAccount.getUserName())
 		session.virtualCollections = colls
 
 		return colls
@@ -72,7 +73,16 @@ class VirtualCollectionService {
 			vcsInSession = virtualCollectionHomeListingForUser(irodsAccount, session)
 		}
 
-		for (vc in vcsInSession) {
+		for (vc in vcsInSession.userHomeCollections) {
+			if (vc.uniqueName == vcName) {
+				log.info("found: ${vc}")
+				return vc
+			}
+		}
+
+		log.info("not found in home colls, check in temporary queries")
+
+		for (vc in vcsInSession.userRecentQueries) {
 			if (vc.uniqueName == vcName) {
 				log.info("found: ${vc}")
 				return vc
@@ -84,6 +94,7 @@ class VirtualCollectionService {
 		throw new DataNotFoundException("could not find requested virtual collection")
 
 	}
+
 
 	/**
 	 * Given a virtual collection type, generate a listing of data for display, incorporating a path if the virtual collection supports subpaths
@@ -119,8 +130,22 @@ class VirtualCollectionService {
 			virColls = virtualCollectionHomeListingForUser(irodsAccount, session)
 		}
 
+		// FIXME: refactor into a service that can search across different vcs
 		def virColl
-		for (virCollEntry in virColls) {
+		for (virCollEntry in virColls.userHomeCollections) {
+			if (virCollEntry.uniqueName == vcName) {
+				log.info("found it")
+				session.virtualCollection = virCollEntry
+				virColl = virCollEntry
+				break
+			}
+		}
+
+		if (!virColl) {
+			log.info("not in home colls, try saved queries")
+		}
+
+		for (virCollEntry in virColls.userRecentQueries) {
 			if (virCollEntry.uniqueName == vcName) {
 				log.info("found it")
 				session.virtualCollection = virCollEntry
@@ -150,9 +175,71 @@ class VirtualCollectionService {
 		if (listingType == ListingType.ALL) {
 
 			return executor.queryAll(path, offset)
-			
 		} else {
 			throw new UnsupportedOperationException("not supported yet")
 		}
+	}
+
+
+
+	/**
+	 * Move all virtual collections in the given list to a new type (e.g. move from temporary to user home)
+	 * @param uniqueNames list of unique names
+	 * @param irodsAccount
+	 * @param httpSession
+	 * @return
+	 */
+	def moveVirtualCollections(String[] uniqueNames, CollectionTypes collectionType, IRODSAccount irodsAccount, HttpSession httpSession) {
+		log.info("moveVirtualCollections()")
+		if (!uniqueNames) {
+			throw new IllegalArgumentException("missing uniqueNames")
+		}
+
+		if (!collectionType) {
+			throw new IllegalArgumentException("missing collectionType")
+		}
+
+		if (!irodsAccount) {
+			throw new IllegalArgumentException("null irodsAccount")
+		}
+
+		if (!httpSession) {
+			throw new IllegalArgumentException("null httpSession")
+		}
+
+
+		log.info("moving: ${uniqueNames}")
+		def virtualCollectionMaintenanceService = jargonServiceFactoryService.instanceGenericVirtualCollectionMaintenanceService(irodsAccount)
+		uniqueNames.each{uniqueName -> virtualCollectionMaintenanceService.reclassifyVirtualCollection(collectionType,uniqueName)}
+		httpSession.virtualCollections = null
+
+	}
+
+	/**
+	 * Delete all unique names in the given list
+	 * @param uniqueNames list of unique names
+	 * @param irodsAccount
+	 * @param httpSession
+	 * @return
+	 */
+	def deleteVirtualCollections(String[] uniqueNames, IRODSAccount irodsAccount, HttpSession httpSession) {
+		log.info("deleteVirtualCollections()")
+		if (!uniqueNames) {
+			throw new IllegalArgumentException("missing uniqueNames")
+		}
+		if (!irodsAccount) {
+			throw new IllegalArgumentException("null irodsAccount")
+		}
+
+		if (!httpSession) {
+			throw new IllegalArgumentException("null httpSession")
+		}
+
+
+		log.info("deleting: ${uniqueNames}")
+		def virtualCollectionMaintenanceService = jargonServiceFactoryService.instanceGenericVirtualCollectionMaintenanceService(irodsAccount)
+		uniqueNames.each{uniqueName -> virtualCollectionMaintenanceService.deleteVirtualCollection(uniqueName)}
+		httpSession.virtualCollections = null
+
 	}
 }

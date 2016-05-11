@@ -101,12 +101,14 @@
 					<div class="collection_header"> 
 						<div class="breadcrumbs_container" >
 							<div class="breadcrumbs_sub_container" >								
-									 
+									 <div class="right t_right">
+								 		<div class="btn btn-success " ng-click="go_back()"><i class="fa fa-arrow-left" aria-hidden="true"></i> Go Back</div>
+								 	</div>
 									 <div ng-show="dataProfile.file == true" class="dropdown">
 									 	<div class="active_breadcrumb dropdown-toggle" type="button" id="actions_menu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 									 		Actions
 									 		<div class="caret"></div>
-									 	</div>
+									 	</div>									 	
 									 	<ul class="dropdown-menu" aria-labelledby="actions_menu">
 										   	<li><a title="Copy File" class="active_option" ng-click="copy_pop_up_open()"><i class="fa fa-clone folder_listing"></i><span>&nbsp;Copy</span></a></li>
 										   	<li><a title="Move File" class="active_option" ng-click="move_pop_up_open()"><i class="fa fa-arrow-right folder_listing"></i><span>&nbsp;Move</span></a></li>

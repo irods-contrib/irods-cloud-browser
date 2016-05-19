@@ -129,10 +129,11 @@ class FileService {
 		log.info("opened input stream")
 
 		def dls = new DownloadFileSpecification()
-		dls.contentDispositionHeader = "attachment;filename=\"${irodsFile.name}\""
+		//dls.contentDispositionHeader = "attachment;filename=\"${irodsFile.name}\""
 		dls.length = length
 		dls.type = "application/octet-stream"
 		dls.inputStream =  irodsFileInputStream
+		dls.fileName = name
 		return dls
 	}
 
@@ -159,11 +160,11 @@ class FileService {
 		log.info("..retrieved bundle file as input stream")
 
 		def dls = new DownloadFileSpecification()
-		dls.contentDispositionHeader = "attachment;filename=\"${bundleStreamWrapper.bundleFileName}\""
+		//dls.contentDispositionHeader = "attachment;filename=\"${bundleStreamWrapper.bundleFileName}\""
 		dls.length = bundleStreamWrapper.length
 		dls.type = "application/octet-stream"
 		dls.inputStream =  bundleStreamWrapper.inputStream
-		dls.bundleFileName = bundleStreamWrapper.bundleFileName
+		dls.fileName = bundleStreamWrapper.bundleFileName
 
 		return dls
 	}

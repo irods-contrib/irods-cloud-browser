@@ -13,7 +13,6 @@ import org.irods.jargon.core.pub.IRODSAccessObjectFactory
 import org.irods.jargon.mdquery.MetadataQuery
 import org.irods.jargon.mdquery.serialization.MetadataQueryJsonService
 import org.irods.jargon.vircoll.CollectionTypes
-import org.irods.jargon.vircoll.VirtualCollectionProfileUtils
 import org.irods.jargon.vircoll.exception.VirtualCollectionException
 import org.irods.jargon.vircoll.types.MetadataQueryVirtualCollection
 
@@ -48,9 +47,8 @@ class MetadataQueryService {
 
 		log.info("get user vc profile")
 
-		def vcProfile = virtualCollectionService.virtualCollectionHomeListingForUser(irodsAccount, theSession)
+		def query = virtualCollectionService.virtualCollectionDetails(queryName, irodsAccount, theSession)
 
-		def query = VirtualCollectionProfileUtils.findVirtualCollectionInTempQueries(queryName, vcProfile)
 		if (query == null) {
 			log.error("query not found.. return empty")
 			return new MetadataQueryVirtualCollection()

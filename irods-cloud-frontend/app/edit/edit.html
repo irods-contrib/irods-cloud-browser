@@ -7,8 +7,10 @@
 			<div class="collection_header"> 
 				<div id="breadcrumbs_container">
 					<div class="breadcrumbs_container">
-						<div class="breadcrumbs_sub_container col-xs-9" >
-
+						<div class="breadcrumbs_sub_container col-xs-12" >
+							<div class="right t_right">
+						 		<div class="btn btn-success " ng-click="go_back()"><i class="fa fa-arrow-left" aria-hidden="true"></i> Go Back</div>
+						 	</div>
 							<div class="dropdown" ng-show=" breadcrumb_compressed_array.length > 0 ">
 							   	<div ng-mouseleave="hide_breadcrumbs()" type="button" class="dark_back_option_double dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 							     ... 

@@ -100,11 +100,26 @@ angular.module('myApp.edit', ['ngRoute'])
             $scope.get_rule_string();
             $scope.rule_results_raw = "";
         };
-        $scope.editorOptions = {
-            lineWrapping : false,
-            lineNumbers: true,
-            mode: {name:"javascript", typescript: true}
-        };
+        if($scope.dataProfile.mimeType == "text/plain"){
+            $scope.editorOptions = {
+                lineWrapping : false,
+                lineNumbers: true
+            };
+        }else if($scope.dataProfile.mimeType == "application/xml"){
+            $scope.editorOptions = {
+                lineWrapping : false,
+                lineNumbers: true,
+                mode: {name:"xml", typescript: true}
+            };
+        }else if($scope.dataProfile.mimeType == "application/irods-rule"){
+            $scope.editorOptions = {
+                lineWrapping : false,
+                lineNumbers: true,
+                mode: {name:"javascript", typescript: true}
+            };
+        }
+        
+
         $scope.resultsOptions = {
             lineWrapping : true,
             lineNumbers: true,
@@ -241,7 +256,16 @@ angular.module('myApp.edit', ['ngRoute'])
          Get a default list of the virtual collections that apply to the logged in user, for side nav
          */
         $scope.go_back = function(){
-            window.history.go(-1);
+            if($scope.file_content != $scope.initial_file_content){
+                if (confirm('Are you sure you want to leave this page without saving your changes?')) {
+                    window.history.go(-1);
+                } else {
+                    
+                }
+            }else{
+                window.history.go(-1);
+            }
+            
         };
         $scope.listVirtualCollections = function () {            
             $log.info("getting virtual colls");
@@ -870,18 +894,6 @@ angular.module('myApp.edit', ['ngRoute'])
         $scope.getDownloadLink = function() {
             return  $globals.backendUrl('download') + "?path=" + $scope.dataProfile.domainObject.absolutePath;
 
-        };
-        $scope.selectDashboardView = function () {
-            $log.info("going to Dashboard View");
-            $location.url("/dashboard/");
-        };
-        $scope.selectHierView = function () {
-            $log.info("going to Hierarchical View");
-            $location.url("/home");
-        };
-        $scope.selectSearchView = function () {
-            $log.info("going to Dashboard View");            
-            $location.url("/search/");
         };
         /**
          * Upon the selection of an element in a breadrumb link, set that as the location of the browser, triggering

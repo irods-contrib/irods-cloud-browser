@@ -298,6 +298,7 @@ angular.module('myApp.search', ['ngRoute', 'ngFileUpload', 'ng-context-menu','ui
                 query_val += '{"attributeName":"'+attr_names[i]+'","operator":"'+attr_evals[i]+'","attributeValue":["'+attr_vals[i]+'"],"connector":"AND"},';
             }
             query_val += ']}';
+            $log.info(query_val);
             return $http({
                     method: 'POST',
                     url: $globals.backendUrl('metadataQuery'),

@@ -49,10 +49,10 @@ class DownloadController extends RestfulController {
 		log.info("file length = ${length}")
 		log.info("opened input stream")
 
-		response.setContentType("application/octet-stream")
+		//response.setContentType("application/octet-stream")
 		response.setContentLength((int) length)
-		response.setHeader("Content-disposition",dfs.contentDispositionHeader)
-
+		//response.setHeader("Content-disposition",dfs.contentDispositionHeader)  tweaking for #160
+		response.setHeader("Content-disposition", "inline;filename=\"${dfs.fileName}\"")
 		Stream2StreamAO stream2Stream = irodsAccessObjectFactory.getStream2StreamAO(irodsAccount)
 		def stats = stream2Stream
 				.streamToStreamCopyUsingStandardIO(dfs.inputStream, new BufferedOutputStream(response.outputStream))

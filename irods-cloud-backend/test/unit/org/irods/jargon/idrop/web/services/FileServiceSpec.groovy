@@ -232,7 +232,7 @@ class FileServiceSpec extends Specification {
 		actual != null
 		actual instanceof DownloadFileSpecification
 		actual.length == length
-		actual.bundleFileName == bundleName
+		actual.fileName == bundleName
 		actual.inputStream != null
 	}
 

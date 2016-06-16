@@ -44,18 +44,16 @@
                             <select class="form-control attr_eval">                             
                                 <option title="Less than" value="LESS_THAN"><b><</b></option>
                                 <option title="Greater than" value="GREATER_THAN"><b>></b></option>
-                                <option title="Greater than or equal to" value="GREATER_THAN_OR_EQUAL_TO"><b>>=</b></option>
-                                <option title="Less than or equal to" value="LESS_THAN_OR_EQUAL_TO"><b><=</b></option>
+                                <option title="Greater than or equal to" value="GREATER_OR_EQUAL"><b>>=</b></option>
+                                <option title="Less than or equal to" value="LESS_OR_EQUAL"><b><=</b></option>
                                 <option selected="selected" title="Equal to" value="EQUAL"><b>=</b></option>  
                                 <option title="Not equal to" value="NOT_EQUAL"><b>!=</b></option>
                                 <option title="Like" value="LIKE"><b>Like</b></option>
                                 <option title="Not like" value="NOT_LIKE"><b>Not like</b></option>
-                                <option title="Sounds like" value="SOUNDS_LIKE"><b>Sounds like</b></option>
-                                <option title="Sounds not like" value="SOUNDS_NOT_LIKE"><b>Sounds not like</b></option>
                                 <option title="Between" value="BETWEEN"><b>Between</b></option>
                                 <option title="in" value="IN"><b>In</b></option>
-                                <option title="Numeric equal to" value="NUMERIC_EQUAL"><b>numeric =</b></option>
-                                <option title="Numeric greater than" value="NUMERIC_GREATER_THAN"><b>numeric ></b></option>
+                                <option title="Numeric equal to" value="NUM_EQUAL"><b>numeric =</b></option>
+                                <option title="Numeric greater than" value="NUM_GREATER_THAN"><b>numeric ></b></option>
                                 <option title="Numeric less than" value="NUMERIC_LESS_THAN"><b>numeric <</b></option>
                                 <option title="Numeric greater than or equal to" value="NUMERIC_GREATER_THAN_OR_EQUAL_TO"><b>numeric >=</b></option>
                                 <option title="Numeric less than or equal to" value="NUMERIC_LESS_THAN_OR_EQUAL_TO"><b>numeric <=</b></option>
@@ -90,8 +88,6 @@
                                 <option ng-selected="param.operator == 'NOT_EQUAL'  " title="Not equal to" value="NOT_EQUAL"><b>!=</b></option>
                                 <option ng-selected="param.operator == 'LIKE' " title="Like" value="LIKE"><b>Like</b></option>
                                 <option ng-selected="param.operator == 'NOT_LIKE'  " title="Not like" value="NOT_LIKE"><b>Not like</b></option>
-                                <option ng-selected="param.operator == 'SOUNDS_LIKE'  " title="Sounds like" value="SOUNDS_LIKE"><b>Sounds like</b></option>
-                                <option ng-selected="param.operator == 'SOUNDS_NOT_LIKE'  " title="Sounds not like" value="SOUNDS_NOT_LIKE"><b>Sounds not like</b></option>
                                 <option ng-selected="param.operator == 'BETWEEN'  " title="Between" value="BETWEEN"><b>Between</b></option>
                                 <option ng-selected="param.operator == 'IN'  " title="in" value="IN"><b>In</b></option>
                                 <option ng-selected="param.operator == 'NUMERIC_EQUAL' " title="Numeric equal to" value="NUMERIC_EQUAL"><b>numeric =</b></option>

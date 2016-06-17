@@ -12,7 +12,6 @@ import org.irods.jargon.mdquery.MetadataQuery
 import org.irods.jargon.mdquery.serialization.MetadataQueryJsonService
 import org.irods.jargon.vircoll.CollectionTypes
 import org.irods.jargon.vircoll.TemporaryQueryService
-import org.irods.jargon.vircoll.UserVirtualCollectionProfile
 import org.irods.jargon.vircoll.types.MetadataQueryMaintenanceService
 import org.irods.jargon.vircoll.types.MetadataQueryVirtualCollection
 
@@ -32,11 +31,9 @@ class MetadataQueryServiceSpec extends Specification {
 		def irodsAccessObjectFactory = mockFor(IRODSAccessObjectFactory)
 
 		def virtualCollectionService = mockFor(VirtualCollectionService)
-		def userVirtualCollectionProfile = new UserVirtualCollectionProfile()
 		def  metadataQuery = new MetadataQueryVirtualCollection("blah")
 		metadataQuery.uniqueName = name
-		userVirtualCollectionProfile.userRecentQueries.add(metadataQuery)
-		virtualCollectionService.demand.virtualCollectionHomeListingForUser{ nm,ia -> return userVirtualCollectionProfile}
+		virtualCollectionService.demand.virtualCollectionDetails(String){ nm, ia, ses-> return metadataQuery}
 		def metadataQueryService = new MetadataQueryService()
 		metadataQueryService.virtualCollectionService = virtualCollectionService.createMock()
 		metadataQueryService.irodsAccessObjectFactory = irodsAccessObjectFactory.createMock()

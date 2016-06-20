@@ -24,7 +24,7 @@
 					ng-class="selectedVc.data.uniqueName == virtualCollection.uniqueName ? 'selected' : '' "
 					ng-repeat="virtualCollection in virtualCollections.userRecentQueries"
 					ng-click="selectVirtualCollection(virtualCollection.uniqueName, '')">
-                    <span id="{{virtualCollection.uniqueName}}" title="{{virtualCollection.description}}"><i
+                    <span id="{{virtualCollection.description}}" title="{{virtualCollection.description}}"><i
 							class="fa fa-search folder_listing"></i><span>{{virtualCollection.description}}</span></span>
 				</li>
 			</ul>

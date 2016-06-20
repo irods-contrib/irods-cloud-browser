@@ -683,6 +683,8 @@ $routeProvider.when('/profile', {
         };
 
         $scope.metadata_add_action = function(){
+            $('#new_metadata_attribute').removeClass('has_error');
+            $('#new_metadata_value').removeClass('has_error');
             var data_path = $scope.dataProfile.domainObject.absolutePath;
             var new_attribute = $('#new_metadata_attribute').val();
             var new_value = $('#new_metadata_value').val();
@@ -699,10 +701,18 @@ $routeProvider.when('/profile', {
                 }
             }
             if(value_unique == "no" && att_unique == "no"){
-                MessageService.sticky_danger('There is already an AVU with Attribute: "' + new_attribute + '" and Value: "' + new_value + '". Please choose a different Attribute or Value');                    
-                    $('#new_metadata_attribute').addClass('has_error');
-                    $('#new_metadata_value').addClass('has_error');
-                    $('#new_metadata_attribute').focus();
+                MessageService.danger('There is already an AVU with Attribute: "' + new_attribute + '" and Value: "' + new_value + '". Please choose a different Attribute or Value');                    
+                $('#new_metadata_attribute').addClass('has_error');
+                $('#new_metadata_value').addClass('has_error');
+                $('#new_metadata_attribute').focus();
+            }else if (new_attribute == "" ){
+                MessageService.danger("The Attribute field can't be blank, please provide an Attribute");
+                $('#new_metadata_attribute').addClass('has_error');
+                $('#new_metadata_attribute').focus();
+            }else if (new_value == ""){
+                MessageService.danger("The Value field can't be blank, please provide a Value");
+                $('#new_metadata_value').addClass('has_error');
+                $('#new_metadata_value').focus();
             }else{
                 metadataService.addMetadataForPath(data_path, new_attribute, new_value, new_unit).then(function () {
                    $http({method: 'GET', url: $globals.backendUrl('file') , params: {path: $scope.dataProfile.domainObject.absolutePath}}).success(function(data){

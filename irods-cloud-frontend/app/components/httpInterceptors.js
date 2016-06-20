@@ -48,25 +48,27 @@ angular.module('httpInterceptorModule', []).factory('myHttpResponseInterceptor',
 
             } else if (status == 500) {
                 $log.info("internal server error");
+                if($location.path() == "/search"){
+                    
+                }else{
+                    // todo: fix for no vc found
+                    if (rejection.data.error.localizedMessage.startsWith("no virtual collections")) {
+                        $location.path("/home/My Home");
+                    }
 
+                    globals.setLastPath($location.path());
+                    //$location.path("/index");
+                    //if (globals.loggedInIdentity != null) {
 
-                // todo: fix for no vc found
-                if (rejection.data.error.localizedMessage.startsWith("no virtual collections")) {
-                    $location.path("/home/My Home");
+                    var message = rejection.data.error.localizedMessage;
+                    if (!message) {
+                        message = "An error occurred";
+                    }
+
+                    MessageService.error(message);
+
+                    return $q.reject(rejection);
                 }
-
-                globals.setLastPath($location.path());
-                //$location.path("/index");
-                //if (globals.loggedInIdentity != null) {
-
-                var message = rejection.data.error.localizedMessage;
-                if (!message) {
-                    message = "An error occurred";
-                }
-
-                MessageService.error(message);
-
-                return $q.reject(rejection);
             } else if (status == 401) { // unauthorized - redirect to login again
                 //save last path for subsequent re-login
                 if ($location.path() != "/login") {

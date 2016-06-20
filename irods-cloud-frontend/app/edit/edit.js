@@ -836,7 +836,7 @@ angular.module('myApp.edit', ['ngRoute'])
                 }
             }
             if(value_unique == "no" && att_unique == "no"){
-                MessageService.sticky_danger('There is already an AVU with Attribute: "' + new_attribute + '" and Value: "' + new_value + '". Please choose a different Attribute or Value');                    
+                MessageService.danger('There is already an AVU with Attribute: "' + new_attribute + '" and Value: "' + new_value + '". Please choose a different Attribute or Value');                    
                     $('#new_metadata_attribute').addClass('has_error');
                     $('#new_metadata_value').addClass('has_error');
                     $('#new_metadata_attribute').focus();

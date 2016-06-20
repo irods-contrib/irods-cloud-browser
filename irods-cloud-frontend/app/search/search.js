@@ -80,7 +80,7 @@ angular.module('myApp.search', ['ngRoute', 'ngFileUpload', 'ng-context-menu','ui
          */
         $scope.count = 0;
         $scope.selectedVc = selectedVc;
-        $scope.pagingAwareCollectionListing = pagingAwareCollectionListing;        
+        $scope.pagingAwareCollectionListing = pagingAwareCollectionListing;     
         $scope.$on('onRepeatLast', function (scope, element, attrs) {            
             $(".selectable").selectable({
                 stop: function () {
@@ -264,7 +264,14 @@ angular.module('myApp.search', ['ngRoute', 'ngFileUpload', 'ng-context-menu','ui
                 if($(this).parent().parent().hasClass('ng-hide')){
 
                 }else{
-                    attr_names.push($(this).val());
+                    if($(this).val() == ""){
+                        MessageService.danger("Missing Attribute Name.");
+                        $(this).focus();
+                        $(this).stop();
+                    }else{
+                        attr_names.push($(this).val());
+                    }
+                    
                 }
             });
             var attr_vals = [];
@@ -286,11 +293,11 @@ angular.module('myApp.search', ['ngRoute', 'ngFileUpload', 'ng-context-menu','ui
 
             for (var i = 0; i < attr_names.length; i++) {
 
-                if(attr_names[i].value == ""){
+                if(attr_names[i] == ""){
                     MessageService.danger("Missing Attribute Name");
                     return;
                 }
-                if(attr_vals[i].value == ""){
+                if(attr_vals[i] == ""){
                     MessageService.danger("Missing Attribute Value");
                     return;
                 }
@@ -320,6 +327,9 @@ angular.module('myApp.search', ['ngRoute', 'ngFileUpload', 'ng-context-menu','ui
                     var param_string = $scope.query_vc.queryString;
                     $scope.query_params = JSON.parse(param_string);
                     
+                }).error(function (data){
+                    $(".display_name").val("New Query Folder");
+                    $(".display_name").focus();
                 })
         }
         $scope.get_query_params($scope.url_query_name.query_id);

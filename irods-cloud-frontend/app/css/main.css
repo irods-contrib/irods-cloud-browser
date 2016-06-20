@@ -284,6 +284,22 @@ body{
 /* ||||||||||||||||||||||||||||||||||| */
 /* |||||| MAIN CONTAINERS STYLES ||||| */
 /* ||||||||||||||||||||||||||||||||||| */
+
+.message-center-regular{
+	width: 60%;
+    top: 10px;
+    bottom: inherit;
+    margin-left: 20%;
+}
+.message-box{
+	-webkit-box-shadow: 0 0 12px #000;
+    -moz-box-shadow: 0 0 12px #000;
+    box-shadow: 0 0 12px #000;
+    border:none;
+}
+.message-box.info{
+	background: #aaa;
+}
 .dropdown-submenu{position:relative;}
 .dropdown-submenu>.dropdown-menu{top:0;left:100%;margin-top:-6px;margin-left:-1px;-webkit-border-radius:0 6px 6px 6px;-moz-border-radius:0 6px 6px 6px;border-radius:0 6px 6px 6px;}
 .dropdown-submenu:hover>.dropdown-menu{display:block;}
@@ -553,7 +569,7 @@ select{
 	position: relative;
     float: left;
     clear: both;
-    width: 500px;
+    width: 565px;
 }
 .full_star, .empty_star{
 	padding: 5px 0px 0px 0px;

@@ -253,11 +253,11 @@ angular.module('myApp.search', ['ngRoute', 'ngFileUpload', 'ng-context-menu','ui
 
         $scope.query_search = function (){
             $scope.display_name = $('.display_name').val()
-            if($('#search_objs').val() == null){
-                MessageService.danger("Please choose what you want to search for");
-                $("#search_objs").focus();
-                return;
-            };
+            if($scope.display_name == ""){
+                MessageService.danger("Missing Search Name");
+                $('.display_name').focus();
+                throw new Error("Missing Search Name");
+            }
             var query_val = '{"targetZone":"","queryType":"'+ $('#search_objs').val() +'","pathHint":"'+$('.search_path').val()+'","metadataQueryElements":[';
             var attr_names = [];
             $(".attr_name").each(function() {
@@ -265,9 +265,9 @@ angular.module('myApp.search', ['ngRoute', 'ngFileUpload', 'ng-context-menu','ui
 
                 }else{
                     if($(this).val() == ""){
-                        MessageService.danger("Missing Attribute Name.");
+                        MessageService.danger("Missing Attribute Name");
                         $(this).focus();
-                        $(this).stop();
+                        throw new Error("Missing Attribute Name");
                     }else{
                         attr_names.push($(this).val());
                     }
@@ -279,7 +279,13 @@ angular.module('myApp.search', ['ngRoute', 'ngFileUpload', 'ng-context-menu','ui
                 if($(this).parent().parent().hasClass('ng-hide')){
 
                 }else{
-                    attr_vals.push($(this).val());
+                    if($(this).val() == ""){
+                        MessageService.danger("Missing Attribute Value");
+                        $(this).focus();
+                        throw new Error("Missing Attribute Value");
+                    }else{
+                        attr_vals.push($(this).val());
+                    }
                 }
             });
             var attr_evals = [];

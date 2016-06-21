@@ -256,7 +256,7 @@ angular.module('myApp.edit', ['ngRoute'])
          Get a default list of the virtual collections that apply to the logged in user, for side nav
          */
         $scope.go_back = function(){
-            if($scope.file_content != $scope.initial_file_content){
+            if($scope.file_content != $scope.initial_file_content || $scope.rule_string.ruleText != $scope.initial_rule_string_body){
                 if (confirm('Are you sure you want to leave this page without saving your changes?')) {
                     window.history.go(-1);
                 } else {

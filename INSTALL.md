@@ -64,8 +64,7 @@ It is recommended that Tomcat or other web container be firewalled and proxied b
 
 http://httpd.apache.org/docs/2.2/mod/mod_proxy_ajp.html
 
-### Additional Detail
-Setting up Apache to proxy the connection to Tomcat via AJP involves the following steps:
+### Setting up Apache to proxy the connection to Tomcat via AJP 
 
 ### Modify Tomcat's `server.xml` configuration file by adding/uncommenting the following line:
    ```
@@ -80,7 +79,7 @@ a2enmod proxy_ajp
 a2enmod proxy_http
 ```
 
-### Create an appropriate Apache configuration file. Here is an example:
+### Create an appropriate Apache configuration file (non SSL).
 
    ```
    <VirtualHost *:80>
@@ -93,7 +92,7 @@ a2enmod proxy_http
    </VirtualHost>
   ```
 
-### another example using SSL *only* and good practice in SSL configuration;
+### another example using SSL *only* aiming for a good SSL Rating;
 
 ```
 #put the following in /etc/apache2/conf-available/ssl.conf

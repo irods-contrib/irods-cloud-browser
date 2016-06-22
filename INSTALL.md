@@ -67,12 +67,12 @@ http://httpd.apache.org/docs/2.2/mod/mod_proxy_ajp.html
 ### Additional Detail
 Setting up Apache to proxy the connection to Tomcat via AJP involves the following steps:
 
-1. Modify Tomcat's `server.xml` configuration file by adding/uncommenting the following line:
+### Modify Tomcat's `server.xml` configuration file by adding/uncommenting the following line:
    ```
    <Connector port="8009" protocol="AJP/1.3" />
    ```
 
-2. Install and enable the Apache `proxy_ajp` and `proxy` modules.
+### Install and enable the Apache `proxy_ajp` and `proxy` modules.
 
 ```
 a2enmod proxy
@@ -80,7 +80,7 @@ a2enmod proxy_ajp
 a2enmod proxy_http
 ```
 
-3. Create an appropriate Apache configuration file. Here is an example:
+### Create an appropriate Apache configuration file. Here is an example:
 
    ```
    <VirtualHost *:80>
@@ -93,7 +93,7 @@ a2enmod proxy_http
    </VirtualHost>
   ```
 
-4. another example using SSL *only* and good practice in SSL configuration;
+### another example using SSL *only* and good practice in SSL configuration;
 
 ```
 #put the following in /etc/apache2/conf-available/ssl.conf
@@ -129,14 +129,8 @@ Listen 443
 etc/apache2/sites-available/cloud-browser.conf 
 <VirtualHost *:443>
 
-   ServerName cloud-browser.sanger.ac.uk
+   ServerName cloud-browser.research.ac.uk
 
-
-   ## Restrict access to sanger at the moment!
-
-   <Location />
-   Require host .sanger.ac.uk
-   </Location>
    ## Configuration for proxying back to tomcat server...
 
 
@@ -156,8 +150,8 @@ etc/apache2/sites-available/cloud-browser.conf
    </Directory>
 
 
-   SSLCertificateFile    /etc/apache2/ssl/sanger-wildcard.crt
-   SSLCertificateKeyFile /etc/apache2/ssl/sanger-wildcard.key
+   SSLCertificateFile    /etc/apache2/ssl/research-wildcard.crt
+   SSLCertificateKeyFile /etc/apache2/ssl/research-wildcard.key
 
    <IfModule mime.c>
      AddType application/x-x509-ca-cert      .crt
@@ -183,13 +177,13 @@ etc/apache2/sites-available/cloud-browser.conf
 </VirtualHost>
 ```
 
-5. Enable the new Apache configurations.
+### Enable the new Apache configurations.
 ```
 ln -s /etc/apache2/sites-available/cloud_browser.conf /etc/apache2/sites-enabled/
 ln -s /etc/apache2/conf-available/ssl.conf /etc/apache2/conf-enabled/
 ```
 
-6. Don't forget to install the SSL cert!
+### Don't forget to install the SSL cert!
 
 ## 7 Configure the front end to your deployed back-end container
 

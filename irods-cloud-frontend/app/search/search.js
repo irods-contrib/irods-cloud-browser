@@ -334,7 +334,7 @@ angular.module('myApp.search', ['ngRoute', 'ngFileUpload', 'ng-context-menu','ui
                     $scope.query_params = JSON.parse(param_string);
                     
                 }).error(function (data){
-                    $(".display_name").val("New Query Folder");
+                    $(".display_name").val("New Query");
                     $(".display_name").focus();
                 })
         }

@@ -183,15 +183,15 @@ etc/apache2/sites-available/cloud-browser.conf
 </VirtualHost>
 ```
 
-4. Enable the new Apache configurations.
+5. Enable the new Apache configurations.
 ```
 ln -s /etc/apache2/sites-available/cloud_browser.conf /etc/apache2/sites-enabled/
 ln -s /etc/apache2/conf-available/ssl.conf /etc/apache2/conf-enabled/
 ```
 
-5. Don't forget to install the SSL cert!
+6. Don't forget to install the SSL cert!
 
-## 4 Configure the front end to your deployed back-end container
+## 7 Configure the front end to your deployed back-end container
 
 The front end javascript code makes ajax calls to the back end that is configured in irods-cloud-frontend/app/components/globals.js on 
 line 17.
@@ -229,7 +229,7 @@ The HOST variable needs to be set to the http address of the back end. In step 3
  set the HOST variable to the irods-cloud-backend context as it is exposed on your HTTP server (e.g., without :8080), with a trailing slash.
  
  
-## 5 Optionally configure browser presets - locking the site down to just one Zone
+## 8 Optionally configure browser presets - locking the site down to just one Zone
 
 Adding the irods-cloud-backend-config.groovy file to your /etc directory on the server where the irods-cloud-backend .war  is running allows limiting of the login page to a preset host/port/zone, presenting only a user and password.  If this file is not present, or the beconf.login.preset.enabled=false is set, than the login form will allow logging in to any iRODS grid.
 
@@ -251,14 +251,14 @@ beconf.login.preset.enabled=true
 
 ```
 
-## 6 Restart the HTTP service and test
+## 9 Restart the HTTP service and test
 
 `service apache2 restart`
 
 If the front-end code is properly configured to point to the back-end rest service, one should be able to log in to the application
 by browsing to http(s)://hostnameforapachefrontend/irods-cloud-frontend
 
-## 7 If you run into trouble!
+## 10 If you run into trouble!
 
 Useful logs are;
 ```

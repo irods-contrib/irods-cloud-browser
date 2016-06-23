@@ -63,7 +63,6 @@ body{
 /* |||||| COLOR THEME ELEMENTS ||||||| */
 /* ||||||||||||||||||||||||||||||||||| */
 .main_logo{
-	height:30px;
 	background: url("../images/beta_test_logo.png");/* For best results plese use an image with 36px of height */
 	display: block;
 	height: 36px;
@@ -1111,6 +1110,7 @@ input.col-xs-12{
 }
 .permanent_folder span{
 	width: 100%;
+	display:-moz-box;
 }
 .ui-widget-content.light_back_option, .ui-widget-content.light_back_option_even{
 	cursor:pointer;

@@ -5,7 +5,7 @@
 ### Date: 
 ### Release Version:
 ### git tag:
-#### Developer: Mike Conway - DICE, Cesar Garde - RENCI
+#### Developer: Mike Conway - DICE, Cesar Garde - iRODS
 
 ## News
 

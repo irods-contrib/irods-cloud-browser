@@ -1,6 +1,6 @@
 # Project: DFC iRODS Cloud Browser
 
-#### Work in progress on 1.0.1 - https://github.com/DICE-UNC/irods-cloud-browser/milestones/1.0.1%20Maintenance
+#### Release - https://github.com/DICE-UNC/irods-cloud-browser/releases
 
 ### Date: 06/30/16
 ### Release Version: 1.0.1

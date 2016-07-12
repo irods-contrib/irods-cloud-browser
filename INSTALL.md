@@ -35,6 +35,7 @@ diff /etc/tomcat7/tomcat-users.xml /etc/tomcat7/tomcat-users.xml_orig
 <   <role rolename="manager-gui"/>
 <   <user username="manager" password="iRODSisGoodRods" roles="manager-gui"/>
 ```
+Note: on RedHat/CentOS-based systems the default Tomcat path may be /usr/share/tomcat/conf/tomcat-users.xml
 
 ## 4 Deploy the .war file
 

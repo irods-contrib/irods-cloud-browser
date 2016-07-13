@@ -1,0 +1,59 @@
+<div ng-include="'header.html'"></div>
+<div ng-include="'actions_pop_up.html'"></div>
+<div ng-include="'side_nav.html'"></div>
+<div id="main_contents" class="uncollapsed_main_contents"> 
+	<div class="full_column">
+		<div class="column_content">
+			
+			<div>
+				<div class="themed_header"><i class="fa fa-tachometer fa-lg"></i>&nbsp;My Dashboard</div><br>
+        Welcome, <em>Username</em>
+				<div class="dashboard_body">       
+				</div>
+        <br>
+        <div class="light_header">
+          My apps:
+        </div>
+        <div class="third_column">
+          <div class="btn btn-default" title="Search Files/Folders" ng-click="selectSearchView()"><i class="fa fa-search fa-lg"></i>&nbsp;Search</div>
+        </div>
+        <div class="third_column">
+          <div class="btn btn-default" title="Browse Files/Folders" ng-click="selectHierView()"><i class="fa fa-folder-open fa-lg"></i>&nbsp;Browse</div>
+        </div>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+<div context-menu class="panel panel-default position-fixed"
+     data-target="menu-{{ $index }}"
+     ng-class="{ 'highlight': highlight, 'expanded' : expanded }">
+  ...
+</div>
+
+<div class="dropdown position-fixed" id="metadata_list_menu">
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <button class="visible_button context_button" title="Create a new metadata item" ng-click='selectProfile(selected_target)'> 
+      	<img src="images/dark_add_icon.png"><span>&nbsp;Add</span>	
+      </button>
+    </li>
+    <li>
+      <button class="rename_button context_button" title="Edit selected metadata" ng-click='getDownloadLink()' > 
+      	<img src="images/dark_edit_icon.png"><span>&nbsp;Edit</span>	
+      </button>
+    </li>
+    <li>
+      <button class="rename_button context_button" title="Delete selected metadata" ng-click='move_pop_up_open()' > 
+      	<img src="images/dark_delete_icon.png"><span>&nbsp;Delete</span>	
+      </button>
+    </li>    
+  </ul>
+</div>
+
+
+
+
+
+

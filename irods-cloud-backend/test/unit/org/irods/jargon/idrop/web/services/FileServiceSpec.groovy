@@ -19,6 +19,7 @@ import org.irods.jargon.core.query.CollectionAndDataObjectListingEntry
 import org.irods.jargon.core.transfer.DefaultTransferControlBlock
 import org.irods.jargon.core.transfer.TransferControlBlock
 import org.irods.jargon.core.transfer.TransferStatusCallbackListener
+import org.irods.jargon.datautils.filesampler.FileSamplerService
 import org.irods.jargon.zipservice.api.*
 import org.junit.*
 import org.mockito.Mockito
@@ -41,10 +42,10 @@ class FileServiceSpec extends Specification {
 		ObjStat objStat = new ObjStat()
 
 		def  listAndSearchAO = mockFor(CollectionAndDataObjectListAndSearchAO)
-		listAndSearchAO.demand.retrieveObjectStatForPath{absPath -> return objStat}
+		listAndSearchAO.demand.retrieveObjectStatForPath{ absPath -> return objStat }
 
 		def listAndSearchAOMock = listAndSearchAO.createMock()
-		irodsAccessObjectFactory.demand.getCollectionAndDataObjectListAndSearchAO{act -> return listAndSearchAOMock}
+		irodsAccessObjectFactory.demand.getCollectionAndDataObjectListAndSearchAO{ act -> return listAndSearchAOMock }
 
 		def iafMock = irodsAccessObjectFactory.createMock()
 
@@ -71,17 +72,17 @@ class FileServiceSpec extends Specification {
 		objStat.objectType = CollectionAndDataObjectListingEntry.ObjectType.COLLECTION
 
 		def  listAndSearchAO = mockFor(CollectionAndDataObjectListAndSearchAO)
-		listAndSearchAO.demand.retrieveObjectStatForPath{absPath -> return objStat}
+		listAndSearchAO.demand.retrieveObjectStatForPath{ absPath -> return objStat }
 
 		org.irods.jargon.core.pub.domain.Collection collection = new org.irods.jargon.core.pub.domain.Collection()
 		def  collectionAO = mockFor(CollectionAO)
-		collectionAO.demand.findByAbsolutePath{absPath -> return collection}
+		collectionAO.demand.findByAbsolutePath{ absPath -> return collection }
 		def collectionAOMock = collectionAO.createMock()
 
 
 		def listAndSearchAOMock = listAndSearchAO.createMock()
-		irodsAccessObjectFactory.demand.getCollectionAndDataObjectListAndSearchAO{act -> return listAndSearchAOMock}
-		irodsAccessObjectFactory.demand.getCollectionAO{act -> return collectionAOMock}
+		irodsAccessObjectFactory.demand.getCollectionAndDataObjectListAndSearchAO{ act -> return listAndSearchAOMock }
+		irodsAccessObjectFactory.demand.getCollectionAO{ act -> return collectionAOMock }
 
 
 		def iafMock = irodsAccessObjectFactory.createMock()
@@ -109,17 +110,17 @@ class FileServiceSpec extends Specification {
 		objStat.objectType = CollectionAndDataObjectListingEntry.ObjectType.DATA_OBJECT
 
 		def  listAndSearchAO = mockFor(CollectionAndDataObjectListAndSearchAO)
-		listAndSearchAO.demand.retrieveObjectStatForPath{absPath -> return objStat}
+		listAndSearchAO.demand.retrieveObjectStatForPath{ absPath -> return objStat }
 
 		org.irods.jargon.core.pub.domain.DataObject dataObject = new org.irods.jargon.core.pub.domain.DataObject()
 		def  dataObjectAO = mockFor(DataObjectAO)
-		dataObjectAO.demand.findByAbsolutePath{absPath -> return dataObject}
+		dataObjectAO.demand.findByAbsolutePath{ absPath -> return dataObject }
 		def dataObjectAOMock = dataObjectAO.createMock()
 
 
 		def listAndSearchAOMock = listAndSearchAO.createMock()
-		irodsAccessObjectFactory.demand.getCollectionAndDataObjectListAndSearchAO{act -> return listAndSearchAOMock}
-		irodsAccessObjectFactory.demand.getDataObjectAO{act -> return dataObjectAOMock}
+		irodsAccessObjectFactory.demand.getCollectionAndDataObjectListAndSearchAO{ act -> return listAndSearchAOMock }
+		irodsAccessObjectFactory.demand.getDataObjectAO{ act -> return dataObjectAOMock }
 
 
 		def iafMock = irodsAccessObjectFactory.createMock()
@@ -148,19 +149,28 @@ class FileServiceSpec extends Specification {
 		def inputStreamMock = inputStream.createMock()
 
 		def irodsFile = mockFor(IRODSFile)
-		irodsFile.demand.exists{-> return true}
-		irodsFile.demand.canRead{-> return true}
-		irodsFile.demand.length{-> return 100L}
-		irodsFile.demand.getName{-> "hello"}
-		irodsFile.demand.getName{-> "hello"}
+		irodsFile.demand.exists{ -> return true }
+		irodsFile.demand.canRead{ -> return true }
+		irodsFile.demand.length{ -> return 100L }
+		irodsFile.demand.getName{ -> "hello" }
+		irodsFile.demand.getName{ -> "hello" }
 		def irodsFileMock = irodsFile.createMock()
 
+		def objStat = new ObjStat()
+		objStat.objectType = CollectionAndDataObjectListingEntry.ObjectType.DATA_OBJECT
+
+		def collectionAndDataObjectListAndSearchAO = mockFor(CollectionAndDataObjectListAndSearchAO)
+		collectionAndDataObjectListAndSearchAO.demand.retrieveObjectStatForPath{ pth -> return objStat }
+		def collectionAndDataObjectListAndSearchAOMock = collectionAndDataObjectListAndSearchAO.createMock()
+
 		def irodsFileFactory = mockFor(IRODSFileFactory)
-		irodsFileFactory.demand.instanceIRODSFileInputStream{path1 -> return inputStreamMock}
-		irodsFileFactory.demand.instanceIRODSFile{path2 -> return irodsFileMock}
+		irodsFileFactory.demand.instanceIRODSFileInputStream{ path1 -> return inputStreamMock }
+		irodsFileFactory.demand.instanceIRODSFile{ path2 -> return irodsFileMock }
 		def irodsFileFactoryMock = irodsFileFactory.createMock()
-		irodsAccessObjectFactory.demand.getIRODSFileFactory{acct1 -> return irodsFileFactoryMock}
-		irodsAccessObjectFactory.demand.getIRODSFileFactory{acct2 -> return irodsFileFactoryMock}
+		irodsAccessObjectFactory.demand.getCollectionAndDataObjectListAndSearchAO{ acct3 -> return collectionAndDataObjectListAndSearchAOMock }
+
+		irodsAccessObjectFactory.demand.getIRODSFileFactory{ acct1 -> return irodsFileFactoryMock }
+		irodsAccessObjectFactory.demand.getIRODSFileFactory{ acct2 -> return irodsFileFactoryMock }
 		def irodsAccessObjectFactoryMock = irodsAccessObjectFactory.createMock()
 
 		def jargonServiceFactoryService = mockFor(JargonServiceFactoryService)
@@ -168,7 +178,7 @@ class FileServiceSpec extends Specification {
 		def jargonZipService = mockFor(JargonZipService)
 		def jargonZipServiceMock = jargonZipService.createMock()
 
-		jargonServiceFactoryService.demand.instanceJargonZipService{act -> return jargonZipServiceMock}
+		jargonServiceFactoryService.demand.instanceJargonZipService{ act -> return jargonZipServiceMock }
 		def jargonServiceFactoryServiceMock = jargonServiceFactoryService.createMock()
 
 		FileService fileService = new FileService()
@@ -204,10 +214,10 @@ class FileServiceSpec extends Specification {
 		def jargonZipService = mockFor(JargonZipService)
 
 		def bundleStreamWrapper = new BundleStreamWrapper(inputStreamMock, length, bundleName)
-		jargonZipService.demand.obtainBundleAsInputStreamWithAdditionalMetadataGivenPaths{paths1 -> return bundleStreamWrapper}
+		jargonZipService.demand.obtainBundleAsInputStreamWithAdditionalMetadataGivenPaths{ paths1 -> return bundleStreamWrapper }
 		def jargonZipServiceMock = jargonZipService.createMock()
 
-		jargonServiceFactoryService.demand.instanceJargonZipService{act -> return jargonZipServiceMock}
+		jargonServiceFactoryService.demand.instanceJargonZipService{ act -> return jargonZipServiceMock }
 		def jargonServiceFactoryServiceMock = jargonServiceFactoryService.createMock()
 		FileService fileService = new FileService()
 		fileService.irodsAccessObjectFactory = irodsAccessObjectFactoryMock
@@ -222,7 +232,7 @@ class FileServiceSpec extends Specification {
 		actual != null
 		actual instanceof DownloadFileSpecification
 		actual.length == length
-		actual.bundleFileName == bundleName
+		actual.fileName == bundleName
 		actual.inputStream != null
 	}
 
@@ -237,17 +247,17 @@ class FileServiceSpec extends Specification {
 		def irodsFileFactory = mockFor(IRODSFileFactory)
 
 		def irodsFile1 = mockFor(IRODSFile)
-		irodsFile1.demand.delete{-> return true}
-		irodsFile1.demand.delete{-> return true}
+		irodsFile1.demand.delete{ -> return true }
+		irodsFile1.demand.delete{ -> return true }
 		def irodsFile1Mock = irodsFile1.createMock()
 
 
-		irodsFileFactory.demand.instanceIRODSFile{pathIn1 -> return irodsFile1Mock}
-		irodsFileFactory.demand.instanceIRODSFile{pathIn2 -> return irodsFile1Mock}
+		irodsFileFactory.demand.instanceIRODSFile{ pathIn1 -> return irodsFile1Mock }
+		irodsFileFactory.demand.instanceIRODSFile{ pathIn2 -> return irodsFile1Mock }
 
 		def irodsFileFactoryMock = irodsFileFactory.createMock()
 
-		irodsAccessObjectFactory.demand.getIRODSFileFactory{act1 -> return irodsFileFactoryMock}
+		irodsAccessObjectFactory.demand.getIRODSFileFactory{ act1 -> return irodsFileFactoryMock }
 		def irodsAccessObjectFactoryMock = irodsAccessObjectFactory.createMock()
 
 		FileService fileService = new FileService()
@@ -275,19 +285,19 @@ class FileServiceSpec extends Specification {
 		def irodsFileFactory = mockFor(IRODSFileFactory)
 
 		def irodsFile1 = mockFor(IRODSFile)
-		irodsFile1.demand.mkdir{-> return true}
+		irodsFile1.demand.mkdir{ -> return true }
 		def irodsFile1Mock = irodsFile1.createMock()
 
-		irodsFileFactory.demand.instanceIRODSFile{pathIn1 -> return irodsFile1Mock}
+		irodsFileFactory.demand.instanceIRODSFile{ pathIn1 -> return irodsFile1Mock }
 		def irodsFileFactoryMock = irodsFileFactory.createMock()
 
-		irodsAccessObjectFactory.demand.getIRODSFileFactory{act1 -> return irodsFileFactoryMock}
+		irodsAccessObjectFactory.demand.getIRODSFileFactory{ act1 -> return irodsFileFactoryMock }
 		def listingEntry = new CollectionAndDataObjectListingEntry()
 		def collectionAO = mockFor(CollectionAO)
-		collectionAO.demand.getListingEntryForAbsolutePath{pth1 -> return listingEntry}
+		collectionAO.demand.getListingEntryForAbsolutePath{ pth1 -> return listingEntry }
 		def collectionAOMock = collectionAO.createMock()
 
-		irodsAccessObjectFactory.demand.getCollectionAO{ia1 -> return collectionAOMock}
+		irodsAccessObjectFactory.demand.getCollectionAO{ ia1 -> return collectionAOMock }
 
 		def irodsAccessObjectFactoryMock = irodsAccessObjectFactory.createMock()
 
@@ -331,7 +341,7 @@ class FileServiceSpec extends Specification {
 		def collectionAOMock = collectionAO.createMock()
 
 		def dataTransferOperations = mockFor(DataTransferOperations)
-		dataTransferOperations.demand.move{f1,f2->return void}
+		dataTransferOperations.demand.rename{f1,f2->return void}
 		def dataTransferOperationsMock = dataTransferOperations.createMock()
 
 		irodsAccessObjectFactory.demand.getDataTransferOperations{ia2 -> return dataTransferOperationsMock}
@@ -474,5 +484,68 @@ class FileServiceSpec extends Specification {
 		Mockito.verify(dataTransferOperations).physicalMove(sourcePath, resource)
 
 		actual != null
+	}
+
+
+	void "should create String from file"() {
+		given:
+		IRODSAccount irodsAccount = IRODSAccount.instance("host", 1247, "user", "password", "", "zone", "")
+		def irodsAccessObjectFactory = mockFor(IRODSAccessObjectFactory)
+
+		def sourcePath = "/a/path/file.txt"
+		def retString = "xxx"
+
+		def fileSamplerService = mockFor(FileSamplerService)
+		fileSamplerService.demand.convertFileContentsToString{pth,sz -> return retString}
+		def fileSamplerServiceMock = fileSamplerService.createMock()
+
+		def jargonServiceFactoryService = mockFor(JargonServiceFactoryService)
+		jargonServiceFactoryService.demand.instanceFileSamplerService{ia -> return fileSamplerServiceMock}
+		def jargonServiceFactoryServiceMock = jargonServiceFactoryService.createMock()
+
+		def irodsAccessObjectFactoryMock = irodsAccessObjectFactory.createMock()
+
+		FileService fileService = new FileService()
+		fileService.irodsAccessObjectFactory = irodsAccessObjectFactoryMock
+		fileService.jargonServiceFactoryService = jargonServiceFactoryServiceMock
+
+		when:
+
+		def actual = fileService.stringFromFile(sourcePath, irodsAccount)
+
+		then:
+
+
+		actual != null
+	}
+
+	void "should push a string to a file"() {
+		given:
+		IRODSAccount irodsAccount = IRODSAccount.instance("host", 1247, "user", "password", "", "zone", "")
+		def irodsAccessObjectFactory = mockFor(IRODSAccessObjectFactory)
+
+		def sourcePath = "/a/path/file.txt"
+		def data = "xxx"
+
+		def fileSamplerService = mockFor(FileSamplerService)
+		fileSamplerService.demand.saveStringToFile{pth,dt -> return void}
+		def fileSamplerServiceMock = fileSamplerService.createMock()
+
+		def jargonServiceFactoryService = mockFor(JargonServiceFactoryService)
+		jargonServiceFactoryService.demand.instanceFileSamplerService{ia -> return fileSamplerServiceMock}
+		def jargonServiceFactoryServiceMock = jargonServiceFactoryService.createMock()
+
+		def irodsAccessObjectFactoryMock = irodsAccessObjectFactory.createMock()
+
+		FileService fileService = new FileService()
+		fileService.irodsAccessObjectFactory = irodsAccessObjectFactoryMock
+		fileService.jargonServiceFactoryService = jargonServiceFactoryServiceMock
+
+		when:
+
+		fileService.stringToFile(data, sourcePath, irodsAccount)
+
+		then:
+		1 == 1
 	}
 }

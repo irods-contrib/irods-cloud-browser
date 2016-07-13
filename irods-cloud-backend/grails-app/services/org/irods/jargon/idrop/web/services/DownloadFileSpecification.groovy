@@ -13,6 +13,5 @@ class DownloadFileSpecification {
 	InputStream inputStream
 	long length
 	String type
-	String contentDispositionHeader
-	String bundleFileName
+	String fileName
 }

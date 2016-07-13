@@ -32,14 +32,11 @@ class DownloadController extends RestfulController {
 			throw new JargonException("no path in request")
 		}
 
-		//InputStream irodsFileInputStream = null
 		DownloadFileSpecification dfs
 		if (path instanceof String[]) {
 			log.info("multiple paths, create a zip")
 			List<String> pathList = new ArrayList<String>()
 			path.each{pathElem -> pathList.add(pathElem)}
-
-
 			dfs = fileService.obtainInputStreamForDownloadMultipleFiles(pathList, irodsAccount)
 		} else {
 			log.info("single path for download")
@@ -52,14 +49,13 @@ class DownloadController extends RestfulController {
 		log.info("file length = ${length}")
 		log.info("opened input stream")
 
-		response.setContentType("application/octet-stream")
+		//response.setContentType("application/octet-stream")
 		response.setContentLength((int) length)
-		response.setHeader("Content-disposition",dfs.contentDispositionHeader)
-
+		//response.setHeader("Content-disposition",dfs.contentDispositionHeader)  tweaking for #160
+		response.setHeader("Content-disposition", "inline;filename=\"${dfs.fileName}\"")
 		Stream2StreamAO stream2Stream = irodsAccessObjectFactory.getStream2StreamAO(irodsAccount)
 		def stats = stream2Stream
 				.streamToStreamCopyUsingStandardIO(dfs.inputStream, new BufferedOutputStream(response.outputStream))
 		log.info("transferStats:${stats}")
-
 	}
 }

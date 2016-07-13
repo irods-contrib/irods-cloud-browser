@@ -31,12 +31,10 @@
 
 # "temporary" build files
 **/target
-
+**/bin
 # node modules
-#irods-cloud-frontend/node_modules/
-#irods-cloud-frontend/bower_components/
-
-
+irods-cloud-frontend/node_modules/
+irods-cloud-frontend/bower_components/
 # other ide and cruft ignores
 **/.DS_Store
 **/.classpath
@@ -49,3 +47,5 @@
 **/target-eclipse
 **/.metadata
 **/.Servers
+**/.idea
+*.iml

@@ -8,7 +8,7 @@ grails.config.locations = [
 	"classpath:${appName}-config.groovy",
 	"file:${userHome}/.grails/${appName}-config.properties",
 	"file:${userHome}/.grails/${appName}-config.groovy",
-	"file:/etc/${appName}-config.groovy"
+	"file:/etc/irods-ext/irods-cloud-backend-config.groovy"
 ]
 
 if (System.properties["${appName}.config.location"]) {

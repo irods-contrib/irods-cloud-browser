@@ -1,14 +1,13 @@
 <div ng-include="'header.html'"></div>
 <div ng-include="'actions_pop_up.html'"></div>
-<!--<div ng-include="'side_nav.html'"></div>-->
-<div id="main_contents" class="collapsed_main_content"> 
+<div ng-include="'side_nav.html'"></div>
+<div id="main_contents" class="uncollapsed_main_contents"> 
 	<div class="full_column">
 		<div class="column_content">
 			<div class="collection_header"> 
 				<div id="breadcrumbs_container">
 					<div class="breadcrumbs_container">
 						<div class="breadcrumbs_sub_container col-xs-9" >
-
 
 							<div class="dropdown" ng-show=" breadcrumb_compressed_array.length > 0 ">
 							   	<div ng-mouseleave="hide_breadcrumbs()" type="button" class="dark_back_option_double dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -36,10 +35,10 @@
 						</div>	
 						<div class="right col-xs-3 ">
 							<div class="upload_button empty_star" title="Mark this file or folder as Starred" ng-show="dataProfile.starred!= true" ng-click="star_action()">
-								<img src="images/dark_empty_star.png"><span>&nbsp;Star it!</span>	
+								<i class="fa fa-star-o folder_listing"></i><span>&nbsp;Star it!</span>	
 							</div>
 							<div class="upload_button full_star" title="Mark this file or folder as Starred" ng-show="dataProfile.starred == true" ng-click="unstar_action()">
-								<img src="images/dark_full_star.png"><span>&nbsp;Starred</span>
+								<i class="fa fa-star folder_listing"></i><span>&nbsp;Starred</span>
 							</div>
 						</div>			
 					</div>					
@@ -49,8 +48,8 @@
 			<div class="container">
 				<div class="profile_header">
 					<div class="profile_image">
-						<img ng-show="{{dataProfile.file}} == false" src="images/collection_big_icon.png">
-			            <img ng-show="{{dataProfile.file}} == true" src="images/data_object_big_icon.png">
+			            <i ng-show="{{dataProfile.file}} == true" class="fa fa-file-o fa-6x"></i>  
+				        <i ng-show="{{dataProfile.file}} == false" class="fa fa-folder fa-6x"></i>
 					</div>
 					<div class="profile_description" ng-show="{{dataProfile.file}} == false">
 						<ul>
@@ -99,22 +98,24 @@
 					</div>
 				</div>
 				<div class="profile_body">
-
 					<div class="collection_header"> 
 						<div class="breadcrumbs_container" >
 							<div class="breadcrumbs_sub_container" >								
-									 
+									 <div class="right t_right">
+								 		<div class="btn btn-success " ng-click="go_back()"><i class="fa fa-arrow-left" aria-hidden="true"></i> Go Back</div>
+								 	</div>
 									 <div ng-show="dataProfile.file == true" class="dropdown">
 									 	<div class="active_breadcrumb dropdown-toggle" type="button" id="actions_menu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 									 		Actions
 									 		<div class="caret"></div>
-									 	</div>
+									 	</div>									 	
 									 	<ul class="dropdown-menu" aria-labelledby="actions_menu">
-										   	<li><a title="Copy File" ng-click="copy_pop_up_open()"><img src="images/dark_copy_icon.png"><span>&nbsp;Copy</span></a></li>
-										   	<li><a title="Move File" ng-click="move_pop_up_open()"><img src="images/dark_move_icon.png"><span>&nbsp;Move</span></a></li>
-										   	<li><a title="Rename File" ng-click="rename_pop_up_open()"><img src="images/dark_edit_icon.png"><span>&nbsp;Rename</span></a></li>
-										   	<li><a title="Download File" href='{{getDownloadLink()}}'><img src="images/dark_download_icon.png"><span>&nbsp;Download</span></a></li>
-										   	<li><a title="Delete File" ng-click="delete_pop_up_open()"><img src="images/dark_delete_icon.png"><span>&nbsp;Delete</span></a></li>
+										   	<li><a title="Copy File" class="active_option" ng-click="copy_pop_up_open()"><i class="fa fa-clone folder_listing"></i><span>&nbsp;Copy</span></a></li>
+										   	<li><a title="Move File" class="active_option" ng-click="move_pop_up_open()"><i class="fa fa-arrow-right folder_listing"></i><span>&nbsp;Move</span></a></li>
+										   	<li><a title="Rename File" class="active_option" ng-click="rename_pop_up_open()"><i class="fa fa-i-cursor folder_listing"></i><span>&nbsp;Rename</span></a></li>
+										   	<li><a title="Edit File" ng-class="dataProfile.mimeType == 'text/plain' || dataProfile.mimeType == 'application/xml' || dataProfile.mimeType == 'application/irods-rule' ? 'active_option' : 'inactive_option' " ng-click="editFile(dataProfile.domainObject.absolutePath)"><i class="fa fa-pencil folder_listing"></i><span>&nbsp;Edit</span></a></li>
+										   	<li><a title="Download File" class="active_option" href='{{getDownloadLink()}}'><i class="fa fa-arrow-down folder_listing"></i><span>&nbsp;Download</span></a></li>
+										   	<li><a title="Delete File" class="active_option" ng-click="delete_pop_up_open()"><i class="fa fa-remove folder_listing"></i><span>&nbsp;Delete</span></a></li>
 									   </ul>
 									 </div>
 
@@ -124,12 +125,12 @@
 									 		<div class="caret"></div>
 									 	</div>
 									 	<ul class="dropdown-menu" aria-labelledby="folder_actions_menu">
-									 		<li><a title="Download Folder" href='{{getDownloadLink()}}'><img src="images/dark_download_icon.png"><span>&nbsp;Download</span></a></li>
-										   	<li><a title="Copy Folder" ng-click="copy_pop_up_open()"><img src="images/dark_copy_icon.png"><span>&nbsp;Copy</span></a></li>
-										   	<li><a title="Move Folder" ng-click="move_pop_up_open()"><img src="images/dark_move_icon.png"><span>&nbsp;Move</span></a></li>
-										   	<li><a title="Rename Folder" ng-click="rename_pop_up_open()"><img src="images/dark_edit_icon.png"><span>&nbsp;Rename</span></a></li>
-										   	<li><a title="Upload Folder" ng-click="upload_pop_up_open()"><img src="images/upload_icon_dark.png"><span>&nbsp;Upload</span></a></li>
-										   	<li><a title="Delete Folder" ng-click="delete_pop_up_open()"><img src="images/dark_delete_icon.png"><span>&nbsp;Delete</span></a></li>
+									 		<li><a title="Download Folder" class="active_option" href='{{getDownloadLink()}}'><i class="fa fa-arrow-down folder_listing"></i><span>&nbsp;Download</span></a></li>
+										   	<li><a title="Copy Folder" class="active_option" ng-click="copy_pop_up_open()"><i class="fa fa-clone folder_listing"></i><span>&nbsp;Copy</span></a></li>
+										   	<li><a title="Move Folder" class="active_option" ng-click="move_pop_up_open()"><i class="fa fa-arrow-right folder_listing"></i><span>&nbsp;Move</span></a></li>
+										   	<li><a title="Rename Folder" class="active_option" ng-click="rename_pop_up_open()"><i class="fa fa-i-cursor folder_listing"></i><span>&nbsp;Rename</span></a></li>
+										   	<li><a title="Upload Folder" class="active_option" ng-click="upload_pop_up_open()"><i class="fa fa-arrow-up folder_listing"></i><span>&nbsp;Upload</span></a></li>
+										   	<li><a title="Delete Folder" class="active_option" ng-click="delete_pop_up_open()"><i class="fa fa-remove folder_listing"></i><span>&nbsp;Delete</span></a></li>
 									   </ul>
 									 </div>								
 
@@ -145,15 +146,15 @@
 							<div class="metadata_actions_container">
 								
 								<div class="rename_button" title="Delete selected metadata" ng-click='delete_metadata_pop_up()' > 
-									<img src="images/dark_delete_icon.png"><span>&nbsp;Delete</span>	
+									<i class="fa fa-remove folder_listing"></i><span>&nbsp;Delete</span>	
 								</div>
 								<div class="rename_divider small_vertical_divider"></div>
 								<div class="rename_button" title="Edit selected metadata" ng-click='edit_metadata_pop_up()' > 
-									<img src="images/dark_edit_icon.png"><span>&nbsp;Edit</span>	
+									<i class="fa fa-pencil folder_listing"></i><span>&nbsp;Edit</span>	
 								</div>
 								<div class="rename_divider small_vertical_divider"></div>
 								<div class="visible_button" title="Create a new metadata item" ng-click='add_metadata_pop_up()' > 
-									<img src="images/dark_add_icon.png"><span>&nbsp;Add</span>	
+									<i class="fa fa-plus folder_listing"></i><span>&nbsp;Add</span>	
 								</div>									
 															
 							</div>									
@@ -195,18 +196,18 @@
 <div class="dropdown position-fixed" id="metadata_list_menu">
   <ul class="dropdown-menu" role="menu">
     <li>
-      <button class="visible_button context_button" title="Create a new metadata item" ng-click='selectProfile(selected_target)'> 
-      	<img src="images/dark_add_icon.png"><span>&nbsp;Add</span>	
+      <button class="visible_button context_button" title="Create a new metadata item" ng-click='add_metadata_pop_up()'> 
+      	<i class="fa fa-plus folder_listing"></i><span>&nbsp;Add</span>	
       </button>
     </li>
     <li>
-      <button class="rename_button context_button" title="Edit selected metadata" ng-click='getDownloadLink()' > 
-      	<img src="images/dark_edit_icon.png"><span>&nbsp;Edit</span>	
+      <button class="rename_button context_button" title="Edit selected metadata" ng-click='edit_metadata_pop_up()' > 
+      	<i class="fa fa-pencil folder_listing"></i><span>&nbsp;Edit</span>	
       </button>
     </li>
     <li>
-      <button class="rename_button context_button" title="Delete selected metadata" ng-click='move_pop_up_open()' > 
-      	<img src="images/dark_delete_icon.png"><span>&nbsp;Delete</span>	
+      <button class="rename_button context_button" title="Delete selected metadata" ng-click='delete_metadata_pop_up()' > 
+      	<i class="fa fa-remove folder_listing"></i><span>&nbsp;Delete</span>	
       </button>
     </li>    
   </ul>

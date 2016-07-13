@@ -6,7 +6,7 @@
 
 angular.module('globalsModule', [])
 
-    .factory('globals', ['$rootScope', '$log', function ($rootScope, $log) {
+    .factory('globals',['$rootScope', '$log', '$location', '$injector', function ($rootScope, $log, $location,  $injector) {
 
         
         var f = {};
@@ -22,6 +22,92 @@ angular.module('globalsModule', [])
             var myUrl = HOST + relativeUrl;
             $log.info("computed URL:" + myUrl);
             return myUrl;
+        };
+        /* ||||||||||||||||||||||||||||||||||| */
+        /* ||||||||  SIDE NAV ACTIONS  ||||||| */
+        /* ||||||||||||||||||||||||||||||||||| */
+
+        $rootScope.selectDashboardView = function () {
+            $log.info("going to Dashboard View");
+            $location.url("/dashboard/");
+        };
+        $rootScope.selectHierView = function () {
+            $log.info("going to Hierarchical View");
+            $location.url("/home");
+        };
+        $rootScope.selectSearchView = function (query_name) {
+          if (!query_name){
+            var query_id = uuid.v1();
+            $log.info("going to Dashboard View");            
+            $location.url("/search/?query_id="+query_id);
+          }else{
+            $log.info("going to Dashboard View");            
+            $location.url("/search/?query_id="+query_name);
+          }
+            
+        };
+        $rootScope.get_query_params = function (query_name){
+            return $http({
+                    method: 'GET',
+                    url: $globals.backendUrl('metadataQuery'),
+                    params: {uniqueName:query_name}
+                }).success(function (data) {
+                    $scope.query_vc = data;
+                    var param_string = $scope.query_vc.queryString;
+                    $scope.query_params =  JSON.parse(param_string);
+                    $scope.search_objs = "BOTH";
+                })
+        }
+        var side_nav_toggled = "yes";
+        $rootScope.side_nav_toggle = function () {
+
+            if (side_nav_toggled == "no") {
+                side_nav_toggled = "yes";
+                $('.side_nav_options').animate({'opacity': '0'});
+                $('#side_nav').addClass('collapsed_nav'); 
+                $('#side_nav').removeClass('uncollapsed_nav');
+                $('#main_contents').addClass('uncollapsed_main_contents');
+                $('#main_contents').removeClass('collapsed_main_contents');
+            } else if (side_nav_toggled == "yes") {
+                side_nav_toggled = "no";
+
+                $('#side_nav').addClass('uncollapsed_nav');
+                $('#side_nav').removeClass('collapsed_nav');
+                $('#main_contents').addClass('collapsed_main_contents');
+                $('#main_contents').removeClass('uncollapsed_main_contents');
+                $('.side_nav_options').animate({'opacity': '1'});
+            }
+        };
+        var toggle_on
+        $rootScope.side_nav_autotoggle = function (auto_toggle) {
+
+            if (auto_toggle == 'off') {
+                if (side_nav_toggled == "no") {
+                    toggle_on = setTimeout($rootScope.side_nav_toggle, 1000);
+                }
+            } else if (auto_toggle == 'on') {
+                clearTimeout(toggle_on);
+            }
+        };
+        
+
+        /* ||||||||||||||||||||||||||||||||||| */
+        /* ||||||||||| LOGOUT FUNC. |||||||||| */
+        /* ||||||||||||||||||||||||||||||||||| */
+
+        $rootScope.logout_func = function () {
+            var $http;
+            if (!$http) { $http = $injector.get('$http'); }
+            return $http({
+                method: 'POST',
+                url: f.backendUrl('logout')
+            }).then(function () {
+                // The then function here is an opportunity to modify the response
+                // The return value gets picked up by the then in the controller.
+                //setTimeout(function () {
+                    $location.path("/login").search({});
+                //}, 0);
+            });
         };
 
         /* ||||||||||||||||||||||||||||||||||| */

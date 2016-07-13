@@ -10,6 +10,7 @@ import org.irods.jargon.core.pub.IRODSAccessObjectFactory
 import org.irods.jargon.core.pub.domain.ObjStat
 import org.irods.jargon.core.pub.io.IRODSFile
 import org.irods.jargon.core.query.CollectionAndDataObjectListingEntry
+import org.irods.jargon.datautils.filesampler.FileSamplerService
 
 
 
@@ -128,10 +129,11 @@ class FileService {
 		log.info("opened input stream")
 
 		def dls = new DownloadFileSpecification()
-		dls.contentDispositionHeader = "attachment;filename=\"${irodsFile.name}\""
+		//dls.contentDispositionHeader = "attachment;filename=\"${irodsFile.name}\""
 		dls.length = length
 		dls.type = "application/octet-stream"
 		dls.inputStream =  irodsFileInputStream
+		dls.fileName = name
 		return dls
 	}
 
@@ -158,11 +160,11 @@ class FileService {
 		log.info("..retrieved bundle file as input stream")
 
 		def dls = new DownloadFileSpecification()
-		dls.contentDispositionHeader = "attachment;filename=\"${bundleStreamWrapper.bundleFileName}\""
+		//dls.contentDispositionHeader = "attachment;filename=\"${bundleStreamWrapper.bundleFileName}\""
 		dls.length = bundleStreamWrapper.length
 		dls.type = "application/octet-stream"
 		dls.inputStream =  bundleStreamWrapper.inputStream
-		dls.bundleFileName = bundleStreamWrapper.bundleFileName
+		dls.fileName = bundleStreamWrapper.bundleFileName
 
 		return dls
 	}
@@ -378,5 +380,55 @@ class FileService {
 		log.info("move complete")
 		log.info("entry for new file:${listingEntry}")
 		return listingEntry
+	}
+
+	/**
+	 * Get the String content of a file
+	 * @param sourcePath <code>String</code> with the absolute path of the iRODS file
+	 * @param irodsAccount
+	 * @return <code>String</code> with the representation of the file data
+	 * @throws FileNotFoundException
+	 * @throws JargonException
+	 */
+	String stringFromFile(String sourcePath, irodsAccount) throws FileNotFoundException, JargonException {
+		log.info("stringFromFile()")
+		if (!sourcePath) {
+			throw new IllegalArgumentException("null or empty sourcePath")
+		}
+
+		if (!irodsAccount) {
+			throw new IllegalArgumentException("irodsAccount is missing")
+		}
+
+		log.info("sourcePath:${sourcePath}")
+		FileSamplerService fileSamplerService = jargonServiceFactoryService.instanceFileSamplerService(irodsAccount)
+		return fileSamplerService.convertFileContentsToString(sourcePath, 2000) // simple max file size setting in kb here
+	}
+
+	/**
+	 * Push a String into a file
+	 * @param data <code>String</code> with data to store
+	 * @param irodsPath <code>String</code> with the iRODS path
+	 * @param irodsAccount 
+	 * @throws JargonException
+	 */
+	void stringToFile(data, irodsPath, irodsAccount) throws JargonException {
+		log.info("stringToFile()")
+		if (!data) {
+			throw new IllegalArgumentException("null or empty data")
+		}
+
+		if (!irodsPath) {
+			throw new IllegalArgumentException("null or empty irodsPath")
+		}
+
+		if (!irodsAccount) {
+			throw new IllegalArgumentException("irodsAccount is missing")
+		}
+
+		log.info("irodsPath:${irodsPath}")
+		FileSamplerService fileSamplerService = jargonServiceFactoryService.instanceFileSamplerService(irodsAccount)
+		fileSamplerService.saveStringToFile(data, irodsPath)
+		log.info("done")
 	}
 }

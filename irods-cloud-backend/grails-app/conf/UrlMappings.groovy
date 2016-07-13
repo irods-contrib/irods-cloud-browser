@@ -24,8 +24,17 @@ class UrlMappings {
 
 		"/metadata"(resource:"metadata")
 
-		"/initialConf"(resource:"initialConf")
+		"/fileCreatorTemplate"(resource:"fileCreatorTemplate")
 
+		"/fileEdit"(resource:"FileEdit")
+
+		"/ruleExecution"(resource:"RuleExecution")
+
+		"/rawRule"(resource:"RawRule")
+
+		"/metadataQuery"(resource:"MetadataQuery")
+
+		"/initialConf"(resource:"initialConf")
 
 		"/$controller/$action?/$id?(.$format)?"{ constraints { // apply constraints here
 			} }

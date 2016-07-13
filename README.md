@@ -36,3 +36,5 @@ https://github.com/DICE-UNC/irods-cloud-browser
 
 * All icon images have been replaced with a vector based font (font awesome library), making theming really fast and easy
 
+
+This is the refactored branch of the cloud browser.

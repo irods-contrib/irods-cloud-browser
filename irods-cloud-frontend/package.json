@@ -1,6 +1,6 @@
 {
   "config": {
-    "unsafe-perm":true
+    "unsafe-perm": true
   },
   "name": "angular-seed",
   "private": true,
@@ -12,10 +12,17 @@
     "bower": "^1.4.1",
     "del": "",
     "grunt": "^0.4.5",
-    "gulp": "^3.9.0",
-    "gulp-concat": "~2.6.0",
-    "gulp-flatten": "",
-    "gulp-rename": "",
+    "gulp": "^3.9.1",
+    "gulp-clean-css": "^2.0.11",
+    "gulp-concat": "^2.6.0",
+    "gulp-concat-css": "^2.3.0",
+    "gulp-flatten": "^0.3.0",
+    "gulp-jsvalidate": "^2.1.0",
+    "gulp-minify": "0.0.12",
+    "gulp-rename": "^1.2.2",
+    "gulp-uglify": "^1.5.4",
+    "gulp-util": "^3.0.7",
+    "gulp-w3c-css": "^1.0.1",
     "http-server": "^0.6.1",
     "karma": "~0.10",
     "karma-junit-reporter": "^0.2.2",
@@ -34,5 +41,8 @@
     "preprotractor": "npm run update-webdriver",
     "protractor": "protractor e2e-tests/protractor.conf.js",
     "update-index-async": "node -e \"require('shelljs/global'); sed('-i', /\\/\\/@@NG_LOADER_START@@[\\s\\S]*\\/\\/@@NG_LOADER_END@@/, '//@@NG_LOADER_START@@\\n' + sed(/sourceMappingURL=angular-loader.min.js.map/,'sourceMappingURL=bower_components/angular-loader/angular-loader.min.js.map','app/bower_components/angular-loader/angular-loader.min.js') + '\\n//@@NG_LOADER_END@@', 'app/index-async.html');\""
+  },
+  "dependencies": {
+    "del": "^2.2.1"
   }
 }

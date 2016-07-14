@@ -4,18 +4,91 @@
 
 var gulp = require('gulp');
 var concat = require('gulp-concat');
+var concatCss = require('gulp-concat-css');
+var validate = require('gulp-w3c-css');
+var cleanCSS = require('gulp-clean-css');
+var uglify = require('gulp-uglify');
+var jsValidate = require('gulp-jsvalidate');
+
 var del = require('del');
 var flatten = require('gulp-flatten');
 var rename = require("gulp-rename");
 
 gulp.task('default', function () {
-    // place code for your default task here
+
 });
 
-/**
- * Create a dist subdirectory that has the assembled javascript, css, images, html assets
- */
-gulp.task('dist', ['clean', 'vendor-scripts', 'app-scripts', 'css', 'images', 'html-assets','index-html-for-dist']);
+gulp.task('concatCSS', function(){
+    return gulp.src([
+        'app/css/*.css',
+        'app/app.css',
+        'bower_components/html5-boilerplate/css/normalize.css',
+        'bower_components/html5-boilerplate/css/main.css',
+        'bower_components/angular-message-center/message-center.css',
+        'bower_components/codemirror/lib/codemirror.css'
+    ])
+        .pipe(concat('all.css'))
+        .pipe(gulp.dest('dist/css'));
+});
+
+gulp.task('minifyCSS', function(){
+    return gulp.src('dist/css/*.css')
+        .pipe(cleanCSS())
+        .pipe(gulp.dest('dist/css'));
+});
+
+gulp.task('validateCSS', function(){
+    gulp.src('dist/css/*.css')
+        .pipe(validate())
+        .pipe(gulp.dest('dist/css/validate'));
+});
+
+gulp.task('concatJS', function(){
+    return gulp.src([
+        'bower_components/codemirror/lib/codemirror.js',
+        'bower_components/codemirror/mode/javascript/javascript.js',
+        'bower_components/codemirror/mode/xml/xml.js',
+        'bower_components/angular/angular.js',
+        'bower_components/angular-route/angular-route.js',
+        'bower_components/angular-animate/angular-animate.js',
+        'bower_components/angular-message-center/message-center.js',
+        'bower_components/ng-context-menu/dist/ng-context-menu.js',
+        'bower_components/angular-message-center/message-center-templates.js',
+        'bower_components/angular-ui-codemirror/ui-codemirror.min.js',
+        'app/js/jquery.js',
+        'app/js/masonry.min.js',
+        'app/js/jquery-ui.js',
+        'app/js/js/uuid.js',
+        'app/js/bootstrap.min.js',
+        'app/app.js',
+        'app/home/home.js',
+        'app/dashboard/dashboard.js',
+        'app/search/search.js',
+        'app/home/fileServices.js',
+        'app/login/login.js',
+        'app/metadata/metadata.js',
+        'app/profile/profile.js',
+        'app/edit/edit.js',
+        'app/components/globals.js',
+        'app/components/httpInterceptors.js',
+        'bower_components/ng-file-upload/ng-file-upload-shim.min.js',
+        'bower_components/ng-file-upload/ng-file-upload.min.js'
+    ])
+        .pipe(concat('all.js'))
+        .pipe(gulp.dest('dist/js'));
+});
+
+gulp.task('minifyJS', function(){
+    return gulp.src('dist/js/*.js')
+        .pipe(uglify())
+        .pipe(gulp.dest('dist/js/'));
+});
+
+gulp.task('validateJS', function(){
+    return gulp.src('dist/js/*.js')
+        .pipe(jsValidate());
+});
+
 
 /**
  * Package the web artifacts for deployment within the cloud browser backend war file
@@ -28,84 +101,6 @@ gulp.task('distToWar', ['dist'], function () {
         .pipe(gulp.dest('../irods-cloud-backend/web-app'));
 });
 
-gulp.task('clean', function(cb) {
-    del(['./dist'], cb);
-});
-
-/**
- * assemble all vendor javascripts into a 'vendor.js'
- */
-gulp.task('vendor-scripts',  ['clean'], function () {
-    return gulp.src([
-        './bower_components/jquery/dist/jquery.min.js',
-        './bower_components/masonry/dist/masonry.pkgd.js',
-        './bower_components/jquery-ui/jquery-ui.min.js',
-        './bower_components/bootstrap/dist/js/bootstrap.min.js',
-        './bower_components/angular/angular.min.js',
-        './bower_components/angular-route/angular-route.js',
-        './bower_components/angular-animate/angular-animate.min.js',
-        './bower_components/angular-message-center/dist/message-center.min.js',
-        './bower_components/angular-message-center/message-center-templates.jss',
-        './bower_components/jquery-mobile/jquery.mobile.js',
-        './bower_components/ng-file-upload/ng-file-upload-shim.min.js',
-        './bower_components/ng-file-upload/ng-file-upload.min.js'])
-        .pipe(concat('vendor.js'))
-        .pipe(gulp.dest('./dist/js'));
-});
-
-/**
- * assemble all application code javascripts into an 'app.js'
- */
-gulp.task('app-scripts', ['clean'], function () {
-    return gulp.src(['./app/app.js','./app/components/*.js',
-        './app/home/*.js', './app/login/*.js', './app/metadata/*.js',
-        './app/profile/*.js'])
-        .pipe(concat('app.js'))
-        .pipe(gulp.dest('./dist/js'));
-});
-
-/**
- * assemble and minify all css assets
- */
-
-gulp.task('css',  ['clean'], function () {
-    return gulp.src(['./app/app.css',
-        './bower_components/html5-boilerplate/css/*.css',
-        './bower_components/angular-message-center/message-center.css',
-        './bower_components/bootstrap/dist/css/bootstrap.min.css',
-        './app/sb-admin.css',
-        './app/css/main.css'
-    ])
-        .pipe(concat('app.css'))
-        .pipe(gulp.dest('./dist/css'));
-});
-
-
-/**
- * assemble and minify all html assets
- */
-
-gulp.task('html-assets',  ['clean'], function () {
-    return gulp.src(['./app/gallery/*.html',
-        './app/home/*.html',
-        './app/login/*.html',
-        './app/metadata/*.html',
-        './app/profile/*.html',
-
-    ],{ base: './app' })
-        .pipe(gulp.dest('./dist'));
-
-});
-
-/**
- * copy index.html into dist that has proper references to dist assets
- */
-
-gulp.task('index-html-for-dist',  ['clean'], function () {
-    return gulp.src('./index-dist.html').pipe(rename('index.html'))
-        .pipe(gulp.dest('./dist'));
-
-});
 
 /**
  * assemble all images into the images dir in the dist

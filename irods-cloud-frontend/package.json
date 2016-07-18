@@ -10,6 +10,7 @@
   "license": "MIT",
   "devDependencies": {
     "bower": "^1.4.1",
+    "browser-sync": "^2.13.0",
     "del": "",
     "grunt": "^0.4.5",
     "gulp": "^3.9.1",

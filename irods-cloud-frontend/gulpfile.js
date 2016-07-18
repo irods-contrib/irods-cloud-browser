@@ -5,10 +5,11 @@
 var gulp = require('gulp');
 var concat = require('gulp-concat');
 var concatCss = require('gulp-concat-css');
-var validate = require('gulp-w3c-css');
+// var validate = require('gulp-w3c-css');
 var cleanCSS = require('gulp-clean-css');
 var uglify = require('gulp-uglify');
 var jsValidate = require('gulp-jsvalidate');
+var browserSync = require('browser-sync').create();
 
 var del = require('del');
 var flatten = require('gulp-flatten');
@@ -25,10 +26,22 @@ gulp.task('concatCSS', function(){
         'bower_components/html5-boilerplate/css/normalize.css',
         'bower_components/html5-boilerplate/css/main.css',
         'bower_components/angular-message-center/message-center.css',
-        'bower_components/codemirror/lib/codemirror.css'
+        'bower_components/codemirror/lib/codemirror.css',
     ])
         .pipe(concat('all.css'))
         .pipe(gulp.dest('dist/css'));
+});
+
+gulp.task('browser-sync', function() {
+    // For static server, 
+    browserSync.init({
+        server: {
+            baseDir: "./app/"
+        }
+    });
+    gulp.watch("app/*/*.css");
+    gulp.watch("app/*/*.js");
+    gulp.watch("app/*/*.html").on('change',browserSync.reload);
 });
 
 gulp.task('minifyCSS', function(){
@@ -37,11 +50,11 @@ gulp.task('minifyCSS', function(){
         .pipe(gulp.dest('dist/css'));
 });
 
-gulp.task('validateCSS', function(){
-    gulp.src('dist/css/*.css')
-        .pipe(validate())
-        .pipe(gulp.dest('dist/css/validate'));
-});
+// gulp.task('validateCSS', function(){
+//     gulp.src('dist/css/*.css')
+//         .pipe(validate())
+//         .pipe(gulp.dest('dist/css/validate'));
+// });
 
 gulp.task('concatJS', function(){
     return gulp.src([

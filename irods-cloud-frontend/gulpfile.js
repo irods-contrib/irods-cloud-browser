@@ -3,6 +3,7 @@
  */
 
 var gulp = require('gulp');
+var gutil = require('gulp-util');
 var concat = require('gulp-concat');
 var concatCss = require('gulp-concat-css');
 // var validate = require('gulp-w3c-css');
@@ -16,7 +17,11 @@ var flatten = require('gulp-flatten');
 var rename = require("gulp-rename");
 
 gulp.task('default', function () {
+    return gulp.task1;
+});
 
+gulp.task('task1', function(){
+    gutil.log('Hello world from task1!');
 });
 
 gulp.task('concatCSS', function(){
@@ -33,21 +38,79 @@ gulp.task('concatCSS', function(){
 });
 
 gulp.task('browser-sync', function() {
-    // For static server, 
-    browserSync.init({
-        server: {
-            baseDir: "./app/"
-        }
+   // CSS Changes
+    gulp.watch("app/*/*.css").on('change', function(){
+        gutil.log("CSS save detected");
+
+        // concat
+        var css = gulp.src([
+            'app/css/*.css',
+            'app/app.css',
+            'bower_components/html5-boilerplate/css/normalize.css',
+            'bower_components/html5-boilerplate/css/main.css',
+            'bower_components/angular-message-center/message-center.css',
+            'bower_components/codemirror/lib/codemirror.css',
+        ])
+            .pipe(concat('all.min.css'))
+            .pipe(gulp.dest('../irods-cloud-backend/web-app/css'));
+
+        //wait and minify
+        setTimeout(function(){
+            gulp.src('../irods-cloud-backend/web-app/css/all.min.css')
+                .pipe(cleanCSS())
+                .pipe(gulp.dest('../irods-cloud-backend/web-app/css')); 
+            gutil.log("CSS updated");
+        }, 6000);
+
+        // var minCSS = gulp.src('../irods-cloud-backend/web-app/css/all.min.css')
+        //     .pipe(cleanCSS())
+        //     .pipe(gulp.dest('../irods-cloud-backend/web-app/css'));        
+        
+        gutil.log("CSS updated");
     });
-    gulp.watch("app/*/*.css");
-    gulp.watch("app/*/*.js");
+
+
+
+    // JS Changes
+    gulp.watch("app/*/*.js").on('change',function(){
+        gutil.log("JS save detected");
+
+        //concat
+        var js = gulp.src([
+            'bower_components/codemirror/lib/codemirror.js',
+            'bower_components/codemirror/mode/javascript/javascript.js',
+            'bower_components/codemirror/mode/xml/xml.js',
+            'bower_components/angular/angular.js',
+            'bower_components/angular-route/angular-route.js',
+            'bower_components/angular-animate/angular-animate.js',
+            'bower_components/angular-message-center/message-center.js',
+            'bower_components/ng-context-menu/dist/ng-context-menu.js',
+            'bower_components/angular-message-center/message-center-templates.js',
+            'bower_components/angular-ui-codemirror/ui-codemirror.min.js',
+            'bower_components/ng-file-upload/ng-file-upload-shim.min.js',
+            'bower_components/ng-file-upload/ng-file-upload.min.js',
+            'app/*/*.js'
+        ])
+            .pipe(concat('all.min.js'))
+            .pipe(gulp.dest('../irods-cloud-backend/web-app/js'));
+        
+        //wait and minify
+        setTimeout(function(){
+            gulp.src('../irods-cloud-backend/web-app/js/all.min.js')
+                .pipe(uglify())
+                .pipe(gulp.dest('../irods-cloud-backend/web-app/js'));
+                gutil.log("JS updated");
+        }, 6000);
+    });
+
+    // HTML Changes
     gulp.watch("app/*/*.html").on('change',browserSync.reload);
 });
 
 gulp.task('minifyCSS', function(){
-    return gulp.src('dist/css/*.css')
+    return gulp.src('../irods-cloud-backend/web-app/css/*.css')
         .pipe(cleanCSS())
-        .pipe(gulp.dest('dist/css'));
+        .pipe(gulp.dest('../irods-cloud-backend/web-app/css'));
 });
 
 // gulp.task('validateCSS', function(){
@@ -57,6 +120,7 @@ gulp.task('minifyCSS', function(){
 // });
 
 gulp.task('concatJS', function(){
+    // add additional files as they are created
     return gulp.src([
         'bower_components/codemirror/lib/codemirror.js',
         'bower_components/codemirror/mode/javascript/javascript.js',
@@ -92,9 +156,9 @@ gulp.task('concatJS', function(){
 });
 
 gulp.task('minifyJS', function(){
-    return gulp.src('dist/js/*.js')
+    return gulp.src('../irods-cloud-backend/web-app/js/all.js')
         .pipe(uglify())
-        .pipe(gulp.dest('dist/js/'));
+        .pipe(gulp.dest('../irods-cloud-backend/web-app/js'));
 });
 
 gulp.task('validateJS', function(){

@@ -42,8 +42,9 @@ body{
 /* ||||||||||||||||||||||||||||||||||| */
 /* |||||||||||  NAV STYLES ||||||||||| */
 /* ||||||||||||||||||||||||||||||||||| */
+/*edit7*/
 .powered_by{
-	position: fixed;
+	position: static;
 	z-index: 12;
 	bottom: 0px;
 	right: 0px;

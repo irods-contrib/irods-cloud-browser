@@ -162,7 +162,7 @@ angular.module('myApp.home', ['ngRoute', 'ngFileUpload', 'ng-context-menu','ui.c
             
 
         };
-        $scope.edittest9;
+        $scope.edittest4;
         $scope.list_file_templates();
         $scope.selectedVc = selectedVc;
         $scope.pagingAwareCollectionListing = pagingAwareCollectionListing;

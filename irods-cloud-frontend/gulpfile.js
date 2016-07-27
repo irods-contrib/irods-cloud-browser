@@ -13,19 +13,50 @@ var jsValidate = require('gulp-jsvalidate');
 var browserSync = require('browser-sync').create();
 
 var del = require('del');
+var mkdirp = require('mkdirp');
+
 var flatten = require('gulp-flatten');
 var rename = require("gulp-rename");
 
+
+// **************
+// *  DEFAULT   *
+// *  GULP TASK *
+// **************
 gulp.task('default', function () {
-    return gulp.task1;
+    gutil.log("Gulp is working!");
 });
 
-gulp.task('task1', function(){
-    gutil.log('Hello world from task1!');
+
+// **************
+// *  BACKEND   *
+// *  CLEAN     *
+// **************
+gulp.task('backend-clean', function(){
+    return del([
+        '../irods-cloud-backend/web-app/*', 
+        '../irods-cloud-backend/web-app/*/', 
+        '!../irods-cloud-backend/web-app/WEB-INF',
+        '!../irods-cloud-backend/web-app/index.html'
+    ], {force:true});
 });
 
-gulp.task('concatCSS', function(){
-    return gulp.src([
+
+// **************
+// *  BACKEND   *
+// *  BUILD     *
+// **************
+gulp.task('backend-build', function(){
+    gulp.src([
+        'app/**/*',
+        '!app/indexMin/',
+        '!app/**/*.js',
+        '!app/**/*.css',
+        '!app/index.html',
+    ]).pipe(gulp.dest('../irods-cloud-backend/web-app'));
+
+    //move CSS files
+    var css = gulp.src([
         'app/css/*.css',
         'app/app.css',
         'bower_components/html5-boilerplate/css/normalize.css',
@@ -33,11 +64,123 @@ gulp.task('concatCSS', function(){
         'bower_components/angular-message-center/message-center.css',
         'bower_components/codemirror/lib/codemirror.css',
     ])
-        .pipe(concat('all.css'))
-        .pipe(gulp.dest('dist/css'));
+        .pipe(concat('all.min.css'))
+        .pipe(gulp.dest('../irods-cloud-backend/web-app/css'));
+
+    //wait and minify
+    setTimeout(function(){
+        gulp.src('../irods-cloud-backend/web-app/css/all.min.css')
+            .pipe(cleanCSS())
+            .pipe(gulp.dest('../irods-cloud-backend/web-app/css')); 
+    }, 6000);
+
+    // move JS f
+    var js = gulp.src([
+        'bower_components/codemirror/lib/codemirror.js',
+        'bower_components/codemirror/mode/javascript/javascript.js',
+        'bower_components/codemirror/mode/xml/xml.js',
+        'bower_components/angular/angular.js',
+        'bower_components/angular-route/angular-route.js',
+        'bower_components/angular-animate/angular-animate.js',
+        'bower_components/angular-message-center/message-center.js',
+        'bower_components/ng-context-menu/dist/ng-context-menu.js',
+        'bower_components/angular-message-center/message-center-templates.js',
+        'bower_components/angular-ui-codemirror/ui-codemirror.min.js',
+        'bower_components/ng-file-upload/ng-file-upload-shim.min.js',
+        'bower_components/ng-file-upload/ng-file-upload.min.js',
+        'app/*/*.js'
+    ])
+        .pipe(concat('all.min.js'))
+        .pipe(gulp.dest('../irods-cloud-backend/web-app/js'));
+        
+    //wait and minify
+    setTimeout(function(){
+        gulp.src('../irods-cloud-backend/web-app/js/all.min.js')
+            .pipe(uglify())
+            .pipe(gulp.dest('../irods-cloud-backend/web-app/js'));
+    }, 6000);
+
 });
 
-gulp.task('browser-sync', function() {
+
+// **************
+// *  BACKEND   *
+// *  REFRESH   *
+// **************
+gulp.task('backend-refresh', function(){
+    // Clear current backend web-app
+    del([
+        '../irods-cloud-backend/web-app/*', 
+        '../irods-cloud-backend/web-app/*/', 
+        '!../irods-cloud-backend/web-app/WEB-INF',
+        '!../irods-cloud-backend/web-app/index.html'
+    ], {force:true});
+
+    setTimeout(function(){},5000);
+
+    // rebuild backend web-app
+    gulp.src([
+        'app/**/*',
+        '!app/indexMin/',
+        '!app/**/*.js',
+        '!app/**/*.css',
+        '!app/index.html',
+    ]).pipe(gulp.dest('../irods-cloud-backend/web-app'));
+
+    //move CSS files
+    var css = gulp.src([
+        'app/css/*.css',
+        'app/app.css',
+        'bower_components/html5-boilerplate/css/normalize.css',
+        'bower_components/html5-boilerplate/css/main.css',
+        'bower_components/angular-message-center/message-center.css',
+        'bower_components/codemirror/lib/codemirror.css',
+    ])
+        .pipe(concat('all.min.css'))
+        .pipe(gulp.dest('../irods-cloud-backend/web-app/css'));
+
+    //wait and minify
+    setTimeout(function(){
+        gulp.src('../irods-cloud-backend/web-app/css/all.min.css')
+            .pipe(cleanCSS())
+            .pipe(gulp.dest('../irods-cloud-backend/web-app/css')); 
+    }, 6000);
+
+    // move JS f
+    var js = gulp.src([
+        'bower_components/codemirror/lib/codemirror.js',
+        'bower_components/codemirror/mode/javascript/javascript.js',
+        'bower_components/codemirror/mode/xml/xml.js',
+        'bower_components/angular/angular.js',
+        'bower_components/angular-route/angular-route.js',
+        'bower_components/angular-animate/angular-animate.js',
+        'bower_components/angular-message-center/message-center.js',
+        'bower_components/ng-context-menu/dist/ng-context-menu.js',
+        'bower_components/angular-message-center/message-center-templates.js',
+        'bower_components/angular-ui-codemirror/ui-codemirror.min.js',
+        'bower_components/ng-file-upload/ng-file-upload-shim.min.js',
+        'bower_components/ng-file-upload/ng-file-upload.min.js',
+        'app/*/*.js'
+    ])
+        .pipe(concat('all.min.js'))
+        .pipe(gulp.dest('../irods-cloud-backend/web-app/js'));
+        
+    //wait and minify
+    setTimeout(function(){
+        gulp.src('../irods-cloud-backend/web-app/js/all.min.js')
+            .pipe(uglify())
+            .pipe(gulp.dest('../irods-cloud-backend/web-app/js'));
+    }, 6000);
+
+
+});
+
+
+// **************
+// *  BACKEND   *
+// *  SYNC      *
+// **************
+gulp.task('backend-sync', function() {
    // CSS Changes
     gulp.watch("app/*/*.css").on('change', function(){
         gutil.log("CSS save detected");
@@ -107,18 +250,51 @@ gulp.task('browser-sync', function() {
     gulp.watch("app/*/*.html").on('change',browserSync.reload);
 });
 
-gulp.task('minifyCSS', function(){
-    return gulp.src('../irods-cloud-backend/web-app/css/*.css')
-        .pipe(cleanCSS())
-        .pipe(gulp.dest('../irods-cloud-backend/web-app/css'));
+
+// **************
+// *  CONCAT    *
+// *  CSS       *
+// **************
+gulp.task('concatCSS', function(){
+    return gulp.src([
+        'app/css/*.css',
+        'app/app.css',
+        'bower_components/html5-boilerplate/css/normalize.css',
+        'bower_components/html5-boilerplate/css/main.css',
+        'bower_components/angular-message-center/message-center.css',
+        'bower_components/codemirror/lib/codemirror.css',
+    ])
+        .pipe(concat('all.css'))
+        .pipe(gulp.dest('dist/css'));
 });
 
+
+// **************
+// *  MINIFY    *
+// *  CSS       *
+// **************
+gulp.task('minifyCSS', function(){
+    return gulp.src('dist/css/*.css')
+        .pipe(cleanCSS())
+        .pipe(gulp.dest('dist/css'));
+});
+
+
+// **************
+// *  VALIDATE  *
+// *  CSS       *
+// **************
 // gulp.task('validateCSS', function(){
 //     gulp.src('dist/css/*.css')
 //         .pipe(validate())
 //         .pipe(gulp.dest('dist/css/validate'));
 // });
 
+
+// **************
+// * CONCAT     *
+// * JAVASCRIPT *
+// **************
 gulp.task('concatJS', function(){
     // add additional files as they are created
     return gulp.src([
@@ -155,40 +331,25 @@ gulp.task('concatJS', function(){
         .pipe(gulp.dest('dist/js'));
 });
 
+
+// **************
+// *  MINIFY    *
+// *  JS        *
+// **************
 gulp.task('minifyJS', function(){
     return gulp.src('../irods-cloud-backend/web-app/js/all.js')
         .pipe(uglify())
         .pipe(gulp.dest('../irods-cloud-backend/web-app/js'));
 });
 
+
+// **************
+// *  VALIDATE  *
+// *  JS        *
+// **************
 gulp.task('validateJS', function(){
     return gulp.src('dist/js/*.js')
         .pipe(jsValidate());
 });
 
 
-/**
- * Package the web artifacts for deployment within the cloud browser backend war file
- */
-gulp.task('distToWar', ['dist'], function () {
-    /*
-    dist has been created, copy contents of dist up to war file via relative paths
-     */
-   return gulp.src(['./dist/**'])//.pipe(flatten({ includeParents: 1} ))
-        .pipe(gulp.dest('../irods-cloud-backend/web-app'));
-});
-
-
-/**
- * assemble all images into the images dir in the dist
- */
-gulp.task('images',  ['clean'], function () {
-    // the base option sets the relative root for the set of files,
-    // preserving the folder structure
-    var filesToMove = [
-        './app/images/*.*'
-    ];
-
-    return gulp.src(filesToMove, {base: './'}).pipe(flatten())
-        .pipe(gulp.dest('./dist/images'));
-});

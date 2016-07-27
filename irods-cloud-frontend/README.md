@@ -1,3 +1,52 @@
+# Gulp Build Automation
+
+Gulp is a build tool, built on NodeJS. 
+To use gulp, open up a terminal window, navigate to irods-cloud-frontend.
+    $gulp [task name]
+The tasks are as follows:
+
+### default
+    $gulp
+Tests if gulp is working.
+
+### backend-clean
+    $gulp backend-clean
+Cleans the backend build directory (irods-cloud-backend/web-app).
+
+### backend-build
+    $gulp backend-build
+Builds the back-end build directory from the files in the front end developing directory (irods-cloud-frontend/app). JS & CSS files are concatanated and minified.
+
+### backend-refresh
+    $gulp backend-refresh
+Cleans and rebuilds the back-end build directory from the front-end developing directory. JS & CSS files are concatanated and minified.
+
+### backend-sync
+    $gulp backend-sync
+Syncs the backend-build directory with the front-end developing directory. To use, run the gulp task before edits are made. As an edit is made to a file in the front-end directory, the files will be concatinated, minfied, and sent to the back-end build directory.
+
+### concatCSS
+    $gulp concatCSS
+Concatinates all CSS files to a all.css file, which is saved at irods-cloud-frontend/dist/css
+
+### minifyCSS
+    $gulp minifyCSS
+Minfies CSS file that was created in concatCSS. Saved as all.min.css in irods-cloud-frontend/dist/css.
+
+### concatJS
+    $gulp concatJS
+Concats all JavaScript files in the front-end devloping directory, and saves it as a single JS file, all.js at irods-cloud-frontend/dist/js.
+
+### minifyJS
+    $gulp minifiyJS
+Minfies JS file that was created in concatJS. Saved as all.min.js in irods-cloud-frontend/dist/js.
+
+### validate JS
+    $gulp validateJS
+Validates the JS file created in concatJS/minifyJS, located at irods-cloud-frontend/dist/js. 
+
+
+
 # angular-seed — the seed for AngularJS apps
 
 This project is an application skeleton for a typical [AngularJS](http://angularjs.org/) web app.

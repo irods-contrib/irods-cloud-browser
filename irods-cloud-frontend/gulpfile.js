@@ -11,6 +11,9 @@ var cleanCSS = require('gulp-clean-css');
 var uglify = require('gulp-uglify');
 var jsValidate = require('gulp-jsvalidate');
 var browserSync = require('browser-sync').create();
+var war = require('gulp-war');
+var zip = require('gulp-zip');
+var shell = require('gulp-shell')
 
 var del = require('del');
 var mkdirp = require('mkdirp');
@@ -100,6 +103,20 @@ gulp.task('backend-build', function(){
             .pipe(gulp.dest('../irods-cloud-backend/web-app/js'));
     }, 6000);
 
+    gulp.src("../irods-cloud-backend/web-app/")
+        .pipe(shell([
+            'jar -cvf cloudBrowser.war *'
+        ],{
+            cwd:'../irods-cloud-backend/web-app'
+        }));
+
+    setTimeout(function(){
+            gulp.src("../irods-cloud-backend/web-app/cloudBrowser.war")
+                .pipe(gulp.dest('../build/'));
+    }, 5000);
+
+    gutil.log("Build complete");
+
 });
 
 
@@ -172,8 +189,29 @@ gulp.task('backend-refresh', function(){
             .pipe(gulp.dest('../irods-cloud-backend/web-app/js'));
     }, 6000);
 
+    gulp.src("../irods-cloud-backend/web-app/cloudBrowser.war")
+        .pipe(shell([
+            'jar -cvf cloudBrowser.war *'
+        ],{
+            cwd:'../irods-cloud-backend/web-app'
+        }))
+        .pipe(gulp.dest('../build/'));
+
+
+    gulp.src("../irods-cloud-backend/web-app/")
+        .pipe(shell([
+            'jar -cvf cloudBrowser.war *'
+        ],{
+            cwd:'../irods-cloud-backend/web-app'
+        }));
+
+    setTimeout(function(){
+            gulp.src("../irods-cloud-backend/web-app/cloudBrowser.war")
+                .pipe(gulp.dest('../build/'));
+    }, 5000);
 
 });
+
 
 
 // **************
@@ -248,6 +286,37 @@ gulp.task('backend-sync', function() {
 
     // HTML Changes
     gulp.watch("app/*/*.html").on('change',browserSync.reload);
+});
+
+
+// **************
+// *  GENERATE  *
+// *  ZIP       *
+// **************
+gulp.task('gen-frontend-zip', function(){
+    gulp.src(["app/*"])
+        .pipe(zip('frontEnd.zip'))
+        .pipe(gulp.dest("../build"));
+});
+
+
+// **************
+// *  GENERATE  *
+// *  WAR       *
+// **************
+gulp.task('gen-war', function(){
+    gulp.src("../irods-cloud-backend/web-app/")
+        .pipe(shell([
+            'jar -cvf cloudBrowser.war *'
+        ],{
+            cwd:'../irods-cloud-backend/web-app'
+        }));
+
+        setTimeout(function(){
+            gulp.src("../irods-cloud-backend/web-app/cloudBrowser.war")
+                .pipe(gulp.dest('../build/'));
+        }, 5000);
+    
 });
 
 

@@ -15,7 +15,7 @@ Cleans the backend build directory (irods-cloud-backend/web-app).
 
 ### backend-build
     $gulp backend-build
-Builds the back-end build directory from the files in the front end developing directory (irods-cloud-frontend/app). JS & CSS files are concatanated and minified.
+Builds the back-end build directory from the files in the front end developing directory (irods-cloud-frontend/app). JS & CSS files are concatanated and minified. After, a .WAR file is created and saved in the /build directory.
 
 ### backend-refresh
     $gulp backend-refresh
@@ -24,6 +24,14 @@ Cleans and rebuilds the back-end build directory from the front-end developing d
 ### backend-sync
     $gulp backend-sync
 Syncs the backend-build directory with the front-end developing directory. To use, run the gulp task before edits are made. As an edit is made to a file in the front-end directory, the files will be concatinated, minfied, and sent to the back-end build directory.
+
+### gen-frontend-zip
+    $gulp gen-frontend-zip
+Generates a zipped file of all of the front-end files (irods-cloud-frontend/app) and saves it in the /build directory.
+
+### gen-war
+    $gulp gen-war
+Generates a .WAR file from the irods-cloud-backend/web-app directory, and saves it in the /build directory.
 
 ### concatCSS
     $gulp concatCSS

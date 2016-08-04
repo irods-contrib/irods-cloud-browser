@@ -28,6 +28,26 @@ var rename = require("gulp-rename");
 // **************
 gulp.task('default', function () {
     gutil.log("Gulp is working!");
+    gutil.log("$ gulp help for list of commands");
+});
+
+
+// **************
+// *  HELP TASK *
+// **************
+gulp.task('help', function(){
+    gutil.log("$ gulp...");
+    gutil.log("backend-clean........cleans backend web-app directory.");
+    gutil.log("backend-build........builds backend web-app directory.");
+    gutil.log("backend-refresh......refreshes backend web-app directory.");
+    gutil.log("backend-sync.........listens for frontend changes and syncs with backend web-app directory.");
+    gutil.log("gen-frontend-zip.....generates zip from frontend app directory.");
+    gutil.log("gen-war..............generates WAR file from backend web-app directory, and saves it in /build directory.");
+    gutil.log("concatCSS............concatinates all CSS files to all.css in the frontend app directory.");
+    gutil.log("minifyCSS............minifies all.css file as all.min.css in frontend app directory.");
+    gutil.log("concatJS.............concatinates all JS files to all.js in the frontend app directory.");
+    gutil.log("minifyJS.............minifies all.js file as all.min.js in the frontend app directory.");
+    gutil.log("validateJS...........validates all.js file.");
 });
 
 
@@ -103,15 +123,15 @@ gulp.task('backend-build', function(){
             .pipe(gulp.dest('../irods-cloud-backend/web-app/js'));
     }, 6000);
 
-    gulp.src("../irods-cloud-backend/web-app/")
+    gulp.src("../irods-cloud-backend/")
         .pipe(shell([
             'jar -cvf cloudBrowser.war *'
         ],{
-            cwd:'../irods-cloud-backend/web-app'
+            cwd:'../irods-cloud-backend/'
         }));
 
     setTimeout(function(){
-            gulp.src("../irods-cloud-backend/web-app/cloudBrowser.war")
+            gulp.src("../irods-cloud-backend/cloudBrowser.war")
                 .pipe(gulp.dest('../build/'));
     }, 5000);
 
@@ -198,15 +218,15 @@ gulp.task('backend-refresh', function(){
         .pipe(gulp.dest('../build/'));
 
 
-    gulp.src("../irods-cloud-backend/web-app/")
+    gulp.src("../irods-cloud-backend/")
         .pipe(shell([
             'jar -cvf cloudBrowser.war *'
         ],{
-            cwd:'../irods-cloud-backend/web-app'
+            cwd:'../irods-cloud-backend/'
         }));
 
     setTimeout(function(){
-            gulp.src("../irods-cloud-backend/web-app/cloudBrowser.war")
+            gulp.src("../irods-cloud-backend/cloudBrowser.war")
                 .pipe(gulp.dest('../build/'));
     }, 5000);
 
@@ -305,15 +325,15 @@ gulp.task('gen-frontend-zip', function(){
 // *  WAR       *
 // **************
 gulp.task('gen-war', function(){
-    gulp.src("../irods-cloud-backend/web-app/")
+    gulp.src("../irods-cloud-backend/")
         .pipe(shell([
             'jar -cvf cloudBrowser.war *'
         ],{
-            cwd:'../irods-cloud-backend/web-app'
+            cwd:'../irods-cloud-backend/'
         }));
 
         setTimeout(function(){
-            gulp.src("../irods-cloud-backend/web-app/cloudBrowser.war")
+            gulp.src("../irods-cloud-backend/cloudBrowser.war")
                 .pipe(gulp.dest('../build/'));
         }, 5000);
     

@@ -6,7 +6,6 @@ var gulp = require('gulp');
 var gutil = require('gulp-util');
 var concat = require('gulp-concat');
 var concatCss = require('gulp-concat-css');
-// var validate = require('gulp-w3c-css');
 var cleanCSS = require('gulp-clean-css');
 var uglify = require('gulp-uglify');
 var jsValidate = require('gulp-jsvalidate');
@@ -42,12 +41,12 @@ gulp.task('help', function(){
     gutil.log("backend-refresh......refreshes backend web-app directory.");
     gutil.log("backend-sync.........listens for frontend changes and syncs with backend web-app directory.");
     gutil.log("gen-frontend-zip.....generates zip from frontend app directory.");
-    gutil.log("gen-war..............generates WAR file from backend web-app directory, and saves it in /build directory.");
+    // gutil.log("gen-war..............generates WAR file from backend web-app directory, and saves it in /build directory.");
     gutil.log("concatCSS............concatinates all CSS files to all.css in the frontend app directory.");
     gutil.log("minifyCSS............minifies all.css file as all.min.css in frontend app directory.");
-    gutil.log("concatJS.............concatinates all JS files to all.js in the frontend app directory.");
-    gutil.log("minifyJS.............minifies all.js file as all.min.js in the frontend app directory.");
-    gutil.log("validateJS...........validates all.js file.");
+    // gutil.log("concatJS.............concatinates all JS files to all.js in the frontend app directory.");
+    // gutil.log("minifyJS.............minifies all.js file as all.min.js in the frontend app directory.");
+    // gutil.log("validateJS...........validates all.js file.");
 });
 
 
@@ -70,70 +69,51 @@ gulp.task('backend-clean', function(){
 // *  BUILD     *
 // **************
 gulp.task('backend-build', function(){
+    // move files from front-end app
     gulp.src([
         'app/**/*',
         '!app/indexMin/',
-        '!app/**/*.js',
-        '!app/**/*.css',
         '!app/index.html',
+        'bower_components/'
     ]).pipe(gulp.dest('../irods-cloud-backend/web-app'));
 
-    //move CSS files
-    var css = gulp.src([
-        'app/css/*.css',
-        'app/app.css',
-        'bower_components/html5-boilerplate/css/normalize.css',
-        'bower_components/html5-boilerplate/css/main.css',
-        'bower_components/angular-message-center/message-center.css',
-        'bower_components/codemirror/lib/codemirror.css',
-    ])
-        .pipe(concat('all.min.css'))
-        .pipe(gulp.dest('../irods-cloud-backend/web-app/css'));
+    gulp.src(['bower_components/**/*'],{base:'./'})
+        .pipe(gulp.dest('../irods-cloud-backend/web-app/'));
 
-    //wait and minify
+    gulp.src('../irods-cloud-backend/*/*.css')
+        .pipe(cleanCSS())
+        .pipe(gulp.dest('../irods-cloud-backend/**/*'));
+
+    // concat CSS files
     setTimeout(function(){
-        gulp.src('../irods-cloud-backend/web-app/css/all.min.css')
-            .pipe(cleanCSS())
-            .pipe(gulp.dest('../irods-cloud-backend/web-app/css')); 
-    }, 6000);
+        gulp.src([
+            '../irods-cloud-backend/web-app/bower_components/html5-boilerplate/css/normalize.css',
+            '../irods-cloud-backend/web-app/bower_components/html5-boilerplate/css/main.css',
+            '../irods-cloud-backend/web-app/bower_components/angular-message-center/message-center.css',
+            '../irods-cloud-backend/web-app/bower_components/codemirror/lib/codemirror.css',
+        ])
+            .pipe(concat('allBower.css'))
+            .pipe(gulp.dest('../irods-cloud-backend/web-app/css/'));
 
-    // move JS f
-    var js = gulp.src([
-        'bower_components/codemirror/lib/codemirror.js',
-        'bower_components/codemirror/mode/javascript/javascript.js',
-        'bower_components/codemirror/mode/xml/xml.js',
-        'bower_components/angular/angular.js',
-        'bower_components/angular-route/angular-route.js',
-        'bower_components/angular-animate/angular-animate.js',
-        'bower_components/angular-message-center/message-center.js',
-        'bower_components/ng-context-menu/dist/ng-context-menu.js',
-        'bower_components/angular-message-center/message-center-templates.js',
-        'bower_components/angular-ui-codemirror/ui-codemirror.min.js',
-        'bower_components/ng-file-upload/ng-file-upload-shim.min.js',
-        'bower_components/ng-file-upload/ng-file-upload.min.js',
-        'app/*/*.js'
-    ])
-        .pipe(concat('all.min.js'))
-        .pipe(gulp.dest('../irods-cloud-backend/web-app/js'));
-        
-    //wait and minify
-    setTimeout(function(){
-        gulp.src('../irods-cloud-backend/web-app/js/all.min.js')
-            .pipe(uglify())
-            .pipe(gulp.dest('../irods-cloud-backend/web-app/js'));
-    }, 6000);
+        gulp.src([
+            '../irods-cloud-backend/web-app/css/sb-admin.css',
+            '../irods-cloud-backend/web-app/css/main.css',
+            '../irods-cloud-backend/web-app/app.css'
+        ])
+            .pipe(concat('allCustom.css'))
+            .pipe(gulp.dest('../irods-cloud-backend/web-app/css'));
 
-    gulp.src("../irods-cloud-backend/")
-        .pipe(shell([
-            'jar -cvf cloudBrowser.war *'
-        ],{
-            cwd:'../irods-cloud-backend/'
-        }));
+        // minify CSS files
+        setTimeout(function(){
+            gulp.src('../irods-cloud-backend/web-app/*.css')
+                .pipe(cleanCSS())
+                .pipe(gulp.dest('../irods-cloud-backend/web-app/'));
 
-    setTimeout(function(){
-            gulp.src("../irods-cloud-backend/cloudBrowser.war")
-                .pipe(gulp.dest('../build/'));
-    }, 5000);
+            gulp.src('../irods-cloud-backend/web-app/css/*.css')
+                .pipe(cleanCSS())
+                .pipe(gulp.dest('../irods-cloud-backend/web-app/css/'));
+        },1000);
+    }, 1000);
 
     gutil.log("Build complete");
 
@@ -153,83 +133,55 @@ gulp.task('backend-refresh', function(){
         '!../irods-cloud-backend/web-app/index.html'
     ], {force:true});
 
-    setTimeout(function(){},5000);
-
     // rebuild backend web-app
-    gulp.src([
-        'app/**/*',
-        '!app/indexMin/',
-        '!app/**/*.js',
-        '!app/**/*.css',
-        '!app/index.html',
-    ]).pipe(gulp.dest('../irods-cloud-backend/web-app'));
-
-    //move CSS files
-    var css = gulp.src([
-        'app/css/*.css',
-        'app/app.css',
-        'bower_components/html5-boilerplate/css/normalize.css',
-        'bower_components/html5-boilerplate/css/main.css',
-        'bower_components/angular-message-center/message-center.css',
-        'bower_components/codemirror/lib/codemirror.css',
-    ])
-        .pipe(concat('all.min.css'))
-        .pipe(gulp.dest('../irods-cloud-backend/web-app/css'));
-
-    //wait and minify
     setTimeout(function(){
-        gulp.src('../irods-cloud-backend/web-app/css/all.min.css')
+        gulp.src([
+            'app/**/*',
+            '!app/indexMin/',
+            '!app/index.html',
+            'bower_components/'
+        ]).pipe(gulp.dest('../irods-cloud-backend/web-app'));
+
+        gulp.src(['bower_components/**/*'],{base:'./'})
+            .pipe(gulp.dest('../irods-cloud-backend/web-app/'));
+
+        gulp.src('../irods-cloud-backend/*/*.css')
             .pipe(cleanCSS())
-            .pipe(gulp.dest('../irods-cloud-backend/web-app/css')); 
-    }, 6000);
+            .pipe(gulp.dest('../irods-cloud-backend/**/*'));
 
-    // move JS f
-    var js = gulp.src([
-        'bower_components/codemirror/lib/codemirror.js',
-        'bower_components/codemirror/mode/javascript/javascript.js',
-        'bower_components/codemirror/mode/xml/xml.js',
-        'bower_components/angular/angular.js',
-        'bower_components/angular-route/angular-route.js',
-        'bower_components/angular-animate/angular-animate.js',
-        'bower_components/angular-message-center/message-center.js',
-        'bower_components/ng-context-menu/dist/ng-context-menu.js',
-        'bower_components/angular-message-center/message-center-templates.js',
-        'bower_components/angular-ui-codemirror/ui-codemirror.min.js',
-        'bower_components/ng-file-upload/ng-file-upload-shim.min.js',
-        'bower_components/ng-file-upload/ng-file-upload.min.js',
-        'app/*/*.js'
-    ])
-        .pipe(concat('all.min.js'))
-        .pipe(gulp.dest('../irods-cloud-backend/web-app/js'));
-        
-    //wait and minify
-    setTimeout(function(){
-        gulp.src('../irods-cloud-backend/web-app/js/all.min.js')
-            .pipe(uglify())
-            .pipe(gulp.dest('../irods-cloud-backend/web-app/js'));
-    }, 6000);
+        // concat CSS files
+        setTimeout(function(){
+            gulp.src([
+                '../irods-cloud-backend/web-app/bower_components/html5-boilerplate/css/normalize.css',
+                '../irods-cloud-backend/web-app/bower_components/html5-boilerplate/css/main.css',
+                '../irods-cloud-backend/web-app/bower_components/angular-message-center/message-center.css',
+                '../irods-cloud-backend/web-app/bower_components/codemirror/lib/codemirror.css',
+            ])
+                .pipe(concat('allBower.css'))
+                .pipe(gulp.dest('../irods-cloud-backend/web-app/css/'));
 
-    gulp.src("../irods-cloud-backend/web-app/cloudBrowser.war")
-        .pipe(shell([
-            'jar -cvf cloudBrowser.war *'
-        ],{
-            cwd:'../irods-cloud-backend/web-app'
-        }))
-        .pipe(gulp.dest('../build/'));
+            gulp.src([
+                '../irods-cloud-backend/web-app/css/sb-admin.css',
+                '../irods-cloud-backend/web-app/css/main.css',
+                '../irods-cloud-backend/web-app/app.css'
+            ])
+                .pipe(concat('allCustom.css'))
+                .pipe(gulp.dest('../irods-cloud-backend/web-app/css'));
 
+            // minify CSS files
+            setTimeout(function(){
+                gulp.src('../irods-cloud-backend/web-app/*.css')
+                    .pipe(cleanCSS())
+                    .pipe(gulp.dest('../irods-cloud-backend/web-app/'));
 
-    gulp.src("../irods-cloud-backend/")
-        .pipe(shell([
-            'jar -cvf cloudBrowser.war *'
-        ],{
-            cwd:'../irods-cloud-backend/'
-        }));
-
-    setTimeout(function(){
-            gulp.src("../irods-cloud-backend/cloudBrowser.war")
-                .pipe(gulp.dest('../build/'));
-    }, 5000);
-
+                gulp.src('../irods-cloud-backend/web-app/css/*.css')
+                    .pipe(cleanCSS())
+                    .pipe(gulp.dest('../irods-cloud-backend/web-app/css/'));
+            },1000);
+        }, 1000);
+    },2000);
+    
+    gutil.log("Build complete");
 });
 
 
@@ -240,72 +192,192 @@ gulp.task('backend-refresh', function(){
 // **************
 gulp.task('backend-sync', function() {
    // CSS Changes
-    gulp.watch("app/*/*.css").on('change', function(){
+    gulp.watch("app/**/*.css").on('change', function(){
         gutil.log("CSS save detected");
+        // Clear current backend web-app
+        del([
+            '../irods-cloud-backend/web-app/*', 
+            '../irods-cloud-backend/web-app/*/', 
+            '!../irods-cloud-backend/web-app/WEB-INF',
+            '!../irods-cloud-backend/web-app/index.html'
+        ], {force:true});
 
-        // concat
-        var css = gulp.src([
-            'app/css/*.css',
-            'app/app.css',
-            'bower_components/html5-boilerplate/css/normalize.css',
-            'bower_components/html5-boilerplate/css/main.css',
-            'bower_components/angular-message-center/message-center.css',
-            'bower_components/codemirror/lib/codemirror.css',
-        ])
-            .pipe(concat('all.min.css'))
-            .pipe(gulp.dest('../irods-cloud-backend/web-app/css'));
-
-        //wait and minify
+        // rebuild backend web-app
         setTimeout(function(){
-            gulp.src('../irods-cloud-backend/web-app/css/all.min.css')
-                .pipe(cleanCSS())
-                .pipe(gulp.dest('../irods-cloud-backend/web-app/css')); 
-            gutil.log("CSS updated");
-        }, 6000);
+            gulp.src([
+                'app/**/*',
+                '!app/indexMin/',
+                '!app/index.html',
+                'bower_components/'
+            ]).pipe(gulp.dest('../irods-cloud-backend/web-app'));
 
-        // var minCSS = gulp.src('../irods-cloud-backend/web-app/css/all.min.css')
-        //     .pipe(cleanCSS())
-        //     .pipe(gulp.dest('../irods-cloud-backend/web-app/css'));        
+            gulp.src(['bower_components/**/*'],{base:'./'})
+                .pipe(gulp.dest('../irods-cloud-backend/web-app/'));
+
+            gulp.src('../irods-cloud-backend/*/*.css')
+                .pipe(cleanCSS())
+                .pipe(gulp.dest('../irods-cloud-backend/**/*'));
+
+            // concat CSS files
+            setTimeout(function(){
+                gulp.src([
+                    '../irods-cloud-backend/web-app/bower_components/html5-boilerplate/css/normalize.css',
+                    '../irods-cloud-backend/web-app/bower_components/html5-boilerplate/css/main.css',
+                    '../irods-cloud-backend/web-app/bower_components/angular-message-center/message-center.css',
+                    '../irods-cloud-backend/web-app/bower_components/codemirror/lib/codemirror.css',
+                ])
+                    .pipe(concat('allBower.css'))
+                    .pipe(gulp.dest('../irods-cloud-backend/web-app/css/'));
+
+                gulp.src([
+                    '../irods-cloud-backend/web-app/css/sb-admin.css',
+                    '../irods-cloud-backend/web-app/css/main.css',
+                    '../irods-cloud-backend/web-app/app.css'
+                ])
+                    .pipe(concat('allCustom.css'))
+                    .pipe(gulp.dest('../irods-cloud-backend/web-app/css'));
+
+                // minify CSS files
+                setTimeout(function(){
+                    gulp.src('../irods-cloud-backend/web-app/*.css')
+                        .pipe(cleanCSS())
+                        .pipe(gulp.dest('../irods-cloud-backend/web-app/'));
+
+                    gulp.src('../irods-cloud-backend/web-app/css/*.css')
+                        .pipe(cleanCSS())
+                        .pipe(gulp.dest('../irods-cloud-backend/web-app/css/'));
+                },1000);
+            }, 1000);
+        },2000);
         
-        gutil.log("CSS updated");
+        gutil.log("Build complete");
     });
 
 
 
     // JS Changes
-    gulp.watch("app/*/*.js").on('change',function(){
+    gulp.watch("app/**/*.js").on('change',function(){
         gutil.log("JS save detected");
+        // Clear current backend web-app
+        del([
+            '../irods-cloud-backend/web-app/*', 
+            '../irods-cloud-backend/web-app/*/', 
+            '!../irods-cloud-backend/web-app/WEB-INF',
+            '!../irods-cloud-backend/web-app/index.html'
+        ], {force:true});
 
-        //concat
-        var js = gulp.src([
-            'bower_components/codemirror/lib/codemirror.js',
-            'bower_components/codemirror/mode/javascript/javascript.js',
-            'bower_components/codemirror/mode/xml/xml.js',
-            'bower_components/angular/angular.js',
-            'bower_components/angular-route/angular-route.js',
-            'bower_components/angular-animate/angular-animate.js',
-            'bower_components/angular-message-center/message-center.js',
-            'bower_components/ng-context-menu/dist/ng-context-menu.js',
-            'bower_components/angular-message-center/message-center-templates.js',
-            'bower_components/angular-ui-codemirror/ui-codemirror.min.js',
-            'bower_components/ng-file-upload/ng-file-upload-shim.min.js',
-            'bower_components/ng-file-upload/ng-file-upload.min.js',
-            'app/*/*.js'
-        ])
-            .pipe(concat('all.min.js'))
-            .pipe(gulp.dest('../irods-cloud-backend/web-app/js'));
-        
-        //wait and minify
+        // rebuild backend web-app
         setTimeout(function(){
-            gulp.src('../irods-cloud-backend/web-app/js/all.min.js')
-                .pipe(uglify())
-                .pipe(gulp.dest('../irods-cloud-backend/web-app/js'));
-                gutil.log("JS updated");
-        }, 6000);
+            gulp.src([
+                'app/**/*',
+                '!app/indexMin/',
+                '!app/index.html',
+                'bower_components/'
+            ]).pipe(gulp.dest('../irods-cloud-backend/web-app'));
+
+            gulp.src(['bower_components/**/*'],{base:'./'})
+                .pipe(gulp.dest('../irods-cloud-backend/web-app/'));
+
+            gulp.src('../irods-cloud-backend/*/*.css')
+                .pipe(cleanCSS())
+                .pipe(gulp.dest('../irods-cloud-backend/**/*'));
+
+            // concat CSS files
+            setTimeout(function(){
+                gulp.src([
+                    '../irods-cloud-backend/web-app/bower_components/html5-boilerplate/css/normalize.css',
+                    '../irods-cloud-backend/web-app/bower_components/html5-boilerplate/css/main.css',
+                    '../irods-cloud-backend/web-app/bower_components/angular-message-center/message-center.css',
+                    '../irods-cloud-backend/web-app/bower_components/codemirror/lib/codemirror.css',
+                ])
+                    .pipe(concat('allBower.css'))
+                    .pipe(gulp.dest('../irods-cloud-backend/web-app/css/'));
+
+                gulp.src([
+                    '../irods-cloud-backend/web-app/css/sb-admin.css',
+                    '../irods-cloud-backend/web-app/css/main.css',
+                    '../irods-cloud-backend/web-app/app.css'
+                ])
+                    .pipe(concat('allCustom.css'))
+                    .pipe(gulp.dest('../irods-cloud-backend/web-app/css'));
+
+                // minify CSS files
+                setTimeout(function(){
+                    gulp.src('../irods-cloud-backend/web-app/*.css')
+                        .pipe(cleanCSS())
+                        .pipe(gulp.dest('../irods-cloud-backend/web-app/'));
+
+                    gulp.src('../irods-cloud-backend/web-app/css/*.css')
+                        .pipe(cleanCSS())
+                        .pipe(gulp.dest('../irods-cloud-backend/web-app/css/'));
+                },1000);
+            }, 1000);
+        },2000);
+        
+        gutil.log("Build complete");
     });
 
-    // HTML Changes
-    gulp.watch("app/*/*.html").on('change',browserSync.reload);
+    gulp.watch("app/**/*.html").on('change', function(){
+        gutil.log("HTML Save Detected");
+        // Clear current backend web-app
+        del([
+            '../irods-cloud-backend/web-app/*', 
+            '../irods-cloud-backend/web-app/*/', 
+            '!../irods-cloud-backend/web-app/WEB-INF',
+            '!../irods-cloud-backend/web-app/index.html'
+        ], {force:true});
+
+        // rebuild backend web-app
+        setTimeout(function(){
+            gulp.src([
+                'app/**/*',
+                '!app/indexMin/',
+                '!app/index.html',
+                'bower_components/'
+            ]).pipe(gulp.dest('../irods-cloud-backend/web-app'));
+
+            gulp.src(['bower_components/**/*'],{base:'./'})
+                .pipe(gulp.dest('../irods-cloud-backend/web-app/'));
+
+            gulp.src('../irods-cloud-backend/*/*.css')
+                .pipe(cleanCSS())
+                .pipe(gulp.dest('../irods-cloud-backend/**/*'));
+
+            // concat CSS files
+            setTimeout(function(){
+                gulp.src([
+                    '../irods-cloud-backend/web-app/bower_components/html5-boilerplate/css/normalize.css',
+                    '../irods-cloud-backend/web-app/bower_components/html5-boilerplate/css/main.css',
+                    '../irods-cloud-backend/web-app/bower_components/angular-message-center/message-center.css',
+                    '../irods-cloud-backend/web-app/bower_components/codemirror/lib/codemirror.css',
+                ])
+                    .pipe(concat('allBower.css'))
+                    .pipe(gulp.dest('../irods-cloud-backend/web-app/css/'));
+
+                gulp.src([
+                    '../irods-cloud-backend/web-app/css/sb-admin.css',
+                    '../irods-cloud-backend/web-app/css/main.css',
+                    '../irods-cloud-backend/web-app/app.css'
+                ])
+                    .pipe(concat('allCustom.css'))
+                    .pipe(gulp.dest('../irods-cloud-backend/web-app/css'));
+
+                // minify CSS files
+                setTimeout(function(){
+                    gulp.src('../irods-cloud-backend/web-app/*.css')
+                        .pipe(cleanCSS())
+                        .pipe(gulp.dest('../irods-cloud-backend/web-app/'));
+
+                    gulp.src('../irods-cloud-backend/web-app/css/*.css')
+                        .pipe(cleanCSS())
+                        .pipe(gulp.dest('../irods-cloud-backend/web-app/css/'));
+                },1000);
+            }, 1000);
+        },2000);
+        
+        gutil.log("Build complete");
+    }
+
 });
 
 
@@ -324,20 +396,20 @@ gulp.task('gen-frontend-zip', function(){
 // *  GENERATE  *
 // *  WAR       *
 // **************
-gulp.task('gen-war', function(){
-    gulp.src("../irods-cloud-backend/")
-        .pipe(shell([
-            'jar -cvf cloudBrowser.war *'
-        ],{
-            cwd:'../irods-cloud-backend/'
-        }));
+// gulp.task('gen-war', function(){
+//     gulp.src("../irods-cloud-backend/")
+//         .pipe(shell([
+//             'grails war irods-cloud-backend.war'
+//         ],{
+//             cwd:'../irods-cloud-backend/'
+//         }));
 
-        setTimeout(function(){
-            gulp.src("../irods-cloud-backend/cloudBrowser.war")
-                .pipe(gulp.dest('../build/'));
-        }, 5000);
+//         setTimeout(function(){
+//             gulp.src("../irods-cloud-backend/irods-cloud-backend.war")
+//                 .pipe(gulp.dest('../build/'));
+//         }, 5000);
     
-});
+// });
 
 
 // **************
@@ -345,16 +417,22 @@ gulp.task('gen-war', function(){
 // *  CSS       *
 // **************
 gulp.task('concatCSS', function(){
-    return gulp.src([
-        'app/css/*.css',
-        'app/app.css',
-        'bower_components/html5-boilerplate/css/normalize.css',
-        'bower_components/html5-boilerplate/css/main.css',
-        'bower_components/angular-message-center/message-center.css',
-        'bower_components/codemirror/lib/codemirror.css',
+    gulp.src([
+        '../irods-cloud-backend/web-app/bower_components/html5-boilerplate/css/normalize.css',
+        '../irods-cloud-backend/web-app/bower_components/html5-boilerplate/css/main.css',
+        '../irods-cloud-backend/web-app/bower_components/angular-message-center/message-center.css',
+        '../irods-cloud-backend/web-app/bower_components/codemirror/lib/codemirror.css',
     ])
-        .pipe(concat('all.css'))
-        .pipe(gulp.dest('dist/css'));
+        .pipe(concat('allBower.css'))
+        .pipe(gulp.dest('../irods-cloud-backend/web-app/css/'));
+
+    gulp.src([
+        '../irods-cloud-backend/web-app/css/sb-admin.css',
+        '../irods-cloud-backend/web-app/css/main.css',
+        '../irods-cloud-backend/web-app/app.css'
+    ])
+        .pipe(concat('allCustom.css'))
+        .pipe(gulp.dest('../irods-cloud-backend/web-app/css'));
 });
 
 
@@ -363,9 +441,13 @@ gulp.task('concatCSS', function(){
 // *  CSS       *
 // **************
 gulp.task('minifyCSS', function(){
-    return gulp.src('dist/css/*.css')
+    gulp.src('../irods-cloud-backend/web-app/*.css')
         .pipe(cleanCSS())
-        .pipe(gulp.dest('dist/css'));
+        .pipe(gulp.dest('../irods-cloud-backend/web-app/'));
+
+    gulp.src('../irods-cloud-backend/web-app/css/*.css')
+        .pipe(cleanCSS())
+        .pipe(gulp.dest('../irods-cloud-backend/web-app/css/'));
 });
 
 
@@ -384,61 +466,61 @@ gulp.task('minifyCSS', function(){
 // * CONCAT     *
 // * JAVASCRIPT *
 // **************
-gulp.task('concatJS', function(){
-    // add additional files as they are created
-    return gulp.src([
-        'bower_components/codemirror/lib/codemirror.js',
-        'bower_components/codemirror/mode/javascript/javascript.js',
-        'bower_components/codemirror/mode/xml/xml.js',
-        'bower_components/angular/angular.js',
-        'bower_components/angular-route/angular-route.js',
-        'bower_components/angular-animate/angular-animate.js',
-        'bower_components/angular-message-center/message-center.js',
-        'bower_components/ng-context-menu/dist/ng-context-menu.js',
-        'bower_components/angular-message-center/message-center-templates.js',
-        'bower_components/angular-ui-codemirror/ui-codemirror.min.js',
-        'app/js/jquery.js',
-        'app/js/masonry.min.js',
-        'app/js/jquery-ui.js',
-        'app/js/js/uuid.js',
-        'app/js/bootstrap.min.js',
-        'app/app.js',
-        'app/home/home.js',
-        'app/dashboard/dashboard.js',
-        'app/search/search.js',
-        'app/home/fileServices.js',
-        'app/login/login.js',
-        'app/metadata/metadata.js',
-        'app/profile/profile.js',
-        'app/edit/edit.js',
-        'app/components/globals.js',
-        'app/components/httpInterceptors.js',
-        'bower_components/ng-file-upload/ng-file-upload-shim.min.js',
-        'bower_components/ng-file-upload/ng-file-upload.min.js'
-    ])
-        .pipe(concat('all.js'))
-        .pipe(gulp.dest('dist/js'));
-});
+// gulp.task('concatJS', function(){
+//     // add additional files as they are created
+//     return gulp.src([
+//         'bower_components/codemirror/lib/codemirror.js',
+//         'bower_components/codemirror/mode/javascript/javascript.js',
+//         'bower_components/codemirror/mode/xml/xml.js',
+//         'bower_components/angular/angular.js',
+//         'bower_components/angular-route/angular-route.js',
+//         'bower_components/angular-animate/angular-animate.js',
+//         'bower_components/angular-message-center/message-center.js',
+//         'bower_components/ng-context-menu/dist/ng-context-menu.js',
+//         'bower_components/angular-message-center/message-center-templates.js',
+//         'bower_components/angular-ui-codemirror/ui-codemirror.min.js',
+//         'app/js/jquery.js',
+//         'app/js/masonry.min.js',
+//         'app/js/jquery-ui.js',
+//         'app/js/js/uuid.js',
+//         'app/js/bootstrap.min.js',
+//         'app/app.js',
+//         'app/home/home.js',
+//         'app/dashboard/dashboard.js',
+//         'app/search/search.js',
+//         'app/home/fileServices.js',
+//         'app/login/login.js',
+//         'app/metadata/metadata.js',
+//         'app/profile/profile.js',
+//         'app/edit/edit.js',
+//         'app/components/globals.js',
+//         'app/components/httpInterceptors.js',
+//         'bower_components/ng-file-upload/ng-file-upload-shim.min.js',
+//         'bower_components/ng-file-upload/ng-file-upload.min.js'
+//     ])
+//         .pipe(concat('all.js'))
+//         .pipe(gulp.dest('dist/js'));
+// });
 
 
-// **************
-// *  MINIFY    *
-// *  JS        *
-// **************
-gulp.task('minifyJS', function(){
-    return gulp.src('../irods-cloud-backend/web-app/js/all.js')
-        .pipe(uglify())
-        .pipe(gulp.dest('../irods-cloud-backend/web-app/js'));
-});
+// // **************
+// // *  MINIFY    *
+// // *  JS        *
+// // **************
+// gulp.task('minifyJS', function(){
+//     return gulp.src()
+//         .pipe(uglify())
+//         .pipe(gulp.dest('../irods-cloud-backend/web-app/js/'));
+// });
 
 
-// **************
-// *  VALIDATE  *
-// *  JS        *
-// **************
-gulp.task('validateJS', function(){
-    return gulp.src('dist/js/*.js')
-        .pipe(jsValidate());
-});
+// // **************
+// // *  VALIDATE  *
+// // *  JS        *
+// // **************
+// gulp.task('validateJS', function(){
+//     return gulp.src('dist/js/*.js')
+//         .pipe(jsValidate());
+// });
 
 

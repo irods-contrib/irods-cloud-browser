@@ -29,10 +29,6 @@ Syncs the backend-build directory with the front-end developing directory. To us
     $gulp gen-frontend-zip
 Generates a zipped file of all of the front-end files (irods-cloud-frontend/app) and saves it in the /build directory.
 
-### gen-war
-    $gulp gen-war
-Generates a .WAR file from the irods-cloud-backend/web-app directory, and saves it in the /build directory.
-
 ### concatCSS
     $gulp concatCSS
 Concatinates all CSS files to a all.css file, which is saved at irods-cloud-frontend/dist/css
@@ -41,17 +37,39 @@ Concatinates all CSS files to a all.css file, which is saved at irods-cloud-fron
     $gulp minifyCSS
 Minfies CSS file that was created in concatCSS. Saved as all.min.css in irods-cloud-frontend/dist/css.
 
-### concatJS
-    $gulp concatJS
-Concats all JavaScript files in the front-end devloping directory, and saves it as a single JS file, all.js at irods-cloud-frontend/dist/js.
 
-### minifyJS
-    $gulp minifiyJS
-Minfies JS file that was created in concatJS. Saved as all.min.js in irods-cloud-frontend/dist/js.
 
-### validate JS
-    $gulp validateJS
-Validates the JS file created in concatJS/minifyJS, located at irods-cloud-frontend/dist/js. 
+# Deplyments
+
+### Generate complete back-end war
+To generate a backend .war file to deploy on your web server, change your working directory to the /irods-cloud-frontend/ and run $gulp backend-build to build the app on the backend. After it has been built, then cd to /irods-cloud-backend/ and run:
+    $gvm use grails 2.5.0
+    $grails war irods-cloud-backed.war
+**Note: Must have grails installed on your machine. To install visit: https://grails.org/wiki/Installation **
+
+### Generate backend-war seperate from front-end app
+To generate the backend-war seperately from the front-end app, cd to /irods-cloud-frontend/ and run $gulp backend-clean to clean the backend web-app directory. After that, run $gulp gen-frontend-zip to generate a zip containing all of the frontend application files. Then, cd to /irods-cloud-backend/ and generate the backend .war by running: 
+    $gvm use grails 2.5.0
+    $grails war irods-cloud-backed.war
+**Note: Must have grails installed on your machine. To install visit: https://grails.org/wiki/Installation **
+
+
+### Host locally
+First, open the globals.js file, located at irods-cloud-frontend/app/components/. Change line 17, 
+"var HOST = "http://"+location.hostname+"/irods-cloud-backend/";"
+to 
+"var HOST = "http://"+location.hostname+":8080/irods-cloud-backend/";"
+This ensures that the app can contact the right backend-files via port 8080.
+After this has been changed, cd to /irods-cloud-frontend/ and run $gulp backend-clean, followed by $gulp backend-build.
+Now you can cd to /irods-cloud-backend/ and run 
+    $gvm use grails 2.5.0
+    $grails run-app
+The app will be hosted from the localhost at port 8080.
+
+### Common errors with generating .war:
+Grails is installed improperly.
+You are not using grails version 2.5.0. To use, run "$gvm use grails 2.5.0"
+The globals.js file is pointing to port 8080 when you're trying to deploy the .war or not pointing to port 8080 when you are running locally. See host locally for more details.
 
 
 

@@ -376,7 +376,8 @@ gulp.task('backend-sync', function() {
         },2000);
         
         gutil.log("Build complete");
-    }
+    });
+    
 
 });
 
@@ -399,13 +400,14 @@ gulp.task('gen-frontend-zip', function(){
 // gulp.task('gen-war', function(){
 //     gulp.src("../irods-cloud-backend/")
 //         .pipe(shell([
-//             'grails war irods-cloud-backend.war'
+//             'gvm use grails 2.5.0',
+//             'grails war irods-cloud.war'
 //         ],{
 //             cwd:'../irods-cloud-backend/'
 //         }));
 
 //         setTimeout(function(){
-//             gulp.src("../irods-cloud-backend/irods-cloud-backend.war")
+//             gulp.src("../irods-cloud-backend/irods-cloud.war")
 //                 .pipe(gulp.dest('../build/'));
 //         }, 5000);
     

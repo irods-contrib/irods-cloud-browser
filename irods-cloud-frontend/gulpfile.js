@@ -101,27 +101,7 @@ gulp.task('backend-build', function(){
             ])
                 .pipe(concat('allBower.css'))
                 .pipe(gulp.dest('../irods-cloud-backend/web-app/css/'));
-
-            gulp.src([
-                '../irods-cloud-backend/web-app/css/sb-admin.css',
-                '../irods-cloud-backend/web-app/css/main.css',
-                '../irods-cloud-backend/web-app/app.css'
-            ])
-                .pipe(concat('allCustom.css'))
-                .pipe(gulp.dest('../irods-cloud-backend/web-app/css'));
-
-            // minify CSS files
-            setTimeout(function(){
-                gulp.src('../irods-cloud-backend/web-app/*.css')
-                    .pipe(cleanCSS())
-                    .pipe(gulp.dest('../irods-cloud-backend/web-app/'));
-
-                gulp.src('../irods-cloud-backend/web-app/css/*.css')
-                    .pipe(cleanCSS())
-                    .pipe(gulp.dest('../irods-cloud-backend/web-app/css/'));
-            },1000);
-        }, 1000);
-
+        }, 1500);
         gutil.log("Build complete");
     },5000);
     
@@ -171,28 +151,8 @@ gulp.task('backend-sync', function() {
                 ])
                     .pipe(concat('allBower.css'))
                     .pipe(gulp.dest('../irods-cloud-backend/web-app/css/'));
-
-                gulp.src([
-                    '../irods-cloud-backend/web-app/css/sb-admin.css',
-                    '../irods-cloud-backend/web-app/css/main.css',
-                    '../irods-cloud-backend/web-app/app.css'
-                ])
-                    .pipe(concat('allCustom.css'))
-                    .pipe(gulp.dest('../irods-cloud-backend/web-app/css'));
-
-                // minify CSS files
-                setTimeout(function(){
-                    gulp.src('../irods-cloud-backend/web-app/*.css')
-                        .pipe(cleanCSS())
-                        .pipe(gulp.dest('../irods-cloud-backend/web-app/'));
-
-                    gulp.src('../irods-cloud-backend/web-app/css/*.css')
-                        .pipe(cleanCSS())
-                        .pipe(gulp.dest('../irods-cloud-backend/web-app/css/'));
-                },1000);
-            }, 1000);
-        },2000);
-        
+            },1000);
+        }, 1000);
         gutil.log("Build complete");
     });
 
@@ -235,28 +195,8 @@ gulp.task('backend-sync', function() {
                 ])
                     .pipe(concat('allBower.css'))
                     .pipe(gulp.dest('../irods-cloud-backend/web-app/css/'));
-
-                gulp.src([
-                    '../irods-cloud-backend/web-app/css/sb-admin.css',
-                    '../irods-cloud-backend/web-app/css/main.css',
-                    '../irods-cloud-backend/web-app/app.css'
-                ])
-                    .pipe(concat('allCustom.css'))
-                    .pipe(gulp.dest('../irods-cloud-backend/web-app/css'));
-
-                // minify CSS files
-                setTimeout(function(){
-                    gulp.src('../irods-cloud-backend/web-app/*.css')
-                        .pipe(cleanCSS())
-                        .pipe(gulp.dest('../irods-cloud-backend/web-app/'));
-
-                    gulp.src('../irods-cloud-backend/web-app/css/*.css')
-                        .pipe(cleanCSS())
-                        .pipe(gulp.dest('../irods-cloud-backend/web-app/css/'));
                 },1000);
             }, 1000);
-        },2000);
-        
         gutil.log("Build complete");
     });
 
@@ -296,25 +236,6 @@ gulp.task('backend-sync', function() {
                 ])
                     .pipe(concat('allBower.css'))
                     .pipe(gulp.dest('../irods-cloud-backend/web-app/css/'));
-
-                gulp.src([
-                    '../irods-cloud-backend/web-app/css/sb-admin.css',
-                    '../irods-cloud-backend/web-app/css/main.css',
-                    '../irods-cloud-backend/web-app/app.css'
-                ])
-                    .pipe(concat('allCustom.css'))
-                    .pipe(gulp.dest('../irods-cloud-backend/web-app/css'));
-
-                // minify CSS files
-                setTimeout(function(){
-                    gulp.src('../irods-cloud-backend/web-app/*.css')
-                        .pipe(cleanCSS())
-                        .pipe(gulp.dest('../irods-cloud-backend/web-app/'));
-
-                    gulp.src('../irods-cloud-backend/web-app/css/*.css')
-                        .pipe(cleanCSS())
-                        .pipe(gulp.dest('../irods-cloud-backend/web-app/css/'));
-                },1000);
             }, 1000);
         },2000);
         
@@ -327,7 +248,7 @@ gulp.task('backend-sync', function() {
 // *  GENERATE  *
 // *  WAR FILE  *
 // **************
-gulp.task('backend-full-build', function(){
+gulp.task('gen-war', function(){
     // Clear current backend web-app
     del([
         '../irods-cloud-backend/web-app/*', 
@@ -362,27 +283,7 @@ gulp.task('backend-full-build', function(){
             ])
                 .pipe(concat('allBower.css'))
                 .pipe(gulp.dest('../irods-cloud-backend/web-app/css/'));
-
-            gulp.src([
-                '../irods-cloud-backend/web-app/css/sb-admin.css',
-                '../irods-cloud-backend/web-app/css/main.css',
-                '../irods-cloud-backend/web-app/app.css'
-            ])
-                .pipe(concat('allCustom.css'))
-                .pipe(gulp.dest('../irods-cloud-backend/web-app/css'));
-
-            // minify CSS files
-            setTimeout(function(){
-                gulp.src('../irods-cloud-backend/web-app/*.css')
-                    .pipe(cleanCSS())
-                    .pipe(gulp.dest('../irods-cloud-backend/web-app/'));
-
-                gulp.src('../irods-cloud-backend/web-app/css/*.css')
-                    .pipe(cleanCSS())
-                    .pipe(gulp.dest('../irods-cloud-backend/web-app/css/'));
-            },1000);
         }, 1000);
-
     },2000);
     
     setTimeout(function(){
@@ -431,31 +332,6 @@ gulp.task('gen-zip', function(){
         },5000);
     }, 5000);
 
-});
-
-
-// **************
-// *  GENERATE  *
-// *  WAR       *
-// **************
-gulp.task('gvm-grails', shell.task([
-    'gvm use grails 2.5.0'
-]));
-
-gulp.task('gen-war', function(){
-    gulp.src("../irods-cloud-backend/")
-        .pipe(shell([
-            // 'gvm use grails 2.5.0'
-            'grails war irods-cloud.war'
-        ],{
-            cwd:'../irods-cloud-backend/'
-        }));
-
-        setTimeout(function(){
-            gulp.src("../irods-cloud-backend/irods-cloud.war")
-                .pipe(gulp.dest('../build/'));
-        }, 5000);
-    
 });
 
 

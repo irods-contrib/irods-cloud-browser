@@ -2,4 +2,7 @@
 css
 *.html
 images
-bower-components
+app.css
+bower_components/
+codemirror/
+

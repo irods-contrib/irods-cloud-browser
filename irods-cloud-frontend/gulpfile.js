@@ -38,10 +38,9 @@ gulp.task('help', function(){
     gutil.log("$ gulp...");
     gutil.log("backend-clean........cleans backend web-app directory.");
     gutil.log("backend-build........builds backend web-app directory.");
-    gutil.log("backend-refresh......refreshes backend web-app directory.");
     gutil.log("backend-sync.........listens for frontend changes and syncs with backend web-app directory.");
-    gutil.log("gen-frontend-zip.....generates zip from frontend app directory.");
-    // gutil.log("gen-war..............generates WAR file from backend web-app directory, and saves it in /build directory.");
+    gutil.log("gen-war..............builds project and generates .war file to be deployed on web server.");
+    gutil.log("gen-zip..............generates zip from frontend app directory.");
     gutil.log("concatCSS............concatinates all CSS files to all.css in the frontend app directory.");
     gutil.log("minifyCSS............minifies all.css file as all.min.css in frontend app directory.");
     // gutil.log("concatJS.............concatinates all JS files to all.js in the frontend app directory.");
@@ -69,63 +68,6 @@ gulp.task('backend-clean', function(){
 // *  BUILD     *
 // **************
 gulp.task('backend-build', function(){
-    // move files from front-end app
-    gulp.src([
-        'app/**/*',
-        '!app/indexMin/',
-        '!app/index.html',
-        'bower_components/'
-    ]).pipe(gulp.dest('../irods-cloud-backend/web-app'));
-
-    gulp.src(['bower_components/**/*'],{base:'./'})
-        .pipe(gulp.dest('../irods-cloud-backend/web-app/'));
-
-    gulp.src('../irods-cloud-backend/*/*.css')
-        .pipe(cleanCSS())
-        .pipe(gulp.dest('../irods-cloud-backend/**/*'));
-
-    // concat CSS files
-    setTimeout(function(){
-        gulp.src([
-            '../irods-cloud-backend/web-app/bower_components/html5-boilerplate/css/normalize.css',
-            '../irods-cloud-backend/web-app/bower_components/html5-boilerplate/css/main.css',
-            '../irods-cloud-backend/web-app/bower_components/angular-message-center/message-center.css',
-            '../irods-cloud-backend/web-app/bower_components/codemirror/lib/codemirror.css',
-        ])
-            .pipe(concat('allBower.css'))
-            .pipe(gulp.dest('../irods-cloud-backend/web-app/css/'));
-
-        gulp.src([
-            '../irods-cloud-backend/web-app/css/sb-admin.css',
-            '../irods-cloud-backend/web-app/css/main.css',
-            '../irods-cloud-backend/web-app/app.css'
-        ])
-            .pipe(concat('allCustom.css'))
-            .pipe(gulp.dest('../irods-cloud-backend/web-app/css'));
-
-        // minify CSS files
-        setTimeout(function(){
-            gulp.src('../irods-cloud-backend/web-app/*.css')
-                .pipe(cleanCSS())
-                .pipe(gulp.dest('../irods-cloud-backend/web-app/'));
-
-            gulp.src('../irods-cloud-backend/web-app/css/*.css')
-                .pipe(cleanCSS())
-                .pipe(gulp.dest('../irods-cloud-backend/web-app/css/'));
-        },1000);
-    }, 1000);
-
-    gutil.log("Build complete");
-
-});
-
-
-// **************
-// *  BACKEND   *
-// *  REFRESH   *
-// **************
-gulp.task('backend-refresh', function(){
-    // Clear current backend web-app
     del([
         '../irods-cloud-backend/web-app/*', 
         '../irods-cloud-backend/web-app/*/', 
@@ -133,8 +75,8 @@ gulp.task('backend-refresh', function(){
         '!../irods-cloud-backend/web-app/index.html'
     ], {force:true});
 
-    // rebuild backend web-app
     setTimeout(function(){
+        // move files from front-end app
         gulp.src([
             'app/**/*',
             '!app/indexMin/',
@@ -179,11 +121,12 @@ gulp.task('backend-refresh', function(){
                     .pipe(gulp.dest('../irods-cloud-backend/web-app/css/'));
             },1000);
         }, 1000);
-    },2000);
-    
-    gutil.log("Build complete");
-});
 
+        gutil.log("Build complete");
+    },5000);
+    
+
+});
 
 
 // **************
@@ -377,8 +320,83 @@ gulp.task('backend-sync', function() {
         
         gutil.log("Build complete");
     });
-    
+});
 
+
+// **************
+// *  GENERATE  *
+// *  WAR FILE  *
+// **************
+gulp.task('backend-full-build', function(){
+    // Clear current backend web-app
+    del([
+        '../irods-cloud-backend/web-app/*', 
+        '../irods-cloud-backend/web-app/*/', 
+        '!../irods-cloud-backend/web-app/WEB-INF',
+        '!../irods-cloud-backend/web-app/index.html'
+    ], {force:true});
+
+    // rebuild backend web-app
+    setTimeout(function(){
+        gulp.src([
+            'app/**/*',
+            '!app/indexMin/',
+            '!app/index.html',
+            'bower_components/'
+        ]).pipe(gulp.dest('../irods-cloud-backend/web-app'));
+
+        gulp.src(['bower_components/**/*'],{base:'./'})
+            .pipe(gulp.dest('../irods-cloud-backend/web-app/'));
+
+        gulp.src('../irods-cloud-backend/*/*.css')
+            .pipe(cleanCSS())
+            .pipe(gulp.dest('../irods-cloud-backend/**/*'));
+
+        // concat CSS files
+        setTimeout(function(){
+            gulp.src([
+                '../irods-cloud-backend/web-app/bower_components/html5-boilerplate/css/normalize.css',
+                '../irods-cloud-backend/web-app/bower_components/html5-boilerplate/css/main.css',
+                '../irods-cloud-backend/web-app/bower_components/angular-message-center/message-center.css',
+                '../irods-cloud-backend/web-app/bower_components/codemirror/lib/codemirror.css',
+            ])
+                .pipe(concat('allBower.css'))
+                .pipe(gulp.dest('../irods-cloud-backend/web-app/css/'));
+
+            gulp.src([
+                '../irods-cloud-backend/web-app/css/sb-admin.css',
+                '../irods-cloud-backend/web-app/css/main.css',
+                '../irods-cloud-backend/web-app/app.css'
+            ])
+                .pipe(concat('allCustom.css'))
+                .pipe(gulp.dest('../irods-cloud-backend/web-app/css'));
+
+            // minify CSS files
+            setTimeout(function(){
+                gulp.src('../irods-cloud-backend/web-app/*.css')
+                    .pipe(cleanCSS())
+                    .pipe(gulp.dest('../irods-cloud-backend/web-app/'));
+
+                gulp.src('../irods-cloud-backend/web-app/css/*.css')
+                    .pipe(cleanCSS())
+                    .pipe(gulp.dest('../irods-cloud-backend/web-app/css/'));
+            },1000);
+        }, 1000);
+
+    },2000);
+    
+    setTimeout(function(){
+        shell.task([
+            'grails war irods-cloud.war'
+        ]);
+
+        setTimeout(function(){
+             gulp.src("../irods-cloud-backend/irods-cloud.war")
+                .pipe(gulp.dest('../build/'));
+            gutil.log("Build complete");
+            gutil.log("irods-cloud.war is located in /build/ directory.");
+        },5000);
+    },10000);
 });
 
 
@@ -386,10 +404,33 @@ gulp.task('backend-sync', function() {
 // *  GENERATE  *
 // *  ZIP       *
 // **************
-gulp.task('gen-frontend-zip', function(){
+gulp.task('gen-zip', function(){
+    // Generate frontend zip
     gulp.src(["app/*"])
         .pipe(zip('frontEnd.zip'))
         .pipe(gulp.dest("../build"));
+
+    // Clean backend
+    del([
+        '../irods-cloud-backend/web-app/*', 
+        '../irods-cloud-backend/web-app/*/', 
+        '!../irods-cloud-backend/web-app/WEB-INF',
+        '!../irods-cloud-backend/web-app/index.html'
+    ], {force:true});
+
+    setTimeout(function(){
+        shell.task([
+            'grails war irods-cloud-empty.war'
+        ]);
+
+        setTimeout(function(){
+             gulp.src("../irods-cloud-backend/irods-cloud-backend.war")
+                .pipe(gulp.dest('../build/'));
+            gutil.log("Build complete");
+            gutil.log("irods-cloud-backend.war is located in /build/ directory.");
+        },5000);
+    }, 5000);
+
 });
 
 
@@ -397,21 +438,25 @@ gulp.task('gen-frontend-zip', function(){
 // *  GENERATE  *
 // *  WAR       *
 // **************
-// gulp.task('gen-war', function(){
-//     gulp.src("../irods-cloud-backend/")
-//         .pipe(shell([
-//             'gvm use grails 2.5.0',
-//             'grails war irods-cloud.war'
-//         ],{
-//             cwd:'../irods-cloud-backend/'
-//         }));
+gulp.task('gvm-grails', shell.task([
+    'gvm use grails 2.5.0'
+]));
 
-//         setTimeout(function(){
-//             gulp.src("../irods-cloud-backend/irods-cloud.war")
-//                 .pipe(gulp.dest('../build/'));
-//         }, 5000);
+gulp.task('gen-war', function(){
+    gulp.src("../irods-cloud-backend/")
+        .pipe(shell([
+            // 'gvm use grails 2.5.0'
+            'grails war irods-cloud.war'
+        ],{
+            cwd:'../irods-cloud-backend/'
+        }));
+
+        setTimeout(function(){
+            gulp.src("../irods-cloud-backend/irods-cloud.war")
+                .pipe(gulp.dest('../build/'));
+        }, 5000);
     
-// });
+});
 
 
 // **************

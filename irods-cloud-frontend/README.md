@@ -1,5 +1,8 @@
 # Gulp Build Automation
 
+## Before starting, you must have Grails version 2.5.0 installed. Can be downloaded: https://grails.org/download.html
+If a later version of grails is installed, you must run $gvm use grails 2.5.0 first to use grails v2.5.0.
+
 Gulp is a build tool, built on NodeJS. 
 To use gulp, open up a terminal window, navigate to irods-cloud-frontend.
     $gulp [task name]
@@ -17,17 +20,17 @@ Cleans the backend build directory (irods-cloud-backend/web-app).
     $gulp backend-build
 Builds the back-end build directory from the files in the front end developing directory (irods-cloud-frontend/app). JS & CSS files are concatanated and minified. After, a .WAR file is created and saved in the /build directory.
 
-### backend-refresh
-    $gulp backend-refresh
-Cleans and rebuilds the back-end build directory from the front-end developing directory. JS & CSS files are concatanated and minified.
-
 ### backend-sync
     $gulp backend-sync
 Syncs the backend-build directory with the front-end developing directory. To use, run the gulp task before edits are made. As an edit is made to a file in the front-end directory, the files will be concatinated, minfied, and sent to the back-end build directory.
 
-### gen-frontend-zip
-    $gulp gen-frontend-zip
-Generates a zipped file of all of the front-end files (irods-cloud-frontend/app) and saves it in the /build directory.
+### gen-war
+    $gulp gen-war
+Generates a .war file (irods-cloud.war) of the entire project that can be deployed on a web server. The generated .war file will be located in the /build directory.
+
+### gen-zip
+    $gulp gen-zip
+Generates a zipped file (frontEnd.zip) of all of the front-end files (irods-cloud-frontend/app) and saves it in the /build directory as well as a .war (irods-cloud-backend.war) of the necessary backend files. All generated files will be in /build directory.
 
 ### concatCSS
     $gulp concatCSS
@@ -36,22 +39,6 @@ Concatinates all CSS files to a all.css file, which is saved at irods-cloud-fron
 ### minifyCSS
     $gulp minifyCSS
 Minfies CSS file that was created in concatCSS. Saved as all.min.css in irods-cloud-frontend/dist/css.
-
-
-
-# Deplyments
-
-### Generate complete back-end war
-To generate a backend .war file to deploy on your web server, change your working directory to the /irods-cloud-frontend/ and run $gulp backend-build to build the app on the backend. After it has been built, then cd to /irods-cloud-backend/ and run:
-    $gvm use grails 2.5.0
-    $grails war irods-cloud-backed.war
-**Note: Must have grails installed on your machine. To install visit: https://grails.org/wiki/Installation **
-
-### Generate backend-war seperate from front-end app
-To generate the backend-war seperately from the front-end app, cd to /irods-cloud-frontend/ and run $gulp backend-clean to clean the backend web-app directory. After that, run $gulp gen-frontend-zip to generate a zip containing all of the frontend application files. Then, cd to /irods-cloud-backend/ and generate the backend .war by running: 
-    $gvm use grails 2.5.0
-    $grails war irods-cloud-backed.war
-**Note: Must have grails installed on your machine. To install visit: https://grails.org/wiki/Installation **
 
 
 ### Host locally

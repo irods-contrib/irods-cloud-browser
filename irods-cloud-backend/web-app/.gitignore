@@ -1,0 +1,8 @@
+*.js
+css
+*.html
+images
+app.css
+bower_components/
+codemirror/
+

@@ -23,6 +23,10 @@ https://github.com/DICE-UNC/irods-cloud-browser
 * The backend deploys as a .war file
 * The frontend is a pure html/javascript package that is served out of Apache HTTP or similar server
 
+## Build Automation
+
+Visit irod-cloud-browser/irod-cloud-frontend README.md for further details.
+
 ## New Features
 
 * __Creation of new files:__ Now you can create .TXT, .XML, and .R files

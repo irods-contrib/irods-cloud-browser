@@ -10,7 +10,7 @@ The tasks are as follows:
 
 ### default
     $gulp
-Tests if gulp is working.
+Tests if gulp is working properly.
 
 ### backend-clean
     $gulp backend-clean

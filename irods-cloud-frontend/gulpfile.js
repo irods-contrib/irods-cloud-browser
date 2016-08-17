@@ -43,6 +43,7 @@ gulp.task('help', function(){
     gutil.log("gen-zip..............generates zip from frontend app directory.");
     gutil.log("concatCSS............concatinates all CSS files to all.css in the frontend app directory.");
     gutil.log("minifyCSS............minifies all.css file as all.min.css in frontend app directory.");
+    gutil.log("localhost............runs project locally on port 8080.")
     // gutil.log("concatJS.............concatinates all JS files to all.js in the frontend app directory.");
     // gutil.log("minifyJS.............minifies all.js file as all.min.js in the frontend app directory.");
     // gutil.log("validateJS...........validates all.js file.");
@@ -289,7 +290,9 @@ gulp.task('gen-war', function(){
     setTimeout(function(){
         shell.task([
             'grails war irods-cloud.war'
-        ]);
+        ],{
+            cwd: '../irods-cloud-backend/'
+        });
 
         setTimeout(function(){
              gulp.src("../irods-cloud-backend/irods-cloud.war")
@@ -322,7 +325,9 @@ gulp.task('gen-zip', function(){
     setTimeout(function(){
         shell.task([
             'grails war irods-cloud-empty.war'
-        ]);
+        ],{
+            cwd: '../irods-cloud-backend/'
+        });
 
         setTimeout(function(){
              gulp.src("../irods-cloud-backend/irods-cloud-backend.war")
@@ -372,6 +377,46 @@ gulp.task('minifyCSS', function(){
         .pipe(cleanCSS())
         .pipe(gulp.dest('../irods-cloud-backend/web-app/css/'));
 });
+
+
+// **************
+// *  RUN       *
+// *  LOCALLY   *
+// **************
+gulp.task('localhost', function(){
+    gutil.log("If not working properly, make sure to change globals.js (in components directory) to call port 8080 on line 17.")
+    gulp.src("")
+        .pipe(shell([
+            'grails run-app'
+        ],{
+            cwd:'../irods-cloud-backend'
+        }));
+});
+
+
+// **************
+// *  RUN TESTS *
+// **************
+gulp.task('runTest', function(){
+    gulp.src("")
+        .pipe(shell([
+            'grails run-app'
+        ],{
+            cwd:'../irods-cloud-backend'
+        }));
+
+    setTimeout(function(){
+        gulp.src("")
+            .pipe(shell([
+                'java -jar selTest1.jar'
+            ],{
+                cwd:'../test'
+            }));
+    }, 40000)
+    
+
+});
+w
 
 
 // **************

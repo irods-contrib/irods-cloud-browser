@@ -268,49 +268,60 @@ gulp.task('gen-war', function(){
         '!../irods-cloud-backend/web-app/index.html'
     ], {force:true});
 
-    // rebuild backend web-app
-    setTimeout(function(){
-        gulp.src([
-            'app/**/*',
-            '!app/indexMin/',
-            '!app/index.html',
-            'bower_components/'
-        ]).pipe(gulp.dest('../irods-cloud-backend/web-app'));
-
-        gulp.src(['bower_components/**/*'],{base:'./'})
-            .pipe(gulp.dest('../irods-cloud-backend/web-app/'));
-
-        gulp.src('../irods-cloud-backend/*/*.css')
-            .pipe(cleanCSS())
-            .pipe(gulp.dest('../irods-cloud-backend/**/*'));
-
-        // concat CSS files
+    try{
+        // rebuild backend web-app
         setTimeout(function(){
             gulp.src([
-                '../irods-cloud-backend/web-app/bower_components/html5-boilerplate/css/normalize.css',
-                '../irods-cloud-backend/web-app/bower_components/html5-boilerplate/css/main.css',
-                '../irods-cloud-backend/web-app/bower_components/angular-message-center/message-center.css',
-                '../irods-cloud-backend/web-app/bower_components/codemirror/lib/codemirror.css',
-            ])
-                .pipe(concat('allBower.css'))
-                .pipe(gulp.dest('../irods-cloud-backend/web-app/css/'));
-        }, 1000);
-    },2000);
-    
-    setTimeout(function(){
-        shell.task([
-            'grails war irods-cloud.war'
-        ],{
-            cwd: '../irods-cloud-backend/'
-        });
+                'app/**/*',
+                '!app/indexMin/',
+                '!app/index.html',
+                'bower_components/'
+            ]).pipe(gulp.dest('../irods-cloud-backend/web-app'));
 
+            gulp.src(['bower_components/**/*'],{base:'./'})
+                .pipe(gulp.dest('../irods-cloud-backend/web-app/'));
+
+            gulp.src('../irods-cloud-backend/*/*.css')
+                .pipe(cleanCSS())
+                .pipe(gulp.dest('../irods-cloud-backend/**/*'));
+
+            // concat CSS files
+            setTimeout(function(){
+                gulp.src([
+                    '../irods-cloud-backend/web-app/bower_components/html5-boilerplate/css/normalize.css',
+                    '../irods-cloud-backend/web-app/bower_components/html5-boilerplate/css/main.css',
+                    '../irods-cloud-backend/web-app/bower_components/angular-message-center/message-center.css',
+                    '../irods-cloud-backend/web-app/bower_components/codemirror/lib/codemirror.css',
+                ])
+                    .pipe(concat('allBower.css'))
+                    .pipe(gulp.dest('../irods-cloud-backend/web-app/css/'));
+            }, 1000);
+        },2000);
+        
         setTimeout(function(){
-             gulp.src("../irods-cloud-backend/irods-cloud.war")
-                .pipe(gulp.dest('../build/'));
-            gutil.log("Build complete");
-            gutil.log("irods-cloud.war is located in /build/ directory.");
-        },5000);
-    },10000);
+            gulp.src("../irods-cloud-backend").pipe(shell([
+                'grails war irods-cloud.war'
+            ],{
+                cwd: '../irods-cloud-backend/'
+            }));
+
+            // shell.task([
+            //     'grails war irods-cloud.war'
+            // ],{
+            //     cwd: '../irods-cloud-backend/'
+            // });
+
+            setTimeout(function(){
+                 gulp.src("../irods-cloud-backend/irods-cloud.war")
+                    .pipe(gulp.dest('../build/'));
+                gutil.log("Build complete");
+                gutil.log("irods-cloud.war is located in /build/ directory.");
+            },5000);
+        },10000);
+    }catch(e){
+        gutil.log("I caught the error: " + e.message);
+    }
+    
 });
 
 

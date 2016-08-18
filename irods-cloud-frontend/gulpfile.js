@@ -300,7 +300,7 @@ gulp.task('gen-war', function(){
         
         setTimeout(function(){
             gulp.src("../irods-cloud-backend").pipe(shell([
-                'grails war irods-cloud.war'
+                'grails war irods-cloud-backend.war'
             ],{
                 cwd: '../irods-cloud-backend/'
             }));
@@ -344,11 +344,11 @@ gulp.task('gen-zip', function(){
     ], {force:true});
 
     setTimeout(function(){
-        shell.task([
+        gulp.src("../irods-cloud-backend").pipe(shell([
             'grails war irods-cloud-empty.war'
         ],{
             cwd: '../irods-cloud-backend/'
-        });
+        }));
 
         setTimeout(function(){
              gulp.src("../irods-cloud-backend/irods-cloud-backend.war")

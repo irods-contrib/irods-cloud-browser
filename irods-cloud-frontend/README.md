@@ -59,6 +59,12 @@ You are not using grails version 2.5.0. To use, run "$gvm use grails 2.5.0"
 The globals.js file is pointing to port 8080 when you're trying to deploy the .war or not pointing to port 8080 when you are running locally. See host locally for more details.
 
 
+# Additional Tests
+
+Tests are written in Java using the Selenium framework (http://www.seleniumhq.org/docs/). The current tests are located in the /tests/ directory, the source is in the .java files. To run the tests, compile the .java files with $javac, and run the .jar files that are given as an output of the compiliation. 
+
+To add the addtional tests to the automation process, add the shell commands to the "runTest" task in gulpfile.js (/irods-cloud-frontend), in the same way as the current tests are kept in that task.
+
 
 # angular-seed — the seed for AngularJS apps
 

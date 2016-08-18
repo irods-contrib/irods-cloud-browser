@@ -26,8 +26,11 @@ var rename = require("gulp-rename");
 // *  GULP TASK *
 // **************
 gulp.task('default', function () {
+    gutil.log("");
     gutil.log("Gulp is working!");
     gutil.log("$ gulp help for list of commands");
+    gutil.log("");
+    gutil.log("");
 });
 
 
@@ -35,7 +38,10 @@ gulp.task('default', function () {
 // *  HELP TASK *
 // **************
 gulp.task('help', function(){
+    gutil.log("");
+    gutil.log("");
     gutil.log("$ gulp...");
+    gutil.log("");
     gutil.log("backend-clean........cleans backend web-app directory.");
     gutil.log("backend-build........builds backend web-app directory.");
     gutil.log("backend-sync.........listens for frontend changes and syncs with backend web-app directory.");
@@ -43,10 +49,14 @@ gulp.task('help', function(){
     gutil.log("gen-zip..............generates zip from frontend app directory.");
     gutil.log("concatCSS............concatinates all CSS files to all.css in the frontend app directory.");
     gutil.log("minifyCSS............minifies all.css file as all.min.css in frontend app directory.");
-    gutil.log("localhost............runs project locally on port 8080.")
+    gutil.log("localhost............runs project locally on port 8080.");
+    gutil.log("runTest..............runs Selenium tests. Ensure that project is already hosted locally on port 8080.");
     // gutil.log("concatJS.............concatinates all JS files to all.js in the frontend app directory.");
     // gutil.log("minifyJS.............minifies all.js file as all.min.js in the frontend app directory.");
     // gutil.log("validateJS...........validates all.js file.");
+    gutil.log("");
+    gutil.log("");
+    gutil.log("");
 });
 
 
@@ -384,7 +394,9 @@ gulp.task('minifyCSS', function(){
 // *  LOCALLY   *
 // **************
 gulp.task('localhost', function(){
-    gutil.log("If not working properly, make sure to change globals.js (in components directory) to call port 8080 on line 17.")
+    gutil.log("");
+    gutil.log("If not working properly, make sure to change globals.js (in components directory) to call port 8080 on line 17.");
+    gutil.log("");
     gulp.src("")
         .pipe(shell([
             'grails run-app'
@@ -398,6 +410,7 @@ gulp.task('localhost', function(){
 // *  RUN TESTS *
 // **************
 gulp.task('runTest', function(){
+    gutil.log("ensure that you are running the project locally on port 8080. If not call $gulp localhost.");
     gulp.src("")
         .pipe(shell([
             'grails run-app'
@@ -405,6 +418,9 @@ gulp.task('runTest', function(){
             cwd:'../irods-cloud-backend'
         }));
 
+    gutil.log("");
+    gutil.log("");
+    gutil.log("");
     setTimeout(function(){
         gulp.src("")
             .pipe(shell([
@@ -412,11 +428,41 @@ gulp.task('runTest', function(){
             ],{
                 cwd:'../test'
             }));
+            gutil.log("");
+            gutil.log("");
+            gutil.log("");
+            setTimeout(function(){
+                gulp.src("").pipe(shell([
+                    'java -jar selTest2.jar'
+                ],{
+                    cwd:'../test'
+                }));
+                gutil.log("");
+                gutil.log("");
+                gutil.log("");
+                setTimeout(function(){
+                   gulp.src("").pipe(shell([
+                        'java -jar selTest3.jar'
+                    ],{
+                        cwd:'../test'
+                    }));
+                   gutil.log("");
+                   gutil.log("");
+                   gutil.log("");
+                    setTimeout(function(){
+                        gulp.src("").pipe(shell([
+                            'java -jar selTest4.jar'
+                        ],{
+                            cwd:'../test'
+                         }));
+                    }, 30000)
+                }, 30000)
+            }, 30000);
     }, 40000)
     
 
 });
-w
+
 
 
 // **************

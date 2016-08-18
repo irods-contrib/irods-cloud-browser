@@ -312,10 +312,10 @@ gulp.task('gen-war', function(){
             // });
 
             setTimeout(function(){
-                 gulp.src("../irods-cloud-backend/irods-cloud.war")
+                 gulp.src("../irods-cloud-backend/irods-cloud-backend.war")
                     .pipe(gulp.dest('../build/'));
                 gutil.log("Build complete");
-                gutil.log("irods-cloud.war is located in /build/ directory.");
+                gutil.log("war is located in /build/ directory.");
             },5000);
         },10000);
     }catch(e){

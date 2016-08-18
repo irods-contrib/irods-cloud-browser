@@ -49,3 +49,4 @@ irods-cloud-frontend/bower_components/
 **/.Servers
 **/.idea
 *.iml
+**.build

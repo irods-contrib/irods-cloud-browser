@@ -47,3 +47,6 @@ irods-cloud-frontend/bower_components/
 **/target-eclipse
 **/.metadata
 **/.Servers
+**/.idea
+*.iml
+**.build

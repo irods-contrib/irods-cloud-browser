@@ -1,3 +1,71 @@
+# Gulp Build Automation
+
+## Before starting, you must have Grails version 2.5.0 installed. Can be downloaded: https://grails.org/download.html
+If a later version of grails is installed, you must run $gvm use grails 2.5.0 first to use grails v2.5.0.
+
+Gulp is a build tool, built on NodeJS. 
+To use gulp, open up a terminal window, navigate to irods-cloud-frontend.
+    $gulp [task name]
+The tasks are as follows:
+
+### default
+    $gulp
+Tests if gulp is working properly.
+
+### backend-clean
+    $gulp backend-clean
+Cleans the backend build directory (irods-cloud-backend/web-app).
+
+### backend-build
+    $gulp backend-build
+Builds the back-end build directory from the files in the front end developing directory (irods-cloud-frontend/app). JS & CSS files are concatanated and minified. After, a .WAR file is created and saved in the /build directory.
+
+### backend-sync
+    $gulp backend-sync
+Syncs the backend-build directory with the front-end developing directory. To use, run the gulp task before edits are made. As an edit is made to a file in the front-end directory, the files will be concatinated, minfied, and sent to the back-end build directory.
+
+### gen-war
+    $gulp gen-war
+Generates a .war file (irods-cloud.war) of the entire project that can be deployed on a web server. The generated .war file will be located in the /build directory.
+
+### gen-zip
+    $gulp gen-zip
+Generates a zipped file (frontEnd.zip) of all of the front-end files (irods-cloud-frontend/app) and saves it in the /build directory as well as a .war (irods-cloud-backend.war) of the necessary backend files. All generated files will be in /build directory.
+
+### concatCSS
+    $gulp concatCSS
+Concatinates all CSS files to a all.css file, which is saved at irods-cloud-frontend/dist/css
+
+### minifyCSS
+    $gulp minifyCSS
+Minfies CSS file that was created in concatCSS. Saved as all.min.css in irods-cloud-frontend/dist/css.
+
+
+### Host locally
+First, open the globals.js file, located at irods-cloud-frontend/app/components/. Change line 17, 
+"var HOST = "http://"+location.hostname+"/irods-cloud-backend/";"
+to 
+"var HOST = "http://"+location.hostname+":8080/irods-cloud-backend/";"
+This ensures that the app can contact the right backend-files via port 8080.
+After this has been changed, cd to /irods-cloud-frontend/ and run $gulp backend-clean, followed by $gulp backend-build.
+Now you can cd to /irods-cloud-backend/ and run 
+    $gvm use grails 2.5.0
+    $grails run-app
+The app will be hosted from the localhost at port 8080.
+
+### Common errors with generating .war:
+Grails is installed improperly.
+You are not using grails version 2.5.0. To use, run "$gvm use grails 2.5.0"
+The globals.js file is pointing to port 8080 when you're trying to deploy the .war or not pointing to port 8080 when you are running locally. See host locally for more details.
+
+
+# Additional Tests
+
+Tests are written in Java using the Selenium framework (http://www.seleniumhq.org/docs/). The current tests are located in the /tests/ directory, the source is in the .java files. To run the tests, compile the .java files with $javac, and run the .jar files that are given as an output of the compiliation. 
+
+To add the addtional tests to the automation process, add the shell commands to the "runTest" task in gulpfile.js (/irods-cloud-frontend), in the same way as the current tests are kept in that task.
+
+
 # angular-seed — the seed for AngularJS apps
 
 This project is an application skeleton for a typical [AngularJS](http://angularjs.org/) web app.

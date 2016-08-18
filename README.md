@@ -2,9 +2,9 @@
 
 #### Release - https://github.com/DICE-UNC/irods-cloud-browser/releases
 
-### Date: 06/30/16
-### Release Version: 1.0.1
-### git tag: 1.0.1-RELEASE
+### Date: 08/18/2016
+### Release Version: 1.0.2.0-Beta1
+### git tag: 1.0.2.0-Beta1
 #### Developer: Mike Conway - DICE, Cesar Garde - iRODS
 
 The iRODS Cloud Browser allows simple, browser based access to any iRODS grid.  This browser is based on the following components:
@@ -17,11 +17,19 @@ See the INSTALL.md for install instructions
 
 https://github.com/DICE-UNC/irods-cloud-browser
 
+This beta release includes new packaging and initial gulp automation including single war build and Selenium testing for milestone:
+
+https://github.com/DICE-UNC/irods-cloud-browser/milestone/6
+
 ## Requirements
 
 * The backend depends on Java 1.7+ and Tomcat7
 * The backend deploys as a .war file
 * The frontend is a pure html/javascript package that is served out of Apache HTTP or similar server
+
+## Build Automation
+
+Visit irod-cloud-browser/irod-cloud-frontend README.md for further details.
 
 ## New Features
 
@@ -34,5 +42,18 @@ https://github.com/DICE-UNC/irods-cloud-browser
 
 ## Changes
 
-* All icon images have been replaced with a vector based font (font awesome library), making theming really fast and easy
+### Build automation via gulp, cleanup vendor dependencies and migrate to bower and npm #2
 
+Clean up build processes and have a more standard, automated development/deployment workflow using Gulp.  This includes asset prep and validation, running tests with Karma, and Selenium automated functional testing.
+
+### Add selenium test automation to CI #114
+
+Initial provisioning and basic Selenium testing to be expanded in later releases. Incorporated a runTest Gulp task
+
+### minify css assets #18
+
+Added guilp CSS concatenation and minification.  Added W3C validation to automation.
+
+### Install notes #124
+
+Added enhanced build procedures and install notes

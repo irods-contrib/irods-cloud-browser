@@ -12,8 +12,8 @@
 							class="fa fa-search folder_listing"></i><span>{{virtualCollection.description}}</span></span>
 				</li> -->
 				<li class="light_back_option permanent_folder" ng-class="selectedVc.data.uniqueName == virtualCollection.uniqueName ? 'selected' : '' " ng-repeat="virtualCollection in virtualCollections.userHomeCollections" ng-click="selectVirtualCollection(virtualCollection.uniqueName, '')" id="{{virtualCollection.uniqueName}}">
-					<span id="{{virtualCollection.description}}" ng-show="virtualCollection.queryString == undefined"><i class="fa fa-{{virtualCollection.i18icon|iconic}} folder_listing"></i><span>{{virtualCollection.uniqueName}}</span></span>
-					<span context-menu data-target="my_folders_menu" id="{{virtualCollection.description}}" ng-show="virtualCollection.queryString != undefined"><i class="fa fa-search folder_listing"></i><span>{{virtualCollection.description}}</span></span>
+					<span ng-show="virtualCollection.queryString == undefined"><i class="fa fa-{{virtualCollection.i18icon|iconic}} folder_listing"></i><span>{{virtualCollection.uniqueName}}</span></span>
+					<span context-menu data-target="my_folders_menu" ng-show="virtualCollection.queryString != undefined"><i class="fa fa-search folder_listing"></i><span>{{virtualCollection.description}}</span></span>
 				</li>
 			</ul>
 			<br>

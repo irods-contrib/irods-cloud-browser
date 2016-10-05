@@ -28,8 +28,8 @@ gulp.task('distToWar', ['dist'], function () {
         .pipe(gulp.dest('../irods-cloud-backend/web-app'));
 });
 
-gulp.task('clean', function(cb) {
-    del(['./dist'], cb);
+gulp.task('clean', function() {
+    del(['./dist']);
 });
 
 /**

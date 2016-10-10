@@ -1,6 +1,7 @@
 package org.irods.jargon.idrop.web.controllers
 
 import grails.converters.JSON
+import grails.rest.RestfulController
 
 import org.irods.jargon.core.pub.IRODSAccessObjectFactory
 import org.irods.jargon.core.pub.domain.AvuData
@@ -13,7 +14,7 @@ import org.irods.jargon.idrop.web.services.MetadataService
  * @author Mike Conway - DICE
  *
  */
-class MetadataController {
+class MetadataController extends RestfulController  {
 
 	static responseFormats = ['json']
 	IRODSAccessObjectFactory irodsAccessObjectFactory

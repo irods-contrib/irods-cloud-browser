@@ -127,6 +127,15 @@ beconf.login.preset.port=1247
 beconf.login.preset.zone=''
 beconf.login.preset.auth.type='STANDARD'
 beconf.login.preset.enabled=false
+beconf.login.shib.user_attribute=''
+beconf.login.shib.admin_user=''
+beconf.login.shib.admin_password=''
+beconf.login.shib.logout_url=''
+beconf.login.shib.group_attribute=''
+beconf.login.shib.group_delimiter=''
+beconf.login.shib.required_group=''
+beconf.login.shib.group_mapping=''
+
 // cors plugin config see https://github.com/davidtinker/grails-cors
 
 //cors config.
@@ -147,16 +156,18 @@ cors.headers=[
 log4j.main = {
 	// Example of changing the log pattern for the default console appender:
 	//
-	//appenders {
-	//    console name:'stdout', layout:pattern(conversionPattern: '%c{2} %m%n')
-	//}
+	appenders {
+	    console name:'stdout', layout:pattern(conversionPattern: '%c{2} %m%n')
+	}
 
 	info	'org',
 			'org.codehaus.groovy.grails.web.servlet',
 			'org.irods',
-			'org.irods.jargon.idrop.web.controllers'
+			'org.irods.jargon.idrop.web.controllers',
+            'grails.app'
 
 	debug "org.irods.jargon"
+            
 
 	error  'org.codehaus.groovy.grails.web.servlet',        // controllers
 			'org.codehaus.groovy.grails.web.pages',          // GSP

@@ -25,6 +25,7 @@ class InitialConfController extends RestfulController {
 		genBackendConfig.presetHost = grailsApplication.config.beconf.login.preset.host
 		genBackendConfig.presetPort = grailsApplication.config.beconf.login.preset.port
 		genBackendConfig.presetZone = grailsApplication.config.beconf.login.preset.zone
+        genBackendConfig.shibLogoutUrl = grailsApplication.config.beconf.login.shib.logout_url
 
 		render genBackendConfig as JSON
 	}

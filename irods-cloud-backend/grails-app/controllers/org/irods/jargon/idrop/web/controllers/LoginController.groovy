@@ -100,7 +100,7 @@ class LoginController extends RestfulController {
 		IRODSServerProperties irodsServerProperties = environmentServicesService.getIrodsServerProperties(irodsAccount)
 
 		userSessionContext.defaultStorageResource = irodsAccount.defaultStorageResource
-		userSessionContext.serverVersion = irodsServerProperties.relVersion
+		userSessionContext.serverVersion = irodsServerProperties.irodsVersion.origVersion
 		render userSessionContext as JSON
 	}
 }

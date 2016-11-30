@@ -57,20 +57,20 @@ grails.project.dependency.resolution = {
 		//test "org.grails:grails-datastore-test-support:1.0.2-grails-2.4"
 		compile 'commons-io:commons-io:2.1'
 		compile 'junit:junit:4.12'
-		compile ('org.irods.jargon:jargon-core:4.0.3.1-SNAPSHOT') { excludes ([group:'org.jglobus'])}
-		compile ('org.irods.jargon:jargon-data-utils:4.0.3.1-SNAPSHOT')  { excludes ([group:'org.jglobus'])}
-		compile ('org.irods.jargon:jargon-ticket:4.0.3.1-SNAPSHOT')   { excludes ([group:'org.jglobus'])}
-		compile ('org.irods.jargon:jargon-user-profile:4.0.3.1-SNAPSHOT')  { excludes ([group:'org.jglobus'])}
-		compile ('org.irods.jargon:jargon-user-tagging:4.0.3.1-SNAPSHOT')  { excludes ([group:'org.jglobus'])}
-		compile ('org.irods.jargon:virtual-collections:4.0.3.1-SNAPSHOT')  { excludes ([group:'org.jglobus'])}
-		compile ('org.irods.jargon:jargon-extensions-if:4.0.3.1-SNAPSHOT')  { }
-		compile ('org.irods.jargon:file-template:4.0.3.1-SNAPSHOT')  { }
-		compile ('org.irods.jargon:jargon-ruleservice:4.0.3.1-SNAPSHOT')  { }
-		compile ('org.irods.jargon:dot-irods-utilities:4.0.3.1-SNAPSHOT')  { excludes ([group:'org.jglobus'])}
-		compile ('org.irods.jargon:data-profile:4.0.3.1-SNAPSHOT')  { excludes ([group:'org.jglobus'])}
-		compile ('org.irods.jargon:jargon-mdquery:4.0.3.1-SNAPSHOT') { excludes ([group:'org.jglobus'])}
+		compile ('org.irods.jargon:jargon-core:4.2.1.0-SNAPSHOT') { excludes ([group:'org.jglobus'])}
+		compile ('org.irods.jargon:jargon-data-utils:4.2.1.0-SNAPSHOT')  { excludes ([group:'org.jglobus'])}
+		compile ('org.irods.jargon:jargon-ticket:4.2.1.0-SNAPSHOT')   { excludes ([group:'org.jglobus'])}
+		compile ('org.irods.jargon:jargon-user-profile:4.2.1.0-SNAPSHOT')  { excludes ([group:'org.jglobus'])}
+		compile ('org.irods.jargon:jargon-user-tagging:4.2.1.0-SNAPSHOT')  { excludes ([group:'org.jglobus'])}
+		compile ('org.irods.jargon:virtual-collections:4.2.1.0-SNAPSHOT')  { excludes ([group:'org.jglobus'])}
+		compile ('org.irods.jargon:jargon-extensions-if:4.2.1.0-SNAPSHOT')  { }
+		compile ('org.irods.jargon:file-template:4.2.1.0-SNAPSHOT')  { }
+		compile ('org.irods.jargon:jargon-ruleservice:4.2.1.0-SNAPSHOT')  { }
+		compile ('org.irods.jargon:dot-irods-utilities:4.2.1.0-SNAPSHOT')  { excludes ([group:'org.jglobus'])}
+		compile ('org.irods.jargon:data-profile:4.2.1.0-SNAPSHOT')  { excludes ([group:'org.jglobus'])}
+		compile ('org.irods.jargon:jargon-mdquery:4.2.1.0-SNAPSHOT') { excludes ([group:'org.jglobus'])}
 
-		compile 'org.irods.jargon:jargon-zipservice:4.0.3.1-SNAPSHOT'
+		compile 'org.irods.jargon:jargon-zipservice:4.2.1.0-SNAPSHOT'
 		runtime 'org.springframework:spring-expression:4.1.6.RELEASE'
 		runtime 'org.springframework:spring-aop:4.1.6.RELEASE'
 		test ('org.mockito:mockito-all:1.9.5')

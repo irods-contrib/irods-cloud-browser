@@ -5,9 +5,6 @@ beans = {
 
 	loginController(org.irods.jargon.idrop.web.controllers.LoginController) { irodsAccessObjectFactory = ref("irodsAccessObjectFactory") }
 
-
-
-
 	/*
 	 * Services
 	 */
@@ -23,4 +20,5 @@ beans = {
 		maxTotalBytesForZip = 1 * 1024 * 1024 * 1024
 
 	}
+
 }

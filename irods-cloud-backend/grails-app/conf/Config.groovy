@@ -127,6 +127,8 @@ beconf.login.preset.port=1247
 beconf.login.preset.zone=''
 beconf.login.preset.auth.type='STANDARD'
 beconf.login.preset.enabled=false
+// SSL negotiation policy for secure iRODS connections
+beconf.negotiation.policy='NO_NEGOTIATION' // NO_NEGOTIATION, CS_NEG_REFUSE, CS_NEG_REQ, CS_NEG_DONT_CARE
 // cors plugin config see https://github.com/davidtinker/grails-cors
 
 //cors config.

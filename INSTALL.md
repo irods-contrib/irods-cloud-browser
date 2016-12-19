@@ -243,9 +243,9 @@ The HOST variable needs to be set to the http address of the back end. In step 3
  
 ## 8 Optionally configure browser presets - locking the site down to just one Zone
 
-Adding the irods-cloud-backend-config.groovy file to your /etc directory on the server where the irods-cloud-backend .war  is running allows limiting of the login page to a preset host/port/zone, presenting only a user and password.  If this file is not present, or the beconf.login.preset.enabled=false is set, than the login form will allow logging in to any iRODS grid.
+Adding the irods-cloud-backend-config.groovy file to your /etc/irods-ext directory on the server where the irods-cloud-backend.war  is running allows limiting of the login page to a preset host/port/zone, presenting only a user and password.  If this file is not present, or the beconf.login.preset.enabled=false is set, than the login form will allow logging in to any iRODS grid.
 
-Place that file in the /etc directory, ensuring that the Tomcat service can read it, and fill in the preset data, setting beconf.login.preset.enabled-true
+Place that file in the /etc/irods-ext directory, ensuring that the Tomcat service can read it, and fill in the preset data, setting beconf.login.preset.enabled-true
 
 ```
 /*

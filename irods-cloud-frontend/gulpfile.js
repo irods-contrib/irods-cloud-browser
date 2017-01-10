@@ -107,7 +107,7 @@ gulp.task('backend-build', function(){
             gulp.src([
                 '../irods-cloud-backend/web-app/bower_components/html5-boilerplate/css/normalize.css',
                 '../irods-cloud-backend/web-app/bower_components/html5-boilerplate/css/main.css',
-                '../irods-cloud-backend/web-app/bower_components/angular-message-center/message-center.css',
+                '../irods-cloud-backend/web-app/bower_components/angular-message-center/dist/message-center.css',
                 '../irods-cloud-backend/web-app/bower_components/codemirror/lib/codemirror.css',
             ])
                 .pipe(concat('allBower.css'))

@@ -3,8 +3,8 @@ grails.project.class.dir = "target/classes"
 grails.project.test.class.dir = "target/test-classes"
 grails.project.test.reports.dir = "target/test-reports"
 grails.project.work.dir = "target/work"
-grails.project.target.level = 1.7
-grails.project.source.level = 1.7
+grails.project.target.level = 1.8
+grails.project.source.level = 1.8
 //grails.project.war.file = "target/${appName}-${appVersion}.war"
 
 grails.project.fork = [
@@ -27,6 +27,7 @@ grails.project.dependency.resolution = {
 	inherits("global") {
 		// specify dependency exclusions here; for example, uncomment this to disable ehcache:
 		// excludes 'ehcache'
+
 	}
 	log "info" // log level of Ivy resolver, either 'error', 'warn', 'info', 'debug' or 'verbose'
 	checksums false // Whether to verify checksums on resolve
@@ -75,8 +76,8 @@ grails.project.dependency.resolution = {
 		runtime 'org.springframework:spring-aop:4.1.6.RELEASE'
 		test ('org.mockito:mockito-all:1.9.5')
 		//provided 'javax.servlet:servlet-api:2.5'
-
-		compile( group: 'log4j', name: 'log4j', version: '1.2.16', export: false )
+		compile group: 'org.slf4j', name: 'slf4j-api', version: '1.7.22'
+		//compile( group: 'log4j', name: 'log4j', version: '1.2.16', export: false )
 	}
 
 	plugins {

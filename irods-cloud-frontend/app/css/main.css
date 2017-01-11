@@ -44,7 +44,7 @@ body{
 /* ||||||||||||||||||||||||||||||||||| */
 /*edit7*/
 .powered_by{
-	position: static;
+	position: absolute;
 	z-index: 12;
 	bottom: 0px;
 	right: 0px;

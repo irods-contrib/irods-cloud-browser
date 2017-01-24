@@ -118,7 +118,7 @@ class LoginCommand {
 
 	static constraints = {
 		userName(blank: false)
-		password(blank: false)
+		//password(blank: false)
 		defaultStorageResource(nullable:true)
 		authType(blank: false)
 	}

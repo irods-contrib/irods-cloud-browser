@@ -57,3 +57,7 @@ Added guilp CSS concatenation and minification.  Added W3C validation to automat
 ### Install notes #124
 
 Added enhanced build procedures and install notes
+
+### Add Docker deploy
+
+Added a Dockerfile for containerized deployment

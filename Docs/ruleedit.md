@@ -11,11 +11,11 @@ In order to edit a rule, one may browse to an existing rule file, having a .r ex
 
 If one of the rule files is selected (you can double click), it takes you to the home page for the data object.  As shown below, the actions button for the rule should reveal the edit option, select this option to bring up the rule editor.
 
-add ruleedit.phg
+![edit a rule](https://github.com/DICE-UNC/irods-cloud-browser/blob/master/Docs/Images/ruleedit.png?raw=true)
 
 Alternatively, a new iRODS rule can be created by browsing to a directory, then selecting new file from the button on the top breadcrumbs
 
-add newfile.png
+![add new rule file](https://github.com/DICE-UNC/irods-cloud-browser/blob/master/Docs/Images/newfile.png?raw=true)
 
 In our example, we are editing a rule, copied below,that will check access levels to a given collection and file.
 
@@ -46,11 +46,11 @@ In the editor, you see the rule file on the left hand side, with syntax highligh
 
 At the bottom of the rule, you see input and output parameters.  In this case, we want to edit the INPUT line to point to a Coll and File.  in our case, we'll just check access permissions on the rule we are editing.  So let's go ahead and edit the COLL and FILES on the input line.
 
-editinput.png
+![edit input](https://github.com/DICE-UNC/irods-cloud-browser/blob/master/Docs/Images/editinput.png?raw=true)
 
 Notice that the 'Save Changes' button is now highlighted.  You can edit rules using this editor, and then have those changes save back into iRODS.  You also can hit cancel and return the rule editor to the state of the rule as it was originally stored.  In our case, we don't want to save the rule, rather we want to just run the rule as it is in the editor window, so we can select Run >> on the bottom right.  
 
-result.png
+![result](https://github.com/DICE-UNC/irods-cloud-browser/blob/master/Docs/Images/result.png?raw=true)
 
 You can see that the rule was submitted and run inside iRODS, and the results are placed in the right hand side pane.  
 

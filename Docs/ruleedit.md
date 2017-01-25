@@ -19,9 +19,9 @@ add newfile.png
 
 In our example, we are editing a rule, copied below,that will check access levels to a given collection and file.
 
-```JSON
+```
 
-yTestRule {
+myTestRule {
 #Input parameters are:
 #  Name of object
 #  Access permission that will be checked

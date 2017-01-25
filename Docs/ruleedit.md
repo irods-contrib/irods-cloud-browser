@@ -41,3 +41,17 @@ OUTPUT ruleExecOut
 
 
 ```
+
+In the editor, you see the rule file on the left hand side, with syntax highlighting and the ability to edit.  On the right hand side, you see an output window and buttons to cancel, and to save changes.  Note that save changes is currently disabled.  
+
+At the bottom of the rule, you see input and output parameters.  In this case, we want to edit the INPUT line to point to a Coll and File.  in our case, we'll just check access permissions on the rule we are editing.  So let's go ahead and edit the COLL and FILES on the input line.
+
+editinput.png
+
+Notice that the 'Save Changes' button is now highlighted.  You can edit rules using this editor, and then have those changes save back into iRODS.  You also can hit cancel and return the rule editor to the state of the rule as it was originally stored.  In our case, we don't want to save the rule, rather we want to just run the rule as it is in the editor window, so we can select Run >> on the bottom right.  
+
+result.png
+
+You can see that the rule was submitted and run inside iRODS, and the results are placed in the right hand side pane.  
+
+It's that simple!

@@ -7,7 +7,7 @@ For information on the iRODS Rule Language, a tutorial is available [here](https
 In order to edit a rule, one may browse to an existing rule file, having a .r extension.  In this case the browser is positioned to a set of rules on the lifetime library
 
 
-browse to rules
+![browse to a rule](https://github.com/DICE-UNC/irods-cloud-browser/blob/master/Docs/Images/browsetorules?raw=true)
 
 If one of the rule files is selected (you can double click), it takes you to the home page for the data object.  As shown below, the actions button for the rule should reveal the edit option, select this option to bring up the rule editor.
 

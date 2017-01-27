@@ -50,3 +50,4 @@ irods-cloud-frontend/bower_components/
 **/.idea
 *.iml
 **.build
+**./.slcache

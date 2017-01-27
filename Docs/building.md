@@ -1,15 +1,19 @@
 # Installation of the iRODS Cloud Browser
 
-For version 1.0.2.0-Beta1, there are two methods of installation. The first of which is building an automated .WAR file that can be directly deployed to a tomcat server, the second of which is a manual installation, using the .zip, which is the same as before.
+There are two methods of installation. The first of which is building an automated .WAR file that can be directly deployed 
+to a tomcat server, the second of which is a manual installation, using the .zip, which is the same as before.
+
+# Building Cloud Browser
+
+In most instances, you do not need to build the cloud browser.  Instead, download the all-in-one war file release,
+ready to drop into Tomcat or some other web container.  See the install.md for details.  Alternately, you can run a
+pre-built Docker image. For that option, look at Docker.md
+
 
 # WAR installation
 
 Ensure that you have grails version 2.5.0 on your machine, and that version 2.5.0 is the default version. Grails can be downloaded here: https://grails.org/download.html
 Change directory to /irods-cloud-frontend and run $gulp gen-war. This will generate the .WAR file that contains all of the assets necessary to deploy the project. The file, 'irods-cloud-backend.war' will be located in the /build directory. This file can then be deployed directly onto a tomcat server.
-
-
-
-
 
 # Manual Installation
 

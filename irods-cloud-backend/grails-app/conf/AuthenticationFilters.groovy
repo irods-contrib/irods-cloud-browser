@@ -99,7 +99,7 @@ class AuthenticationFilters {
                         if (requiredGroup != null && !requiredGroup.equals("")) {
                             // There is a required group.  Make sure the group in the attribute matches 
                             // the required group.
-                            def groupListStr = request.getAttribute(groupAttribute);
+                            def groupListStr = request.getAttribute(groupAttribute) == null ? "" : request.getAttribute(groupAttribute);
                             log.info("groupListStr = " + groupListStr)
                             
                             String[] groupList;

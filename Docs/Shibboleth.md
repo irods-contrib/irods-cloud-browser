@@ -4,9 +4,10 @@ The CloudBrowser now supports single sign-out using Shibboleth authentication.
 
 ## Step 1 - Enable Shibboleth on Apache.
 
-The first step in configuring the system where Apache is running to use Shibboleth and enable mod_shib in Apache.  Much of this is outside the scope of this document.  Refer to the following link for information on enabling Shibboleth and mod_shib. 
+The first step is configuring the system where Apache is running to use Shibboleth and enable mod_shib in Apache.  Much of this is outside the scope of this document.  Refer to the following link for information on enabling Shibboleth and mod_shib. 
 
-[shibboleth information](https://wiki.shibboleth.net/confluence/display/SHIB2/NativeSPApacheConfig)
+[Shibboleth Installation](https://wiki.shibboleth.net/confluence/display/SHIB2/NativeSPLinuxInstall)
+[Shibboleth Apache Configuration](https://wiki.shibboleth.net/confluence/display/SHIB2/NativeSPApacheConfig)
 
 Also refer to your IDP documentation on the exact configuration steps.
 

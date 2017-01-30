@@ -27,13 +27,13 @@ There are several additional parameters that may be used when Shibboleth is enab
 
 * beconf.login.shib.user_re - optional - A regular expression used to parse out the iRODS user name from the value returned in **beconf.login.shib.user_attribute**.  The user name will be replaced by the matched string within the parenthesis.  (See example below.)  If no adjustment to the user name is required then this attribute is not required.  
 
->> For example, if the header returned from Shibboleth for the user is *eppn: user1@company* and the iRODS user name is "user1" then the following attributes will allow the CloudBrowser to parse out the correct user name:
->>
->> beconf.login.shib.user_attribute='eppn'
->>
->> beconf.login.shib.user_re='([^@]*)@.*'
->>
->> The regular expression tells the code to extract the part before the '@' sign and replace the user name with this. 
+> For example, if the header returned from Shibboleth for the user is *eppn: user1@company* and the iRODS user name is "user1" then the following attributes will allow the CloudBrowser to parse out the correct user name:
+>
+> beconf.login.shib.user_attribute='eppn'
+>
+> beconf.login.shib.user_re='([^@]*)@.*'
+>
+> The regular expression tells the code to extract the part before the '@' sign and replace the user name with this. 
 
 * beconf.login.shib.admin_user - required - Identifies the rodsadmin user that the CloudBrowser uses to access the system.  The CloudBrowser initially logs in as the administrative user and then proxies to the user identified by user_attribute.
 
@@ -45,7 +45,7 @@ There are several additional parameters that may be used when Shibboleth is enab
 beconf.login.shib.logout_url='https://server.example.org/Shibboleth.sso/Logout?return=https://idp.example.org/cgi-bin/logout.pl?logoutWithoutPrompt=1'
 ```
 
->> In the above case, the logout button triggers the Shibboleth.sso logout to be executed in Apache and then the application returns to the IDP login screen.
+> In the above case, the logout button triggers the Shibboleth.sso logout to be executed in Apache and then the application returns to the IDP login screen.
 
 
 When Shibboleth is enabled, the CloudBrowser also supports Grouper.  This allows the IDP to control the iRODS groups that a user belongs.  The following attributes enable Grouper functionality.

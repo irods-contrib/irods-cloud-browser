@@ -33,7 +33,7 @@ There are several additional parameters that may be used when Shibboleth is enab
 
 *beconf.login.shib.user_re='([^@]*)@.*'*
 
-*The regular expression tells the code to extract the part before the '@' sign and replace the user name with this.*
+*The regular expression tells the code to extract the user the part before the @ sign as the iRODS user name.*
 
 * beconf.login.shib.admin_user - required - Identifies the rodsadmin user that the CloudBrowser uses to access the system.  The CloudBrowser initially logs in as the administrative user and then proxies to the user identified by user_attribute.
 
@@ -52,7 +52,7 @@ When Shibboleth is enabled, the CloudBrowser also supports Grouper.  This allows
 
 * beconf.login.shib.group_attribute - Identifies the header returned that contains the group information for the user. 
 * beconf.login.shib.group_delimiter - Identifies the delimiter used to parse out a list of groups from **group_attribute**. 
-* beconf.login.shib.required_group - Identifies the group that is required to gain access to iRODS.  If the group is not in the list, an access denies message is returned when the user attempts to access the system. 
+* beconf.login.shib.required_group - Identifies the group that is required to gain access to iRODS.  If the group is not in the list, an access denied message is returned when the user attempts to access the system. 
 * beconf.login.shib.group_mapping - This is parameter that maps the Grouper groups to iRODS groups.  This can be either a one-to-one mapping or a many-to-one mapping.  A vertical bar (pipe) is used to separate group mappings and a semicolon is used between Grouper groups when multiple grops are required to map to one iRODS group.  The following is an example:
 
 ``` 

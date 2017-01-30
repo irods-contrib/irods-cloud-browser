@@ -110,6 +110,25 @@ angular.module('globalsModule', [])
             });
         };
 
+        /* |||||||||||||||||||||||||||||||||||||||||||||||||| */
+        /* ||||||||||| LOGOUT FUNC for Shibboleth. |||||||||| */
+        /* |||||||||||||||||||||||||||||||||||||||||||||||||| */
+        $rootScope.logout_func_shib = function (logout_url) {
+            var $http;
+            if (!$http) { $http = $injector.get('$http'); }
+            return $http({
+                method: 'POST',
+                url: f.backendUrl('logout')
+            }).then(function () {
+                // The then function here is an opportunity to modify the response
+                // The return value gets picked up by the then in the controller.
+                //setTimeout(function () {
+                location.assign(logout_url);
+                //}, 0);
+            });
+        };
+
+
         /* ||||||||||||||||||||||||||||||||||| */
         /* |||||| BROWSER ACTION TRIGGER ||||| */
         /* ||||||||||||||||||||||||||||||||||| */

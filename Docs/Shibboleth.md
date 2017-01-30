@@ -30,6 +30,7 @@ There are several additional parameters that may be used when Shibboleth is enab
 *For example, if the header returned from Shibboleth for the user is *eppn: user1@company* and the iRODS user name is "user1" then the following attributes will allow the CloudBrowser to parse out the correct user name:*
 
 *beconf.login.shib.user_attribute='eppn'*
+
 *beconf.login.shib.user_re='([^@]*)@.*'*
 
 *The regular expression tells the code to extract the part before the '@' sign and replace the user name with this.*

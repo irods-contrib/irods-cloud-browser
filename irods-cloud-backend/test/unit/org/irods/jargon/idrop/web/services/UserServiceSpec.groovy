@@ -9,8 +9,6 @@ import org.irods.jargon.core.connection.auth.AuthResponse
 import org.irods.jargon.core.pub.EnvironmentalInfoAO
 import org.irods.jargon.core.pub.IRODSAccessObjectFactory
 import org.junit.Before
-import org.irods.jargon.idrop.web.services.UserService
-import org.irods.jargon.idrop.web.services.EnvironmentServicesService
 
 
 /**
@@ -25,13 +23,13 @@ class UserServiceSpec {
 	}
 
 	void testGetLoggedIdentity() {
-		IRODSServerProperties irodsServerProperties = IRODSServerProperties.instance(IRODSServerProperties.IcatEnabled.ICAT_ENABLED, 100, "v1", "api1", "zone")
+		IRODSServerProperties irodsServerProperties = IRODSServerProperties.instance(IRODSServerProperties.IcatEnabled.ICAT_ENABLED, 1000, "rods4.1.10", "api1", "zone")
 		def environmentalInfoAO = mockFor(EnvironmentalInfoAO)
-		environmentalInfoAO.demand.getIRODSServerProperties {irodsAccount -> return irodsServerProperties}
+		environmentalInfoAO.demand.getIRODSServerProperties { irodsAccount -> return irodsServerProperties }
 		def envMock = environmentalInfoAO.createMock()
 
 		def irodsAccessObjectFactory = mockFor(IRODSAccessObjectFactory)
-		irodsAccessObjectFactory.demand.getEnvironmentalInfoAO{irodsAccount -> return envMock}
+		irodsAccessObjectFactory.demand.getEnvironmentalInfoAO{ irodsAccount -> return envMock }
 		def iafMock = irodsAccessObjectFactory.createMock()
 		EnvironmentServicesService envSvc = new EnvironmentServicesService()
 		envSvc.irodsAccessObjectFactory = iafMock

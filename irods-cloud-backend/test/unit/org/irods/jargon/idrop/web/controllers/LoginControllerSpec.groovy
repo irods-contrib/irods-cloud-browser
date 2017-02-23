@@ -69,7 +69,7 @@ class LoginControllerSpec extends Specification  {
 
 		controller.authenticationService = authMock.createMock()
 
-		IRODSServerProperties irodsServerProperties = IRODSServerProperties.instance(IRODSServerProperties.IcatEnabled.ICAT_ENABLED, 100, "v1", "api1", "zone")
+		IRODSServerProperties irodsServerProperties = IRODSServerProperties.instance(IRODSServerProperties.IcatEnabled.ICAT_ENABLED, 1000, "rods4.1.10", "api1", "zone")
 
 		def envMock = mockFor(EnvironmentServicesService)
 		envMock.demand.getIrodsServerProperties { irodsAccount -> return irodsServerProperties}
@@ -90,7 +90,8 @@ class LoginControllerSpec extends Specification  {
 		controller.response.status == 200
 		controller.session.authenticationSession != null
 		log.info("response:${response.text}")
-		assert '{"defaultStorageResource":"","serverVersion":"v1","userName":"xxx","zone":"xxx"}' == response.text
+		assert '{"defaultStorageResource":"","serverVersion":"4.1.10","userName":"xxx","zone":"xxx"}' == response.text
+
 	}
 
 	void "test authenticate with a missing user gives validation error"() {

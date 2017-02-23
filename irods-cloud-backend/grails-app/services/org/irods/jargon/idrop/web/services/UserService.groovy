@@ -35,7 +35,7 @@ class UserService {
 		IRODSServerProperties irodsServerProperties = environmentServicesService.getIrodsServerProperties(authResponse.authenticatedIRODSAccount)
 
 		userSessionContext.defaultStorageResource = authResponse.authenticatedIRODSAccount.defaultStorageResource
-		userSessionContext.serverVersion = irodsServerProperties.relVersion
+		userSessionContext.serverVersion = irodsServerProperties.apiVersion
 		return userSessionContext
 	}
 }

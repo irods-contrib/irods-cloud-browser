@@ -7,7 +7,6 @@ import org.irods.jargon.core.connection.IRODSServerProperties
 import org.irods.jargon.core.pub.EnvironmentalInfoAO
 import org.irods.jargon.core.pub.IRODSAccessObjectFactory
 import org.junit.Before
-import org.irods.jargon.idrop.web.services.EnvironmentServicesService
 
 /**
  * See the API for {@link grails.test.mixin.services.ServiceUnitTestMixin} for
@@ -21,7 +20,7 @@ class EnvironmentServicesServiceSpec {
 	}
 
 	void testGetIrodsServerProperties() {
-		IRODSServerProperties irodsServerProperties = IRODSServerProperties.instance(IRODSServerProperties.IcatEnabled.ICAT_ENABLED, 100, "v1", "api1", "zone")
+		IRODSServerProperties irodsServerProperties = IRODSServerProperties.instance(IRODSServerProperties.IcatEnabled.ICAT_ENABLED, 100, "rods4.1.10", "api1", "zone")
 		def environmentalInfoAO = mockFor(EnvironmentalInfoAO)
 		environmentalInfoAO.demand.getIRODSServerProperties {irodsAccount -> return irodsServerProperties}
 		def envMock = environmentalInfoAO.createMock()

@@ -61,3 +61,7 @@ Added enhanced build procedures and install notes
 ### Add Docker deploy
 
 Added a Dockerfile for containerized deployment
+
+### Add basic ACLS #128
+
+Add support for ACL editing

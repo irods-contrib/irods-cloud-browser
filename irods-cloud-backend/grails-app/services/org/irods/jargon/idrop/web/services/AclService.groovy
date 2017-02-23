@@ -18,13 +18,10 @@ class AclService {
 	 * @param userName <code>String</code> with the user name
 	 * @param irodsAbsolutePath  <code>String</code> with the 
 	 * @param irodsAccount {@link IRODSAccount} for the logged in user
-	 * @return <List> of {@link MetaDataAndDomainData}
+	 * @return <List> of {@link UserFilePermission}
 	 */
-	def listUserAcls(String userName, String irodsAbsolutePath, IRODSAccount irodsAccount) {
+	def listUserAcls(String irodsAbsolutePath, IRODSAccount irodsAccount) {
 		log.info("listUserAcls")
-		if (!userName) {
-			throw new IllegalArgumentException("null or empty userName")
-		}
 
 		if (!irodsAbsolutePath) {
 			throw new IllegalArgumentException("null irodsAbsolutePath")
@@ -34,7 +31,6 @@ class AclService {
 			throw new IllegalArgumentException("null irodsAccount")
 		}
 
-		log.info("userName:${userName}")
 		log.info("irodsAbsolutePath:${irodsAbsolutePath}")
 
 		def dataObjectAO = irodsAccessObjectFactory.getDataObjectAO(irodsAccount)
@@ -42,10 +38,10 @@ class AclService {
 		if (objStat.isSomeTypeOfCollection()) {
 			log.info("collection Acls")
 			def collectionAO = irodsAccessObjectFactory.getCollectionAO(irodsAccount)
-			return collectionAO.findMetadataValueForCollectionById(objStat, 0)
+			return collectionAO.listPermissionsForCollection(irodsAbsolutePath)
 		} else {
 			log.info("data object Acls")
-			return dataObjectAO.findMetadataValueForDataObjectById(objStat, 0)
+			return dataObjectAO.listPermissionsForDataObject(irodsAbsolutePath)
 		}
 	}
 }

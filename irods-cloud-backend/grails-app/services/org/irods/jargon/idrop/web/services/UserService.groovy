@@ -38,4 +38,51 @@ class UserService {
 		userSessionContext.serverVersion = irodsServerProperties.apiVersion
 		return userSessionContext
 	}
+
+	/**
+	 * List all the users based on the (optional) search term
+	 * @param userSearchTerm 
+	 * @param irodsAccount
+	 * @return
+	 */
+	def listUsers(userSearchTerm, irodsAccount) {
+
+		log.info("listUsers()")
+
+		if (!userSearchTerm) {
+			userSearchTerm = ""
+		}
+
+		if (!irodsAccount) {
+			throw new IllegalArgumentException("irodsAccount")
+		}
+
+		log.info("userSearchTerm:${userSearchTerm}")
+
+		def userAO = irodsAccessObjectFactory.getUserAO(irodsAccount)
+		return userAO.findUserNameLike(userSearchTerm)
+	}
+
+	/**
+	 * List user groups by search term, blank term lists all
+	 * @param userSearchTerm
+	 * @param irodsAccount
+	 * @return
+	 */
+	def listUserGroups(userSearchTerm, irodsAccount) {
+		log.info("listUserGroups()")
+		if (!userSearchTerm) {
+			userSearchTerm = ""
+		}
+
+		if (!irodsAccount) {
+			throw new IllegalArgumentException("irodsAccount")
+		}
+
+		log.info("userSearchTerm:${userSearchTerm}")
+
+		def userGroupAO = irodsAccessObjectFactory.getUserGroupAO(irodsAccount)
+		return userGroupAO.listUserGroupMembers(userSearchTerm)
+		//return userGroupAO.
+	}
 }

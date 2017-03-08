@@ -28,8 +28,6 @@ class AclControllerSpec extends Specification {
 
 		aclService.demand.listUserAcls { usr,iac -> return listing }
 
-
-
 		controller.aclService = aclService.createMock()
 
 

@@ -139,9 +139,14 @@
 					</div>
 
 					
-					<div class="tab"><h1>Metadata</h1></div>
-					<div class="unactive_tab"><h1>Coming soon ...</h1></div>
-					<div class="listing">
+					<div class="tab metadata_tab" ng-click="show_raw_avu()"><h1>Metadata</h1></div>
+					<div class="unactive_tab acl_tab" ng-click="show_acls()"><h1>Access Control List</h1></div>
+
+					<!-- ////////////////////////////
+					//// METADATA LIST CONTAINER ////
+					//////////////////////////////-->
+
+					<div class="listing metadata_listing">
 						<div class="light_big_header">								
 							<div class="metadata_actions_container">
 								
@@ -174,6 +179,50 @@
 						<ul context-menu data-target="metadata_list_menu" ng-class="{ 'highlight': highlight, 'expanded' : expanded }" class="selectable general_list_item">
 						    <li class="ui-widget-content ui-selectee metadata_item" ng-class-odd="'light_back_option'" ng-class-even="'light_back_option_even'" ng-repeat="avu in available_metadata" on-last-repeat>
 					            <span class="q_column metadata_attribute">{{avu.avuAttribute}}</span><span class="q_column metadata_value">{{avu.avuValue}}</span><span class="q_column metadata_unit">{{avu.avuUnit}}</span>
+						    </li>
+						</ul>
+					</div>
+
+					<!-- ////////////////////////////     
+					/////// ACL LIST CONTAINER //////
+					//////////////////////////////-->
+
+					<div class="listing acl_listing">
+						<div class="light_big_header">								
+							<div class="acl_actions_container">
+								
+								<div class="rename_button" title="Delete selected ACL" ng-click='delete_metadata_pop_up()' > 
+									<i class="fa fa-remove folder_listing"></i><span>&nbsp;Delete</span>	
+								</div>
+								<div class="rename_divider small_vertical_divider"></div>
+								<div class="rename_button" title="Edit selected ACL" ng-click='edit_metadata_pop_up()' > 
+									<i class="fa fa-pencil folder_listing"></i><span>&nbsp;Edit</span>	
+								</div>
+								<div class="rename_divider small_vertical_divider"></div>
+								<div class="visible_button" title="Create a new ACL" ng-click='add_acl_pop_up()' > 
+									<i class="fa fa-plus folder_listing"></i><span>&nbsp;Add</span>	
+								</div>		 							
+															
+							</div> 								
+							
+						</div>
+						<div class="list_header">
+					    	<div class="col-xs-3 list_content">        
+				            	<span><b>User Name</b></span>
+				            </div>
+				            <div class="col-xs-3 list_content ">
+				            	<b>User ID</b>
+				            </div>
+				            <div class="col-xs-3 list_content ">
+				            	<b>User ZONE</b>
+				            </div>
+				            <div class="col-xs-3 list_content ">
+				            	<b>Access Level</b>
+				            </div>
+					    </div>
+						<ul context-menu data-target="acl_list_menu" ng-class="{ 'highlight': highlight, 'expanded' : expanded }" class="selectable general_list_item">
+						    <li class="ui-widget-content ui-selectee acl_item" ng-class-odd="'light_back_option'" ng-class-even="'light_back_option_even'" ng-repeat="acl in listACL" on-last-repeat>
+					            <span class="acl_column acl_user_name">{{acl.userName}}</span><span class="acl_column acl_user_id">{{acl.userId}}</span><span class="acl_column acl_user_zone">{{acl.userZone}}</span><span class="acl_column acl_user_access_level">{{acl.filePermissionEnum.name}}</span>
 						    </li>
 						</ul>
 					</div>

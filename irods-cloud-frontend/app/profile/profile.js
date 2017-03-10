@@ -385,6 +385,30 @@ $routeProvider.when('/profile', {
             };
 
         };
+
+        $scope.hide_tabs = function(){
+            $('.metadata_listing').hide();
+            $('.metadata_tab').removeClass('tab unactive_tab');
+            $('.metadata_tab').addClass('unactive_tab');
+            $('.acl_listing').hide();
+            $('.acl_tab').removeClass('tab unactive_tab');
+            $('.acl_tab').addClass('unactive_tab');
+        }; 
+
+        $scope.show_raw_avu = function(){
+            $scope.hide_tabs();
+            $('.metadata_listing').show();
+            $('.metadata_tab').removeClass('unactive_tab');
+            $('.metadata_tab').addClass('tab');
+        };
+
+        $scope.show_acls = function(){
+            $scope.hide_tabs();
+            $('.acl_listing').show();
+            $('.acl_tab').removeClass('unactive_tab');
+            $('.acl_tab').addClass('tab');
+        };
+
         $(window).keyup(function($event){   
             if($event.keyCode == "13"){         
                 if($scope.pop_up_form === "delete"){
@@ -544,6 +568,7 @@ $routeProvider.when('/profile', {
                 $('.metadata_adder').fadeOut(100);
                 $('.metadata_editor').fadeOut(100);
                 $('.metadata_deleter').fadeOut(100);
+                $('.acl_adder').fadeOut(100);
                 $('.uploader').fadeOut(100);
                 $('.deleter').fadeOut(100);
                 $('.creater').fadeOut(100);
@@ -615,6 +640,20 @@ $routeProvider.when('/profile', {
                     break;
             }
         });
+
+        $scope.getlistACL = function () {            
+            $log.info("getting ACLs");
+            return $http({
+                method: 'GET',
+                url: $globals.backendUrl('acl'),
+                params: {
+                    path: $scope.dataProfile.domainObject.absolutePath
+                }
+            }).success(function(data){
+                $scope.listACL = data;
+            });
+        };
+        $scope.getlistACL();
 
         /*|||||||||||||||||||||||||||||||
         |||||||| METADATA ACTIONS ||||||| 
@@ -754,8 +793,28 @@ $routeProvider.when('/profile', {
         };
 
         /*||||||||||||||||||||||||||||||||||||||
-        |||||||| END OF METADATA ACTIONS ||||||| 
+        ||||||||||||| ACL ACTIONS ||||||||||||||    userSearch?group=false&userName=kel
         ||||||||||||||||||||||||||||||||||||||*/
+        $scope.add_acl_pop_up = function (){
+            $('.pop_up_window').fadeIn(100); 
+            $('.acl_adder').fadeIn(100); 
+        };
+
+        $scope.search_users_or_groups = function () {            
+            $log.info("Searching users or groups");
+            $log.info($('.user_or_group_name').val());
+            $log.info($('#group_search').val());
+            return $http({
+                method: 'GET',
+                url: $globals.backendUrl('userSearch'),
+                params: {
+                    group: $('#group_search').val(),
+                    userName: $('.user_or_group_name').val()                    
+                }
+            }).success(function(data){
+                $scope.listUsersGroups = data;
+            });
+        };
 
         $scope.green_action_toggle= function($event){
           var content = $event.currentTarget.nextElementSibling;

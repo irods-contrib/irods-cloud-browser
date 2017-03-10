@@ -15,14 +15,14 @@ angular.module('globalsModule', [])
          */
 
         /*
-        Single war deployment: */
+        Single war deployment: 
         var HOST = location.protocol+"/irods-cloud-backend/";
-       
+        */
 
         /*
-        LOCAL DEVELOPMENT:
-        var HOST = "http://"+location.hostname+":8080/irods-cloud-backend/";
-        */
+        LOCAL DEVELOPMENT:*/
+        var HOST = "http://localhost:8080/irods-cloud-backend/"; 
+        
 
         f.backendUrl = function (relativeUrl) {
 

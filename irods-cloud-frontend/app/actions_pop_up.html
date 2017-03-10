@@ -416,5 +416,67 @@
         </div>
       </div>
     </div>
+
+    <!-- ////////////////////////////     
+    //////////// ACL ADDER //////////
+    //////////////////////////////-->
+
+    <div class="column_content acl_adder pop_up_content">
+      <div class="light_header"><i class="fa fa-plus folder_listing"></i><span>&nbsp;Adding a New Access Control:</span><i class="fa fa-times-circle fa-lg right" title="close window" ng-click="pop_up_close()"></i></div>
+      
+      <div class="metadata_add_container col-xs-10 col-xs-offset-1">
+        <div class="col-xs-4  text-left">
+          <div class="col-xs-12">
+            <br>
+            <div class="left col-xs-12">
+                <b>1 - Search for a User or a Group</b>
+                <br>
+                <select style="margin: 0px 0px 10px;height: 26px;" id="group_search" >
+                    <option value="false"><b>User</b></option>
+                    <option value="true"><b>Group</b></option>                         
+                </select>
+                <br>
+                <input type="text-area" class="user_or_group_name col-xs-12"/>
+            </div>
+            <div class="right t_right">
+              <br>
+              <div class="btn btn-default" ng-click="search_users_or_groups()">Search</div>
+            </div>
+          </div>
+        </div>
+        <div class="col-xs-8  text-left">
+          <br>
+          <ul class="selectable listing">
+            <li class="ui-widget-content acl_list_item ui-selectee" ng-dblclick="copy_list_refresh(copyVC.data.uniqueName,collectionAndDataObject.formattedAbsolutePath)" ng-class-odd="'light_back_option'" ng-class-even="'light_back_option_even'" ng-repeat="collectionAndDataObject in copy_list.data.collectionAndDataObjectListingEntries" id='{{collectionAndDataObject.formattedAbsolutePath}}' on-last-repeat>
+                  <div class="col-xs-10 col-sm-10 col-md-7 col-lg-7 list_content">
+                    <i class="fa fa-folder folder_listing"></i>        
+                    <span class="collection_object">{{collectionAndDataObject.nodeLabelDisplayValue}}</span>
+                  </div>
+            </li>             
+        </ul>
+        </div>
+
+
+        <ul class="selectable move_listing">
+            <li class="ui-widget-content data_{{collectionAndDataObject.dataObject}} move_list_item ui-selectee" ng-show="{{collectionAndDataObject.dataObject}} == false" ng-dblclick="copy_list_refresh(copyVC.data.uniqueName,collectionAndDataObject.formattedAbsolutePath)" ng-class-odd="'light_back_option'" ng-class-even="'light_back_option_even'" ng-repeat="collectionAndDataObject in copy_list.data.collectionAndDataObjectListingEntries" id='{{collectionAndDataObject.formattedAbsolutePath}}' on-last-repeat>
+                    <div class="col-xs-10 col-sm-10 col-md-7 col-lg-7 list_content">
+                      <i class="fa fa-folder folder_listing"></i>        
+                      <span class="collection_object">{{collectionAndDataObject.nodeLabelDisplayValue}}</span>
+                    </div>
+                    <div class="col-xs-3 list_content text-right">
+                      <p>{{collectionAndDataObject.modifiedAt | date:"short"}}</p>
+                    </div>
+              </li>             
+        </ul>
+        <div class="container"><hr class="hr_flat"></div>
+        <div class="left">
+          <div class="btn btn-default" ng-click="pop_up_close_clear()">Cancel</div>
+        </div>
+        <div class="right t_right">
+          <div class="btn btn-success" ng-click="metadata_edit_action()">Edit</div>
+        </div>
+      </div>
+    </div>
+
   </div>
 </div>

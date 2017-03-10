@@ -232,7 +232,7 @@ body{
     height: 30px;
     padding: 5px;
     display: inline-block;
-    cursor: default;
+    cursor: pointer;
 }
 .dropdown-menu{
 	border: 1px solid #777;
@@ -315,6 +315,12 @@ body{
 }
 .folder_listing{
 	font-size: 16px !important;
+}
+.metadata_listing{
+	display: block; 
+}
+.acl_listing{
+	display: none;
 }
 .rule_container{
 	width: 70%;
@@ -546,6 +552,12 @@ select{
 	display: inline-block;
 	border-right:1px solid #C7C9C7;
 }
+.acl_column{
+	width:25%;
+	position: relative;
+	display: inline-block;
+	border-right:1px solid #C7C9C7;
+}
 .unactive_tab{
 	color: #fff;
     background: #D9D7D8;
@@ -554,7 +566,7 @@ select{
     height: 30px;
     padding: 5px;
     display: inline-block;
-    cursor: default;
+    cursor: pointer;
 }
 .breadcrumbs_container{
 	position:relative;
@@ -648,6 +660,9 @@ select{
 	display: none;
 }
 .metadata_editor{
+	display: none;
+}
+.acl_adder{
 	display: none;
 }
 .metadata_button{
@@ -1200,6 +1215,13 @@ input.col-xs-12{
     position: relative;
 }
 .metadata_actions_container{
+	float:right;
+	height: 22px;
+	width:580px;
+	z-index: 10;
+    position: relative;
+}
+.acl_actions_container{
 	float:right;
 	height: 22px;
 	width:580px;

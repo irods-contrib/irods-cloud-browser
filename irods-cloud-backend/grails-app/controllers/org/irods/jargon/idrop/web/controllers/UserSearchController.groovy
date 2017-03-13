@@ -26,12 +26,12 @@ class UserSearchController extends RestfulController  {
 		log.info("userName:${userName}")
 
 		def group = params.group
-		if (!group) group = false;
+
 
 		log.info("group?:${group}")
 
 
-		if (group) {
+		if (group == "true") {
 			log.info("looking up groups")
 			def userList = userService.listUserGroups(userName, irodsAccount)
 			log.info("userList:${userList}")

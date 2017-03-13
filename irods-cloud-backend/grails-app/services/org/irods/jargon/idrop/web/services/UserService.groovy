@@ -60,7 +60,7 @@ class UserService {
 		log.info("userSearchTerm:${userSearchTerm}")
 
 		def userAO = irodsAccessObjectFactory.getUserAO(irodsAccount)
-		return userAO.findUserNameLike(userSearchTerm)
+		return userAO.findUsersLike(userSearchTerm)
 	}
 
 	/**
@@ -82,7 +82,7 @@ class UserService {
 		log.info("userSearchTerm:${userSearchTerm}")
 
 		def userGroupAO = irodsAccessObjectFactory.getUserGroupAO(irodsAccount)
-		return userGroupAO.listUserGroupMembers(userSearchTerm)
+		return userGroupAO.findUserGroups(userSearchTerm)
 		//return userGroupAO.
 	}
 }

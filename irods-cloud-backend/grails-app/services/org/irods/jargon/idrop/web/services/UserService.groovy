@@ -1,6 +1,8 @@
 package org.irods.jargon.idrop.web.services
 
+import org.irods.jargon.core.connection.IRODSAccount
 import org.irods.jargon.core.connection.IRODSServerProperties
+import org.irods.jargon.core.protovalues.FilePermissionEnum
 import org.irods.jargon.core.pub.IRODSAccessObjectFactory
 import org.irods.jargon.idrop.web.authsession.UserSessionContext
 
@@ -97,6 +99,31 @@ class UserService {
 
 		def userGroupAO = irodsAccessObjectFactory.getUserGroupAO(irodsAccount)
 		return userGroupAO.findUserGroups(userSearchTerm)
-		//return userGroupAO.
+	}
+
+	/**
+	 * set acl
+	 * @param zone can be left blank
+	 * @param absolutePath abspath to object
+	 * @param userName username
+	 * @param permission {@link FilePermissionEnum} value
+	 * @param recursive <code>boolean</code> if recursive permission, only applies to collections
+	 * @param irodsAccount {@link IRODSAccount} 
+	 * @return void
+	 */
+	def setAcl(String zone, String absolutePath, String userName, FilePermissionEnum permission,boolean recursive,IRODSAccount irodsAccount) {
+		log.info("setAcl")
+		def collectionAndDataObjectListAndSearchAO = irodsAccessObjectFactory.getCollectionAndDataObjectListAndSearchAO(irodsAccount)
+		def objStat = collectionAndDataObjectListAndSearchAO.retrieveObjectStatForPath(absolutePath)
+		if (objStat.isSomeTypeOfCollection()) {
+			log.info("is a collection")
+			def collectionAO = irodsAccessObjectFactory.getCollectionAO(irodsAccount)
+			collectionAO.setAccessPermission(zone, absolutePath, userName, recursive, permission)
+		} else {
+			log.info("is a data object")
+			def dataObjectAO = irodsAccessObjectFactory.getDataObjectAO(irodsAccount)
+			dataObjectAO.setAccessPermission(zone, absolutePath, userName, permission)
+		}
+		log.info("set permission")
 	}
 }

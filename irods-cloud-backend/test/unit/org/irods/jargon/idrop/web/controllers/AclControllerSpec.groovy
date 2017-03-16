@@ -1,6 +1,6 @@
 package org.irods.jargon.idrop.web.controllers
 
-import grails.test.mixin.TestFor
+import grails.test.mixin.*
 
 import org.irods.jargon.core.connection.IRODSAccount
 import org.irods.jargon.core.pub.domain.UserFilePermission
@@ -20,7 +20,7 @@ class AclControllerSpec extends Specification {
 	def cleanup() {
 	}
 
-	void "gets acl listing under collection"() {
+	void "test gets acl listing under collection"() {
 		given:
 
 		def aclService = mockFor(AclService)

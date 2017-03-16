@@ -40,6 +40,20 @@ class UserService {
 	}
 
 	/**
+	 * Produce a combined search listing of users and groups
+	 * @param userSearchTerm
+	 * @param irodsAccount
+	 * @return
+	 */
+	def listUsersAndGroups(userSearchTerm, irodsAccount) {
+		log.info("listUsersAndGroups()")
+		def usersAndGroups = new UsersAndGroups()
+		usersAndGroups.users = listUsers(userSearchTerm, irodsAccount)
+		usersAndGroups.userGroups = listUserGroups(userSearchTerm, irodsAccount)
+		return usersAndGroups
+	}
+
+	/**
 	 * List all the users based on the (optional) search term
 	 * @param userSearchTerm 
 	 * @param irodsAccount

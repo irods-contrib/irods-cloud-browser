@@ -36,10 +36,15 @@ class UserSearchController extends RestfulController  {
 			def userList = userService.listUserGroups(userName, irodsAccount)
 			log.info("userList:${userList}")
 			render userList as JSON
-		} else {
+		} else if (group == "false"){
 			log.info("looking up users")
 			def userList = userService.listUsers(userName, irodsAccount)
 			log.info("userList:${userList}")
+			render userList as JSON
+		} else if (group == "both"){
+			log.info("looking up users and groups")
+			def userList = userService.listUsersAndGroups(userName, irodsAccount)
+			log.info("userAndGroupList:${userList}")
 			render userList as JSON
 		}
 	}

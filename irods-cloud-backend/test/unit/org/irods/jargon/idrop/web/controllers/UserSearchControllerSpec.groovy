@@ -56,4 +56,26 @@ class UserSearchControllerSpec extends Specification {
 		then:
 		controller.response.status == 200
 	}
+
+	void "should list users and groups"() {
+		given:
+
+
+		def userService = mockFor(UserService)
+		List<UserGroup> userGroups = new ArrayList<UserGroup>()
+		List<User> users = new ArrayList<User>()
+		userService.demand.listUsersAndGroups{ p1, ia1 -> return users }
+
+		IRODSAccount testAccount = IRODSAccount.instance("host", 1247, "user", "password", "","zone", "")
+		request.irodsAccount = testAccount
+		params.userName = "user"
+		params.group = "both"
+		controller.userService = userService.createMock()
+
+		when:
+		controller.show()
+
+		then:
+		controller.response.status == 200
+	}
 }

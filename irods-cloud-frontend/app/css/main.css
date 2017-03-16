@@ -322,6 +322,15 @@ body{
 .acl_listing{
 	display: none;
 }
+.selected_item{
+	display: none;
+}
+.acl_add_container{
+	min-height:404px;
+}
+.acl_user_or_group_listing{
+	min-height: 289px;
+}
 .rule_container{
 	width: 70%;
 	height: 450px;

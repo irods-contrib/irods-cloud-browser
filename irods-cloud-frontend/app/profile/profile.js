@@ -409,6 +409,11 @@ $routeProvider.when('/profile', {
             $('.acl_tab').addClass('tab');
         };
 
+        $scope.set_as_selected = function(item){
+            $('.selected_item').show();
+            $scope.selected_item_name = item;
+        };
+
         $(window).keyup(function($event){   
             if($event.keyCode == "13"){         
                 if($scope.pop_up_form === "delete"){
@@ -531,6 +536,11 @@ $routeProvider.when('/profile', {
                 $('.renamer').fadeOut(100);
                 $('.copier').fadeOut(100);
                 $('.mover').fadeOut(100);
+                $('.acl_adder').fadeOut(100);
+                $('.selected_item').hide();
+                $scope.selected_item_name = ""; 
+                $scope.listUsersGroups = "";
+                $('.user_or_group_name').val('');
                 $('.metadata_adder').fadeOut(100);
                 $('.metadata_editor').fadeOut(100);
                 $('.metadata_deleter').fadeOut(100);
@@ -569,6 +579,10 @@ $routeProvider.when('/profile', {
                 $('.metadata_editor').fadeOut(100);
                 $('.metadata_deleter').fadeOut(100);
                 $('.acl_adder').fadeOut(100);
+                $('.selected_item').hide();
+                $scope.selected_item_name = ""; 
+                $scope.listUsersGroups = "";
+                $('.user_or_group_name').val('');
                 $('.uploader').fadeOut(100);
                 $('.deleter').fadeOut(100);
                 $('.creater').fadeOut(100);
@@ -793,14 +807,16 @@ $routeProvider.when('/profile', {
         };
 
         /*||||||||||||||||||||||||||||||||||||||
-        ||||||||||||| ACL ACTIONS ||||||||||||||    userSearch?group=false&userName=kel
+        ||||||||||||| ACL ACTIONS ||||||||||||||    
         ||||||||||||||||||||||||||||||||||||||*/
         $scope.add_acl_pop_up = function (){
             $('.pop_up_window').fadeIn(100); 
             $('.acl_adder').fadeIn(100); 
         };
 
-        $scope.search_users_or_groups = function () {            
+        $scope.search_users_or_groups = function () {   
+            $('.selected_item').hide();
+            $scope.selected_item_name = "";         
             $log.info("Searching users or groups");
             $log.info($('.user_or_group_name').val());
             $log.info($('#group_search').val());

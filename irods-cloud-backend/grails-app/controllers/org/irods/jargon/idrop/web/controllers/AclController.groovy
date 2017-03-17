@@ -89,5 +89,6 @@ class AclController extends RestfulController {
 
 		log.info("updating...")
 		userService.setAcl(zone, path,userName, fileAccessPermission, recursive, irodsAccount)
+		render status:204
 	}
 }

@@ -824,13 +824,36 @@ $routeProvider.when('/profile', {
                 method: 'GET',
                 url: $globals.backendUrl('userSearch'),
                 params: {
-                    group: $('#group_search').val(),
+                    group: 'both',
                     userName: $('.user_or_group_name').val()                    
                 }
             }).success(function(data){
                 $scope.listUsersGroups = data;
             });
         };
+
+        $scope.add_acl_action = function () {           
+            $log.info("Adding ACL");
+            if (!$scope.dataProfile.domainObject.collectionOwnerZone){
+                var object_zone = $scope.dataProfile.domainObject.dataOwnerZone;
+            }else{
+                var object_zone = $scope.dataProfile.domainObject.collectionOwnerZone;
+            };
+            return $http({
+                method: 'POST',
+                url: $globals.backendUrl('acl'),
+                params: {
+                    path: $scope.dataProfile.domainObject.absolutePath,
+                    userName: $scope.selected_item_name,
+                    zone: object_zone,
+                    permission: $('#selected_item_access_level').val()                     
+                }
+            }).success(function(){
+                $scope.getlistACL();
+            });
+            $scope.pop_up_close_clear();
+        };
+
 
         $scope.green_action_toggle= function($event){
           var content = $event.currentTarget.nextElementSibling;

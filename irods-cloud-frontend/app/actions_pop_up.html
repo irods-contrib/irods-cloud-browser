@@ -432,12 +432,6 @@
                 <b>1 - Search for a User or a Group</b>
                 <hr class="hr_flat">
                 <br>
-                <select style="margin: 0px 0px 10px;height: 26px;" id="group_search" >
-                    <option value="false"><b>User</b></option>
-                    <option value="true"><b>Group</b></option>                         
-                </select>
-                <hr class="hr_flat">
-                <br>
                 <input type="text-area" class="user_or_group_name col-xs-12"/>
                 <div class="right t_right">
                   <br>
@@ -447,18 +441,36 @@
             
           </div>
         </div>
-        <div class="col-xs-8 text-left">
+        <div class="col-xs-8 text-left ">
           <br>
           <div class="left col-xs-12"><b>2 - Select a user or group</b></div>
           <hr class="hr_flat">
-                <br>
-          <ul class="selectable listing move_listing acl_user_or_group_listing">
-            <li class="ui-widget-content acl_list_item move_list_item ui-selectee" ng-click="set_as_selected(users.name)" ng-class-odd="'light_back_option'" ng-class-even="'light_back_option_even'" ng-repeat="users in listUsersGroups" id='{{users.id}}' on-last-repeat>
-                  <div class="col-xs-10 col-sm-10 col-md-7 col-lg-7 list_content">
-                    <i class="fa fa-user folder_listing"></i>&nbsp;&nbsp;{{users.name}}
-                  </div>
-            </li>             
-          </ul>
+          <br>
+          <div class="listing acl_user_or_group_listing">
+            <b>Users:<b>
+            <hr class="hr_flat">
+            <ul class="selectable move_listing ">
+              <li class="ui-widget-content acl_list_item move_list_item ui-selectee" ng-click="set_as_selected(user.name)" ng-class-odd="'light_back_option'" ng-class-even="'light_back_option_even'" ng-repeat="user in listUsersGroups.users" id='{{user.id}}' on-last-repeat>
+              <div class="col-xs-10 col-sm-10 col-md-7 col-lg-7 list_content">
+                <div>
+                  <i class="fa fa-user folder_listing"></i>&nbsp;&nbsp;{{user.name}}
+                </div>
+              </li>             
+            </ul>
+            <br>
+            <hr class="hr_flat">
+            <b>Groups:<b>
+            <hr class="hr_flat">
+            <ul class="selectable move_listing ">
+              <li class="ui-widget-content acl_list_item move_list_item ui-selectee" ng-click="set_as_selected(group.userGroupName)" ng-class-odd="'light_back_option'" ng-class-even="'light_back_option_even'" ng-repeat="group in listUsersGroups.userGroups" id='{{group.userGroupId}}' on-last-repeat>
+              <div class="col-xs-10 col-sm-10 col-md-7 col-lg-7 list_content">
+                <div>
+                  <i class="fa fa-group folder_listing"></i>&nbsp;&nbsp;{{group.userGroupName}}
+                </div>
+              </li>             
+            </ul>
+            <hr class="hr_flat">
+          </div>
         </div>
         <div class="container"><hr class="hr_flat"></div>
 
@@ -470,10 +482,10 @@
               {{selected_item_name}}
             </div>
             <select style="margin: 0px 0px 10px;" id="selected_item_access_level" >
-                <option value="false"><b>User</b></option>
-                <option value="true"><b>Group</b></option>                         
+                <option value="OWN"><b>Owner</b></option>
+                <option value="WRITE"><b>Read & Write</b></option>     
+                <option value="READ"><b>Only Read</b></option>                      
             </select>
-
           </div>
         </div>
 

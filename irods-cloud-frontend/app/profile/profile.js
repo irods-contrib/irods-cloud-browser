@@ -537,6 +537,8 @@ $routeProvider.when('/profile', {
                 $('.copier').fadeOut(100);
                 $('.mover').fadeOut(100);
                 $('.acl_adder').fadeOut(100);
+                $('.acl_editer').fadeOut(100);
+                $('.acl_deleter').fadeOut(100);
                 $('.selected_item').hide();
                 $scope.selected_item_name = ""; 
                 $scope.listUsersGroups = "";
@@ -579,6 +581,8 @@ $routeProvider.when('/profile', {
                 $('.metadata_editor').fadeOut(100);
                 $('.metadata_deleter').fadeOut(100);
                 $('.acl_adder').fadeOut(100);
+                $('.acl_editer').fadeOut(100);
+                $('.acl_deleter').fadeOut(100);
                 $('.selected_item').hide();
                 $scope.selected_item_name = ""; 
                 $scope.listUsersGroups = "";
@@ -809,9 +813,23 @@ $routeProvider.when('/profile', {
         /*||||||||||||||||||||||||||||||||||||||
         ||||||||||||| ACL ACTIONS ||||||||||||||    
         ||||||||||||||||||||||||||||||||||||||*/
+
         $scope.add_acl_pop_up = function (){
             $('.pop_up_window').fadeIn(100); 
             $('.acl_adder').fadeIn(100); 
+        };
+
+        $scope.edit_acl_pop_up = function (){
+            $('#selected_item_name').text('Name: ' + $('.acl_item.ui-selected').children('.acl_user_name').text());
+            $('.pop_up_window').fadeIn(100); 
+            $('.acl_editer').fadeIn(100); 
+        };
+
+        $scope.delete_acl_pop_up = function (){
+            $('#delete_selected_item_access_level').text('Access Level: ' + $('.acl_item.ui-selected').children('.acl_user_access_level').text());
+            $('#delete_selected_item_name').text('Name: ' + $('.acl_item.ui-selected').children('.acl_user_name').text());
+            $('.pop_up_window').fadeIn(100); 
+            $('.acl_deleter').fadeIn(100); 
         };
 
         $scope.search_users_or_groups = function () {   
@@ -849,9 +867,59 @@ $routeProvider.when('/profile', {
                     permission: $('#selected_item_access_level').val()                     
                 }
             }).success(function(){
+                MessageService.success("ACL Added!");
                 $scope.getlistACL();
+                $scope.pop_up_close_clear();
             });
-            $scope.pop_up_close_clear();
+            
+        };
+
+        $scope.edit_acl_action = function () {           
+            $log.info("Editing ACL");
+            if (!$scope.dataProfile.domainObject.collectionOwnerZone){
+                var object_zone = $scope.dataProfile.domainObject.dataOwnerZone;
+            }else{
+                var object_zone = $scope.dataProfile.domainObject.collectionOwnerZone;
+            };
+            return $http({
+                method: 'POST',
+                url: $globals.backendUrl('acl'),
+                params: {
+                    path: $scope.dataProfile.domainObject.absolutePath,
+                    userName: $('#selected_item_name').text(),
+                    zone: object_zone,
+                    permission: $('#edit_item_access_level').val()                     
+                }
+            }).success(function(){
+                MessageService.success("ACL Edited!");
+                $scope.getlistACL();
+                $scope.pop_up_close_clear();
+            });
+            
+        };
+
+        $scope.delete_acl_action = function () {           
+            $log.info("Deleting ACL");
+            if (!$scope.dataProfile.domainObject.collectionOwnerZone){
+                var object_zone = $scope.dataProfile.domainObject.dataOwnerZone;
+            }else{
+                var object_zone = $scope.dataProfile.domainObject.collectionOwnerZone;
+            };
+            return $http({
+                method: 'POST',
+                url: $globals.backendUrl('acl'),
+                params: {
+                    path: $scope.dataProfile.domainObject.absolutePath,
+                    userName: $('#delete_selected_item_name').text(),
+                    zone: object_zone,
+                    permission: 'NONE'                     
+                }
+            }).success(function(){
+                MessageService.info("ACL Deleted!");
+                $scope.getlistACL();
+                $scope.pop_up_close_clear();
+            });
+            
         };
 
 

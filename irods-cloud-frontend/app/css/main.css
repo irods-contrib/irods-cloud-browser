@@ -674,6 +674,12 @@ select{
 .acl_adder{
 	display: none;
 }
+.acl_editer{
+	display: none;
+}
+.acl_deleter{
+	display: none;
+}
 .metadata_button{
 	padding: 4px 0px 0px 7px;
 	border: 

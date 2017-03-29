@@ -886,7 +886,7 @@ $routeProvider.when('/profile', {
                 url: $globals.backendUrl('acl'),
                 params: {
                     path: $scope.dataProfile.domainObject.absolutePath,
-                    userName: $('#selected_item_name').text(),
+                    userName: $('.acl_item.ui-selected').children('.acl_user_name').text(),
                     zone: object_zone,
                     permission: $('#edit_item_access_level').val()                     
                 }
@@ -910,7 +910,7 @@ $routeProvider.when('/profile', {
                 url: $globals.backendUrl('acl'),
                 params: {
                     path: $scope.dataProfile.domainObject.absolutePath,
-                    userName: $('#delete_selected_item_name').text(),
+                    userName: $('.acl_item.ui-selected').children('.acl_user_name').text(),
                     zone: object_zone,
                     permission: 'NONE'                     
                 }

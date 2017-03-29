@@ -8,6 +8,22 @@ diceunc/cloudbrowser:4.1.10.0-RC1
 
 Dockerhub can be consulted for available tags.  The location may eventually change, and this will be noted in later releases.
 
+
+## Configure (optional) browser login presets and SSL negotiation 
+
+Add the irods-cloud-backend-config.groovy file [see](https://github.com/DICE-UNC/irods-cloud-browser/blob/master/irods-cloud-bckend/misc/irods-cloud-backend-config.groovy)  to your /etc/irods-ext directory on the server where the irods-cloud-backend.war  
+is running allows limiting of the login page to a preset host/port/zone, presenting only a user and password.  
+If this file is not present, or the beconf.login.preset.enabled=false is set, than the login form will allow 
+logging in to any iRODS grid.
+
+Place that file in the /etc/irods-ext directory, ensuring that the Tomcat service can read it, and fill in the preset 
+data, setting beconf.login.preset.enabled-true.  
+
+This file also sets the SSL negotiation policy between the mid-teir and iRODS.  This is covered in ssl.md.  Note that if your
+iRODS server is not configured for SSL, you need to set this property to CS_NEG_REFUSE, otherwise iRODS will try to use SSL and will generate an authentication exception.  You can check Catalina.out in the docker image or iRODS logs and look for SSL exceptions.
+
+
+
 The image from dockerhub can be configured when it is run in the following manner:
 
 ```

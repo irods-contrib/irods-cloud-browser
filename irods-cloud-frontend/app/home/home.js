@@ -264,9 +264,45 @@ angular.module('myApp.home', ['ngRoute', 'ngFileUpload', 'ng-context-menu','ui.c
         $scope.multiple = true;
         $scope.current_page = 'browsing';
         $scope.files_to_upload = [];
+        $scope.total_pages = 145;
+        $scope.current_page = 145;
+        $scope.startPage;
+        $scope.endPage;  
+        $scope.range = function(start, end) {
+            var foo = [];
+            for (var i = start; i <= end; i++) {
+                foo.push(i);
+            }
+            return foo;
+        }      
+        $scope.pager = function(){
+            if ($scope.total_pages <= 10) {
+            // less than 10 total pages so show all
+            $scope.startPage = 1;
+            $scope.endPage = $scope.total_pages;
+            } else {
+                // more than 10 total pages so calculate start and end pages
+                if ($scope.current_page <= 6) {
+                    $scope.startPage = 1;
+                    $scope.endPage = 10;
+                } else if ($scope.current_page + 4 >= $scope.total_pages) {
+                    $scope.startPage = $scope.total_pages - 9;
+                    $scope.endPage = $scope.total_pages;
+                } else {
+                    $scope.startPage = $scope.current_page - 5;
+                    $scope.endPage = $scope.current_page + 4;
+                }
+            }
+            $scope.pages = $scope.range($scope.startPage,$scope.endPage);
+        }
+        $scope.pager();
         $scope.files_name = [];
         $scope.copy_source = "";
-        $scope.copy_target = "";       
+        $scope.copy_target = "";     
+        $scope.setCurrentPage = function (page_number){
+            $scope.current_page = page_number;
+            $scope.pager();
+        }  
         $scope.stage_files = function (files) {
             if (files && files.length) {
                 $(".upload_container").css('display', 'none');

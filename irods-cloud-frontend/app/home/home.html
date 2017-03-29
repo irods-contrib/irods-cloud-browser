@@ -138,8 +138,10 @@
 					
 				</div>
 
-				<!-- <div ui-codemirror ui-codemirror-opts="editorOptions"></div> -->
-				
+				<!-- <div ui-codemirror ui-codemirror-opts="editorOptions"></div> 
+				<div class="list_header_pagination">
+			    	<div ng-repeat="page in pages"  ng-class="page == current_page ? 'current_page_class' : 'page_class'" class="text_no_select" ng-click="setCurrentPage(page)">{{page}}</div>
+			    </div>-->
 				<div class="list_header">
 			    	<div class="col-xs-7 list_content">        
 		            	<span><b>Name</b></span>

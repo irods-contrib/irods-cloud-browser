@@ -75,6 +75,7 @@ grails.project.dependency.resolution = {
 		runtime 'org.springframework:spring-expression:4.1.6.RELEASE'
 		runtime 'org.springframework:spring-aop:4.1.6.RELEASE'
 		test ('org.mockito:mockito-all:1.9.5')
+		compile group: 'com.google.guava', name: 'guava', version: '12.0'
 		//provided 'javax.servlet:servlet-api:2.5'
 		compile group: 'org.slf4j', name: 'slf4j-api', version: '1.7.22'
 		//compile( group: 'log4j', name: 'log4j', version: '1.2.16', export: false )
@@ -87,7 +88,7 @@ grails.project.dependency.resolution = {
 		// plugins for the compile step
 		compile ":scaffolding:2.1.2"
 		//compile ':cache:1.1.8'
-		compile ":asset-pipeline:2.1.5"
+		compile ":asset-pipeline:2.11.0"
 		compile ":cors:1.1.8"
 
 

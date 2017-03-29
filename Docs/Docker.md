@@ -8,12 +8,34 @@ diceunc/cloudbrowser:4.1.10.0-RC1
 
 Dockerhub can be consulted for available tags.  The location may eventually change, and this will be noted in later releases.
 
-The image from dockerhub can be configured when it is run in the following manner:
+
+## Configure (optional) browser login presets and SSL negotiation 
+
+Add the [irods-cloud-backend-config.groovy file](https://github.com/DICE-UNC/irods-cloud-browser/blob/master/irods-cloud-bckend/misc/irods-cloud-backend-config.groovy)  to your /etc/irods-ext directory on the server where the irods-cloud-backend.war  
+is running.  This allows presets on the login page for host/port/zone. If preset, only a user and password are shown.  
+If presets are not specified, or if `beconf.login.preset.enabled=false` is set, then the login form will allow 
+logging in to any iRODS grid.
+
+Place that file in the /etc/irods-ext directory on your host machine with permissions that allow Docker to read it., and the Docker image will pick up these settings on startup.
+
+This file also sets the SSL negotiation policy between the mid-teir and iRODS.  This is covered in ssl.md.  Note that if your
+iRODS server is not configured for SSL, you need to set this property to CS_NEG_REFUSE, otherwise iRODS will try to use SSL and will generate an authentication exception.  You can check Catalina.out in the docker image or iRODS logs and look for SSL exceptions.
+
+You can also give a public ssl certificate, if iRODS is configured to use SSL negotiation, and you are using a self-signed certificate.  In order to do this, an additional Docker `-v` mount command can map the file (called server.crt) placed in a location on the host machine, into a location seen by the Docker image.  See the [ssl.md](ssl.md) doc for more info.
+
+The image from dockerhub can be configured when it is run in the following manner. Note that --add-host is necessary to set /etc/hosts within docker to the location/s of your iRODS server.
+
+### Example with no ssl cert```
+```
+docker run -d -p hostport:8080 -v /tc/irods-ext:/etc/irods-ext  --add-host example.com:192.168.1.1 diceunc/cloud-browser:4.2.0.0-SNAPSHOT
 
 ```
 
-docker run -d --rm -p hostport:8080 -v /etc/irods-ext:/etc/irods-ext  -v /some/dir/cert:/tmp/cert --add-host example.coml:192.168.1.1 diceunc/cloud-browser:4.1.10.0-RC1
+### Example specifying a local ssl public key in a file called server.crt
 
+```
+
+docker run -d -p hostport:8080 -v /tc/irods-ext:/etc/irods-ext  -v /some/dir/cert:/tmp/cert --add-host example.com:192.168.1.1 diceunc/cloud-browser:4.2.0.0-SNAPSHOT
 
 ```
 

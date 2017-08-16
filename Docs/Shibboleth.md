@@ -1,6 +1,6 @@
 # Shibboleth instructions
 
-The CloudBrowser now supports single sign-on using Shibboleth authentication.  
+The CloudBrowser now supports single sign-on (SSO) using Shibboleth authentication.  
 
 ## Step 1 - Enable Shibboleth on Apache.
 

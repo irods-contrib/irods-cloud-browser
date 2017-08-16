@@ -1,36 +1,37 @@
 # Installation of the iRODS Cloud Browser
 
-There are two methods of installation. The first of which is building an automated .WAR file that can be directly deployed to a tomcat server, 
-the second of which is an installation that allows the static assets (javascript, css, etc) to be separately placed
-on a server. There is little benefit to the latter and this arrangemetn is discouraged going forward.
+There are two methods of installation:
+
+1. Building an automated `.war` file that can be directly deployed to a tomcat server.
+
+2. An installation that allows the static assets (javascript, css, etc) to be separately placed on a server. This method is discouraged.
 
 # Building Cloud Browser
 
-In most instances, you do not need to build the cloud browser.  Instead, download the all-in-one war file release,
-ready to drop into Tomcat or some other web container.  You may find a .war file with each release on GitHub at 
+In most instances, you do not need to build the cloud browser.  Instead, download the all-in-one `.war` file release,
+ready to drop into Tomcat or some other web container.  You may find a `.war` file with each release on GitHub at 
 https://github.com/DICE-UNC/irods-cloud-browser/releases
 
 ## Optionally configure browser presets - locking the site down to just one Zone
 
-Adding the irods-cloud-backend-config.groovy file to your /etc/irods-ext directory on the server where the irods-cloud-backend.war  
-is running allows limiting of the login page to a preset host/port/zone, presenting only a user and password.  
-If this file is not present, or the beconf.login.preset.enabled=false is set, than the login form will allow 
+Adding the `irods-cloud-backend-config.groovy` file to your `/etc/irods-ext` directory on the server where the `irods-cloud-backend.war` is running allows limiting of the login page to a preset host/port/zone, presenting only a user and password.  
+If this file is not present, or the 'beconf.login.preset.enabled=false' is set, than the login form will allow 
 logging in to any iRODS grid.
 
-Place that file in the /etc/irods-ext directory, ensuring that the Tomcat service can read it, and fill in the preset 
-data, setting beconf.login.preset.enabled-true.  See the irods-cloud-backend-config.groovy file here:
+Place that file in the `/etc/irods-ext` directory, ensuring that the Tomcat service can read it, and fill in the preset 
+data, setting 'beconf.login.preset.enabled=true'.  See the `irods-cloud-backend-config.groovy` file here:
 
 https://github.com/DICE-UNC/irods-cloud-browser/blob/master/irods-cloud-backend-config.groovy
 
-This file also sets the SSL negotiation policy between the mid-teir and iRODS.  This is covered in ssl.md.
+This file also sets the SSL negotiation policy between the mid-teir and iRODS.  This is covered in [ssl.md](ssl.md).
 
-## Deploy the .war file
+## Deploy the `.war` file
 
-Deploy the irods-cloud-backend.war file to your web container, typically Tomcat.  This deploys the backend REST service 
+Deploy the `irods-cloud-backend.war` file to your web container, typically Tomcat.  This deploys the backend REST service 
 that will connect to iRODS.
 
-1. log into the tomcat manager with the user you created and upload the file, e.g. http://irods-cloud:8080/manager/html
-2. after deploy button pressed and a short wait, you should see an '/irods-cloud-backend' application path created
+1. Log into the tomcat manager with the user you created and upload the file, e.g. http://irods-cloud:8080/manager/html
+2. After deploy button pressed and a short wait, you should see an '/irods-cloud-backend' application path created
 
 ## (optional) proxy the back end via Apache HTTP or other server
 

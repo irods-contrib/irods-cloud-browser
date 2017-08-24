@@ -137,7 +137,7 @@ cors.url.pattern = '*'
 cors.headers=[
 
 	//'Access-Control-Allow-Credentials': true,
-	'Access-Control-Allow-Headers': 'origin, authorization, accept, content-type, x-requested-with',
+	'Access-Control-Allow-Headers': 'origin, authorization, accept, content-type',
 	'Access-Control-Allow-Methods': 'GET, HEAD, POST, PUT, DELETE, TRACE, OPTIONS',
 	'Access-Control-Max-Age': 3600,
 	'Access-Control-Allow-Origin': '*'

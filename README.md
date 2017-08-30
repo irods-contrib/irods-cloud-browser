@@ -29,7 +29,7 @@ https://github.com/DICE-UNC/irods-cloud-browser/milestone/6
 
 ## Build Automation
 
-Visit irod-cloud-browser/irod-cloud-frontend README.md for further details.
+Visit [./irods-cloud-browser/irods-cloud-frontend/README.md](irods-cloud-frontend/README.md) for further details.
 
 ## New Features
 

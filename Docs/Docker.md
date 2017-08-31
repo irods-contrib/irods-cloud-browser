@@ -22,13 +22,13 @@ The image from dockerhub can be configured when it is run in the following manne
 
 ### Example with no ssl cert
 ```
-docker run -d -p hostport:8080 -v /tc/irods-ext:/etc/irods-ext  --add-host example.com:192.168.1.1 diceunc/cloud-browser:4.2.0.0-SNAPSHOT
+docker run -d -p hostport:8080 -v /etc/irods-ext:/etc/irods-ext  --add-host example.com:192.168.1.1 diceunc/cloud-browser:4.2.0.0-SNAPSHOT
 ```
 
 ### Example specifying a local ssl public key in a file called server.crt
 
 ```
-docker run -d -p hostport:8080 -v /tc/irods-ext:/etc/irods-ext  -v /some/dir/cert:/tmp/cert --add-host example.com:192.168.1.1 diceunc/cloud-browser:4.2.0.0-SNAPSHOT
+docker run -d -p hostport:8080 -v /etc/irods-ext:/etc/irods-ext  -v /some/dir/cert:/tmp/cert --add-host example.com:192.168.1.1 diceunc/cloud-browser:4.2.0.0-SNAPSHOT
 ```
 
 Other flags, such as restart or resource, are up to you.  

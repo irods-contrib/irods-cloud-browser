@@ -2,10 +2,13 @@
   <header class="upper_main_nav col-xs-12">
   	  <a class="navbar-brand"  ng-href="#/home/My Home"><span class="main_logo"></span></a>
       <!-- Top Menu Items -->
-      <ul class="nav navbar-right top-nav">    
+      <ul class="nav navbar-right top-nav">
           <li>
-              <div class="logout" ng-hide="current_page == 'login'" ng-click="logout_func()">Log Out</div>
+              <div class="logout" ng-hide="current_page == 'login' || initialConfig.presetAuthScheme == 'SHIBBOLETH' " ng-click="logout_func()">Log Out</div>
+              <div class="logout" ng-hide="current_page == 'login' || initialConfig.presetAuthScheme != 'SHIBBOLETH' " ng-click="logout_func_shib(initialConfig.shibLogoutUrl)">Log Out</div>
           </li>
       </ul>
 
   </header>
+
+

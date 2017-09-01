@@ -15,4 +15,5 @@ class GeneralBackendConfig {
 	int presetPort = 1247
 	String presetZone = ""
 	String presetAuthScheme = "STANDARD"
+    String shibLogoutUrl = ""
 }

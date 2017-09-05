@@ -7,7 +7,10 @@ angular.module('myApp.home', ['ngRoute', 'ngFileUpload', 'ng-context-menu','ui.c
             templateUrl: 'home/home.html',
             controller: 'homeCtrl',
             resolve: {
-
+                configData: function (configService) {
+                    var configSettings = configService.retrieveInitialConfig();
+                    return configSettings;
+                },  
                 // set vc name as selected
                 selectedVc: function ($route, virtualCollectionsService, globals) {
 
@@ -34,6 +37,10 @@ angular.module('myApp.home', ['ngRoute', 'ngFileUpload', 'ng-context-menu','ui.c
             templateUrl: 'home/home.html',
             controller: 'homeCtrl',
             resolve: {
+                configData: function (configService) {
+                    var configSettings = configService.retrieveInitialConfig();
+                    return configSettings;
+                },  
                 // set vc name as selected
                 selectedVc: function ($route, virtualCollectionsService) {
                     var current_vc = "My Home";
@@ -140,7 +147,7 @@ angular.module('myApp.home', ['ngRoute', 'ngFileUpload', 'ng-context-menu','ui.c
             return out;
         };
     })
-    .controller('homeCtrl', ['$scope', 'Upload', '$log', '$http', '$location', 'MessageService', 'globals', 'breadcrumbsService', 'downloadService', 'virtualCollectionsService', 'collectionsService', 'fileService', 'metadataService', 'selectedVc', 'pagingAwareCollectionListing', function ($scope, Upload, $log, $http, $location, MessageService, $globals, breadcrumbsService, downloadService, $virtualCollectionsService, $collectionsService, fileService, metadataService, selectedVc, pagingAwareCollectionListing) {
+    .controller('homeCtrl', ['$scope', 'Upload', '$log', '$http', '$location', 'MessageService', 'globals', 'configData', 'breadcrumbsService', 'downloadService', 'virtualCollectionsService', 'collectionsService', 'fileService', 'metadataService', 'selectedVc', 'pagingAwareCollectionListing', function ($scope, Upload, $log, $http, $location, MessageService, $globals, configData, breadcrumbsService, downloadService, $virtualCollectionsService, $collectionsService, fileService, metadataService, selectedVc, pagingAwareCollectionListing) {
 
         /*
          basic scope data for collections and views
@@ -151,6 +158,7 @@ angular.module('myApp.home', ['ngRoute', 'ngFileUpload', 'ng-context-menu','ui.c
             mode: {name:"javascript", typescript: true}
         };
         $scope.pop_up_form = "";
+        $scope.initialConfig = configData;
         $scope.list_file_templates = function () {
 
                 $log.info("getting file templates");

@@ -37,7 +37,7 @@ class DownloadControllerSpec extends Specification {
 		irodsFileInputStream.demand.read{b -> return -1}
 		def irodsFileInputStreamMock = irodsFileInputStream.createMock()
 		def dfs = new DownloadFileSpecification()
-		dfs.fileName = "file"
+		dfs.bundleFileName = "file"
 		dfs.inputStream = irodsFileInputStreamMock
 		dfs.length = 100L
 		dfs.type = "blah"

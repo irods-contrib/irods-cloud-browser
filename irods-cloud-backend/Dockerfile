@@ -10,4 +10,4 @@ CMD ["/runit.sh"]
 
 # run:  docker run -i -t --rm -p 8080:8080 -v /etc/irods-ext:/etc/irods-ext  --add-host irods419.irodslocal:172.16.250.100 diceunc/cloudbrowser:4.1.10.0-RC1
 
-# run:  docker run -i -t --rm -p 8080:8080 -v /etc/irods-ext:/etc/irods-ext -v /home/mconway/webdavcert:/tmp/cert  --add-host irods419.irodslocal:172.16.250.100 diceunc/cloudbrowser:4.1.10.0-RC1
+# run:  docker run -i -t --rm -p 8080:8080 -v /c/Users/Mike/etc/irods-ext:/etc/irods-ext -v /c/Users/Mike/Documents/certs:/tmp/cert  --add-host irods421.irodslocal:172.16.250.101 diceunc/cloudbrowser:latest

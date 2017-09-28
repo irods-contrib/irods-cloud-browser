@@ -3,8 +3,8 @@
 #### Release - https://github.com/DICE-UNC/irods-cloud-browser/releases
 
 ### Date: 08/18/2016
-### Release Version: 1.0.2.0-Beta1
-### git tag: 1.0.2.0-Beta1
+### Release Version: 4.2.0.1-SNAPSHOT
+### git tag: 
 #### Developer: Mike Conway - DICE, Cesar Garde - iRODS
 
 The iRODS Cloud Browser allows simple, browser based access to any iRODS grid.  This browser is based on the following components:
@@ -65,3 +65,8 @@ Added a Dockerfile for containerized deployment
 ### Add basic ACLS #128
 
 Add support for ACL editing
+
+### Fix potential NPM 3 issue with peer dependencies #204
+
+Added explicit peer dependencies to npm package.json file to account for changes in NPM 3.0+. npm install should now properly pull in dependencies
+

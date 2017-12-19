@@ -15,4 +15,7 @@ RUN /bin/bash -c "source /root/.sdkman/bin/sdkman-init.sh && \
     cd irods-cloud-browser/irods-cloud-frontend && \
     npm install gulp && \
     npm install -g gulp-cli && \
-    npm install"
+    npm install && \
+    gulp backend-build && \
+    cd ../irods-cloud-backend && \
+    grails war irods-cloud-backend.war"

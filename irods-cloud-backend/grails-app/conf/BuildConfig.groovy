@@ -71,6 +71,8 @@ grails.project.dependency.resolution = {
 		compile ('org.irods.jargon:data-profile:4.2.1.0-SNAPSHOT')  { excludes ([group:'org.jglobus'])}
 		compile ('org.irods.jargon:jargon-mdquery:4.2.1.0-SNAPSHOT') { excludes ([group:'org.jglobus'])}
 		compile ('com.fasterxml.jackson.core:jackson-core:2.9.2')  { }
+		compile ('com.fasterxml.jackson.core:jackson-databind:2.9.2')  { }
+
 		compile 'org.irods.jargon:jargon-zipservice:4.2.1.0-SNAPSHOT'
 		runtime 'org.springframework:spring-expression:4.1.6.RELEASE'
 		runtime 'org.springframework:spring-aop:4.1.6.RELEASE'

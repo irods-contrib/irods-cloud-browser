@@ -66,8 +66,8 @@ gulp.task('help', function(){
 // **************
 gulp.task('backend-clean', function(){
     return del([
-        '../irods-cloud-backend/web-app/*', 
-        '../irods-cloud-backend/web-app/*/', 
+        '../irods-cloud-backend/web-app/*',
+        '../irods-cloud-backend/web-app/*/',
         '!../irods-cloud-backend/web-app/WEB-INF',
         '!../irods-cloud-backend/web-app/index.html'
     ], {force:true});
@@ -80,8 +80,8 @@ gulp.task('backend-clean', function(){
 // **************
 gulp.task('backend-build', function(){
     del([
-        '../irods-cloud-backend/web-app/*', 
-        '../irods-cloud-backend/web-app/*/', 
+        '../irods-cloud-backend/web-app/*',
+        '../irods-cloud-backend/web-app/*/',
         '!../irods-cloud-backend/web-app/WEB-INF',
         '!../irods-cloud-backend/web-app/index.html'
     ], {force:true});
@@ -91,31 +91,31 @@ gulp.task('backend-build', function(){
         gulp.src([
             'app/**/*',
             '!app/indexMin/',
-            '!app/index.html',
-            'bower_components/'
+            '!app/index.html'
         ]).pipe(gulp.dest('../irods-cloud-backend/web-app'));
 
-        gulp.src(['bower_components/**/*'],{base:'./'})
-            .pipe(gulp.dest('../irods-cloud-backend/web-app/'));
+        // move bower components
+        gulp.src([
+            'bower_components/**/*'
+        ]).pipe(gulp.dest('../irods-cloud-backend/web-app/bower_components'));
 
-        gulp.src('../irods-cloud-backend/*/*.css')
+
+        gulp.src('../irods-cloud-backend/web-app/**/*.css')
             .pipe(cleanCSS())
-            .pipe(gulp.dest('../irods-cloud-backend/**/*'));
+            .pipe(gulp.dest('../irods-cloud-backend/web-app/css'));
 
-        // concat CSS files
-        setTimeout(function(){
-            gulp.src([
-                '../irods-cloud-backend/web-app/bower_components/html5-boilerplate/css/normalize.css',
-                '../irods-cloud-backend/web-app/bower_components/html5-boilerplate/css/main.css',
-                '../irods-cloud-backend/web-app/bower_components/angular-message-center/dist/message-center.css',
-                '../irods-cloud-backend/web-app/bower_components/codemirror/lib/codemirror.css',
-            ])
-                .pipe(concat('allBower.css'))
-                .pipe(gulp.dest('../irods-cloud-backend/web-app/css/'));
-        }, 1500);
+        gulp.src([
+            'bower_components/html5-boilerplate/css/normalize.css',
+            'bower_components/html5-boilerplate/css/main.css',
+            'bower_components/angular-message-center/dist/message-center.css',
+            'bower_components/codemirror/lib/codemirror.css',
+        ])
+            .pipe(concat('allBower.css'))
+            .pipe(gulp.dest('../irods-cloud-backend/web-app/css/'));
+
         gutil.log("Build complete");
     },5000);
-    
+
 
 });
 
@@ -130,8 +130,8 @@ gulp.task('backend-sync', function() {
         gutil.log("CSS save detected");
         // Clear current backend web-app
         del([
-            '../irods-cloud-backend/web-app/*', 
-            '../irods-cloud-backend/web-app/*/', 
+            '../irods-cloud-backend/web-app/*',
+            '../irods-cloud-backend/web-app/*/',
             '!../irods-cloud-backend/web-app/WEB-INF',
             '!../irods-cloud-backend/web-app/index.html'
         ], {force:true});
@@ -174,8 +174,8 @@ gulp.task('backend-sync', function() {
         gutil.log("JS save detected");
         // Clear current backend web-app
         del([
-            '../irods-cloud-backend/web-app/*', 
-            '../irods-cloud-backend/web-app/*/', 
+            '../irods-cloud-backend/web-app/*',
+            '../irods-cloud-backend/web-app/*/',
             '!../irods-cloud-backend/web-app/WEB-INF',
             '!../irods-cloud-backend/web-app/index.html'
         ], {force:true});
@@ -215,8 +215,8 @@ gulp.task('backend-sync', function() {
         gutil.log("HTML Save Detected");
         // Clear current backend web-app
         del([
-            '../irods-cloud-backend/web-app/*', 
-            '../irods-cloud-backend/web-app/*/', 
+            '../irods-cloud-backend/web-app/*',
+            '../irods-cloud-backend/web-app/*/',
             '!../irods-cloud-backend/web-app/WEB-INF',
             '!../irods-cloud-backend/web-app/index.html'
         ], {force:true});
@@ -249,7 +249,7 @@ gulp.task('backend-sync', function() {
                     .pipe(gulp.dest('../irods-cloud-backend/web-app/css/'));
             }, 1000);
         },2000);
-        
+
         gutil.log("Build complete");
     });
 });
@@ -262,8 +262,8 @@ gulp.task('backend-sync', function() {
 gulp.task('gen-war', function(){
     // Clear current backend web-app
     del([
-        '../irods-cloud-backend/web-app/*', 
-        '../irods-cloud-backend/web-app/*/', 
+        '../irods-cloud-backend/web-app/*',
+        '../irods-cloud-backend/web-app/*/',
         '!../irods-cloud-backend/web-app/WEB-INF',
         '!../irods-cloud-backend/web-app/index.html'
     ], {force:true});
@@ -297,7 +297,7 @@ gulp.task('gen-war', function(){
                     .pipe(gulp.dest('../irods-cloud-backend/web-app/css/'));
             }, 1000);
         },2000);
-        
+
         setTimeout(function(){
             gulp.src("../irods-cloud-backend").pipe(shell([
                 'grails war irods-cloud-backend.war'
@@ -321,7 +321,7 @@ gulp.task('gen-war', function(){
     }catch(e){
         gutil.log("I caught the error: " + e.message);
     }
-    
+
 });
 
 
@@ -337,8 +337,8 @@ gulp.task('gen-zip', function(){
 
     // Clean backend
     del([
-        '../irods-cloud-backend/web-app/*', 
-        '../irods-cloud-backend/web-app/*/', 
+        '../irods-cloud-backend/web-app/*',
+        '../irods-cloud-backend/web-app/*/',
         '!../irods-cloud-backend/web-app/WEB-INF',
         '!../irods-cloud-backend/web-app/index.html'
     ], {force:true});
@@ -470,7 +470,7 @@ gulp.task('runTest', function(){
                 }, 30000)
             }, 30000);
     }, 40000)
-    
+
 
 });
 
@@ -547,5 +547,3 @@ gulp.task('runTest', function(){
 //     return gulp.src('dist/js/*.js')
 //         .pipe(jsValidate());
 // });
-
-

@@ -17,4 +17,5 @@ RUN /bin/bash -c "source /root/.sdkman/bin/sdkman-init.sh && \
     npm install -g gulp-cli && \
     npm install && \
     gulp backend-build && \
-    cd ../irods-cloud-backend"
+    cd ../irods-cloud-backend && \
+    sh"

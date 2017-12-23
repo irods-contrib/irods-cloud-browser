@@ -511,13 +511,16 @@ angular.module('myApp.home', ['ngRoute', 'ngFileUpload', 'ng-context-menu','ui.c
 
 
         $scope.move_action = function () {
-            $log.info('||||||||||||| moving:' + $scope.copy_source + ' to ' + $scope.copy_target);
+            var str = $scope.copy_source;
+            var source_array = str.split("/");
+            var selected_item = source_array[source_array.length - 1];
+            $log.info('||||||||||||| moving:' + $scope.copy_source + ' to ' + $scope.copy_target + selected_item + "TTT");
             return $http({
                 method: 'POST',
                 url: $globals.backendUrl('move'),
                 params: {
                     sourcePath: $scope.copy_source,
-                    targetPath: $scope.copy_target,
+                    targetPath: $scope.copy_target + '/' + selected_item,
                     resource: '',
                     overwrite: 'false'
                 }

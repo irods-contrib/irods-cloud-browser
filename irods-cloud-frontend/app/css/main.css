@@ -1051,7 +1051,6 @@ input.col-xs-12{
     height: 34px;
     width:100%;
     padding:3px;
-	overflow: hidden;
 	text-overflow:ellipsis;
 	display: inline-block;
 }
@@ -1124,7 +1123,6 @@ input.col-xs-12{
 	width: 100%;
 	white-space: nowrap;
     cursor: pointer;
-	overflow: hidden;
 	text-overflow:ellipsis;
 }
 .list_header{

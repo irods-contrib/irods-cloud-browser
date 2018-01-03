@@ -11,6 +11,7 @@
 # general HSQL database files
 *Db.properties
 *Db.script
+package-lock.json
 
 # logs
 /stacktrace.log

@@ -7,7 +7,7 @@ Dockerhub can be consulted for available tags.  The location may eventually chan
 
 ## Configure (optional) browser login presets and SSL negotiation 
 
-Add the [irods-cloud-backend-config.groovy file](https://github.com/DICE-UNC/irods-cloud-browser/blob/master/irods-cloud-bckend/misc/irods-cloud-backend-config.groovy)  to your `/etc/irods-ext` directory on the server where the `irods-cloud-backend.war` is running.  This allows presets on the login page for host/port/zone. If preset, only a user and password are shown.
+Add the [irods-cloud-backend-config.groovy file](https://github.com/DICE-UNC/irods-cloud-browser/blob/master/irods-cloud-backend/misc/irods-cloud-backend-config.groovy)  to your `/etc/irods-ext` directory on the server where the `irods-cloud-backend.war` is running.  This allows presets on the login page for host/port/zone. If preset, only a user and password are shown.
 
 If presets are not specified, or if `beconf.login.preset.enabled=false` is set, then the login form will allow 
 logging in to any iRODS grid.
